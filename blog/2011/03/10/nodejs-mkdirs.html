@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>nodejs: mkdirs 递归创建目录</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>nodejs: mkdirs 递归创建目录</h1>
+
+<p>nodejs里面的所有文件操作我们很显然地都会选择异步方式。</p>
+
+<p>nodejs对于文件的基本操作果然是很基本的。例如我们想创建一个二级目录：/abc/def，使用fs.mkdir必须先判断/abc，存在，才继续创建/abc/def。这样几个一层层的callback，必要会影响代码的美观性（^_^，写代码也是一门艺术）。<br />于是乎有了一下通过递归对fs.mkdir和path.exists的封装，得到的目录创建 辅助函数：mkdirs</p>
+
+<pre class="prettyprint"><code>// 创建所有目录
+var mkdirs = module.exports.mkdirs = function(dirpath, mode, callback) {
+    path.exists(dirpath, function(exists) {
+        if(exists) {
+                callback(dirpath);
+        } else {
+                //尝试创建父目录，然后再创建当前目录
+                mkdirs(path.dirname(dirpath), mode, function(){
+                        fs.mkdir(dirpath, mode, callback);
+                });
+        }
+    });
+};
+</code></pre>
+
+<p>看，是不是漂亮了许多？</p>
+
+<h3>有爱</h3>
+
+<p>^_^，希望文本对你有用。</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

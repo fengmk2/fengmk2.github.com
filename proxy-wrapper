@@ -1,0 +1,3 @@
+#!/bin/bash
+# http://twopenguins.org/tips/git-through-proxy.php
+nc -x127.0.0.1:7080 -X5 $*

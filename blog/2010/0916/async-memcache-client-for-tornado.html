@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>async_memcache for tornado</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>async_memcache for tornado</h1>
+
+<p><a href="http://www.tornadoweb.org">tornado</a> 是一个纯<a href="http://python.org">python</a> 实现的非阻塞web服务器，自带了异步httpclient，可以异步请求http网络资源。</p>
+
+<p>在实际应用中，我们常常需要访问memcached等资源，发现官方并没有具体实现memcache异步客户端，但是tornado留出了ioloop让我们很容易就可以实现异步的socket网络访问。<br />于是参照memcache的通信协议，我简单实现了一个异步socket的memcache客户端。</p>
+
+<h1>使用示例</h1>
+
+<p>源代码下载: <a href="http://code.google.com/p/net4team/source/browse/trunk/net4libs/async_memcache.py">async_memcache.py</a></p>
+
+<pre class="prettyprint"><code>if __name__ == '__main__':
+    client = MemcacheClient('localhost', 11211)
+    def get_callback(val):
+        print val
+    client.set('hello', 'world', get_callback)
+    client.set('hello3', 'world3', get_callback)
+    client.get('hello3', get_callback)
+    client.get('hello2', get_callback)
+    client.get(['hello', 'hello2', 'hello3'], get_callback)
+
+    client.set('hello4', 'abc', get_callback)
+    client.get('hello4', get_callback)
+    client.append('hello4', 'append', get_callback)
+    client.get('hello4', get_callback)
+    client.prepend('hello4', 'prepend', get_callback)
+    client.get('hello4', get_callback)
+    client.delete('hello4', get_callback)
+    client.get('hello4', get_callback)
+    client.delete('hello4', get_callback)
+    IOLoop.instance().start()
+</code></pre>
+
+<p>希望对你有用 ^_^</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

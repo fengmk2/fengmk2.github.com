@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://fengmk2.github.com/css/prettify.css" />
+  <script src="http://fengmk2.github.com/js/jquery-1.7.min.js"></script>
+  <script src="http://fengmk2.github.com/js/prettify.js"></script>
+  <title>github ssh proxy | github `ssh` 协议代理配置</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>github ssh proxy | github <code>ssh</code> 协议代理配置</h1>
+<p>配置一个 <code>proxy-wrapper</code> 脚本
+
+</p>
+<pre><code class="lang-bash">cat &gt; $HOME/bin/proxy-wrapper
+#!/bin/bash
+nc -x127.0.0.1:7080 -X5 $*</code></pre>
+<p>给它增加一个可执行权限
+
+</p>
+<pre><code class="lang-bash">$ chmod +x $HOME/bin/proxy-wrapper</code></pre>
+<p>配置 <code>.ssh/config</code> , 对 github.com 设置一个代理命令
+
+</p>
+<pre><code class="lang-bash">Host github github.com
+    Hostname github.com
+    User git
+    ProxyCommand $HOME/bin/proxy-wrapper &#39;%h %p&#39;</code></pre>
+<p><strong>必须全部走ssh协议</strong>
+
+</p>
+<pre><code class="lang-bash">$ git clone git@github.com:jjrdn/node-open.git</code></pre>
+<p>git 协议请参考 <a href="http://twopenguins.org/tips/git-through-proxy.php">Using GIT through a SOCKS proxy</a>.
+
+</p>
+<h2>参考</h2>
+<ul>
+<li><a href="http://segmentfault.com/q/1010000000118837">如何为 Git 设置代理？</a></li>
+<li><a href="http://twopenguins.org/tips/git-through-proxy.php">Using GIT through a SOCKS proxy</a></li>
+<li><a href="http://milnk.com/link/10645">免费的ssh</a></li>
+</ul>
+
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2/mk2blog" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

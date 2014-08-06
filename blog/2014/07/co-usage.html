@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>[co](https://npm.taobao.org/package/co) 常见使用场景</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="-co-https-npm-taobao-org-package-co-"><a href="https://npm.taobao.org/package/co">co</a> 常见使用场景</h1>
+<h3 id="-timers">定时器 Timers</h3>
+<p>使用 <a href="https://github.com/cojs/defer">co-defer</a></p>
+<pre><code class="lang-js">var defer = require(&#39;co-defer&#39;)
+
+defer.setImmediate(function* () {
+  console.log(&#39;setImmediate&#39;);
+});
+
+defer.nextTick(function* () {
+  console.log(&#39;nextTick&#39;);
+});
+
+var timer1 = defer.setInterval(function* () {
+  console.log(&#39;setTimeout 100ms&#39;);
+  clearTimeout(timer1);
+}, 100);
+
+var timer2 = defer.setInterval(function* () {
+  console.log(&#39;setInterval 100ms&#39;);
+  clearInterval(timer2);
+}, 100);
+</code></pre>
+<h2 id="-">并发</h2>
+<h3 id="-">数组形式</h3>
+<pre><code class="lang-js">co(function* () {
+  var rs = yield [
+    get(1),
+    get(2),
+    get(3),
+    get(4),
+  ];
+  console.log(rs);
+  // [1, 2, 3, 4]
+})();
+</code></pre>
+<h3 id="-">键值对形式</h3>
+<pre><code class="lang-js">co(function* () {
+  var data = yield {
+    name: getName(),
+    age: getAge()
+  };
+  console.log(data);
+  // { name: &#39;fengmk2&#39;, age: 18 }
+})();
+</code></pre>
+<h3 id="-">限制最大并发数</h3>
+<p>co 默认没有并发数限制, 可以通过 <a href="https://github.com/visionmedia/co-parallel">co-parallel</a> 来限制并发数</p>
+<pre><code class="lang-js">var parallel = require(&#39;co-parallel&#39;);
+var request = require(&#39;co-request&#39;);
+var co = require(&#39;co&#39;);
+
+var urls = [
+  &#39;http://google.com&#39;,
+  &#39;http://yahoo.com&#39;,
+  &#39;http://ign.com&#39;,
+  &#39;http://cloudup.com&#39;,
+  &#39;http://myspace.com&#39;,
+  &#39;http://facebook.com&#39;,
+  &#39;http://segment.io&#39;
+];
+
+function* status(url) {
+  console.log(&#39;GET %s&#39;, url);
+  return (yield request(url)).statusCode;
+}
+
+co(function* () {
+  var reqs = urls.map(status);
+  var res = yield parallel(reqs, 2);
+  console.log(res);
+})();
+</code></pre>
+<h3 id="-">并发请求容错处理</h3>
+<p><a href="https://npm.taobao.org/package/co-gather">co-gather</a> 并发多个请求, 即使其中有一些请求错误了, 也能容错返回</p>
+<pre><code class="lang-js">var gather = require(&#39;co-gather&#39;);
+var wait = require(&#39;co-wait&#39;);
+var co = require(&#39;co&#39;);
+
+var index = 0;
+function* random(val) {
+  var i = index++;
+  yield wait(Math.random() * 100);
+  if (Math.random() &gt; 0.5) {
+    throw new Error(&#39;error&#39;);
+  }
+  return {index: i, value: val};
+}
+
+co(function* () {
+  var ret = yield gather([
+    random(1),
+    random(2),
+    random(3),
+    random(4),
+    random(5)
+  ]);
+  console.log(ret);
+})();
+</code></pre>
+<p>=&gt;</p>
+<pre><code class="lang-js">[
+  { isError: false, value: {index: 0, value: 1} },
+  { isError: true, error: [Error: error] },
+  { isError: true, error: [Error: error] },
+  { isError: true, error: [Error: error] },
+  { isError: false, value: {index: 4, value: 5} }
+]
+</code></pre>
+<p>默认并发数为 <code>concurrency = 5</code>, 可以自行设置并发数 <code>gather(thunks, [concurrency])</code></p>
+<h2 id="-eventemitter">事件 EventEmitter</h2>
+<h3 id="-generatorfunction-">事件监听者支持 <code>GeneratorFunction</code></h3>
+<p>使用 <a href="https://npm.taobao.org/package/co-event-wrap">co-event-wrap</a></p>
+<pre><code class="lang-js">var co = require(&#39;co&#39;);
+var http = require(&#39;http&#39;);
+var eventWrap = require(&#39;co-event-wrap&#39;);
+var fs = require(&#39;co-fs&#39;);
+
+co(function* () {
+  var req = http.get(&#39;http://cnodejs.org&#39;);
+  eventWrap(req);
+  req.on(&#39;response&#39;, function* (res) {
+    res = eventWrap(res);
+    var datas = [];
+    res.on(&#39;data&#39;, function* (data) {
+      datas.push(data);
+    });
+    res.on(&#39;end&#39;, function* () {
+      var body = Buffer.concat(datas);
+      yield fs.writeFile(__dirname + &#39;/cnodejs.html&#39;, body);
+      console.log(&#39;got %d bytes, headers: %j&#39;, body.length, res.headers);
+    });
+  });
+})();
+</code></pre>
+<h3 id="-while-">通过 while 方式处理事件</h3>
+<p><a href="https://npm.taobao.org/package/co-event">co-event</a> 帮你实现</p>
+<pre><code class="lang-js">var event = require(&#39;co-event&#39;);
+
+var e;
+while (e = yield event(emitter)) {
+  switch (e.type) {
+    case &#39;end&#39;:
+      break;
+
+    case &#39;close&#39;:
+      break;
+
+    case &#39;error&#39;:
+      break;
+  }
+}
+</code></pre>
+<p>emitter 原来的事件依旧会触发, 但是 <code>error</code> 事件不会被触发, 否则抛错无法被处理.</p>
+<p>理解上面代码, 你必须以纯同步的思维来理解.</p>
+
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+# Javascript: 通过图片url获取图片blob对象
+
+## 为什么要这样做呢？
+
+1. 无需让用户下载图片后再通过 input file 上传;
+2. chrome插件可以直接右键点击页面上的图片，直接上传图片;
+3. 都是为了增加用户体验！
+
+## 思路
+
+1. 通过ajax请求图片，得到图片的二进制数据
+2. 组合Uint8Array和BlobBuilder，得到图片的blob对象
+3. 增加fileName和fileType，伪装成File对象
+
+## 实现代码
+
+    /**
+     * 将符合字节流的string转化成Blob对象
+     * 
+     * @param {String} data
+     * @return {Blob} 
+     * @api public
+     */
+    function binaryToBlob(data) {
+        var bb = new BlobBuilder();
+        var arr = new Uint8Array(data.length);
+        for(var i = 0, l = data.length; i < l; i++) {
+            arr[i] = data.charCodeAt(i);
+        }
+        bb.append(arr.buffer);
+        return bb.getBlob();
+    };
+    
+    /**
+     * 根据URL获取图片的Blob对象
+     * 
+     * @param {String} url
+     * @return {Blob} 
+     * @api public
+     */
+    function getImageBlob(url) {
+        var r = new XMLHttpRequest();
+        r.open("GET", url, false);
+        // 详细请查看: https://developer.mozilla.org/En/XMLHttpRequest/Using_XMLHttpRequest#Receiving_binary_data
+        // XHR binary charset opt by Marcus Granado 2006 [http://mgran.blogspot.com]
+        r.overrideMimeType('text/plain; charset=x-user-defined');
+        r.send(null);
+        var blob = binaryToBlob(r.responseText);
+        blob.name = blob.fileName = url.substring(url.lastIndexOf('/') + 1);
+        blob.fileType = "image/jpeg"; //"image/octet-stream";
+        return blob;
+    };
+    
+    /**
+     * 将dataUrl转化成Blob对象
+     * 
+     * @param {String} dataurl
+     * @return {Blob} 
+     * @api public
+     */
+    function dataUrlToBlob(dataurl) {
+        // data:image/jpeg;base64,xxxxxx
+        var datas = dataurl.split(',', 2);
+        var blob = binaryToBlob(atob(datas[1]));
+        blob.fileType = datas[0].split(';')[0].split(':')[1];
+        blob.name = blob.fileName = 'pic.' + blob.fileType.split('/')[1];
+        return blob;
+    };
+
+## 更多阅读
+
+* https://developer.mozilla.org/en/DOM/Blob
+* http://www.w3.org/TR/FileAPI/#dfn-Blob
+* https://developer.mozilla.org/En/XMLHttpRequest/Using_XMLHttpRequest#Receiving_binary_data
+* http://www.nihilogic.dk/labs/canvas2image/
+
+## 有爱
+
+^_^ 希望本文对你有用

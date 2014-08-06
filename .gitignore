@@ -1,0 +1,14 @@
+.settings
+node_modules/
+main
+blog/2011/fibonacci/build
+.lock-wscript
+a.out
+blog/.DS_Store
+.project
+.pydevproject
+.DS_Store
+blog/2011/.DS_Store
+*__index.html
+adc2013_chart.zip
+npm-debug.log

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  <title> deck.js </title>
+  
+  <meta name="description" content="A jQuery library for modern HTML presentations">
+  <meta name="author" content="Caleb Troughton">
+  <meta name="viewport" content="width=1024, user-scalable=no">
+  
+  <!-- Core and extension CSS files -->
+  <link rel="stylesheet" href="./deck.js/core/deck.core.css">
+  <link rel="stylesheet" href="./deck.js/extensions/goto/deck.goto.css">
+  <link rel="stylesheet" href="./deck.js/extensions/menu/deck.menu.css">
+  <link rel="stylesheet" href="./deck.js/extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" href="./deck.js/extensions/status/deck.status.css">
+  <link rel="stylesheet" href="./deck.js/extensions/hash/deck.hash.css">
+  <link rel="stylesheet" href="./style.css">
+  
+  <!-- Theme CSS files (menu swaps these out) -->
+  <link rel="stylesheet" id="style-theme-link" href="./deck.js/themes/style/neon.css">
+  <link rel="stylesheet" id="transition-theme-link" href="./deck.js/themes/transition/horizontal-slide.css">
+  
+  <link rel="stylesheet" href="http://fengmk2.github.com/css/prettify.css" />
+  <script src="http://fengmk2.github.com/js/jquery-1.7.min.js"></script>
+  <script src="http://fengmk2.github.com/js/prettify.js"></script>
+
+  <script src="./deck.js/modernizr.custom.js"></script>
+</head>
+
+<body class="deck-container">
+
+
+<section class="slide"><h1>deck.js</h1>
+<p>A JavaScript library for building modern HTML presentations. deck.js is flexible enough to let advanced CSS and JavaScript authors craft highly customized decks, but also provides templates and themes for the HTML novice to build a standard slideshow.
+
+</p>
+<h2>Dependencies (included in this repository)</h2>
+<ul>
+<li><a href="http://jquery.com">jQuery</a></li>
+<li><a href="http://modernizr.com">Modernizr</a></li>
+</ul>
+<h2>Documentation</h2>
+<p>Check out the <a href="http://imakewebthings.github.com/deck.js/docs">documentation page</a> for more information on the methods, events, and options available in core and all the included extensions.  A sample standard slide deck is included in the package under the <code>introduction</code> folder.  You can also <a href="http://imakewebthings.github.com/deck.js/introduction">view that sample deck</a> online to play with the available style and transition themes.
+
+</p>
+<h2>Extensions, Themes, and Related Projects</h2>
+<p>Take a look at <a href="https://github.com/imakewebthings/deck.js/wiki">the wiki</a> for lists of extensions, themes, and other related goodies.  If you have a publicly available project of your own, feel free to add to the list.
+
+</p>
+<h2>Tests &amp; Support</h2>
+<p>Unit tests are written with <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="https://github.com/velesin/jasmine-jquery">jasmine-jquery</a>. You can <a href="http://imakewebthings.github.com/deck.js/test">run them here</a>.
+
+</p>
+<p>deck.js has been tested with jQuery 1.6+ and works in IE7+, Chrome, FF, Safari, and Opera. The more capable browsers receive greater enhancements, but a basic cutaway slideshow will work for all browsers listed above. Please don&#39;t give your presentations in IE6.
+
+</p>
+<p>For any questions or general discussion about deck.js please direct your attention to the <a href="http://groups.google.com/group/deckjs">mailing list</a> (uses Google groups.)  If you would like to report a bug, please see the <a href="https://github.com/imakewebthings/deck.js/issues">issues page</a>.
+
+</p>
+<h2>Known Bug(s)</h2>
+<p>There is an issue with certain builds of Chrome that result in a solid blue background and generally broken decks.  This is a bug in Chrome (<a href="http://code.google.com/p/chromium/issues/detail?id=91518">Issue 91518</a>) that stems from hardware acceleration of 3d transforms.  Current workarounds:
+
+</p>
+<ul>
+<li>Use a different browser. This problem doesn&#39;t exist in Safari, FF, Opera.</li>
+<li>Disable hardware compositing by setting <code>--disable-accelerated-compositing</code> in the Chrome loading options</li>
+<li>Replace instances of <code>translate3d</code> with <code>translate</code> in the CSS of your decks (though this will slow down performance on iOS devices and Safari.)</li>
+</ul>
+<h2>Printing</h2>
+<p>Core includes stripped down black and white print styles for the standard slide template that is suitable for handouts.
+
+</p>
+<h2>Awesome Contributors</h2>
+<ul>
+<li><a href="https://github.com/jbuck">jbuck</a></li>
+<li><a href="https://github.com/cykod">cykod</a></li>
+<li><a href="https://github.com/dougireton">dougireton</a></li>
+<li><a href="https://github.com/awirick">awirick</a></li>
+<li>Daniel Knittl-Frank</li>
+</ul>
+<p>If you would like to contribute a patch to deck.js please do as much as you can of the following:
+
+</p>
+<ul>
+<li>Add or amend Jasmine tests.</li>
+<li>Add inline documentation.</li>
+<li>If the standard snippet of an extension changes, please change it in both the introduction deck and the snippet html in the extension folder.</li>
+<li>If the API changes, it would be awesome to receive a parallel pull request to the gh-pages branch which updates the public-facing documentation.</li>
+</ul>
+<h2>License</h2>
+<p>Copyright (c) 2011 Caleb Troughton
+
+</p>
+<p>Dual licensed under the <a href="https://github.com/imakewebthings/deck.js/blob/master/MIT-license.txt">MIT license</a> and <a href="https://github.com/imakewebthings/deck.js/blob/master/GPL-license.txt">GPL license</a>.
+</p>
+</section>
+
+
+<p class="deck-status">
+  <span class="deck-status-current"></span>
+  /
+  <span class="deck-status-total"></span>
+</p>
+
+<form action="." method="get" class="goto-form">
+  <label for="goto-slide">Go to slide:</label>
+  <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+  <datalist id="goto-datalist"></datalist>
+  <input type="submit" value="Go">
+</form>
+
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+<!-- Deck Core and extensions -->
+<script src="./deck.js/core/deck.core.js"></script>
+<script src="./deck.js/extensions/hash/deck.hash.js"></script>
+<script src="./deck.js/extensions/menu/deck.menu.js"></script>
+<script src="./deck.js/extensions/goto/deck.goto.js"></script>
+<script src="./deck.js/extensions/status/deck.status.js"></script>
+<script src="./deck.js/extensions/navigation/deck.navigation.js"></script>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  // Deck initialization
+  $.deck('.slide');
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+
+</body>
+</html>

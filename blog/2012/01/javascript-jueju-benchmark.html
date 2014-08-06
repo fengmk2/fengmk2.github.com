@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>Javascript绝句性能</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>Javascript绝句性能</h1>
+
+<p>前几天在微博中看到一篇叫<a href="http://site.douban.com/widget/notes/22456/note/142716442/">Javascript绝句欣赏</a> 的奇文。<br />里面很多绝句实现了我经常用到的功能需求。对比我自己之前的实现方式，我简直觉得自己搓死了。</p>
+
+<h2>疑惑</h2>
+
+<p>虽然绝句很短很好，但是正因为它很绝，比较难以理解。所以我想给自己一个理由，为什么要去使用这些绝句。<br />很想当然地我想到性能可能会有所提高，因为实现代码量很少而且又减少了函数调用，某些绝句的性能应该会比较高的。</p>
+
+<h2>性能对比</h2>
+
+<h3>取整同时转成数值型</h3>
+
+<p>绝句实现： <code>|0 ^0 &gt;&gt;0 ~~</code></p>
+
+<pre class="prettyprint "><code>'10.567890'|0
+'10.567890'^0
+~~'10.567890'
+</code></pre>
+
+<p>结果: 10</p>
+
+<pre class="prettyprint "><code>-2.23456789|0
+-2.23456789^0
+~~-2.23456789
+</code></pre>
+
+<p>结果: -2</p>
+
+<p>大于等于 <code>0x80000000</code> 会出现bug</p>
+
+<pre class="prettyprint "><code>-2147483648|0 
+</code></pre>
+
+<p>普通实现：</p>
+
+<pre class="prettyprint "><code>function integer(n) {
+  return n &gt;=0 ? Math.floor(n) : Math.ceil(n);
+}
+</code></pre>
+
+<pre class="prettyprint "><code>var count = 5000000;
+var start = new Date();
+var s = 0;
+for (var i = 0; i &lt; count; i++) {
+  s = '10.567890'|0;
+}
+console.log('|0 =&gt; %d', new Date() - start);
+
+var start = new Date();
+var s = 0;
+for (var i = 0; i &lt; count; i++) {
+  s = '10.567890'^0;
+}
+console.log('^0 =&gt; %d', new Date() - start);
+
+var start = new Date();
+var s = 0;
+for (var i = 0; i &lt; count; i++) {
+  s = '10.567890'&gt;&gt;0;
+}
+console.log('&gt;&gt;0 =&gt; %d', new Date() - start);
+
+var start = new Date();
+var s = 0;
+for (var i = 0; i &lt; count; i++) {
+  s = ~~'10.567890';
+}
+console.log('~~ =&gt; %d', new Date() - start);
+
+var start = new Date();
+var s = 0;
+for (var i = 0; i &lt; count; i++) {
+  s = integer('10.567890');
+}
+console.log('integer =&gt; %d', new Date() - start);
+
+var start = new Date();
+var s = 0;
+var n = '10.567890';
+for (var i = 0; i &lt; count; i++) {
+  s = n &gt;=0 ? Math.floor(n) : Math.ceil(n);
+}
+console.log('inline =&gt; %d', new Date() - start);
+console.log('');
+
+</code></pre>
+
+<h3>取数组中的最大最小值</h3>
+
+<p>Array.max = function( array ){<br />    return Math.max.apply( Math, array );<br />};<br />Array.min = function( array ){<br />    return Math.min.apply( Math, array );<br />};</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

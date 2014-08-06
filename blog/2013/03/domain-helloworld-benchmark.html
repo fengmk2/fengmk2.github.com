@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>nodejs domain module hello world and benchmark</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>nodejs domain module hello world and benchmark</h1>
+
+<p><a href="http://nodejs.org/docs/v0.8.21/api/domain.html#domain_domain">domain</a>: Domains provide a way to handle multiple different IO operations as a single group. </p>
+
+<h2>Example: <a href="https://gist.github.com/fengmk2/5079492">http hello world using <code>domain</code></a></h2>
+
+<pre class="prettyprint lang-js"><code>var domain = require('domain');
+var http = require('http');
+
+var domainMiddleware = function (req, res, next, errorHandle) {
+  var d = domain.create();
+  d.once('error', errorHandle);
+  d.run(next);
+};
+
+var app = http.createServer(function (req, res) {
+  domainMiddleware(req, res, function () {
+    // normal response
+    if (req.url === '/error') {
+      process.nextTick(function () {
+        var a = null;
+        a.foo();
+      });
+      return;
+    }
+    res.end('hello domain');
+  }, function (err) {
+    // sending err response
+    res.statusCode = 500;
+    res.end(err.stack);
+  });
+});
+
+app.listen(1984);
+</code></pre>
+
+<h2>Benchmark</h2>
+
+<p>Results: QPS reduced by <strong>8%</strong> </p>
+
+<h3>hello world</h3>
+
+<pre class="prettyprint lang-js"><code>var appNoDomain = http.createServer(function (req, res) {
+  if (req.url === '/error') {
+    process.nextTick(function () {
+      var a = null;
+      a.foo();
+    });
+    return;
+  }
+  res.end('hello domain');
+});
+appNoDomain.listen(1985);
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1985/'>http://127.0.0.1:1985/</a>
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1985/'>http://127.0.0.1:1985/</a>
+** SIEGE 2.72
+** Preparing 100 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:          73806 hits
+Availability:         100.00 %
+Elapsed time:           9.68 secs
+Data transferred:         0.84 MB
+Response time:            0.01 secs
+Transaction rate:      7624.59 trans/sec
+Throughput:           0.09 MB/sec
+Concurrency:           99.69
+Successful transactions:       73806
+Failed transactions:             0
+Longest transaction:          0.05
+Shortest transaction:         0.00
+</code></pre>
+
+<h3>hello world with <code>domain</code></h3>
+
+<pre class="prettyprint lang-bash"><code>$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1984/'>http://127.0.0.1:1984/</a>
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1984/'>http://127.0.0.1:1984/</a>
+** SIEGE 2.72
+** Preparing 100 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:          70759 hits
+Availability:         100.00 %
+Elapsed time:          10.01 secs
+Data transferred:         0.81 MB
+Response time:            0.01 secs
+Transaction rate:      7068.83 trans/sec
+Throughput:           0.08 MB/sec
+Concurrency:           98.86
+Successful transactions:       70759
+Failed transactions:             0
+Longest transaction:          0.10
+Shortest transaction:         0.00
+</code></pre>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

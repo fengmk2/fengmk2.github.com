@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Draw Text with Canvas</title>
+<script>
+
+var SEP_RE = /\s|[^\x00-\xff]/g;
+// 找出分割字符
+function findSep(s) {
+	for(var i = s.length - 1; i > 0; i--) {
+		if(SEP_RE.test(s[i])) {
+			return i + 1;
+		}
+	}
+	return 0;
+}
+
+function draw() {
+	var can1 = document.createElement("canvas");
+	inputText = document.getElementById('text');
+	can1.width = inputText.clientWidth;
+	var ctx1 = can1.getContext("2d");
+    var margin = 5, left = 5, top = 5, font_size = 12;
+    var line_width = can1.width - margin * 2, line_height = font_size + margin;
+    var height = line_height;
+    //var text = "Hello, world. 你好，Canvas！一行文本超长了！\n我是换行符号！\n对于这一点，我一直持疑问的态度，所以，我在其后打了两个问号。老实说，对于实际参与这一环节，我个人的意见是适可而止，因为时间太短了，无论你怎么做你都无法了解完整。即然无法了解完整，那就获取你最需要的吧，就是本文开头的那三个问题，以及上面所述的“第三点”（了解应聘者的以往经历）。";
+    var text = inputText.value;
+    var s = '', lines = [];
+    for(var i = 0, len = text.length; i < len; i++) {
+    	var c = text[i];
+    	if(c == '\n') {
+    		// 下一行
+    		if(top + line_height > height) {
+    			height += line_height;
+    		}
+    		//ctx1.fillText(s, left, top);
+    		lines.push([s, left, top]);
+    		top += line_height;
+    		s = '';
+    		continue;
+    	}
+    	var text_width = ctx1.measureText(s + c).width;
+    	if(text_width > line_width) {
+    		// 画一行, 判断断行位置
+    		var index = findSep(s);
+    		if(index !== 0) {
+    			c = s.substring(index) + c;
+    			s = s.substring(0, index)
+    		}
+    		if(top + line_height > height) {
+                height += line_height;
+            }
+    		lines.push([s, left, top]);
+    		top += line_height;
+    		s = c;
+    	} else {
+    		s += c;
+    	}
+    }
+    if(s) {
+    	if(top + line_height > height) {
+            height += line_height;
+        }
+    	lines.push([s, left, top]);
+    }
+    can1.height = height;
+    ctx1.font = font_size + "px Arial";
+    // 需要在设置了高度后再设置textBaseline 才会生效
+    ctx1.textBaseline = "top";
+    
+    for(var i = 0, len = lines.length; i < len; i++) {
+    	ctx1.fillText.apply(ctx1, lines[i]);
+    }
+    //console.log(can1.toDataURL());
+    document.getElementById('container').innerHTML = '<img src="' + can1.toDataURL() + '" />';
+}
+
+</script>
+</head>
+<body>
+    <h1>Draw Text with Canvas</h1>
+    <textarea id="text" rows="15" cols="80"></textarea>
+    <br/>
+    <button onclick="draw();">Draw Text to Image</button>
+    <hr/>
+    <div id="container"></div>
+</body>
+
+</html>

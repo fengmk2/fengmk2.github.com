@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>Use Blanket.js instead of jscover</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>Use Blanket.js instead of jscover</h1>
+
+<p>在遇到 <a href="http://blanketjs.org/">Blanket.js</a> 之前，我一直使用这 <a href="https://github.com/fengmk2/jscover">jscover</a> 来做代码覆盖率测试。</p>
+
+<h2>jscover</h2>
+
+<p>使用 <a href="https://github.com/fengmk2/jscover">jscover</a> ，好处是不需要编译，直接使用 java 版本；缺点是需要 java 环境依赖。<br />通过 Makefile 来驱动整个测试执行，如 <a href="https://github.com/TBEDP/urllib/blob/0.3.4/Makefile">urllib/Makefile</a></p>
+
+<pre class="prettyprint lang-bash"><code>TESTS = test/*.test.js
+REPORTER = spec
+TIMEOUT = 20000
+JSCOVERAGE = ./node_modules/jscover/bin/jscover
+
+test:
+  @NODE_ENV=test ./node_modules/mocha/bin/mocha \
+    --reporter $(REPORTER) \
+    --timeout $(TIMEOUT) \
+    $(TESTS)
+
+test-cov:
+  @rm -rf ./lib-cov
+  @$(JSCOVERAGE) lib lib-cov
+  @URLLIB_COV=1 $(MAKE) test REPORTER=dot
+  @URLLIB_COV=1 $(MAKE) test REPORTER=html-cov &gt; coverage.html
+
+.PHONY: test test-cov
+</code></pre>
+
+<p>执行代码覆盖率测试:</p>
+
+<pre class="prettyprint lang-bash"><code>$ make test-cov
+</code></pre>
+
+<p>打开 <a href="http://fengmk2.github.io/coverage/urllib.html">coverage.html</a> 就能看到覆盖情况了。</p>
+
+<h2>Blanket.js</h2>
+
+<p>某天在github上看到 <a href="http://blanketjs.org/">Blanket.js</a> ，算是意外收获，终于能摆脱代码转换依赖了。</p>
+
+<blockquote>
+  <p>Blanket.js is an easy to install, easy to configure, and easy to use JavaScript code coverage library that works both in-browser and with nodejs.</p>
+</blockquote>
+
+<p>使用上 <a href="http://blanketjs.org/">Blanket.js</a> 以后，不再需要将代码转换落地成文件，也不需要java依赖。</p>
+
+<p>还是以 <a href="https://github.com/TBEDP/urllib/blob/master/Makefile">urllib/Makefile</a> 为例:</p>
+
+<pre class="prettyprint lang-bash"><code>TESTS = test/*.test.js
+REPORTER = spec
+TIMEOUT = 20000
+MOCHA_OPTS =
+
+test:
+  @NODE_ENV=test ./node_modules/mocha/bin/mocha \
+    --reporter $(REPORTER) \
+    --timeout $(TIMEOUT) \
+    $(MOCHA_OPTS) \
+    $(TESTS)
+
+test-cov:
+  @URLLIB_COV=1 $(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=dot
+  @URLLIB_COV=1 $(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov &gt; coverage.html
+
+.PHONY: test test-cov
+</code></pre>
+
+<p>参考 <a href="https://github.com/alex-seville/blanket/blob/master/docs/getting_started_node.md">Getting Started Guide (nodejs version)</a></p>
+
+<p>在 <a href="https://github.com/TBEDP/urllib/blob/master/package.json">package.json</a> 添加上 blanket 的代码匹配模式，确定你需要对那个路径下的代码进行转换。</p>
+
+<pre class="prettyprint lang-js"><code>"scripts": {
+  "test": "make test",
+  "blanket": { "pattern": "urllib/lib" }
+},
+</code></pre>
+
+<p>执行命令还是保持一致：</p>
+
+<pre class="prettyprint lang-bash"><code>$ make test-cov
+</code></pre>
+
+<p><code>coverage.html</code> 跟使用 <a href="https://github.com/fengmk2/jscover">jscover</a> 的报告结果一致，缺没有了文件生成，也不再需要去服务器上安装java了。</p>
+
+<h2>Project</h2>
+
+<p>对于非lib类项目，如普通的应用项目，进行代码覆盖率测试，同样可以使用 <a href="http://blanketjs.org/">Blanket.js</a> 很好地做到。</p>
+
+<p>以 <a href="https://github.com/fengmk2/urlrar">urlrar</a> 为例:</p>
+
+<p>Markfile</p>
+
+<pre class="prettyprint lang-bash"><code>TESTS = test/*.test.js
+REPORTER = spec
+TIMEOUT = 10000
+MOCHA_OPTS =
+
+install:
+  @npm install
+
+test: install
+  @NODE_ENV=test ./node_modules/mocha/bin/mocha \
+    --reporter $(REPORTER) \
+    --timeout $(TIMEOUT) \
+    $(MOCHA_OPTS) \
+    $(TESTS)
+
+test-cov: 
+  @URLRAR_COV=1 $(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov &gt; coverage.html
+  @URLRAR_COV=1 $(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=travis-cov
+
+test-all: test test-cov
+
+.PHONY: test-cov test test-all
+</code></pre>
+
+<p>package.json</p>
+
+<pre class="prettyprint lang-js"><code>"devDependencies": {
+    "travis-cov": "*",
+    "blanket": "*",
+    // ...
+  },
+  "scripts": {
+    "test": "make test-all",
+    "blanket": { 
+      "pattern": "//^((?!(node_modules|test)).)*$/",
+      "data-cover-flags": {
+        "debug": false
+      }
+    },
+    "travis-cov": {
+      "threshold": 93
+    }
+  },
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>$ npm test 
+</code></pre>
+
+<p>运行结果: 包含测试结果和代码覆盖率.</p>
+
+<p><img src="http://nfs.nodeblog.org/f/a/fa73ef3685d050f6efcdf8b7a1f428c1.png" alt="1" title="" /></p>
+
+<h2>有爱</h2>
+
+<p>^_^ 希望本文对你有用。</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

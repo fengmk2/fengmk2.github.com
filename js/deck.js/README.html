@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="/css/typo.css" />
+  <link rel="stylesheet" href="/css/prettify.css">
+  <script src="/js/jquery-1.7.min.js"></script>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
+  <style>
+     body {
+      font-family: Helvetica, Arial, FreeSans, san-serif;
+     }
+     a{color:#09f;}
+     code{color:#080;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>deck.js</h1>
+
+<p>A JavaScript library for building modern HTML presentations. deck.js is flexible enough to let advanced CSS and JavaScript authors craft highly customized decks, but also provides templates and themes for the HTML novice to build a standard slideshow.</p>
+
+<h2>Dependencies (included in this repository)</h2>
+
+<ul>
+<li><a href="http://jquery.com">jQuery</a></li>
+<li><a href="http://modernizr.com">Modernizr</a></li>
+</ul>
+
+<h2>Documentation</h2>
+
+<p>Check out the <a href="http://imakewebthings.github.com/deck.js/docs">documentation page</a> for more information on the methods, events, and options available in core and all the included extensions.  A sample standard slide deck is included in the package under the <code>introduction</code> folder.  You can also <a href="http://imakewebthings.github.com/deck.js/introduction">view that sample deck</a> online to play with the available style and transition themes.</p>
+
+<h2>Extensions, Themes, and Related Projects</h2>
+
+<p>Take a look at <a href="https://github.com/imakewebthings/deck.js/wiki">the wiki</a> for lists of extensions, themes, and other related goodies.  If you have a publicly available project of your own, feel free to add to the list.</p>
+
+<h2>Tests &amp; Support</h2>
+
+<p>Unit tests are written with <a href="http://pivotal.github.com/jasmine/">Jasmine</a> and <a href="https://github.com/velesin/jasmine-jquery">jasmine-jquery</a>. You can <a href="http://imakewebthings.github.com/deck.js/test">run them here</a>.</p>
+
+<p>deck.js has been tested with jQuery 1.6+ and works in IE7+, Chrome, FF, Safari, and Opera. The more capable browsers receive greater enhancements, but a basic cutaway slideshow will work for all browsers listed above. Please don't give your presentations in IE6.</p>
+
+<p>For any questions or general discussion about deck.js please direct your attention to the <a href="http://groups.google.com/group/deckjs">mailing list</a> (uses Google groups.)  If you would like to report a bug, please see the <a href="https://github.com/imakewebthings/deck.js/issues">issues page</a>.</p>
+
+<h2>Known Bug(s)</h2>
+
+<p>There is an issue with certain builds of Chrome that result in a solid blue background and generally broken decks.  This is a bug in Chrome (<a href="http://code.google.com/p/chromium/issues/detail?id=91518">Issue 91518</a>) that stems from hardware acceleration of 3d transforms.  Current workarounds:</p>
+
+<ul>
+<li>Use a different browser. This problem doesn't exist in Safari, FF, Opera.</li>
+<li>Disable hardware compositing by setting <code>--disable-accelerated-compositing</code> in the Chrome loading options</li>
+<li>Replace instances of <code>translate3d</code> with <code>translate</code> in the CSS of your decks (though this will slow down performance on iOS devices and Safari.)</li>
+</ul>
+
+<h2>Printing</h2>
+
+<p>Core includes stripped down black and white print styles for the standard slide template that is suitable for handouts.</p>
+
+<h2>Awesome Contributors</h2>
+
+<ul>
+<li><a href="https://github.com/jbuck">jbuck</a></li>
+<li><a href="https://github.com/cykod">cykod</a></li>
+<li><a href="https://github.com/dougireton">dougireton</a></li>
+<li><a href="https://github.com/awirick">awirick</a></li>
+<li>Daniel Knittl-Frank</li>
+</ul>
+
+<p>If you would like to contribute a patch to deck.js please do as much as you can of the following:</p>
+
+<ul>
+<li>Add or amend Jasmine tests.</li>
+<li>Add inline documentation.</li>
+<li>If the standard snippet of an extension changes, please change it in both the introduction deck and the snippet html in the extension folder.</li>
+<li>If the API changes, it would be awesome to receive a parallel pull request to the gh-pages branch which updates the public-facing documentation.</li>
+</ul>
+
+<h2>License</h2>
+
+<p>Copyright (c) 2011 Caleb Troughton</p>
+
+<p>Dual licensed under the <a href="https://github.com/imakewebthings/deck.js/blob/master/MIT-license.txt">MIT license</a> and <a href="https://github.com/imakewebthings/deck.js/blob/master/GPL-license.txt">GPL license</a>.</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2/mk2blog" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  // Deck initialization
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>ADC 2013 参会统计</title>
+<script src="http://adc.alibabatech.org/bundles/devcarnival/js/jquery-1.9.1.min.js"></script>
+<script src="./js/raphael.min.js"></script>
+<script src="./js/datav.min.js"></script>
+<script src="./adc_chart.min.js"></script>
+<style type="text/css">
+body {
+  font-family: "Microsoft YaHei"!important;
+  font-size: 14px;
+}
+
+.head {
+  margin: 5px;
+  overflow: hidden;
+  font-size: 16px;
+  color: #666;
+  padding-left: 4px;
+}
+
+.gender_box {
+  float: right;
+}
+
+.gender_chart {
+  padding: 10px;
+  margin: 10px;
+  margin-top: 50px;
+  height: 235px;
+  width: 300px;
+  overflow: hidden;
+  float: left;
+}
+#wrap {
+  width: 940px;
+}
+
+#map_chart {
+  float: left;
+}
+
+#forum_chart, #tag_chart {
+  clear: both;
+  width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<div id="wrap">
+  <div id="map_chart">
+    <div class="head">
+      <span>五湖四海</span>
+    </div>
+  </div>
+
+  <div class="gender_box">
+    <div class="head">
+      <span>男女比例</span>
+    </div>
+    <div class="gender_chart"></div>
+  </div>
+  <div id="tag_chart"></div>
+</div>
+
+<script>
+function renderChart(total) {
+  total.gender = total.allGender;
+  total.cities = total.city;
+  total.provinces = total.province;
+  total.tags = total.domains;
+
+  total.provinceRates = {};
+  for (var i = 0; i < total.provinces.length; i++) {
+    var p = total.provinces[i];
+    p.rate = parseFloat(p.rate) || 0;
+    p.rate = parseFloat(p.rate.toFixed(2));
+    if (p.name === '浙江') {
+      p.rate = p.rate * 0.1;
+    }
+    if (p.name === '上海') {
+      p.rate = p.rate * 0.5;
+    }
+    total.provinceRates[p.name] = p.rate;
+  }
+
+  total.tags.forEach(function (tag) {
+    tag.rate = parseFloat(tag.rate) || 0;
+    tag.rate = parseFloat(tag.rate.toFixed(2));
+    var size = tag.rate;
+    if (size > 2) {
+      size = 2 + size - parseInt(size);
+    } else if (size < 1) {
+      size += 1;
+    }
+    tag.size = size;
+  });
+
+  total.tags = {
+    name: '码农标签',
+    children: total.tags
+  };
+
+  var genderChart0 = new GenderChart($('.gender_chart:eq(0)'));
+  genderChart0.render(total.gender);
+
+  var pointColor = "#E67E22";
+  var highlightedCityPoint; //raphael obj
+
+  total.cityMap = {};
+  total.cities.forEach(function (d) {
+    d.rate = parseFloat(d.rate) || 0;
+    total.cityMap[d.name] = d;
+  });
+
+  var highlightCityPoint = function (cityName) {
+    var cityData = total.cityMap[cityName];
+    if (!cityData) {
+      return;
+    }
+    highlightedCityPoint = chinamap.createCityPoints([cityData], function (city) {
+      return this.paper.circle(city.coord[0], city.coord[1], 30)
+      .attr({
+        "stroke-width": 4,
+        "stroke": "steelblue",
+        "fill": "#fff"
+      })
+      .data("cityInfo", city)
+      .mouseout(function () {
+        chinamap.fire("cityMouseout", city.name);
+      });
+    })[0];
+    var cityInfo = highlightedCityPoint.data("cityInfo");
+    chinamap.floatTag.html("<p>" + cityInfo.name + "</p>" + 
+      "<p>占比：" + cityInfo.rate.toFixed(2) + "%</p>").css("visibility", "visible");
+    chinamap.floatTag.creator.changeLoc(cityInfo.pointLoc);
+  };
+
+  var lowlightCityPoint = function () {
+    if (typeof highlightedCityPoint !== 'undefined') {
+      highlightedCityPoint.remove();
+      highlightedCityPoint = undefined;
+      chinamap.floatTag.css("visibility", "hidden");
+    }
+  };
+
+  var w = 500;
+  var h = 400;
+  $("#map_chart").css({"width": w});
+
+  var chinamap = new Chinamap("map_chart", {
+    width: w,
+    height: h,
+    geoDataPath: './js/chinaMap/',
+    showWords: false,
+  });
+  chinamap.setOptions({'levelChangeable': false});
+  chinamap.setOptions({'mapId': 0});
+
+  chinamap.setOptions({
+    colorModel: "gradient",
+    colors: ["#eee", "#3498DB"]//设置渐变颜色
+  });
+
+  chinamap.setSource(total.provinceRates);
+
+  chinamap.renderCallback = function () {
+    var createPoints = function (cityArray, fillColor) {
+      chinamap.createCityPoints(cityArray, function (city) {
+        this.paper.circle(city.coord[0], city.coord[1], 20)
+        .attr({
+          "stroke": "none",
+          "fill": fillColor,
+          "fill-opacity": 0.5
+        })
+        .data("map", this)
+        .data("cityInfo", city)
+        .mouseover(function () {
+          chinamap.fire("cityMouseover", city.name);
+        });
+      });
+    };
+
+    createPoints(total.cities, pointColor);
+
+    chinamap.on("cityMouseover", highlightCityPoint);
+    chinamap.on("cityMouseout", lowlightCityPoint);
+    
+    chinamap.createCityPoints(total.cities, function (city) {
+      this.paper.circle(city.coord[0], city.coord[1], 20)
+      .attr({
+        "stroke": "none",
+        "fill": pointColor,
+        "fill-opacity": 0.5
+      })
+      .data("map", this)
+      .data("cityInfo", city)
+      .mouseover(function () {
+        chinamap.fire("cityMouseover", city.name);
+      });
+    });
+            
+    chinamap.floatTag.creator.mouseToFloatTag({x: 10, y: 10});
+  };
+  chinamap.render();
+
+  DataV.changeTheme("theme4");
+  var treemap2 = new Treemap("tag_chart", {
+    width: 940,
+    height: 450
+  });
+  treemap2.setSource(total.tags);
+  treemap2.render();
+}
+
+$(function () {
+  $.getJSON('./1.json', function (total) {
+    renderChart(total);
+  });
+});
+
+</script>
+</body>
+</html>

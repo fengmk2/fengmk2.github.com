@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>Defense hash algorithm collision 防御hash算法冲突导致拒绝服务器</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>Defense hash algorithm collision 防御hash算法冲突导致拒绝服务器</h1>
+
+<h2>问题</h2>
+
+<p>一篇<a href="http://www.ocert.org/advisories/ocert-2011-003.html">#2011-003 multiple implementations denial-of-service via hash algorithm collision</a> 文章，引起了 Web 应用安全领域的骚动。</p>
+
+<p>这种hash算法冲突的原理到底是什么？可以看看一下两篇以PHP为例子的说明文章：</p>
+
+<ul>
+<li><a href="http://www.laruence.com/2011/12/30/2435.html">PHP数组的Hash冲突实例 </a>, <a href="http://nikic.github.com/2011/12/28/Supercolliding-a-PHP-array.html">Supercolliding a PHP array</a></li>
+<li><a href="http://www.xingdonghai.cn/a-new-supercolliding-with-array-of-php">关于最近PHP的Array爆出的冲突问题</a></li>
+<li><a href="http://coolshell.cn/articles/6424.html">Hash Collision DoS 问题</a></li>
+<li><a href="http://stackoverflow.com/questions/8669946/application-vulnerability-due-to-non-random-hash-functions">Application vulnerability due to Non Random Hash Functions</a></li>
+</ul>
+
+<h2>解决办法</h2>
+
+<p>既然是语言层面的hash算法冲突导致的，那么这种冲突就无法避免了。<br />但是我们可以限制Hash key的数量来避免。</p>
+
+<p>所以可以进行一下设置解决此问题：</p>
+
+<ul>
+<li>限制请求大小 (只能指标不治本，因为PHP版本的话，700KB的数据就足以发起攻击)</li>
+<li>限制请求key的数量 (这可以基本解决问题，除非应用无法预知最大的key数量)</li>
+<li>只接受允许的key (这是终极方法，但需要保证开发记得配置新增的key)</li>
+</ul>
+
+<h2>在Nodejs防御此问题</h2>
+
+<p><strike>虽然在目前为止还没看到对Nodejs造成攻击的具体方法，但是还是以防范于未然为原则，需要对此问题做好充分的防御措施。</strike></p>
+
+<p><strong>Nodejs 的攻击方法已经出现</strong>，具体测试结果可以查看 <a href="http://fengmk2.github.com/mk2blog/blog/2011/hac-in-nodejs-results.html">Hash algorithm collision in Nodejs</a><br /><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1doryp1riixj.jpg" alt="hac-results" title="" /></p>
+
+<p>由于我个人一直使用的是 <a href="https://github.com/senchalabs/connect">connect</a> ，所以我以 connect 为示例说明吧 ^_^</p>
+
+<h3>使用 connect.limit 限制 request-body-size</h3>
+
+<p><a href="https://github.com/senchalabs/connect/issues/446">Issue #446</a> 已有同学提出此问题了，@TJ回复如下:</p>
+
+<blockquote>
+  <p>we have limit() for this, which works for any request body. Even without this specific issue you could exhaust resources reasonably easily without some form of limiting</p>
+</blockquote>
+
+<p>好吧，直接上 <a href="https://github.com/senchalabs/connect/blob/master/lib/middleware/limit.js#L8">connect.limit</a> 模块解决</p>
+
+<pre class="prettyprint "><code>connect()
+  .use(connect.limit('1mb'))
+  .use(handleRequest)
+</code></pre>
+
+<h3>修改 <a href="https://github.com/visionmedia/node-querystring">qs</a> 模块，让其支持 keys-limit 和 allow-keys</h3>
+
+<p><a href="https://github.com/fengmk2/node-querystring/blob/master/lib/querystring.js#L106">querystring.js</a></p>
+
+<p>PS: 提了pull request，但是估计在没有真实攻击示例放出来之前，是不会被接受的。</p>
+
+<pre class="prettyprint "><code>/**
+ * Parse the given str.
+ */
+
+function parseString(str, options) {
+  var limit = options &amp;&amp; options.limit;
+  var keys = options &amp;&amp; options.keys;
+  if (keys &amp;&amp; Array.isArray(keys)) {
+    keys = {};
+    for (var i = 0, l = options.keys.length; i &lt; l; i++) {
+      keys[options.keys[i]] = 1;
+    }
+  }
+  return String(str)
+    .split('&amp;', limit)
+    .reduce(function(ret, pair){
+      try{
+        pair = decodeURIComponent(pair.replace(/\+/g, ' '));
+      } catch(e) {
+        // ignore
+      }
+
+      var eql = pair.indexOf('=')
+        , brace = lastBraceInKey(pair)
+        , key = pair.substr(0, brace || eql);
+      if (keys &amp;&amp; !keys[key]) {
+        return ret;
+      }
+      var val = pair.substr(brace || eql, pair.length)
+      val = val.substr(val.indexOf('=') + 1, val.length);
+
+      // ?foo
+      if ('' == key) key = pair, val = '';
+
+      return merge(ret, key, val);
+    }, { base: {} }).base;
+}
+
+
+/**
+ * Parse the given query `str` or `obj`, returning an object.
+ *
+ * Options: (only effect on parse string)
+ *
+ *  - `limit` parse string split limit.
+ *  - `keys`  which keys need to be parse.
+ *
+ * @param {String} str | {Object} obj
+ * @param {Object} options
+ * @return {Object}
+ * @api public
+ */
+
+exports.parse = function(str, options) {
+  if (null == str || '' == str) return {};
+  return 'object' == typeof str
+    ? parseObject(str)
+    : parseString(str, options);
+};
+</code></pre>
+
+<p>还需要让 <a href="https://github.com/fengmk2/connect/blob/master/lib/middleware/query.js#L38">connect.query</a> 模块 传递options参数给 <code>qs.parse()</code></p>
+
+<pre class="prettyprint "><code>module.exports = function query(options){
+  return function query(req, res, next){
+    req.query = ~req.url.indexOf('?')
+      ? qs.parse(parse(req.url).query, options)
+      : {};
+    next();
+  };
+};
+</code></pre>
+
+<p>同样 <a href="https://github.com/fengmk2/connect/blob/master/lib/middleware/urlencoded.js#L47">connect.urlencoded</a> 模块也需要将options参数传递给 <code>qs.parse()</code></p>
+
+<pre class="prettyprint "><code>    req.on('end', function(){
+      try {
+        req.body = buf.length
+          ? qs.parse(buf, options)
+          : {};
+        next();
+      } catch (err){
+        next(err);
+      }
+    });
+</code></pre>
+
+<h3>全部组合起来</h3>
+
+<pre class="prettyprint "><code>var qsOptions = { limit: 100 };
+connect()
+  .use(connect.limit('1mb'))
+  .use(connect.query(qsOptions))
+  .use(connect.bodyParser(qsOptions))
+  .use(handleRequest)
+</code></pre>
+
+<h2>防范 http header 攻击</h2>
+
+<p>请求的 <code>http header</code> 也会导致hash冲突，在<code>V8</code>层面未修复hash算法之前，可以通过简单的 <code>http_patch.js</code> 修复此问题:</p>
+
+<pre class="prettyprint "><code>var http = require('http');
+
+var IncomingMessage = http.IncomingMessage;
+var _addHeaderLine = IncomingMessage.prototype._addHeaderLine;
+
+// limit http header number
+IncomingMessage.prototype._addHeaderLine = function(field, val) {
+  if (!this.__headerCount__) {
+    this.__headerCount__ = 0;
+  } else if (this.__headerCount__ &gt;= 100) {
+    return;
+  }
+  _addHeaderLine.apply(this, arguments);
+  this.__headerCount__++;
+};
+</code></pre>
+
+<h2>最后</h2>
+
+<p>2011年末，苦逼的程序员还在为这个安全漏洞写补丁，打补丁，想各种解决方法。<br />2012年或许还会有各种各样的问题，我们一起勇敢面对吧。<br />Happy New Year!</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

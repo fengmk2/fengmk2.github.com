@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://fengmk2.github.com/css/prettify.css" />
+  <script src="http://fengmk2.github.com/js/jquery-1.7.min.js"></script>
+  <script src="http://fengmk2.github.com/js/prettify.js"></script>
+  <title>Database</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>Database</h1>
+<ul>
+<li><a href="http://snmaynard.com/2012/10/17/things-i-wish-i-knew-about-mongodb-a-year-ago/">Things I wish I knew about MongoDB a year ago</a></li>
+<li><a href="http://www.mongodb.org/display/DOCS/SQL+to+Mongo+Mapping+Chart">SQL to Mongo Mapping Chart</a></li>
+<li><a href="http://walkoven.com/?p=57">hbase在淘宝的应用和优化小结</a></li>
+<li><a href="http://www.mongodb.org/display/DOCS/Aggregation+Framework">Aggregation Framework</a></li>
+<li><a href="http://www.snailinaturtleneck.com/blog/2012/02/02/the-comments-conundrum/">The Comments Conundrum</a>：利用聚合管道解决文章评论难题</li>
+<li><a href="http://www.yankay.com/wp-content/hbase/book.html">HBase 官方文档</a></li>
+<li><a href="http://blog.nosqlfan.com/html/3379.html">节约内存：Instagram的Redis实践</a>: 每1,000,000个key只消耗了16MB的内存</li>
+<li><a href="http://blog.nosqlfan.com/html/1282.html">Redis资料汇总</a></li>
+<li><a href="http://heikezhi.com/2011/11/09/dont-use-mongod/">MongoDB的8宗罪</a>: <a href="http://pastebin.com/raw.php?i=FD3xe6Jt">http://pastebin.com/raw.php?i=FD3xe6Jt</a>, <a href="http://news.ycombinator.com/item?id=3202959">From CTO of 10gen</a></li>
+<li><a href="http://blog.nosqlfan.com/html/3448.html">利用Redis构建高效的实时搜索</a></li>
+</ul>
+
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2/mk2blog" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

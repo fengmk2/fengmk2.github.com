@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>配置 Windows 下的 nodejs C++ 模块编译环境</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="-windows-nodejs-c-">配置 Windows 下的 nodejs C++ 模块编译环境</h1>
+<p>根据 <a href="https://github.com/TooTallNate/node-gyp#installation">node-gyp</a> 指示的 Windows 编译环境说明,
+简单一句话就是 &quot;Python + VC++ 编译环境&quot;.</p>
+<p>所有需要的安装文件, 我都下载好放到百度云盘了: <a href="http://pan.baidu.com/s/1iwrT0">nodejs-gyp-windows</a></p>
+<h2 id="python">Python</h2>
+<ul>
+<li>安装 python-2.7.7.msi</li>
+</ul>
+<h2 id="iso-">iso 虚拟磁盘</h2>
+<ul>
+<li>安装 DTLite4491-0356.exe</li>
+</ul>
+<h2 id="windows-xp">Windows XP</h2>
+<p>文件在: <a href="http://pan.baidu.com/s/1iwrT0#dir/path=%2Fnodejs-gyp-windows%2FwindwsXP">node-gyp-windows/windowsXP</a></p>
+<ul>
+<li>用 DTLite 打开 VS2010Express1.iso , 然后安装 <code>Visual Studio C++ 2010</code> 就OK了, 其他不需要安装</li>
+</ul>
+<h2 id="windows-7">Windows 7</h2>
+<p>文件在: <a href="http://pan.baidu.com/s/1iwrT0#dir/path=%2Fnodejs-gyp-windows%2Fwindows7">node-gyp-windows/windows7</a></p>
+<ul>
+<li>用 DTLite 打开 VS2012_WDX_ENU.iso , 然后点击 &quot;Install&quot; 就OK了, 会安装整个 <code>Visual Studio Express 2012</code></li>
+</ul>
+<h2 id="-nodejs-c-">编译你的第一个 nodejs c++ 模块</h2>
+<p>假设你在使用 <code>node v0.10.29</code></p>
+<p>这里举例安装 <code>microtime</code> 模块:</p>
+<pre><code class="lang-bash">$ npm install microtime --registry=https://registry.npm.taobao.org --disturl=https://npm.taobao.org/dist
+</code></pre>
+<p>测试安装编译结果:</p>
+<pre><code class="lang-bash">$ node -e &#39;console.log(&quot;now is %d ms&quot;, require(&quot;microtime&quot;).now())&#39;
+</code></pre>
+
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

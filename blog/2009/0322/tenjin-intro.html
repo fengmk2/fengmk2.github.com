@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>tenjin - 号称全球最快的模板引擎</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>tenjin - 号称全球最快的模板引擎</h1>
+
+<p>Tenjin, "Tenjin is a very fast and full-featured template engine available in several script languages."</p>
+
+<p>官方的测试结果： 也快得太夸张了</p>
+
+<pre class="prettyprint"><code>MacOS X 10.4 Tiger, Intel CoreDuo 1.83GHz, Memory 2GB
+    Language    Template Engine Test#1(sec) Test#2(sec)
+    Python(2.5.1)   pyTenjin (0.6.1)    6.96    5.61
+    Cheetah (2.0)   20.36   19.82
+    Django (0.9.5)  71.33   59.80
+    Myghty (1.1)    107.88  19.30
+    Kid (0.9.6) 380.24  378.96
+    Genshi (0.4.4)  560.30  271.69
+    Mako (0.1.9)    17.78   13.49
+    Templetor (web.py 0.22) 428.19  61.53
+    Ruby(1.8.6) rbTenjin (0.6.0)    7.34    4.52
+    eruby (1.0.5)   12.29   11.53
+    ERB(def_method) (Ruby1.8.6) 36.73   5.85
+    PHP(5.2.0)  phpTenjin (0.0.1)   5.39    3.64
+    Smarty (2.6.18) 10.84   10.21
+    Perl(5.8.8) plTenjin (0.0.1)    10.42   5.72
+    Template-Toolkit(XS) (2.18) 103.58  26.30
+    HTML::Template (2.9)    46.70   30.21
+    JS(spidermonkey)    jsTenjin (0.0.1)    19.00   12.98
+    JS(Rhino, JDK5) jsTenjin (0.0.1)    24.29   19.15
+    Java(JDK5)  Velocity (1.4)  22.80   11.41
+    Velocity (1.5)  20.01   8.42
+</code></pre>
+
+<p>这样一来，就可以做到在web端和浏览器端使用相同的模板语法了.</p>
+
+<p>python的例子:</p>
+
+<pre class="prettyprint"><code>&lt;html&gt;
+  &lt;body&gt;
+    &lt;h1&gt;${title}&lt;/h1&gt;
+    &lt;table&gt;
+&lt;?py i = 0 ?&gt;
+&lt;?py for item in items: ?&gt;
+&lt;?py     i += 1 ?&gt;
+&lt;?py     color = i % 2 == 0 and '#FFCCCC' or '#CCCCFF' ?&gt;
+      &lt;tr bgcolor="#{color}"&gt;
+        &lt;td&gt;#{i}&lt;/td&gt;
+        &lt;td&gt;${item}&lt;/td&gt;
+      &lt;/tr&gt;
+&lt;?py #endfor ?&gt;
+    &lt;/table&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+javascript的例子:
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;h1&gt;${title}&lt;/h1&gt;
+    &lt;table&gt;
+&lt;?js for (var i = 0, n = items.length; i &lt; n; i++) { ?&gt;
+&lt;?js    var color = i % 2 == 1 ? '#FFCCCC' : '#CCCCFF'; ?&gt;
+      &lt;tr bgcolor="#{color}"&gt;
+        &lt;td&gt;#{i+1}&lt;/td&gt;
+        &lt;td&gt;${items[i]}&lt;/td&gt;
+      &lt;/tr&gt;
+&lt;?js } ?&gt;
+    &lt;/table&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>希望本文介绍的内容对你有用! ^_^</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

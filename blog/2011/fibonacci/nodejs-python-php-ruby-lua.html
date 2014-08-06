@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>fibonacci(40) benchmark</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>fibonacci(40) benchmark</h1>
+
+<p><a href="http://teddziuba.com/2011/10/node-js-is-cancer.html">Node.js is Cancer</a> show a wrong way to use nodejs.<br />But the test code <strong><a href="http://en.wikipedia.org/wiki/Fibonacci">Fibonacci</a></strong> is so funny.<br />I implement the <strong>fibonacci function</strong> in other <strong><a href="http://en.wikipedia.org/wiki/Dynamic_programming_language">Dynamic Languages</a></strong> for comparison testing.</p>
+
+<h2>Languages</h2>
+
+<h3>Dynamic</h3>
+
+<ul>
+<li><a href="http://nodejs.org">nodejs</a></li>
+<li><a href="http://kkaefer.github.com/node-cpp-modules">nodejs + cpp module</a></li>
+<li><a href="http://python.org">python</a></li>
+<li><a href="http://pypy.org/">pypy</a>: a fast, compliant alternative implementation of the Python language. </li>
+<li><a href="http://www.jython.org/">jython</a></li>
+<li><a href="http://perl.org">perl</a> </li>
+<li><a href="http://www.php.net/">php</a></li>
+<li><a href="http://www.ruby-lang.org/">ruby</a></li>
+<li><a href="http://www.lua.org/">lua</a></li>
+<li><a href="http://luajit.org/">luajit</a>: a Just-In-Time Compiler for Lua.</li>
+</ul>
+
+<h3>Static</h3>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/C_programming_language">c</a></li>
+<li><a href="http://golang.org/">go</a></li>
+<li><a href="http://www.java.com/">java</a></li>
+<li><a href="http://www.scala-lang.org/">scala</a></li>
+</ul>
+
+<p>If you want to help add more dynamic languagues, please leave the <strong>implement code</strong> in comments.</p>
+
+<h2>Results</h2>
+
+<p>(^_^) c > java > go > scala > luajit > nodejs > ruby 2.0.0-p0 > pypy > ruby 1.9.3+ > lua > php > python > perl > ruby 1.8.x (T_T)</p>
+
+<table>
+  <tr><th>Language</th><th>Times (user)</th><th>Position</th><th>Version</th></tr>
+  <tr>
+    <td style="color: green;">c with -O2</td>
+    <td>0m0.202s</td>
+    <td>#0</td>
+    <td>i686-apple-darwin11-llvm-gcc-4.2 (GCC) 4.2.1 <br/>
+      (Based on Apple Inc. build 5658) (LLVM build 2336.11.00)
+    </td>
+  </tr>
+  <tr>
+    <td style="color: green;">nodejs + cpp module</td>
+    <td>0m1.001s</td>
+    <td>#1</td>
+    <td>v0.8.8, gcc -O2</td>
+  </tr>
+  <tr>
+    <td style="color: green;">java</td>
+    <td>0m1.305s</td>
+    <td>#2</td>
+    <td>Java(TM) SE Runtime Environment (build 1.6.0_35-b10-428-11M3811)<br/>
+      Java HotSpot(TM) 64-Bit Server VM (build 20.10-b01-428, mixed mode)
+    </td>
+  </tr>
+  <tr>
+    <td style="color: green;">go</td>
+    <td>0m1.667s</td>
+    <td>#3</td>
+    <td>go version go1.0.2</td>
+  </tr>
+  <tr>
+    <td style="color: green;">scala</td>
+    <td>0m1.808s</td>
+    <td>#4</td>
+    <td>Scala code runner version 2.9.2 -- Copyright 2002-2011, LAMP/EPFL</td>
+  </tr>
+  <tr>
+    <td style="color: green;">luajit</td>
+    <td>0m2.579s</td>
+    <td>#5</td>
+    <td>LuaJIT 2.0.0-beta10 -- Copyright (C) 2005-2012 Mike Pall.</td>
+  </tr>
+  <tr>
+    <td style="color: green;">nodejs</td>
+    <td>0m2.872s</td>
+    <td>#6</td>
+    <td>v0.8.8</td>
+  </tr>
+  <tr>
+    <td style="color: red;">ruby 2.0.0-p0</td>
+    <td>0m27.777s</td>
+    <td>#7</td>
+    <td>ruby 2.0.0p0 (2013-02-24 revision 39474) [x86_64-darwin12.2.0]</td>
+  </tr>
+  <tr>
+    <td style="color: red;">pypy</td>
+    <td>0m30.010s</td>
+    <td>#8</td>
+    <td>Python 2.7.2 (341e1e3821ff, Jun 07 2012, 15:42:54) [PyPy 1.9.0 with GCC 4.2.1]</td>
+  </tr>
+  <tr>
+    <td style="color: red;">ruby 1.9.x</td>
+    <td>0m37.404s</td>
+    <td>#9</td>
+    <td>ruby 1.9.3p194 (2012-04-20 revision 35410) [x86_64-darwin12.1.0]</td>
+  </tr>
+  <tr>
+    <td style="color: red;">lua</td>
+    <td>0m40.709s</td>
+    <td>#10</td>
+    <td>Lua 5.1.4 Copyright (C) 1994-2008 Lua.org, PUC-Rio</td>
+  </tr>
+  <tr>
+    <td style="color: red;">jython</td>
+    <td>0m53.699s</td>
+    <td>#11</td>
+    <td>Jython 2.5.2</td>
+  </tr>
+  <tr>
+    <td style="color: red;">php</td>
+    <td>1m17.728s</td>
+    <td>#12</td>
+    <td>PHP 5.4.6 (cli) (built: Sep  8 2012 23:49:53) </td>
+  </tr>
+  <tr>
+    <td style="color: red;">python</td>
+    <td>1m17.979s</td>
+    <td>#13</td>
+    <td>Python 2.7.2</td>
+  </tr>
+  <tr>
+    <td style="color: red;">perl</td>
+    <td>2m41.259s</td>
+    <td>#14</td>
+    <td>This is perl 5, version 12, subversion 4 (v5.12.4) built for darwin-thread-multi-2level</td>
+  </tr>
+  <tr>
+    <td style="color: red;">ruby 1.8.x</td>
+    <td>3m35.135s</td>
+    <td>#15</td>
+    <td>ruby 1.8.7 (2012-02-08 patchlevel 358) [universal-darwin12.0]</td>
+  </tr>
+</table>
+
+<p><strong>lua</strong> use <em>local function</em> will get better performance.</p>
+
+<h2>fibonacci(40) benchmark result:</h2>
+
+<h3>c</h3>
+
+<p>i686-apple-darwin11-llvm-gcc-4.2 (GCC) 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.11.00)</p>
+
+<pre class="prettyprint lang-c"><code><h1>include &lt;stdio.h&gt;</h1>
+
+int fibonacci(n) {
+  if (n &lt; 2) {
+    return n;
+  }
+  return fibonacci(n - 2) + fibonacci(n - 1);
+}
+
+int main() {
+  printf("%d\n", fibonacci(40));
+  return 0;
+}
+</code></pre>
+
+<p>gcc -O0</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m4.145s
+user  0m3.892s
+sys 0m0.012s
+</code></pre>
+
+<p>gcc -O1</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m2.732s
+user  0m2.610s
+sys 0m0.009s
+</code></pre>
+
+<p>gcc -O2</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m0.249s
+user  0m0.202s
+sys 0m0.004s
+</code></pre>
+
+<p>gcc -O3</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m0.293s
+user  0m0.202s
+sys 0m0.004s
+</code></pre>
+
+<h3>java</h3>
+
+<p>java version "1.6.0_35"<br />Java(TM) SE Runtime Environment (build 1.6.0_35-b10-428-11M3811)<br />Java HotSpot(TM) 64-Bit Server VM (build 20.10-b01-428, mixed mode)</p>
+
+<pre class="prettyprint lang-java"><code>public class Fibonacci {
+  public static int fib(int n) {
+    if (n &lt; 2) {
+      return n;
+    } else {
+      return fib(n - 1) + fib(n - 2);
+    }
+  }
+
+  public static void main(String[] args) {
+    System.out.print(fib(40) + "\n");
+  }
+}
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m1.413s
+user  0m1.305s
+sys 0m0.063s
+</code></pre>
+
+<h3>scala</h3>
+
+<p>Scala code runner version 2.9.2 -- Copyright 2002-2011, LAMP/EPFL</p>
+
+<pre class="prettyprint lang-scala"><code>object Fibonacci {
+  def fib(n: Int): Int = n match {
+    case 0 | 1 =&gt; n
+    case _ =&gt; fib(n -1) + fib(n-2)
+  }
+
+  def main(args: Array[String]) {
+    println(fib(40));
+  }
+}
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m1.909s
+user  0m1.808s
+sys 0m0.121s
+</code></pre>
+
+<h3>go</h3>
+
+<p>go version go1.0.2</p>
+
+<pre class="prettyprint lang-go"><code>package main
+
+import "fmt"
+
+func fibonacci(n int) int{
+  if (n &lt; 2) {
+    return n
+  }
+  return fibonacci(n - 2) + fibonacci(n - 1)
+}
+
+func main() {
+  fmt.Println(fibonacci(40))
+}
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m1.732s
+user  0m1.667s
+sys 0m0.006s
+</code></pre>
+
+<h3>nodejs</h3>
+
+<pre class="prettyprint lang-js"><code>function fibonacci(n) {
+  if (n &lt; 2) {
+    return n;
+  }
+  return fibonacci(n - 2) + fibonacci(n - 1);
+}
+
+console.log(fibonacci(40));
+</code></pre>
+
+<p>v0.2.6</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m4.959s
+user  0m4.699s
+sys 0m0.028s
+</code></pre>
+
+<p>v0.3.8</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m4.961s
+user  0m4.867s
+sys 0m0.022s
+</code></pre>
+
+<p>v0.4.12</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m7.544s
+user  0m7.219s
+sys 0m0.030s
+</code></pre>
+
+<p>v0.6.19</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m5.264s
+user  0m5.062s
+sys 0m0.040s
+</code></pre>
+
+<p>v0.6.20</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m5.413s
+user  0m5.195s
+sys 0m0.038s
+</code></pre>
+
+<p>v0.6.21-pre</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m5.081s
+user  0m4.906s
+sys 0m0.037s
+</code></pre>
+
+<p>v0.7.12</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m2.964s
+user  0m2.867s
+sys 0m0.029s
+</code></pre>
+
+<p>v0.8.0</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m3.034s
+user  0m2.868s
+sys 0m0.029s
+</code></pre>
+
+<p>v0.8.1</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m3.064s
+user  0m2.863s
+sys 0m0.032s
+</code></pre>
+
+<p>v0.8.3</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m3.024s
+user  0m2.855s
+sys 0m0.030s
+</code></pre>
+
+<p>v0.8.6</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m3.046s
+user  0m2.854s
+sys 0m0.030s
+</code></pre>
+
+<p>v0.8.7</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m3.258s
+user  0m2.933s
+sys 0m0.033s
+</code></pre>
+
+<p>v0.8.8</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m3.052s
+user  0m2.866s
+sys 0m0.031s
+</code></pre>
+
+<p>v0.9.1</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m3.190s
+user  0m2.852s
+sys 0m0.032s
+</code></pre>
+
+<h3>nodejs + cpp module</h3>
+
+<pre class="prettyprint lang-js"><code>var fibonacci = require('./build/Release/cppfibonacci').fibonacci;
+console.log(fibonacci(40));
+</code></pre>
+
+<p>waf 1.5.16 (7610:7647M)<br />v0.4.12</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m1.374s
+user  0m1.012s
+sys 0m0.024s
+</code></pre>
+
+<p>waf 1.5.16 (7610:7647M)<br />v0.6.20</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m1.063s
+user  0m1.000s
+sys 0m0.018s
+</code></pre>
+
+<p>waf 1.5.16 (7610:7647M)<br />v0.8.8</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m1.076s
+user  0m1.001s
+sys 0m0.015s
+</code></pre>
+
+<h3>luajit</h3>
+
+<p>LuaJIT 2.0.0-beta10 -- Copyright (C) 2005-2012 Mike Pall. <a href='http://luajit.org/'>http://luajit.org/</a></p>
+
+<pre class="prettyprint lang-lua"><code>function fibonacci(n)
+  if n &lt; 2 then
+    return n
+  end
+  return fibonacci(n - 2) + fibonacci(n - 1)
+end
+
+io.write(fibonacci(40), "\n")
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m2.847s
+user  0m2.579s
+sys 0m0.013s
+</code></pre>
+
+<p>using 'local'</p>
+
+<pre class="prettyprint lang-lua"><code>local function fibonacci(n)
+  if n &lt; 2 then
+    return n
+  end
+  return fibonacci(n - 2) + fibonacci(n - 1)
+end
+
+io.write(fibonacci(40), "\n")
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m2.536s
+user  0m2.490s
+sys 0m0.006s
+</code></pre>
+
+<h3>pypy</h3>
+
+<p>Python 2.7.2 (341e1e3821ff, Jun 07 2012, 15:42:54)<br />[PyPy 1.9.0 with GCC 4.2.1]</p>
+
+<pre class="prettyprint lang-py"><code>def fibonacci(n):
+    if n &lt; 2:
+        return n
+    return fibonacci(n - 2) + fibonacci(n - 1)
+
+print fibonacci(40)
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m34.082s
+user  0m30.010s
+sys 0m0.303s
+</code></pre>
+
+<h3>ruby 1.9.x</h3>
+
+<pre class="prettyprint lang-ruby"><code>def fibonacci(n)
+  if n &lt; 2
+    return n
+  end
+  return fibonacci(n - 2) + fibonacci(n - 1)
+end
+
+puts fibonacci(40)
+</code></pre>
+
+<p>ruby 1.9.3p194 (2012-04-20 revision 35410) [x86_64-darwin12.1.0]</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m39.972s
+user  0m37.404s
+sys 0m0.124s
+</code></pre>
+
+<p>ruby 2.0.0p0 (2013-02-24 revision 39474) [x86_64-darwin12.2.0]</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m29.078s
+user  0m27.777s
+sys 0m0.072s
+</code></pre>
+
+<h3>lua</h3>
+
+<p>Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio</p>
+
+<pre class="prettyprint lang-lua"><code>function fibonacci(n)
+  if n &lt; 2 then
+    return n
+  end
+  return fibonacci(n - 2) + fibonacci(n - 1)
+end
+
+io.write(fibonacci(40), "\n")
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m42.961s
+user  0m40.709s
+sys 0m0.098s
+</code></pre>
+
+<p>using 'local'</p>
+
+<pre class="prettyprint lang-lua"><code>local function fibonacci(n)
+  if n &lt; 2 then
+    return n
+  end
+  return fibonacci(n - 2) + fibonacci(n - 1)
+end
+
+io.write(fibonacci(40), "\n")
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m37.178s
+user  0m35.887s
+sys 0m0.081s
+</code></pre>
+
+<h3>python &amp;&amp; jython</h3>
+
+<p>Python 2.7.2</p>
+
+<pre class="prettyprint lang-py"><code>def fibonacci(n):
+    if n &lt; 2:
+        return n
+    return fibonacci(n - 2) + fibonacci(n - 1)
+
+print fibonacci(40)
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  1m23.989s
+user  1m17.979s
+sys 0m0.303s
+</code></pre>
+
+<p>Jython 2.5.2</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  0m58.651s
+user  0m53.699s
+sys 0m1.945s
+</code></pre>
+
+<h3>php</h3>
+
+<p>PHP 5.3.13 with Suhosin-Patch (cli) (built: Jun 20 2012 17:05:20) </p>
+
+<pre class="prettyprint lang-php"><code>&lt;?php
+function fibonacci($n) {
+  if ($n &lt; 2) {
+    return $n;
+  }
+  return fibonacci($n - 2) + fibonacci($n - 1);
+}
+echo fibonacci(40)."\n";
+?&gt;
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  1m43.579s
+user  1m36.905s
+sys 0m0.349s
+</code></pre>
+
+<p>PHP 5.4.6 (cli) (built: Sep  8 2012 23:49:53) </p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  1m25.155s
+user  1m17.728s
+sys 0m0.261s
+</code></pre>
+
+<h3>perl</h3>
+
+<p>This is perl 5, version 12, subversion 4 (v5.12.4) built for darwin-thread-multi-2level</p>
+
+<pre class="prettyprint lang-perl"><code>sub fibonacci {
+  my $n = shift;
+  if ($n &lt; 2) {
+    return $n;
+  }
+  return fibonacci($n - 2) + fibonacci($n - 1);
+}
+print fibonacci(40), "\n";
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  2m53.937s
+user  2m41.259s
+sys 0m0.592s
+</code></pre>
+
+<h3>ruby 1.8.x</h3>
+
+<pre class="prettyprint lang-ruby"><code>def fibonacci(n)
+  if n &lt; 2
+    return n
+  end
+  return fibonacci(n - 2) + fibonacci(n - 1)
+end
+
+puts fibonacci(40)
+</code></pre>
+
+<p>ruby 1.8.7 (2012-02-08 patchlevel 358) [universal-darwin12.0]</p>
+
+<pre class="prettyprint lang-bash"><code>102334155
+
+real  3m59.076s
+user  3m35.135s
+sys 0m0.833s
+</code></pre>
+
+<h2>Conclusion</h2>
+
+<ul>
+<li><strong>go</strong> is <strong>awsome</strong>!</li>
+<li><strong>nodejs</strong> is <strong>FAST</strong>, v0.8+ is <strong>FASTER</strong>. </li>
+<li><strong>luajit</strong> 2X faster than <a href='mailto:nodejs@0.6.x'>nodejs@0.6.x</a>, <strong>Shocking</strong>.</li>
+<li><strong>ruby 1.9.x</strong> faster than lua.</li>
+</ul>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

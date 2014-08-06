@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>[nodejs]保证你的程序死了还能复活：forever and forever webui</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>[nodejs]保证你的程序死了还能复活：forever and forever webui</h1>
+
+<h2><a href="https://github.com/nodejitsu/forever">forever</a></h2>
+
+<p>A simple CLI tool for ensuring that a given script runs continuously (i.e. forever).<br />一个非常简单的CLI工具，让你的程序持续运行。</p>
+
+<p>安装forever: <a href='https://github.com/nodejitsu/forever'>https://github.com/nodejitsu/forever</a></p>
+
+<pre class="prettyprint"><code>$ [sudo] npm install forever -g
+</code></pre>
+
+<p>Demo: 进程重启超过5次后将不再运行</p>
+
+<pre class="prettyprint"><code>$ forever examples/error-on-timer.js -m 5
+</code></pre>
+
+<h2><a href="https://github.com/FGRibreau/forever-webui">forever-webui</a></h2>
+
+<p>A simple web UI for efficient nodejs administration<br />既然有了CLI工具帮忙保证程序的持续运行，那么有个简单的web监控就更加好了。<br /><a href="https://github.com/FGRibreau/forever-webui">forever-webui</a> 就是这样一个web应用程序。</p>
+
+<p>安装并运行</p>
+
+<pre class="prettyprint"><code>$ npm install forever-webui &amp;&amp; node node_modules/forever-webui/app.js
+</code></pre>
+
+<p>浏览器访问 <a href='http://127.0.0.1:8085'>http://127.0.0.1:8085</a> </p>
+
+<p><img src="http://ww4.sinaimg.cn/large/61c56ebcjw1dnd6elhv81j.jpg" alt="http://ww4.sinaimg.cn/large/61c56ebcjw1dnd6elhv81j.jpg" title="" /></p>
+
+<p>PS：如果你使用forever来启动forever-webui，还可以自己监控自己喔，不知道会不会死循环？！</p>
+
+<h2>有爱</h2>
+
+<p>^_^ 希望本文对你有用。</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

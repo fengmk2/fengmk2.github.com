@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>搜狐微博的oauth</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>搜狐微博的oauth</h1>
+
+<p>最近拿到了搜狐微博(t.sohu.com)的oauth开发key，本想做个oauth登录的，可是发现在发中文微博的时候，总是提示401认证不通过:</p>
+
+<pre class="prettyprint"><code>{"code":401,"error":"This method requires authentication.",
+    "request":"/statuses/upload.json"}。
+</code></pre>
+
+<p>然后我试着发全ASCII码的微博，竟然可以发成功。</p>
+
+<p>这样就定位到有可能是我用的utf-8编码有问题，于是尝试了个种中文编码gb2312, gbk 还有更多其他编码，都是一个401不通过的结果。</p>
+
+<p>在和搜狐的开发技术支持沟通期间，我突然间灵光一动，会不会是urlencode的问题？</p>
+
+<p>然后我将没有urlencode之前的微博status用来算oauth的签名，然后发送，晕，竟然成功了。</p>
+
+<p>oauth签名的参数不是http的参数吗？怎么是urlencode编码前的参数呢？</p>
+
+<p>为了求证对比，我尝试了twitter和新浪微博的oauth，果然，他们都是使用http的参数，即urlencode之后的参数进行签名的。</p>
+
+<p>无论如何，总算解决搜狐微博oauth的问题，感谢期间热情给我技术支持的搜狐微博开放人员。</p>
+
+<p>^_^</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>Node.js 处理 GBK 编码模板</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>Node.js 处理 GBK 编码模板</h1>
+
+<h2>字符串基本原则</h2>
+
+<p>如果你需要对非 UTF8 编码的文本进行处理，如 GBK 编码的，那么我们只有遵循以下原则处理就ok：</p>
+
+<pre class="prettyprint lang-js"><code>fs.readFile(filepath, cb)
+  =&gt; GBK encoding Buffer
+    =&gt; iconv decode gbk
+      =&gt; utf8 js String
+        =&gt; 处理String
+          =&gt; iconv encode gbk
+            =&gt; GBK encoding Buffer
+              =&gt; send to client
+</code></pre>
+
+<p>如果你只需要将 GBK 编码的文本直接输出，那么就不需要转换，直接将 GBK 编码的 Buffer 输出即可.</p>
+
+<pre class="prettyprint "><code>res.send(gbkBuffer);
+</code></pre>
+
+<h2>示例</h2>
+
+<p>将 GBK 模板文件进行简单处理，能按 UTF8 和 GBK 两种编码选择输出.</p>
+
+<p>@see <a href="https://github.com/fengmk2/fengmk2.github.com/tree/master/blog/2014/iconv-lite/app.js">app.js</a></p>
+
+<pre class="prettyprint lang-js"><code>var connect = require('connect');
+var fs = require('fs');
+var path = require('path');
+var iconv = require('iconv-lite');
+
+var app = connect();
+
+var filepath = path.join(__dirname, 'index.html');
+var content = fs.readFileSync(filepath);
+
+app.use(function (req, res) {
+  var s = iconv.decode(content, 'gbk');
+  if (req.url === '/utf8') {
+    res.setHeader('Content-Type', 'text/html; charset=utf8');
+    s = s.replace('&lt;title&gt;淘宝网 - 淘！我喜欢&lt;/title&gt;', '&lt;title&gt;淘宝网 - 淘！我喜欢 UTF8&lt;/title&gt;')
+      .replace('&lt;meta charset="gbk"&gt;', '&lt;meta charset="utf8"&gt;')
+      .replace('你好啊', '你好啊 UTF8');
+    // show utf8 page
+    return res.end(s);
+  }
+
+  // show gbk page
+  res.setHeader('Content-Type', 'text/html; charset=gbk');
+  s = s.replace('&lt;title&gt;淘宝网 - 淘！我喜欢&lt;/title&gt;', '&lt;title&gt;淘宝网 - 淘！我喜欢 GBK&lt;/title&gt;')
+      .replace('你好啊', '你好啊 GBK');
+  res.end(iconv.encode(s, 'gbk'));
+});
+
+app.listen(1984);
+</code></pre>
+
+<h2>有爱</h2>
+
+<p>希望本文对你有用.</p>
+
+<p><a href='http://fengmk2.github.io/blog/2014/iconv-lite/iconv-lite.html'>http://fengmk2.github.io/blog/2014/iconv-lite/iconv-lite.html</a></p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

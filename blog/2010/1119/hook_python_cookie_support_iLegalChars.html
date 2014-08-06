@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>让python的Cookie.py模块支持:冒号做key</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>让python的Cookie.py模块支持:冒号做key</h1>
+
+<p>虽然Cookie的标准是不允许:冒号出现在key里面的，但是我们的开发人员是很可爱的，常常会让我们意想不到。</p>
+
+<p>为了做好兼容性，只能选择兼容:冒号。</p>
+
+<p>很简单，修改一下Cookie.Morsel</p>
+
+<pre class="prettyprint"><code>#!/usr/bin/python
+# -*- coding: utf-8 -*-
+"""MorselHook
+fix Cookie.CookieError: Illegal key value: ys-tab:entrance:e
+"""
+
+import Cookie
+import string
+
+_Morsel = Cookie.Morsel
+
+class MorselHook(_Morsel):
+    """
+    &gt;&gt;&gt; import inspect
+    &gt;&gt;&gt; (inspect.getargspec(MorselHook.set)[3])[0]
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&amp;'*+-.^_`|~:"
+    &gt;&gt;&gt; cookie = Cookie.SimpleCookie()
+    &gt;&gt;&gt; cookie.load("ys-tab:entrance:e=abc; webpy_session_id=75eb60dcc83e2d902146af0bb7f47afe61fbd2b2")
+    &gt;&gt;&gt; print cookie
+    Set-Cookie: webpy_session_id=75eb60dcc83e2d902146af0bb7f47afe61fbd2b2;
+    Set-Cookie: ys-tab:entrance:e=abc;
+    """
+    def set(self, key, val, coded_val, 
+            LegalChars=Cookie._LegalChars+':', 
+            idmap=string._idmap, 
+            translate=string.translate):
+        return super(MorselHook, self).set(key, val, 
+                coded_val, LegalChars, idmap, translate)
+
+Cookie.Morsel = MorselHook
+
+# 在你需要使用到Cookie的地方先让上面的代码执行一遍
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+</code></pre>
+
+<h3>有爱</h3>
+
+<p>^_^ 希望本文对你有用。</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>使用nodejs解决phonegap开发期间的跨域问题</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>使用nodejs解决phonegap开发期间的跨域问题</h1>
+
+<p>使用phonegap开发基于HTML5的iOS程序，应用程序需要访问额外的网络资源，就必然需要面对跨域访问的问题。</p>
+
+<p>phonegap可以配置白名单，这样可以让最终打包的应用程序能跨域访问。</p>
+
+<p>但是我们开发环境下，一般都是直接使用浏览器进行开发调试的，而浏览器没有这样的选项让我们设置白名单。</p>
+
+<p>那要怎么解决跨域问题呢？每次修改代码后的测试都要启动模拟器，然后不方便地调试？我想大家不会这么做吧。</p>
+
+<h2>nodejs 实现超简单的 <code>proxy</code></h2>
+
+<p>将所有请求，通过本地node进程进行转发。<br />静态文件资源也有此proxy服务处理，也就解决了跨域问题。</p>
+
+<pre class="prettyprint lang-javascript"><code>var http = require('http');
+var path = require('path');
+var urlparse = require('url').parse;
+var connect = require('connect');
+
+var app = connect();
+app.use("/proxy", function (req, res) {
+  var url = urlparse(req.url, true).query.url;
+  if (!url) {
+    return res.end(req.method + ': ' + req.url);
+  }
+  var target = urlparse(url);
+  var headers = {};
+  for (var k in req.headers) {
+    if (k === 'host' || k === 'connection') {
+      continue;
+    }
+    headers[k] = req.headers[k];
+  }
+  var options = {
+    host: target.hostname,
+    port: target.port || 80,
+    path: target.path,
+    method: req.method,
+    headers: headers
+  };
+
+  var proxyReq = http.request(options, function (response) {
+    res.writeHead(response.statusCode, response.headers);
+    response.on('data', function (chunk) {
+      res.write(chunk);
+    });
+    response.on('end', function () {
+      res.end();
+    });
+  });
+
+  proxyReq.on('error', function (err) {
+    proxyReq.abort();
+    res.writeHead(500);
+    res.end(url + ' error: ' + err.message);
+  });
+
+  req.on('data', function (chunk) {
+    proxyReq.write(chunk);
+  });
+  req.on('end', function () {
+    proxyReq.end();
+  });
+});
+
+app.use(connect.static(path.join(__dirname, "www"), { maxAge: 0 }));
+
+
+app.listen(8001);
+console.log("Server is launching at <a href='http://localhost:8001'>http://localhost:8001</a>");
+</code></pre>
+
+<h2>在代码中自动判断是否使用 <code>proxy</code></h2>
+
+<p>通过判断 <code>navigator.notification</code> 是否存在，确定当前执行环境是浏览器还是模拟器。</p>
+
+<pre class="prettyprint lang-javascript"><code>if (!navigator.notification) {
+  V5.Model.proxy = location.origin + '/proxy';
+}
+</code></pre>
+
+<h2>有爱</h2>
+
+<p>本文所有示例代码来自于<a href="https://github.com/JacksonTian/fawave_mobile">FaWave 移动版</a>.</p>
+
+<p>希望本文对你有用 ^_^</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

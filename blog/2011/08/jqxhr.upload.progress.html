@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title></title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>在jQuery 1.5+ 的jqXHR上监听文件上传进度(xhr.upload)</h1>
+
+<h2>XMLHttpRequest.upload</h2>
+
+<p>在Firefox, Google Chrome and Safari中，如果通过XMLHttpRequest上传文件，<br />是可以通过监听XMLHttpRequest.upload对象的progress事件来查看进度的。</p>
+
+<pre class="prettyprint"><code>var xhr = new XMLHttpRequest();
+xhr.upload.addEventListener("progress", function (evt) {
+    // display uploading progress infomation...
+});
+</code></pre>
+
+<h2>xhr.upload在jQuery中消失了？</h2>
+
+<p>在看完<a href="http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html">JQuery最佳实践</a>后，<br />决定使用最新版本的jQuery 1.6.2替换一下正在使用的1.4.2，果然，性能在感觉上有提升。<br />可是悲剧的发现，怎么上传文件的进度不见了。调试发现，原来xhr.upload不见了。</p>
+
+<p>查看jQuery的<a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>文档，<br />发现jqXHR不是XMLHttpRequest的简单扩展。</p>
+
+<h2>怎样才能拿到原始的XMLHttpRequest？</h2>
+
+<p>只要在$.ajax请求中拿到原始的XMLHttpRequest，然后监听upload对象的progress事件，就可以解决此问题了。<br />于是乎，为了拿到原始的XMLHttpRequest，我们需要写一小段代码。</p>
+
+<p>根据<a href="http://api.jquery.com/jQuery.ajax/">jQuery.ajax</a>文档，xhr是可以自己提供的：</p>
+
+<pre class="prettyprint"><code>xhr: Function
+    Default: ActiveXObject when available (IE), 
+    the XMLHttpRequest otherwise Callback for creating 
+    the XMLHttpRequest object. 
+    Defaults to the ActiveXObject when available (IE), 
+    the XMLHttpRequest otherwise. 
+    Override to provide your own implementation for 
+    XMLHttpRequest or enhancements to the factory.
+</code></pre>
+
+<p>于是，我们就可以自己提供xhr，然后设置progress事件：</p>
+
+<pre class="prettyprint"><code>function onprogress(evt) {
+    // display uploading progress infomation...
+};
+var xhr_provider = function() {
+    var xhr = jQuery.ajaxSettings.xhr();
+    if(onprogress &amp;&amp; xhr.upload) {
+        xhr.upload.addEventListener('progress', onprogress, false);
+    }
+    return xhr;
+};
+
+$.ajax({
+    url: url,
+    timeout: 5*60*1000,
+    type : 'post',
+    data: bb.getBlob(),
+    contentType: 'multipart/form-data; boundary=' + boundary,
+    processData: false,
+    xhr: xhr_provider,
+    success: function() {},
+    error: function() {}
+});
+</code></pre>
+
+<h2>有爱</h2>
+
+<p>其实本文主要目的是推广"<a href="http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html">JQuery最佳实践</a>",<br />赶紧看，然后赶紧看看自己如何使用jQuery的。</p>
+
+<p>希望本文对你有用。 ^_^</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

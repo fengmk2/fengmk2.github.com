@@ -1,0 +1,18 @@
+{
+  "name": "helloworld",
+  "version": "0.0.1",
+  "description": "hello world app for connect-domain",
+  "main": "app.js",
+  "repository": "",
+  "keywords": [
+    "domain",
+    "connect-domain",
+    "async_error"
+  ],
+  "dependencies": {
+    "connect": "2.7.1",
+    "connect-domain": "0.3.0"
+  },
+  "author": "fengmk2 <fengmk2@gmail.com>",
+  "license": "MIT"
+}

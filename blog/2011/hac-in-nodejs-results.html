@@ -1,0 +1,133 @@
+<html>
+  <head>
+    <title>Hash algorithm collision in Nodejs</title>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      google.setOnLoadCallback(drawChart2);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Key count');
+        data.addColumn('number', 'Safe (ms)');
+        data.addColumn('number', 'Number Attack (ms)');
+        data.addColumn('number', 'String Attack (ms)');
+        data.addRows([
+["100", 1, 1, 1],
+["1000", 12, 23, 22],
+["2000", 22, 66, 64],
+["3000", 31, 129, 160],
+["4000", 38, 219, 244],
+["5000", 46, 331, 378],
+["6000", 54, 506, 497],
+["7000", 74, 668, 735],
+["8000", 100, 1215, 1331],
+["9000", 151, 1707, 1744],
+["10000", 243, 2031, 2361],
+["11000", 142, 2735, 3531],
+["12000", 152, 3075, 3930],
+["13000", 163, 3058, 4488],
+["14000", 191, 3451, 5359],
+["15000", 184, 3938, 5658],
+["16000", 210, 4404, 6561],
+["17000", 206, 5393, 8071],
+["18000", 215, 5667, 7907],
+["19000", 233, 6297, 8409],
+["20000", 243, 6907, 8982],
+["21000", 255, 7766, 10824],
+["22000", 276, 11872, 11482],
+["23000", 283, 13486, 13060],
+["24000", 333, 14997, 14107],
+["25000", 317, 16530, 14481],
+["26000", 333, 18445, 14229],
+["27000", 521, 20058, 16582],
+["28000", 363, 20667, 16274],
+["29000", 369, 23614, 19629],
+["30000", 530, 25337, 20836],
+["31000", 418, 27106, 21294],
+["32000", 393, 29094, 22203]
+        ]);
+
+        var options = {
+          width: 800, height: 600,
+          title: 'Hash algorithm collision in Node <= V0.6.6'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+
+      function drawChart2() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Key count');
+        data.addColumn('number', 'Safe (ms)');
+        data.addColumn('number', 'Number Attack (ms)');
+        data.addColumn('number', 'String Attack (ms)');
+        data.addRows([
+["100", 1, 2, 1],
+["1000", 10, 19, 11],
+["2000", 22, 67, 19],
+["3000", 27, 129, 27],
+["4000", 41, 222, 39],
+["5000", 44, 330, 50],
+["6000", 55, 509, 52],
+["7000", 62, 669, 62],
+["8000", 70, 852, 78],
+["9000", 92, 1072, 96],
+["10000", 121, 1632, 114],
+["11000", 131, 2062, 133],
+["12000", 147, 2433, 141],
+["13000", 161, 2846, 159],
+["14000", 167, 3742, 171],
+["15000", 279, 5479, 370],
+["16000", 209, 4332, 185],
+["17000", 205, 4995, 192],
+["18000", 210, 6017, 203],
+["19000", 236, 7535, 307],
+["20000", 238, 7398, 258],
+["21000", 245, 7536, 369],
+["22000", 277, 12901, 262],
+["23000", 347, 14485, 340],
+["24000", 528, 16156, 371],
+["25000", 310, 18463, 305],
+["26000", 319, 19530, 302],
+["27000", 360, 21906, 335],
+["28000", 352, 24275, 352],
+["29000", 550, 27361, 446],
+["30000", 633, 26793, 347],
+["31000", 459, 27355, 365],
+["32000", 393, 31099, 408]
+        ]);
+
+        var options = {
+          width: 800, height: 600,
+          title: 'Hash algorithm collision in Node V0.6.7'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div2"></div>
+    <hr />
+    <div id="chart_div"></div>
+    <p>About the "hash algorithm collision", please see <a href="http://www.ocert.org/advisories/ocert-2011-003.html">#2011-003 multiple implementations denial-of-service via hash algorithm collision</a></p>
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+  </body>
+</html>

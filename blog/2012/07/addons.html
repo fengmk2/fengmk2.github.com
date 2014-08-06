@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>编写nodejs的C++模块</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>编写nodejs的C++模块</h1>
+
+<p>nodejs提供了完善的插件机制（addons），让我们可以非常方便地调用C和C++库。</p>
+
+<h2>Javascript 映射到 C++</h2>
+
+<ul>
+<li>普通字符串</li>
+</ul>
+
+<pre class="prettyprint lang-js"><code>'hello world'
+</code></pre>
+
+<pre class="prettyprint lang-cpp"><code>String::New("hello world")
+</code></pre>
+
+<ul>
+<li>局部Number型变量</li>
+</ul>
+
+<pre class="prettyprint lang-js"><code>var num = 1;
+</code></pre>
+
+<pre class="prettyprint lang-cpp"><code>Local&lt;Number&gt; num = Number::New(1);
+</code></pre>
+
+<ul>
+<li>undefined</li>
+</ul>
+
+<pre class="prettyprint lang-js"><code>undefined
+</code></pre>
+
+<pre class="prettyprint lang-cpp"><code>Undefined()
+</code></pre>
+
+<ul>
+<li>抛异常</li>
+</ul>
+
+<pre class="prettyprint lang-js"><code>throw new TypeError('Wrong type');
+</code></pre>
+
+<pre class="prettyprint lang-cpp"><code>ThrowException(Exception::TypeError(String::New("Wrong type")));
+</code></pre>
+
+<ul>
+<li>create object</li>
+</ul>
+
+<pre class="prettyprint lang-js"><code>var user = {name: 'mk2', gender: male};
+</code></pre>
+
+<pre class="prettyprint lang-cpp"><code>Local&lt;Object&gt; user = Object::New();
+user-&gt;Set(String::NewSymbol("name"), String::New("mk2"));
+user-&gt;Set(String::NewSymbol("gender"), String::New("male"));
+</code></pre>
+
+<ul>
+<li>function</li>
+</ul>
+
+<pre class="prettyprint lang-js"><code>function add(a, b) {
+  return a + b;
+}
+</code></pre>
+
+<pre class="prettyprint lang-cpp"><code>Handle&lt;Value&gt; Add(const Arguments&amp; args) {
+  HandleScope scope;
+  Local&lt;Number&gt; num = Number::New(args[0]-&gt;NumberValue() + args[1]-&gt;NumberValue());
+  return scope.Close(num);
+}
+
+void Init(Handle&lt;Object&gt; target) {
+  target-&gt;Set(String::NewSymbol("add"), FunctionTemplate::New(Add)-&gt;GetFunction());
+}
+</code></pre>
+
+<ul>
+<li>callbacks</li>
+</ul>
+
+<pre class="prettyprint lang-js"><code>function next(callback) {
+  callback('hi');
+}
+</code></pre>
+
+<pre class="prettyprint lang-cpp"><code>Handle&lt;Value&gt; Next(const Arguments&amp; args) {
+  HandleScope scope;
+
+  Local&lt;Function&gt; cb = Local&lt;Function&gt;::Cast(args[0]);
+  const unsigned argc = 1;
+  Local&lt;Value&gt; argv[argc] = { Local&lt;Value&gt;::New(String::New("hi")) };
+  cb-&gt;Call(Context::GetCurrent()-&gt;Global(), argc, argv);
+
+  return scope.Close(Undefined());
+}
+
+void Init(Handle&lt;Object&gt; target) {
+  target-&gt;Set(String::NewSymbol("next"), FunctionTemplate::New(Next)-&gt;GetFunction());
+}
+</code></pre>
+
+<ul>
+<li>return a function</li>
+</ul>
+
+<pre class="prettyprint lang-js"><code>function createServer(name) {
+  return function echo() {
+    return name;
+  };
+}
+</code></pre>
+
+<p>(wrong)</p>
+
+<pre class="prettyprint lang-cpp"><code>Handle&lt;Value&gt; Echo(const Arguments&amp; args) {
+  HandleScope scope;
+  return scope.Close(args[0]);
+}
+
+Handle&lt;Value&gt; CreateServer(const Arguments&amp; args) {
+  HandleScope scope;
+
+  Local&lt;FunctionTemplate&gt; tpl = FunctionTemplate::New(Echo);
+  Local&lt;Function&gt; fn = tpl-&gt;GetFunction(args);
+  fn-&gt;SetName(String::NewSymbol("echo")); // omit this to make it anonymous
+
+  return scope.Close(fn);
+}
+
+void Init(Handle&lt;Object&gt; target) {
+  target-&gt;Set(String::NewSymbol("createServer"), 
+    FunctionTemplate::New(CreateServer)-&gt;GetFunction());
+}
+</code></pre>
+
+<ul>
+<li>类定义</li>
+</ul>
+
+<pre class="prettyprint lang-js"><code>function MyObject(startCounter) {
+  this._counter = startCounter;
+}
+
+MyObject.prototype.plusOne = function () {
+  this._counter += 1;
+  return this._counter;
+};
+</code></pre>
+
+<p><code>myobject.h</code></p>
+
+<pre class="prettyprint lang-cpp"><code><h1>ifndef MYOBJECT_H</h1>
+
+
+
+<h1>define MYOBJECT_H</h1>
+
+
+
+<h1>include &lt;node.h&gt;</h1>
+
+class MyObject : public node::ObjectWrap {
+ public:
+  static void Init(v8::Handle&lt;v8::Object&gt; target);
+
+ private:
+  MyObject();
+  ~MyObject();
+
+  static v8::Handle&lt;v8::Value&gt; New(const v8::Arguments&amp; args);
+  static v8::Handle&lt;v8::Value&gt; PlusOne(const v8::Arguments&amp; args);
+  double counter_;
+};
+
+
+
+<h1>endif</h1>
+
+</code></pre>
+
+<p><code>myobject.cc</code></p>
+
+<pre class="prettyprint lang-cpp"><code><h1>define BUILDING_NODE_EXTENSION</h1>
+
+
+
+<h1>include &lt;node.h&gt;</h1>
+
+
+
+<h1>include "myobject.h"</h1>
+
+using namespace v8;
+
+MyObject::MyObject() {};
+MyObject::~MyObject() {};
+
+void MyObject::Init(Handle&lt;Object&gt; target) {
+  // Prepare constructor template
+  Local&lt;FunctionTemplate&gt; tpl = FunctionTemplate::New(New);
+  tpl-&gt;SetClassName(String::NewSymbol("MyObject"));
+  tpl-&gt;InstanceTemplate()-&gt;SetInternalFieldCount(1);
+  // Prototype
+  tpl-&gt;PrototypeTemplate()-&gt;Set(String::NewSymbol("plusOne"),
+      FunctionTemplate::New(PlusOne)-&gt;GetFunction());
+
+  Persistent&lt;Function&gt; constructor = Persistent&lt;Function&gt;::New(tpl-&gt;GetFunction());
+  target-&gt;Set(String::NewSymbol("MyObject"), constructor);
+}
+
+Handle&lt;Value&gt; MyObject::New(const Arguments&amp; args) {
+  HandleScope scope;
+
+  MyObject* obj = new MyObject();
+  obj-&gt;counter_ = args[0]-&gt;IsUndefined() ? 0 : args[0]-&gt;NumberValue();
+  obj-&gt;Wrap(args.This());
+
+  return args.This();
+}
+
+Handle&lt;Value&gt; MyObject::PlusOne(const Arguments&amp; args) {
+  HandleScope scope;
+
+  MyObject* obj = ObjectWrap::Unwrap&lt;MyObject&gt;(args.This());
+  obj-&gt;counter_ += 1;
+
+  return scope.Close(Number::New(obj-&gt;counter_));
+}
+</code></pre>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

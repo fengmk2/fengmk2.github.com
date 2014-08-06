@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>Nodejs HTTP请求的超时处理 Nodejs HTTP Client Request Timeout Handle</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>Nodejs HTTP请求的超时处理 Nodejs HTTP Client Request Timeout Handle</h1>
+
+<h2>问题</h2>
+
+<p>Nodejs原生的<a href="http://nodejs.org/docs/v0.5.3/api/http.html#http.request">http.request</a> 方法是不支持设置超时参数的，<br />而网络请求经常会遇到超时的情况，特别是对于外部网络，如果不处理超时，发起的请求将会一直卡主，消耗的系统资源也不能及时被释放。</p>
+
+<h2>解决方案(新, 有问题，socket会重用，设置超时会有问题)：扩展http.ClientRequest, 增加setTimeout方法</h2>
+
+<p>利用<a href="http://nodejs.org/docs/v0.4.11/api/net.html#socket.setTimeout">socket.setTimeout</a>，<br />我们可以为<a href="http://nodejs.org/docs/v0.4.11/api/http.html#http.ClientRequest">http.ClientRequest</a>增加超时设置方法</p>
+
+<pre class="prettyprint"><code>var http = require('http');
+http.ClientRequest.prototype.setTimeout = function(timeout, callback) {
+    var self = this;
+    if(callback) {
+        self.on('timeout', callback);
+    }
+    self.connection.setTimeout(timeout, function() {
+        self.abort();
+        self.emit('timeout');
+    });
+};
+</code></pre>
+
+<h2>解决方案(旧)</h2>
+
+<p>定时器：通过定时器，当timeout事件触发的时候，主动调用<a href="http://nodejs.org/docs/v0.5.3/api/http.html#request.abort">req.abort()</a> 终止请求，<br />然后返回超时异常。</p>
+
+<h2>Request Timeout &amp; Response Timeout</h2>
+
+<ul>
+<li>超时有请求超时(Request Timeout)：HTTP客户端发起请求到接受到HTTP服务器端返回响应头的这段时间，
+如果超出设定时间，则表示请求超时。</li>
+<li>响应超时(Response Timeout)：HTTP服务器端开始发送响应数据到HTTP客户端接收全部数据的这段时间，
+如果超出设定时间，则表示响应超时。</li>
+</ul>
+
+<h2>示例代码：Timeout Demo</h2>
+
+<pre class="prettyprint"><code>var http = require('http');
+
+var request_timer = null, req = null;
+// 请求5秒超时
+request_timer = setTimeout(function() {
+    req.abort();
+    console.log('Request Timeout.');
+}, 5000);
+
+var options = {
+    host: 'www.google.com',
+    port: 80,
+    path: '/'
+};
+req = http.get(options, function(res) {
+    clearTimeout(request_timer);
+
+    // 等待响应60秒超时
+    var response_timer = setTimeout(function() {
+        res.destroy();
+        console.log('Response Timeout.');
+    }, 60000);
+
+    console.log("Got response: " + res.statusCode);
+    var chunks = [], length = 0;
+    res.on('data', function(chunk) {
+        length += chunk.length;
+        chunks.push(chunk);
+    });
+    res.on('end', function() {
+        clearTimeout(response_timer);
+        var data = new Buffer(length);
+        // 延后copy
+        for(var i=0, pos=0, size=chunks.length; i&lt;size; i++) {
+            chunks[i].copy(data, pos);
+            pos += chunks[i].length;
+        }
+        console.log('Body:\r\n');
+        console.log(data.toString());
+    });
+}).on('error', function(e) {
+    // 响应头有错误
+    clearTimeout(request_timer);
+    console.log("Got error: " + e.message);
+});
+</code></pre>
+
+<h2>有爱</h2>
+
+<p>^_^ 希望本文对你有用。</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

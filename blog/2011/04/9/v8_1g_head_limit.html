@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>nodejs 1G堆栈内存限制(by v8)</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>nodejs 1G堆栈内存限制(by v8)</h1>
+
+<h2>误区: nodejs最多只能使用1G内存</h2>
+
+<p>最近有看过“最多只能使用1G内存(V8 is unable to use more than 1gb of memory)”。<br />实际真的是这样的吗？让我们动手试试，实际是检验真理的唯一标准。</p>
+
+<h2>让nodejs占满你机器的内存</h2>
+
+<p>测试代码：每次填充100MB内存，值得机器卡住为止。<br />(我的机器是2G内存，为了能将此文章写下去，我限制到1.5G退出程序)</p>
+
+<pre class="prettyprint"><code>var os = require('os');
+
+function show_mem() {
+  var total = os.totalmem()
+    , free = os.freemem()
+    , used = total - free;
+  console.log('System: total ' + total + ' free ' + free + ' used ' + used);
+  var mem = process.memoryUsage();
+  console.log('Process: heapTotal ' + mem.heapTotal + ' heapUsed ' + mem.heapUsed
+    + ' rss ' + mem.rss + ' vsize ' + mem.vsize
+  );
+  console.log('----------------------------------------------------------------');
+};
+
+var bs = [];
+function add_100m() {
+  var size = 100 * 1024 * 1024,
+    buffer = new Buffer(size);
+  for (var i = 0; i &lt; size; i++) {
+    buffer[i] = 0;
+  }
+  bs.push(buffer);
+};
+
+for (var j = 0; j &lt; 15; j++) {
+  show_mem();
+  add_100m();
+}
+show_mem();
+</code></pre>
+
+<p>运行结果: 进程占用rss 1581735936 字节，跟预想中的一致。证明nodejs进程可以使用超过1G的内存。</p>
+
+<pre class="prettyprint"><code>System: total 2100867072 free 52113408 used 2048753664
+Process: heapTotal 6277280 heapUsed 1725092 rss 1581735936 vsize 1628082176
+----------------------------------------------------------------
+</code></pre>
+
+<p><img src="http://images.cnblogs.com/cnblogs_com/fengmk2/293079/o_v81glimit.png" alt="result image" title="" /></p>
+
+<h2>哪到底什么是1G堆栈内存限制</h2>
+
+<p>让我们展开热烈的讨论吧。<a href="http://zheye.org/asks/4da05d30fd503c24f9000001">nodejs 1G堆栈内存限制具体是指什么？</a></p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

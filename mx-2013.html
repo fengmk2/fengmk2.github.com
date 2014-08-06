@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://fengmk2.github.com/css/prettify.css" />
+  <script src="http://cdn.staticfile.org/jquery/2.0.3/jquery.min.js"></script>
+  <script src="http://fengmk2.github.com/js/prettify.js"></script>
+  <title>老婆, 圣诞快乐</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>老婆, 圣诞快乐</h1>
+
+<div id="timeline-embed"></div>
+
+<script>
+var timeline_config = {
+  type:       'timeline',
+  width:              '100%',
+  height:             '600',
+  source:             '/spreadsheet_yfrsj.json?t=2',
+  embed_id:           'timeline-embed',               //OPTIONAL USE A DIFFERENT DIV ID FOR EMBED
+  start_at_end:       false,                          //OPTIONAL START AT LATEST DATE
+  // start_at_slide:     '0',                            //OPTIONAL START AT SPECIFIC SLIDE
+  start_zoom_adjust:  '1',                            //OPTIONAL TWEAK THE DEFAULT ZOOM LEVEL
+  hash_bookmark:      true,                           //OPTIONAL LOCATION BAR HASHES
+  font:               'Bevan-PotanoSans',             //OPTIONAL FONT
+  // debug:              true,                           //OPTIONAL DEBUG TO CONSOLE
+  // lang:               'zh',                           //OPTIONAL LANGUAGE
+  maptype:            'watercolor',                   //OPTIONAL MAP STYLE
+  // css:                '/timeline.css',     //OPTIONAL PATH TO CSS
+  js:                 '/timeline.js?t=100'    //OPTIONAL PATH TO JS
+};
+</script>
+
+<script src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js?v214"></script>
+
+<p><embed src="http://www.xiami.com/widget/158012_1770906987,_235_346_FF8719_494949_1/multiPlayer.swf" type="application/x-shockwave-flash" width="0" height="0" wmode="opaque"></embed></p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

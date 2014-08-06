@@ -1,0 +1,1 @@
+encodeURIComponent(String.fromCharCode(0xDFFF));

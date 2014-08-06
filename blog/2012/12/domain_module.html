@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>使用 connect-domain 捕获异步调用中出现的异常</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>使用 connect-domain 捕获异步调用中出现的异常</h1>
+
+<p>之前经常有同学会问到怎么有些异常无法捕获到呢？</p>
+
+<p>虽然 <a href="https://github.com/senchalabs/connect">connect</a> 已经在 handler 外层加了 <code>try catch</code> ，还是无法捕获异步调用中产生的异常。</p>
+
+<h2>现状</h2>
+
+<p>例如最简单的 helloworld.js 代码</p>
+
+<pre class="prettyprint lang-js"><code>var connect = require('connect');
+
+var app = connect()
+.use(function (req, res, next) {
+  if (req.url === '/sync_error') {
+    throw new Error('sync error');
+  }
+  if (req.url === '/async_error') {
+    return process.nextTick(function () {
+      mk2.haha();
+    });
+  }
+  res.end('hello, ' + req.method + ' ' + req.url);
+});
+
+process.on('uncaughtException', function (err) {
+  console.error(err);
+});
+
+app.listen(1985);
+</code></pre>
+
+<p>使用 <code>curl</code> 来简单测试一下</p>
+
+<pre class="prettyprint lang-bash"><code>$ curl localhost:1985/foo
+hello, GET /foo
+
+$ curl localhost:1985/sync_error
+Error: sync error
+    at Object.handle ( .../app.js:33:11)
+    ....
+</code></pre>
+
+<p>好像还挺正常的，异常也被捕获了。 继续测试</p>
+
+<pre class="prettyprint lang-bash"><code>$ curl localhost:1985/async_error
+</code></pre>
+
+<p>没任何输出了吧？从服务器端控制台看到这样的输出: 证明触发了 <code>uncaughtException</code> 事件。</p>
+
+<pre class="prettyprint lang-bash"><code>[ReferenceError: mk2 is not defined]
+</code></pre>
+
+<p>虽然我们能通过 <code>uncaughtException</code> 事件捕获到异步调用中产生的异常，但是我们没办法返回 HTTP 500 异常响应给调用者。<br />调用者也只能一直hold住，直到请求超时。</p>
+
+<p>这是非常不好的做法，因为请求量很大，服务进程内存会暴涨，会导致进程超出内存限制，非正常退出。</p>
+
+<h2>改进</h2>
+
+<p>任何时候，如果服务器端出现异常，我们就应该返回HTTP 500 告诉调用者服务器异常了。</p>
+
+<p>异步调用产生的异常也应该如此处理。</p>
+
+<p><a href="http://blog.nodejs.org/2012/06/25/node-v0-8-0/"><a href='mailto:nodejs@0.8'>nodejs@0.8</a></a> 开始，增加了 <a href="http://nodejs.org/api/domain.html">domain</a> 模块来帮助我们更好地处理异常。</p>
+
+<p>让我们使用 <a href="https://github.com/baryshev/connect-domain">connect-domain</a> 来改进一下之前的 helloworld.js:</p>
+
+<pre class="prettyprint lang-js"><code>var connect = require('connect');
+var connectDomain = require('connect-domain');
+
+var app = connect()
+.use(connectDomain()) // just using connect-domian middleware
+.use(function (req, res, next) {
+  if (req.url === '/sync_error') {
+    throw new Error('sync error');
+  }
+  if (req.url === '/async_error') {
+    return process.nextTick(function () {
+      mk2.haha();
+    });
+  }
+  res.end('hello, ' + req.method + ' ' + req.url);
+});
+
+process.on('uncaughtException', function (err) {
+  console.error(err);
+});
+
+app.listen(1984);
+</code></pre>
+
+<p>再看看 <a href="https://github.com/baryshev/connect-domain">connect-domain</a> 的实现，非常简单:</p>
+
+<pre class="prettyprint lang-js"><code>var domain = require('domain');
+
+module.exports = function (handler) {
+  return function domainMiddleware(req, res, next) {
+    var reqDomain = domain.create();
+
+    res.on('close', function () {
+      reqDomain.dispose();
+    });
+
+    reqDomain.on('error', function (err) {
+      if (typeof handler === 'function') {
+        handler(err, req, res, next);
+      } else {
+        next(err);
+      }
+    });
+
+    reqDomain.run(next);
+  };
+};
+</code></pre>
+
+<p>重复刚才的 curl 测试:</p>
+
+<pre class="prettyprint lang-bash"><code>$ curl localhost:1984/foo
+hello, GET /foo
+
+$ curl localhost:1984/sync_error
+Error: sync error
+    at Object.handle ( .../app.js:33:11)
+    ....
+
+$ curl localhost:1984/async_error
+ReferenceError: mk2 is not defined
+    at .../app.js:24:7
+    at process.startup.processNextTick.process._tickCallback (node.js:244:9)
+</code></pre>
+
+<p>所有请求都有响应了。</p>
+
+<p>服务器进程的输出: </p>
+
+<pre class="prettyprint lang-bash"><code>{ [ReferenceError: mk2 is not defined]
+  domain_thrown: true,
+  domain: 
+   { domain: null,
+     _events: { error: [Function] },
+     _maxListeners: 10,
+     members: [] } }
+</code></pre>
+
+<p>奇怪的连 <code>uncaughtException</code> 事件也触发了。这按我的思维来说，不应该触发才对的。</p>
+
+<p>@isaacs 最新的提交已经修复此问题: <a href='https://github.com/joyent/node/issues/4375#issuecomment-11691069'>https://github.com/joyent/node/issues/4375#issuecomment-11691069</a> </p>
+
+<h2>性能对比</h2>
+
+<p>到底使用了 domain 模块，会影响多少性能呢？</p>
+
+<p>我写了一个对比 <code>http.createServer()</code>, <code>connect()</code> 和 <code>connect() with domain()</code> 的性能对比测试:</p>
+
+<pre class="prettyprint lang-bash"><code>$ git clone git://github.com/fengmk2/connect-domain.git
+$ cd connect-domain &amp;&amp; git checkout benchmark
+$ sh bench.sh
+</code></pre>
+
+<p>我的2010年的MBP 测试结果: node v0.8.16</p>
+
+<ul>
+<li><code>http.createServer()</code>: 8293.73 trans/sec</li>
+<li><code>connect()</code>: 7158.11 trans/sec , -13.7%</li>
+<li><code>connect() with domain</code>: 6128.33 trans/sec, -26.1%</li>
+</ul>
+
+<h2>总结</h2>
+
+<p>应该没人再说 <a href="http://nodejs.org">nodejs</a> 无法捕获异步调用中出现的异常了吧？</p>
+
+<h2>参考链接</h2>
+
+<ul>
+<li><a href="http://snmaynard.com/2012/12/21/node-error-handling/">Node.js error handling</a></li>
+<li><a href="http://nodejs.org/api/domain.html">domain module</a></li>
+<li><a href="https://github.com/baryshev/connect-domain">connect-domain</a></li>
+</ul>
+
+<h2>Benchmark results</h2>
+
+<p>server.js</p>
+
+<pre class="prettyprint lang-js"><code>var connectDomain = require('connect-domain');
+var connect = require('connect');
+var http = require('http');
+
+var helloworld = function (req, res, next) {
+  req.on('end', function () {
+    res.end('Hello world');
+  });
+};
+
+var app1 = http.createServer(helloworld);
+var app2 = connect(helloworld);
+var app3 = connect(connectDomain(), helloworld);
+
+app1.listen(9890);
+app2.listen(9891);
+app3.listen(9892);
+</code></pre>
+
+<pre class="prettyprint lang-bash"><code>$ sh bench.sh
+
+v0.8.16
+
+http.createServer() ...
+** SIEGE 2.72
+** Preparing 50 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:         160152 hits
+Availability:         100.00 %
+Elapsed time:          19.31 secs
+Data transferred:         1.68 MB
+Response time:            0.01 secs
+Transaction rate:      8293.73 trans/sec
+Throughput:           0.09 MB/sec
+Concurrency:           49.89
+Successful transactions:      160152
+Failed transactions:             0
+Longest transaction:          0.06
+Shortest transaction:         0.00
+
+connect() ...
+** SIEGE 2.72
+** Preparing 50 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:         143019 hits
+Availability:         100.00 %
+Elapsed time:          19.98 secs
+Data transferred:         1.50 MB
+Response time:            0.01 secs
+Transaction rate:      7158.11 trans/sec
+Throughput:           0.08 MB/sec
+Concurrency:           49.92
+Successful transactions:      143019
+Failed transactions:             0
+Longest transaction:          0.09
+Shortest transaction:         0.00
+
+connect() with connect-domain ...
+** SIEGE 2.72
+** Preparing 50 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:         122444 hits
+Availability:         100.00 %
+Elapsed time:          19.98 secs
+Data transferred:         1.28 MB
+Response time:            0.01 secs
+Transaction rate:      6128.33 trans/sec
+Throughput:           0.06 MB/sec
+Concurrency:           49.89
+Successful transactions:      122444
+Failed transactions:             0
+Longest transaction:          0.10
+Shortest transaction:         0.00
+</code></pre>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

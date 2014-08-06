@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>Nodejs中的并行IO调用</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>Nodejs中的并行IO调用</h1>
+
+<h2>并行IO调用</h2>
+
+<p>我们编写nodejs程序的时候，常常会遇到可以平行调用IO。<br />如果使用串行方式调用，会导致嵌套callback太多和抛弃了并行IO的优势。<br />于是，我们都会选择并行调用。</p>
+
+<h2>应用场景设定: 合并2个文本的内容，并输出</h2>
+
+<p>伪代码</p>
+
+<pre class="prettyprint"><code>print readFile(file1) + readFile(file2)
+</code></pre>
+
+<h2>计数器模式</h2>
+
+<p>最容易想到的方法就是使用计数器，记录是否全部IO都执行完了，然后一并获取结果。</p>
+
+<p>使用封装好的fork方法<br /><code>fork</code> come from <a href="http://stackoverflow.com/questions/4631774/coordinating-parallel-execution-in-node-js">Coordinating parallel execution in node.js</a>:</p>
+
+<pre class="prettyprint"><code>function fork(async_calls, shared_callback) {
+  var counter = async_calls.length;
+  var all_results = [];
+  function makeCallback (index) {
+    return function () {
+      counter --;
+      var results = [];
+      // we use the arguments object here because some callbacks 
+      // in Node pass in multiple arguments as result.
+      for (var i=0;i&lt;arguments.length;i++) {
+        results.push(arguments[i]);
+      }
+      all_results[index] = results;
+      if (counter == 0) {
+        shared_callback(all_results);
+      }
+    }
+  }
+
+  for (var i=0;i&lt;async_calls.length;i++) {
+    async_calls[i](makeCallback(i));
+  }
+}
+</code></pre>
+
+<h2>Currying the callback (<a href="http://dict.youdao.com/search?q=currying&amp;keyfrom=smartresult.dict#q%3Dcurrying%26keyfrom%3Dsmartresult.dict">函数柯里化?</a>)</h2>
+
+<h2>更多阅读</h2>
+
+<ul>
+<li><a href="http://bjouhier.wordpress.com/2011/04/04/currying-the-callback-or-the-essence-of-futures/">Currying the callback, or the essence of futures</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Currying">Currying</a></li>
+</ul>
+
+<h2>有爱</h2>
+
+<p>希望本文对你有用 ^_^</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

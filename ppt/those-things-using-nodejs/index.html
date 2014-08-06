@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Nodejs实践二三事</title>
+    
+    <meta name="description" content="A jQuery library for modern HTML presentations">
+    <meta name="author" content="Caleb Troughton">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    
+    <!-- Core and extension CSS files -->
+    <link rel="stylesheet" href="/js/deck.js/core/deck.core.css">
+    <link rel="stylesheet" href="/js/deck.js/extensions/goto/deck.goto.css">
+    <link rel="stylesheet" href="/js/deck.js/extensions/menu/deck.menu.css">
+    <link rel="stylesheet" href="/js/deck.js/extensions/navigation/deck.navigation.css">
+    <link rel="stylesheet" href="/js/deck.js/extensions/status/deck.status.css">
+    <link rel="stylesheet" href="/js/deck.js/extensions/hash/deck.hash.css">
+    
+    <!-- Theme CSS files (menu swaps these out) -->
+    <link rel="stylesheet" id="style-theme-link" href="/js/deck.js/themes/style/neon.css">
+    <link rel="stylesheet" id="transition-theme-link" href="/js/deck.js/themes/transition/horizontal-slide.css">
+    
+    <script src="/js/deck.js/modernizr.custom.js"></script>
+</head>
+
+<body class="deck-container">
+
+<div class="theme-menu" style="display:none;">
+    <h2>Themes</h2> 
+    
+    <label for="style-themes">Style:</label>
+    <select id="style-themes">
+        <option value="/js/deck.js/themes/style/web-2.0.css">Web 2.0</option>
+        <option value="/js/deck.js/themes/style/swiss.css">Swiss</option>
+        <option selected value="/js/deck.js/themes/style/neon.css">Neon</option>
+        <option value="">None</option>
+    </select>
+    
+    <label for="transition-themes">Transition:</label>
+    <select id="transition-themes">
+        <option selected value="/js/deck.js/themes/transition/horizontal-slide.css">Horizontal Slide</option>
+        <option value="/js/deck.js/themes/transition/vertical-slide.css">Vertical Slide</option>
+        <option value="/js/deck.js/themes/transition/fade.css">Fade</option>
+        <option value="">None</option>
+    </select>
+</div>
+
+<div class="slide">
+    <h1>Nodejs实践二三事</h1>
+</div>
+
+<div class="slide">
+    <h2>二三事</h2>
+    <ol>
+        <li>
+            <h3>HTTP请求的超时处理 (HTTP Request Timeout Handle)</h3>
+            <p>Nodejs不支持设置超时参数？怎样增加超时处理呢？为什么要处理这些呢？</p>
+        </li>
+        <li>
+            <h3>Stream & 读写大文件</h3>
+            <p>Stream是干什么的？V8有1G堆栈内存限制，那么Nodejs该如何读写大文件？</p>
+        </li>
+        <li>
+            <h3>串、并行的异步调用</h3>
+            <p>什么？异步调用还有串行和并行？Callback、Callback ... and Callback</p>
+        </li>
+    </ol>
+    <h2>Who am I?</h2>
+    <h3>Twitter: @fengmk2, Weibo: @Python发烧友, FaWave</h3>
+</div>
+
+<div class="slide">
+    <h1 style="font-size: 76px;">HTTP请求的超时处理</h1>
+</div>
+
+<div class="slide">
+    <h2>基本HTTP请求</h2>
+    <p>Nodejs中请求一个HTTP URL非常方便：<code><a href="http://nodejs.org/docs/v0.5.5/api/http.html#http.request" target="_blank">http.request</a></code>，
+    封装url get方法：
+    </p>
+    <pre style="font-size: 22px;"><code>var http = require('http')
+  , parse = require('url').parse;
+function urlget(url, callback) {
+    var info = parse(url)
+      , path = info.pathname + (info.search || '')
+      , options = { host: info.hostname, 
+            port: info.port || 80, 
+            path: path, 
+            method: 'GET' };
+    var req = http.request(options, function(res) {
+    </code></pre>
+</div>
+
+<div class="slide">
+    <pre style="font-size: 20px;"><code>    var req = http.request(options, function(res) {
+        var chunks = [], length = 0;
+        res.on('data', function(chunk) {
+            length += chunk.length;
+            chunks.push(chunk);
+        }).on('end', function() {
+            var data = new Buffer(length), pos = 0
+              , l = chunks.length;
+            for(var i = 0; i &lt; l; i++) {
+                chunks[i].copy(data, pos);
+                pos += chunks[i].length;
+            }
+            res.body = data;
+            callback(null, res);
+        }).on('error', function(err) {
+            callback(err, res);
+        });
+    }).on('error', function(err) {
+        callback(err);
+    });
+    req.end();
+};</code></pre>
+</div>
+
+<div class="slide">
+    <h2>请求正常的URL</h2>
+    <p>一般来说，urlget都能很好地按我们想象的方式正常工作：</p>
+    <pre style="font-size: 22px;"><code>var good_url = 'http://www.google.com/';
+urlget(good_url, function(err, res) {
+    console.log('\nGET', good_url);
+    if(err) {
+        console.log('error:', err, '\nHeaders:\n', 
+            res ? res.headers : null);
+    } else {
+        console.log('Headers:\n', res.headers, 
+            '\nBody:\n', res.body.toString());
+    }
+});
+    </code></pre>
+</div>
+
+<div class="slide">
+    <h2>如果请求的URL响应时间很长呢？</h2>
+    <p>例如一些被墙的服务，一些耗时不稳定的服务。即使是你自己的服务，也会有不稳定的时候。</p>
+    <pre style="font-size: 22px;"><code>var timeout_url = <code style="color:yellow;">'http://t.co/'</code>;
+urlget(timeout_url, function(err, res) {
+    console.log('\nGET', timeout_url);
+    if(err) {
+        console.log('error:', err, '\nResponse:\n', 
+            res ? res.headers : null);
+    } else {
+        console.log('Headers:\n', res.headers, 
+            '\nBody:\n', res.body.toString());
+    }
+});</code></pre>
+    <h2>t.co, bit.ly 感谢GFW</h2>
+</div>
+
+<div class="slide">
+    <h2>Request Timeout: 75秒后超时了</h2>
+    <p>等不及了，请求连接超时(Request timeout)异常触发，这是我本机之前的测试结果：</p>
+    <pre style="font-size: 20px;"><code>GET http://t.co/
+75584
+error: { stack: [Getter/Setter],
+  arguments: undefined,
+  type: undefined,
+  message: <code style="color:yellow;">'ETIMEDOUT, Operation timed out</code>',
+  errno: 60,
+  code: 'ETIMEDOUT',
+  syscall: 'connect' } 
+Response:
+ null
+    </code></pre>
+    <p>我能自己设置超时时间吗？很抱歉，在Nodejs文档搜索得到的结果是：</p>
+    <h3>404 Not Found</h3>
+    <p>不会吧，这会白白浪费生命啊，自己掌控不了很不自在啊。。。</p>
+</div>
+<div class="slide">
+    <blockquote cite="http://movie.douban.com/subject/5422105/">
+      <p>我的命，我自己操盘！</p>
+      <p><cite><a href="http://movie.douban.com/subject/5422105/" target="_blank">《窃听风云2》</a></cite></p>
+    </blockquote>
+    <img src="wocao.jpg" />
+</div>
+<div class="slide">
+    <h2>为urlget增加请求超时</h2>
+    <p><a href="http://nodejs.org/docs/v0.5.5/api/http.html#http.request" target="_blank">http.request</a>
+    即使没有提供参数让我们设置超时，但是人类已经无法阻止<a href="http://nodejs.org/docs/v0.5.5/api/timers.html#setTimeout" target="_blank">setTimeout</a>的出现。
+    </p>
+    <p>没错，就是<a href="http://nodejs.org/docs/v0.5.5/api/timers.html#setTimeout" target="_blank">setTimeout</a>，
+    它一直都在：
+    </p>
+    <pre style="font-size: 22px;"><code>var req = null, request_timeout = null;
+request_timeout = setTimeout(function() {
+    request_timeout = null;
+    // 终止请求
+    req.abort();
+    // 回调返回超时异常
+    callback(new Error('Request timeout'));
+}, 5000);
+    </code></pre>
+    <h3>增加请求超时后，urlget完整代码会是怎样的呢？</h3>
+</div>
+<div class="slide">
+    <pre style="font-size: 22px;"><code>function urlget(url, callback) {
+    // ... 此处忽略相同部分的代码 ...
+    var req = null, <code style="color:yellow;">request_timeout = null;
+    request_timeout = setTimeout(function() {
+        request_timeout = null; 
+        req.abort();
+        callback(new Error('Request timeout'));
+    }, 5000);</code>
+    req = http.request(options, function(res) {
+        <code style="color:yellow;">clearTimeout(request_timeout);</code>
+        var chunks = [], length = 0;
+        // ... 此处忽略相同部分的代码 ...
+    }).on('error', function(err) {
+        <code style="color:red;">// node0.5.x及以上，
+        // req.abort()会触发一次“socket hang up”
+        // 所以需要判断是否超时</code>
+        <code style="color:yellow;">if(request_timeout) {
+            clearTimeout(request_timeout);
+            callback(err);
+        }</code>
+    });
+    req.end();
+};  </code></pre>
+</div>
+<div class="slide">
+    <h2>什么！？还有响应超时！</h2>
+    <p>处理请求超时，还有的情况是响应返回时间过长的问题，先看看模拟响应时间过长的服务器端代码：</p>
+    <pre style="font-size: 24px;"><code>var http = require('http')
+  , parse = require('url').parse;
+http.createServer(function(req, res) {
+    var info = parse(req.url, true);
+    var s = +info.query.s;
+    // 响应第一批数据
+    <code style="color:red;">res.write('Please waitting for ' 
+        + s + ' seconds...');</code>
+    setTimeout(function() {
+        // 模拟响应处理时间
+        <code style="color:yellow;">res.end(s + ' seconds, url: ' + req.url);</code>
+    }, s * 1000);
+}).listen(1984);
+console.log('Server http://localhost:1984/');</code></pre>
+</div>
+<div class="slide">
+    <h2>响应超时了！</h2>
+    <p>从代码中可以看到，一个请求过来，会马上响应第一批数据，
+    接着在参数指定的时间后响应剩余的数据。对于这种情况，我们仅仅有请求超时还是不够的：</p>
+    <pre style="font-size: 22px;"><code>var url = 'http://localhost:1984/foo?s=10';
+urlget(url, function(err, res) {
+    if(err) {
+        console.log('error:', err, 
+            '\nHeaders:\n', res ? res.headers);
+    } else {
+        console.log('Headers:\n', res.headers, 
+            '\nBody:\n', res.body.toString());
+    }
+}); </code></pre>
+</div>
+<div class="slide">
+    <pre style="font-size: 18px;"><code>function urlget(url, callback) {
+    // ... 此处忽略相同部分的代码 ...
+    req = http.request(options, function(res) {
+        clearTimeout(request_timeout);
+        var chunks = [], length = 0, <code style="color:yellow;">response_timeout = null;
+        response_timeout = setTimeout(function() {
+            response_timeout = null;
+            req.abort();
+            callback(new Error('Response timeout'));
+        }, 5000);</code>
+        res.on('data', function(chunk) {
+            length += chunk.length;
+            chunks.push(chunk);
+        }).on('end', function() {
+            <code style="color:yellow;">if(response_timeout) {
+                // node0.5.x及以上：req.abort()会触发res的end事件
+                clearTimeout(response_timeout);</code>
+                var data = new Buffer(length);
+                // ... 此处忽略相同部分的代码 ...
+            <code style="color:yellow;">}</code>
+        }).on('error', function(err) {
+            // ... 此处忽略相同部分的代码 ...
+        })<code style="color:yellow;">.on('aborted', function() {
+            if(response_timeout) {
+                // node0.5.x及以上：当res有效的时候，
+                // req.abort()会触发res的aborted事件
+                callback(new Error('Response aborted'), res);
+            }
+        })</code>;
+    }).on('error', function(err) {
+        // ... 此处忽略相同部分的代码 ...</code></pre>
+</div>
+<div class="slide">
+    <h2>请求超时(Request Timeout)：</h2>
+    <p>HTTP客户端发起请求到接受到HTTP服务器端返回响应头的这段时间，
+       如果超出设定时间，则表示请求超时。</p>
+    <p>示例代码：<a href="./http-request-with-timeout-demo.js" target="_blank">http-request-with-timeout-demo.js</a></p>
+    <h2>响应超时(Response Timeout)：</h2>
+    <p>HTTP服务器端开始发送响应数据到HTTP客户端接收全部数据的这段时间，
+       如果超出设定时间，则表示响应超时。</p>
+    <p>示例代码：<a href="./http-request-with-timeout-all-demo.js" target="_blank">http-request-with-timeout-all-demo.js</a></p>
+    <h2>尼玛，超时伤不起！为什么要处理这些？</h2>
+    <p>随便请求一个URL确实很容易，但是你想让你的代码健壮性足够好，你必须处理每一个细节。</p>
+    <p>一个挂起的socket可能你无法注意到，但是瞬间100w个socket挂起了，你的服务器就无法控制了。</p>
+</div>
+
+<div class="slide">
+    <h2>使用这么多定时器，会不会有性能问题？</h2>
+    <p>为了解决这个疑惑，就得深入源代码了，查看<a href="https://github.com/joyent/node/blob/master/lib/timers_legacy.js">lib/timers_legacy.js</a>。
+    从代码中会看到这段注释：
+    </p>
+    <pre><code style="font-size: 18px;">// IDLE TIMEOUTS
+//
+// Because often many sockets will have the same idle timeout we will not
+// use one timeout watcher per item. It is too much overhead.  Instead
+// we'll use a single watcher for all sockets with the same timeout value
+// and a linked list. This technique is described in the libev manual:
+// http://pod.tst.eu/http://cvs.schmorp.de/libev/ev.pod#Be_smart_about_timeouts</code></pre>
+    <p>Nodejs已经知道会出现大量定时器的情景，于是利用单定时器和双向链表实现了一个非常高效的方案。</p>
+    <p>像我示例中，超时时间都是固定的5秒和10秒，就算同时发起100000个请求，也只是使用一个Timer进行处理。
+    因为使用双向链表，从链接remove的时间复杂度是O(1)，所以clearTimeout也是非常高效的。</p>
+</div>
+
+<div class="slide">
+    <h1>Stream <br/> & <br/>读写大文件</h1>
+</div>
+<div class="slide">
+    <h2>Stream</h2>
+    <h3>流(Stream)，流窜在Nodejs的各个角落。</h3>
+    <h3><a href="http://nodejs.org/docs/v0.5.5/api/streams.html" target="_blank">Stream</a>有3种：只读，只写，读写。</h3>
+    <h3>Stream继承了EventEmitter，正是Stream抽象出各种标准的事件，让文件流，网络流等有了标准的处理方式。</h3>
+    <h3>Stream可以说是Nodejs事件驱动编程绝好范例。</h3>
+    <h2>读写大文件 & 内存限制</h2>
+    <h3>由于V8 1G堆栈内存限制问题，不要直接使用<a href="http://nodejs.org/docs/v0.5.5/api/fs.html#fs.readFile" target="_blank">fs.readFile</a>和<a href="http://nodejs.org/docs/v0.5.5/api/fs.html#fs.writeFile" target="_blank">fs.writeFile</a>
+    进行大文件读写操作。</h3>
+    <h3>必须使用Stream版本：<a href="http://nodejs.org/docs/v0.5.5/api/fs.html#fs.ReadStream" target="_blank">fs.ReadStream</a>和<a href="http://nodejs.org/docs/v0.5.5/api/fs.html#fs.WriteStream" target="_blank">fs.WriteStream</a>来对文件进行读写操作。</h3>
+</div>
+
+<div class="slide">
+    <h2>上传大文件：fs.ReadStream</h2>
+    <h3>创建只读文件流</h3>
+    <pre><code>var readstream = fs.createReadStream(uploadfile);</code></pre>
+    <h3>通过监听文件的data事件，获取数据，就像它自己会吐数据出来一样
+    而不用自己去调用read方法，一点一点地去取数据</h3>
+    <pre><code>readstream.on('data', function(chunk) {
+    console.log('write', chunk.length);
+    // 向服务器发送数据
+    req.write(chunk);
+});</code></pre>
+    <h3>通过end事件可以判断文件数据是否全部读取完了</h3>
+    <pre><code>readstream.on('end', function() {
+    req.end();
+});</code></pre>
+</div>
+
+<div class="slide">
+    <h2>Pipe：将水管连接起来</h2>
+    <p>嫌既监听data又要监听end事件很麻烦？那就试试<a href="http://nodejs.org/docs/v0.5.5/api/streams.html#stream.pipe" target="_blank">pipe</a>吧，简直像安装水管那么简单。</p>
+    
+    <h3>直接使用pipe，想象两端水管，我们只需将他们按照水流方向连接起来即可（吐数据 ==> 收数据）
+    当数据读取完，会自动触发req.end()</h3>
+    <pre style="font-size: 24px;"><code>readstream.pipe(req);</code></pre>
+    <h3>你没眼花，就是一行代码这么简单，所有数据就会自动发出去了。</h3>
+    <h2>:) 呵呵，原来程序员也是水电工。</h2>
+    <h2>完整示例代码</h2>
+    <p>通过readStream读取大文件并发送到网络中去：<a href="./upload_file.js" target="_blank">upload_file.js</a></p>
+</div>
+
+<div class="slide">
+    <h2>下载大文件：fs.WriteStream</h2>
+    <h3>创建只写文件流</h3>
+    <pre><code>var writestream = fs.createWriteStream(savefile);</code></pre>
+    <h3>继续做水电工，安装水管，还是以水流的方向安装<br/>
+    （吐数据 ==> 收数据）
+        这次网络流变成吐数据，文件流变成收数据</h3>
+    <pre><code>res.pipe(writestream);</code></pre>
+    <p>PS：非pipe方式请发挥你的水电工想象力。</p>
+    <h3>文件句柄已关闭，回调结果</h3>
+    <pre><code>writestream.on('close', function() {
+    callback(null, res);
+});</code></pre>
+    <p>通过WriteStream接收网络中得到的数据：<a href="./download_file.js" target="_blank">download_file.js</a></p>
+</div>
+
+<div class="slide">
+    <h2>程序员水电工：Pipe</h2>
+    <img src="shuidiangong.jpg" />
+</div>
+
+<div class="slide">
+    <h1>串、并行的异步调用</h1>
+</div>
+
+<div class="slide">
+    <h2>串行调用</h2>
+    <h3>嵌套Callback</h3>
+    <pre style="font-size: 24px;"><code><code style="color:yellow;">db.users.findOne</code>({name: 'foo'}, function(err, user) {
+    if(err) {
+        return next(err);
+    }
+    user.visit_count += 1;
+    var updates = {visit_count: user.visit_count};
+    <code style="color:yellow;">db.users.update</code>({_id: user._id}, {$set: updates}, 
+            function(err) {
+        if(err) {
+            return next(err);
+        }
+        res.render('profile', {user: user});
+    });
+});</code></pre>
+</div>
+
+<div class="slide">
+    <h2>并行调用</h2>
+    <h3>需要计数器辅助判断异步请求是否都完成了</h3>
+    <pre style="font-size: 24px;"><code>var counter = 2, post = null, comments = null;
+function handle() {
+    <code style="color:yellow;">if(--counter === 0) {</code>
+        callback(post, comments);
+    }
+};
+<code style="color:yellow;">db.posts.findOne</code>({_id: post_id}, function(err, p) {
+    post = p;
+    handle();
+});
+<code style="color:yellow;">db.comments.find</code>({pid: post_id}).toArray(function(err, cms) {
+    comments = cms;
+    handle();
+});</code></pre>
+</div>
+
+<div class="slide">
+    <h2>Callback, Callback, Callback and Callback</h2>
+    <h3>你肯定见过这样的代码</h3>
+    <pre style="font-size: 26px;"><code>
+foo(bar, function(err, data) {
+    // ... callback again again and again
+    // ...
+                            })
+                    // ...
+                })
+            })
+        })
+    })
+});</code></pre>
+</div>
+
+<div class="slide">
+    <h2>事件驱动 | EventProxy</h2>
+    <h3>将之前的串行和并行调用都混在一起</h3>
+    <pre style="font-size: 20px;"><code>var ep = new EventProxy();
+ep.assgin('user', 'post', 'comments', function(user, post, comments) {
+    callback(user, post, comments);
+});
+ep.on('user', function(user) {
+    <code style="color:yellow;">db.users.update(...);</code>
+});
+<code style="color:yellow;">db.users.findOne</code>({name: 'foo'}, function(err, user) {
+    ep.emit('user', user);
+});
+<code style="color:yellow;">db.posts.findOne</code>({_id: post_id}, function(err, post) {
+    ep.emit('post', post);
+});
+<code style="color:yellow;">db.comments.find</code>({pid: post_id})
+        .toArray(function(err, comments) {
+    ep.emit('comments', comments);
+});</code></pre>
+    <h2>更多关注 @朴灵 的分享</h2>
+</div>
+
+<div class="slide">
+    <h1>Q & A <br /> 知乎者也</h1>
+</div>
+
+<div class="slide">
+    <h1>next("Thanks ^_^")</h1>
+</div>
+
+<!-- 
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+-->
+ 
+<p class="deck-status">
+    <span class="deck-status-current"></span>
+    /
+    <span class="deck-status-total"></span>
+</p>
+
+<form action="." method="get" class="goto-form">
+    <label for="goto-slide">Go to slide:</label>
+    <input type="number" name="slidenum" id="goto-slide">
+    <input type="submit" value="Go">
+</form>
+
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+<script src="/js/jquery-1.7.min.js"></script>
+
+<!-- Deck Core and extensions -->
+<script src="/js/deck.js/core/deck.core.js"></script>
+<script src="/js/deck.js/extensions/menu/deck.menu.js"></script>
+<script src="/js/deck.js/extensions/goto/deck.goto.js"></script>
+<script src="/js/deck.js/extensions/status/deck.status.js"></script>
+<script src="/js/deck.js/extensions/navigation/deck.navigation.js"></script>
+<script src="/js/deck.js/extensions/hash/deck.hash.js"></script>
+
+<!-- Specific to this page -->
+<script src="/js/deck.js/introduction/introduction.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>快速搭建 Node.js 开发环境以及加速 npm</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>快速搭建 Node.js 开发环境以及加速 npm</h1>
+
+<p>在公交车上刷微博，还是有很多同学在咨询:</p>
+
+<ul>
+<li>如何快速搭建 <a href="http://nodejs.org">node</a> 开发环境</li>
+<li><a href="https://www.npmjs.org">npm</a> 超慢</li>
+<li><a href="https://github.com">github</a> 无法打开的问题</li>
+</ul>
+
+<p>于是我觉得应该写一篇文章解答所有这些起步问题，让新同学也能顺顺利利入门。</p>
+
+<h2>快速搭建 <a href="http://nodejs.org">Node.js</a> 开发环境</h2>
+
+<p>如果你想长期做 <a href="http://nodejs.org">node</a> 开发, 或者想快速更新 <a href="http://nodejs.org">node</a> 版本, 或者想快速切换 <a href="http://nodejs.org">node</a> 版本,<br />那么请使用 <a href="https://github.com/creationix/nvm">nvm</a> 来安装你的 <a href="http://nodejs.org">node</a> 开发环境, 保持系统的干净.</p>
+
+<h3>git clone <a href="https://github.com/creationix/nvm">nvm</a></h3>
+
+<p>直接从 github clone nvm 到本地, 这里假设大家都使用 <code>~/git</code> 目录存放 git 项目:</p>
+
+<pre class="prettyprint lang-bash"><code>$ cd ~/git
+$ git clone <a href='https://github.com/creationix/nvm.git'>https://github.com/creationix/nvm.git</a>
+</code></pre>
+
+<p>配置终端启动时自动执行 <code>source ~/git/nvm/nvm.sh</code>,<br />在 <code>~/.bashrc</code>, <code>~/.bash_profile</code>, <code>~/.profile</code>, 或者 <code>~/.zshrc</code> 文件添加以下命令:</p>
+
+<pre class="prettyprint lang-bash"><code>source ~/git/nvm/nvm.sh
+</code></pre>
+
+<p>重新打开你的终端, 输入 <code>nvm</code></p>
+
+<pre class="prettyprint lang-bash"><code>$ nvm
+
+Node Version Manager
+
+Usage:
+    nvm help                    Show this message
+    nvm --version               Print out the latest released version of nvm
+    nvm install [-s] &lt;version&gt;  Download and install a &lt;version&gt;, [-s] from source
+    nvm uninstall &lt;version&gt;     Uninstall a version
+    nvm use &lt;version&gt;           Modify PATH to use &lt;version&gt;
+    nvm run &lt;version&gt; [&lt;args&gt;]  Run &lt;version&gt; with &lt;args&gt; as arguments
+    nvm current                 Display currently activated version
+    nvm ls                      List installed versions
+    nvm ls &lt;version&gt;            List versions matching a given description
+    nvm ls-remote               List remote versions available for install
+    nvm deactivate              Undo effects of NVM on current shell
+    nvm alias [&lt;pattern&gt;]       Show all aliases beginning with &lt;pattern&gt;
+    nvm alias &lt;name&gt; &lt;version&gt;  Set an alias named &lt;name&gt; pointing to &lt;version&gt;
+    nvm unalias &lt;name&gt;          Deletes the alias named &lt;name&gt;
+    nvm copy-packages &lt;version&gt; Install global NPM packages contained in &lt;version&gt; to current version
+
+Example:
+    nvm install v0.10.24        Install a specific version number
+    nvm use 0.10                Use the latest available 0.10.x release
+    nvm run 0.10.24 myApp.js    Run myApp.js using node v0.10.24
+    nvm alias default 0.10.24   Set default node version on a shell
+
+Note:
+    to remove, delete or uninstall nvm - just remove ~/.nvm, ~/.npm and ~/.bower folders
+</code></pre>
+
+<h3>通过 <a href="https://github.com/creationix/nvm">nvm</a> 安装任意版本的 <a href="http://nodejs.org">node</a></h3>
+
+<p>nvm 默认是从 <a href='http://nodejs.org/dist/'>http://nodejs.org/dist/</a> 下载的, 国外服务器, 必然很慢,<br />好在 nvm 以及支持从镜像服务器下载包, 于是我们可以方便地从七牛的 node dist 镜像下载:</p>
+
+<pre class="prettyprint lang-bash"><code>$ NVM_NODEJS_ORG_MIRROR=<a href='http://dist.u.qiniudn.com'>http://dist.u.qiniudn.com</a> nvm install 0.11.11
+</code></pre>
+
+<p>于是你就会看到一段非常快速进度条:</p>
+
+<pre class="prettyprint "><code><h6>################################################################## 100.0%</h6>
+
+Now using node v0.11.11
+</code></pre>
+
+<p>如果你不想每次都输入环境变量 <code>NVM_NODEJS_ORG_MIRROR</code>, 那么我建议你加入到 <code>.bashrc</code> 文件中:</p>
+
+<pre class="prettyprint lang-bash"><code><h1>nvm</h1>
+
+export NVM_NODEJS_ORG_MIRROR=<a href='http://dist.u.qiniudn.com'>http://dist.u.qiniudn.com</a>
+source ~/git/nvm/nvm.sh
+</code></pre>
+
+<p>然后你可以继续非常方便地安装各个版本的 node 了, 你可以查看一下你当前已经安装的版本:</p>
+
+<pre class="prettyprint "><code>$ nvm ls
+         nvm
+     v0.8.26
+    v0.10.26
+    v0.11.11
+-&gt;  v0.11.12
+</code></pre>
+
+<h2>使用 <a href="http://cnpmjs.org">cnpm</a> 加速 <a href="https://www.npmjs.org">npm</a></h2>
+
+<p>同理 nvm , npm 默认是从国外的源获取和下载包信息, 不慢才奇怪.<br />可以通过简单的 <code>---registry</code> 参数, 使用国内的镜像 <a href='http://r.cnpmjs.org'>http://r.cnpmjs.org</a> :</p>
+
+<pre class="prettyprint lang-bash"><code>$ npm --registry=<a href='http://r.cnpmjs.org'>http://r.cnpmjs.org</a> install koa
+</code></pre>
+
+<p>于是屏幕又哗啦哗啦地一大片输出:</p>
+
+<pre class="prettyprint lang-bash"><code>$ npm --registry=<a href='http://r.cnpmjs.org'>http://r.cnpmjs.org</a> install koa
+npm http GET <a href='http://r.cnpmjs.org/koa'>http://r.cnpmjs.org/koa</a>
+npm http 200 <a href='http://r.cnpmjs.org/koa'>http://r.cnpmjs.org/koa</a>
+npm http GET <a href='http://r.cnpmjs.org/koa/download/koa-0.5.2.tgz'>http://r.cnpmjs.org/koa/download/koa-0.5.2.tgz</a>
+npm http 200 <a href='http://r.cnpmjs.org/koa/download/koa-0.5.2.tgz'>http://r.cnpmjs.org/koa/download/koa-0.5.2.tgz</a>
+npm http GET <a href='http://r.cnpmjs.org/escape-html'>http://r.cnpmjs.org/escape-html</a>
+npm http GET <a href='http://r.cnpmjs.org/statuses'>http://r.cnpmjs.org/statuses</a>
+...
+npm http 200 <a href='http://r.cnpmjs.org/negotiator'>http://r.cnpmjs.org/negotiator</a>
+npm http 200 <a href='http://r.cnpmjs.org/keygrip'>http://r.cnpmjs.org/keygrip</a>
+<a href='mailto:koa@0.5.2'>koa@0.5.2</a> node_modules/koa
+├── <a href='mailto:koa-compose@2.2.0'>koa-compose@2.2.0</a>
+├── <a href='mailto:statuses@1.0.2'>statuses@1.0.2</a>
+├── <a href='mailto:finished@1.1.1'>finished@1.1.1</a>
+├── <a href='mailto:escape-html@1.0.1'>escape-html@1.0.1</a>
+├── <a href='mailto:only@0.0.2'>only@0.0.2</a>
+├── <a href='mailto:debug@0.8.0'>debug@0.8.0</a>
+├── <a href='mailto:fresh@0.2.2'>fresh@0.2.2</a>
+├── <a href='mailto:type-is@1.0.1'>type-is@1.0.1</a>
+├── <a href='mailto:delegates@0.0.3'>delegates@0.0.3</a>
+├── <a href='mailto:mime@1.2.11'>mime@1.2.11</a>
+├── <a href='mailto:co@3.0.5'>co@3.0.5</a>
+├── <a href='mailto:accepts@1.0.1'>accepts@1.0.1</a> (<a href='mailto:negotiator@0.4.2'>negotiator@0.4.2</a>)
+└── <a href='mailto:cookies@0.4.0'>cookies@0.4.0</a> (<a href='mailto:keygrip@1.0.0'>keygrip@1.0.0</a>)
+</code></pre>
+
+<p>但是毕竟镜像跟官方的 npm 源还是会有一个同步时间差异, 目前 cnpm 的默认同步时间间隔是 15 分钟.<br />如果你是模块发布者, 或者你想马上同步一个模块, 那么推荐你安装 <a href="http://cnpmjs.org">cnpm</a> cli:</p>
+
+<pre class="prettyprint lang-bash"><code>$ npm --registry=<a href='http://r.cnpmjs.org'>http://r.cnpmjs.org</a> install cnpm -g
+</code></pre>
+
+<p>通过 cnpm 命令行, 你可以快速同步任意模块:</p>
+
+<pre class="prettyprint lang-bash"><code>$ cnpm sync koa connect mocha
+</code></pre>
+
+<p>呃, 我就是不想安装 cnpm cli 怎么办? 哈哈, 早就想到你会这么懒了, 于是我们还有一个 web 页面:</p>
+
+<p>例如我想马上同步 koa, 直接打开浏览器: <a href='http://cnpmjs.org/sync/koa'>http://cnpmjs.org/sync/koa</a></p>
+
+<p>或者你是命令行控, 通过 open 命令打开:</p>
+
+<pre class="prettyprint lang-bash"><code>$ open <a href='http://cnpmjs.org/sync/koa'>http://cnpmjs.org/sync/koa</a>
+</code></pre>
+
+<p>如果你安装的模块依赖了 C++ 模块, 需要编译, 肯定会通过 <a href="https://github.com/TooTallNate/node-gyp">node-gyp</a> 来编译,<br /><a href="https://github.com/TooTallNate/node-gyp">node-gyp</a> 在第一次编译的时候, 需要依赖 <a href="http://nodejs.org">node</a> 源代码, 于是又会去 node dist 下载,<br />于是大家又会吐槽, 怎么 npm 安装这么慢...</p>
+
+<p>好吧, 于是又要提到 <code>--disturl</code> 参数, 通过七牛的镜像来下载:</p>
+
+<pre class="prettyprint lang-bash"><code>$ npm --registry=<a href='http://r.cnpmjs.org'>http://r.cnpmjs.org</a> --disturl=<a href='http://dist.u.qiniudn.com'>http://dist.u.qiniudn.com</a> install microtime
+</code></pre>
+
+<p>再次要提到 cnpm cli, 它已经默认将 <code>--registry</code> 和 <code>--disturl</code> 都配置好了, 谁用谁知道<br />.<br />写到这里, 就更快疑惑那些不想安装 cnpm cli 又吐槽 npm 慢的同学是基于什么考虑不在本地安装一个 cnpm 呢?</p>
+
+<h2>github 好慢</h2>
+
+<p>好了, 看到这里大家应该对 node 和 npm 已经没有速度慢的问题了.</p>
+
+<p>github 慢, 或者说是它的资源 host 被堵而已, 大家可以通过简单的 hosts 映射解决:</p>
+
+<pre class="prettyprint "><code>185.31.16.184 github.global.ssl.fastly.net
+</code></pre>
+
+<h2>为何最近访问国外网站这么慢?</h2>
+
+<p>听说是 APCN2 又断了: <a href='http://weibo.com/1415338244/ACTYkq8xK'>http://weibo.com/1415338244/ACTYkq8xK</a></p>
+
+<p><img src="http://ww4.sinaimg.cn/large/545c5904gw1eeu7h63hxvj20qs0mp78p.jpg" alt="1" title="" /></p>
+
+<h2>有爱</h2>
+
+<p>希望文本对你有用. :)</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

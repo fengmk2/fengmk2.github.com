@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>如何在express使用doT模板引擎</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>如何在express使用doT模板引擎</h1>
+
+<p>本文假设你已经使用过doT和<a href="http://expressjs.com">express</a>，并知道它的模板语法。</p>
+
+<p>js的模板引擎实在太多了，幸好 <a href="http://jsperf.com/dom-vs-innerhtml-based-templating/143">JavaScript template language shootoff</a> 这篇不断被更新的文章，帮我们用真实的测试结果，得到了目前最快的模板引擎<a href="https://github.com/olado/doT">doT</a></p>
+
+<h2>安装dot</h2>
+
+<pre class="prettyprint"><code>$ sudo npm install dot
+</code></pre>
+
+<h2>让express使用dot</h2>
+
+<p>安装express的模板引擎约定，引擎必须有一个compile方法，接受str和options参数，返回一个function对象即可，接口大致如下：</p>
+
+<pre class="prettyprint"><code>exports.compile = function(str, options) {
+    // compile template str
+    // return function
+}
+</code></pre>
+
+<p>显然，只需要实现compile接口即可</p>
+
+<pre class="prettyprint"><code>// dot.express.js
+var dot = require('dot');
+
+exports.compile = function(str, options) {
+    return dot.template(str);
+};
+</code></pre>
+
+<p>在express使用dot.express.js</p>
+
+<pre class="prettyprint"><code>var dot_express = require('dot.express');
+
+app.set("view engine", "html");
+app.register(".html", dot_express);
+
+// render
+app.get('/', function(req, res, next) {
+    res.render('index', {world: 'world'});
+});
+</code></pre>
+
+<h2>更简约的方式</h2>
+
+<pre class="prettyprint"><code>var dot = require('dot');
+
+app.set("view engine", "html");
+app.register(".html", {
+    compile: function(str) {
+        return dot.template(str);
+    }
+});
+</code></pre>
+
+<h2>让你的html模板文件也通过智能提示校验</h2>
+
+<p>dot默认的定界符是 {{ 和 }}，这样模板文件会如下</p>
+
+<pre class="prettyprint"><code>// index.html
+&lt;p&gt;hello {{! word }}&lt;/p&gt;
+</code></pre>
+
+<p>这样，肯定不能通过HTML智能提示校验<br />参考<a href="http://www.kuwata-lab.com/tenjin/">tenjin</a>的做法，将定界符修改为能通过智能提示校验的即可</p>
+
+<pre class="prettyprint"><code>// index.js
+dot.templateSettings.begin = '&lt;?js';
+dot.templateSettings.end = '?&gt;';
+
+// index.html
+&lt;p&gt;hello &lt;?js! word ?&gt;&lt;/p&gt;
+</code></pre>
+
+<script src="https://gist.github.com/944470.js"> </script>
+
+<h2>'view cache' MUST enabled!</h2>
+
+<p>线上环境必须开启'view cache'，因为express的view会使用fs.statSync检测模板是否存在，如果不开启缓存，则每次都会同步检测和加载模板，整个web的性能就完蛋了。</p>
+
+<pre class="prettyprint"><code>app.set('view cache', true);
+</code></pre>
+
+<h2>有爱</h2>
+
+<p>希望本文对你有用 ^_^</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

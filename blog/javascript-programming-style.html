@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
+  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>Javascript Programming Style</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>Javascript Programming Style</h1>
+
+<h2>为什么要有编程风格</h2>
+
+<p>好的编程风格有助于写出<code>质量更高</code>, <code>错误更少</code>, <code>更易于维护</code>的程序.</p>
+
+<p>好的编程风格是一种能够清晰表达你的意图的风格。</p>
+
+<h2>规则</h2>
+
+<h3>规则1</h3>
+
+<p>表示区块起首的大括号，不要另起一行。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>block
+{
+  ...
+}
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>block {
+  ...
+}
+</code></pre>
+
+<h3>规则2</h3>
+
+<p>调用函数的时候，函数名与左括号之间没有空格。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>foo (bar);
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>foo(bar);
+</code></pre>
+
+<h3>规则3</h3>
+
+<p>函数名与参数序列之间，没有空格。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>function foo (b) { ... }
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>function foo(b) { ... }
+</code></pre>
+
+<h3>规则4</h3>
+
+<p>所有其他语法元素与左括号之间，都有一个空格。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>return(a+b);
+
+if(a === 0) { ... }
+
+function(x) { ... }
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>return (a+b);
+
+if (a === 0) { ... }
+
+function (x) {...}
+</code></pre>
+
+<h3>规则5</h3>
+
+<p>不要省略句末的分号。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>var a = 1
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>var a = 1;
+</code></pre>
+
+<h3>规则6</h3>
+
+<p>不要使用<code>with</code>语句。</p>
+
+<h3>规则7</h3>
+
+<p>不要使用"相等"（==）运算符，只使用"严格相等"（===）运算符。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>if (a == 0) { ... }
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>if (a === 0) { ... }
+</code></pre>
+
+<h3>规则8</h3>
+
+<p>不要将不同目的的语句，合并成一行。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>if (a = b) { ... }
+
+var a = b = 0;
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>a = b;
+if (a) { ... }
+
+var a = 0, b = 0;
+</code></pre>
+
+<h3>规则9</h3>
+
+<p>所有变量声明都放在函数的头部。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>if (!o) {
+  var o = {};
+}
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>var o;
+...
+
+if (!o) {
+  o = {};
+}
+</code></pre>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>for (var i ...) { ... }
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>var i;
+for (i ...) { ... }
+</code></pre>
+
+<h3>规则10</h3>
+
+<p>所有函数都在使用之前定义。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>function foo(bar) {
+  if (bar) {
+    var a = 100;
+    ...
+  }
+  ...
+}
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>function foo(bar) {
+  var a;
+  if (bar) {
+    a = 100;
+    ...
+  }
+  ...
+}
+</code></pre>
+
+<h3>规则11</h3>
+
+<p>避免使用全局变量；如果不得不使用，用大写字母表示变量名，比如UPPER_CASE。</p>
+
+<h3>规则12</h3>
+
+<p>不要使用new命令，改用<a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/create"><code>Object.create()</code></a>命令。</p>
+
+<h3>规则13</h3>
+
+<p>建构函数的函数名，采用首字母大写（InitialCap）；其他函数名，一律首字母小写。</p>
+
+<h3>规则14</h3>
+
+<p>不要使用自增（++）和自减（--）运算符，用+=和-=代替。</p>
+
+<h3>规则15</h3>
+
+<p>总是使用大括号表示区块。</p>
+
+<p>Wrong:</p>
+
+<pre class="prettyprint "><code>if (a) foo();
+</code></pre>
+
+<p>Right:</p>
+
+<pre class="prettyprint "><code>if (a) { foo(); }
+</code></pre>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2012/04/javascript_programming_style.html">Javascript编程规范</a></li>
+<li><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/create">Object.create()</a></li>
+</ul>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>
