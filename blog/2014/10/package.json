@@ -1,0 +1,19 @@
+{
+  "name": "sequelize-hello",
+  "version": "1.0.0",
+  "description": "SQL to Sequelize Mapping Chart",
+  "main": "sequelize.js",
+  "scripts": {
+    "test": "node --harmony sequelize.js"
+  },
+  "keywords": [
+    "sequelize"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "co": "~3.1.0",
+    "sequelize": "~2.0.0-rc1",
+    "sqlite3": "~3.0.2"
+  }
+}

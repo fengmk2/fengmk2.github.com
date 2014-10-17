@@ -1,4 +1,5 @@
 .settings
+*.sqlite
 node_modules/
 main
 blog/2011/fibonacci/build

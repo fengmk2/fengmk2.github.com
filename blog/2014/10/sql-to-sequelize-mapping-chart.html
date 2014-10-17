@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
+  <title>SQL to Sequelize Mapping Chart</title>
+  <style>
+     a{color:#09f;}
+     code{color:#080;}
+     pre{line-height: 1.4;}
+     h1, #tagline{display:inline;}
+     #wrapper{padding:5% 8%;min-width:480px;}
+     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+     #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="sql-to-sequelize-mapping-chart">SQL to Sequelize Mapping Chart</h1>
+<p>I like <a href="http://docs.mongodb.org/manual/reference/sql-comparison/">SQL to MongoDB Mapping Chart</a> post,
+so I create the same chart between SQL and <a href="http://sequelizejs.com/">Sequelize</a>.</p>
+<p>All demo runable codes at <a href="https://github.com/fengmk2/fengmk2.github.com/blob/master/blog/2014/10/sequelize.js">sequelize.js</a>.</p>
+<h2 id="create-table">Create Table</h2>
+<h3 id="sql-create-table-">SQL: <code>CREATE TABLE</code></h3>
+<pre><code class="lang-sql">CREATE TABLE IF NOT EXISTS `user` (
+ `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;primary key&#39;,
+ `gmt_create` datetime NOT NULL COMMENT &#39;create time&#39;,
+ `gmt_modified` datetime NOT NULL COMMENT &#39;modified time&#39;,
+ `name` varchar(100) NOT NULL COMMENT &#39;user name&#39;,
+ `ip` varchar(64) NOT NULL COMMENT &#39;user last request ip&#39;,
+ `npm_user` tinyint(1) DEFAULT &#39;0&#39; COMMENT &#39;user sync from npm or not, 1: true, other: false&#39;,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `name` (`name`),
+ KEY `gmt_modified` (`gmt_modified`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&#39;user base info&#39;;
+</code></pre>
+<h3 id="sequelize-sequelize-define-">Sequelize: <code>sequelize.define()</code></h3>
+<pre><code class="lang-js">var User = sequelize.define(&#39;User&#39;, {
+  name: {
+    type: Sequelize.STRING(100),
+    allowNull: false,
+    comment: &#39;user name&#39;,
+  },
+  ip: {
+    type: Sequelize.STRING(64),
+    allowNull: false,
+    comment: &#39;user last request ip&#39;,
+  },
+  isNpmUser: {
+    field: &#39;npm_user&#39;,
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    comment: &#39;user sync from npm or not, 1: true, other: false&#39;,
+  }
+}, {
+  tableName: &#39;user&#39;,
+  comment: &#39;user base info&#39;,
+  indexes: [
+    {
+      unique: true,
+      fields: [&#39;name&#39;]
+    },
+    {
+      fields: [&#39;gmt_modified&#39;]
+    }
+  ],
+  createdAt: &#39;gmt_create&#39;,
+  updatedAt: &#39;gmt_modified&#39;,
+  charset: &#39;utf8&#39;,
+  collate: &#39;utf8_general_ci&#39;,
+});
+</code></pre>
+<h2 id="insert">Insert</h2>
+<h3 id="sql-insert-into-">SQL: <code>INSERT INTO</code></h3>
+<pre><code class="lang-sql">INSERT INTO user(name, ip, gmt_create, gmt_modified)
+  VALUES (&quot;fengmk2&quot;, &quot;127.0.0.1&quot;, now(), now());
+</code></pre>
+<h3 id="sequelize-sequelize-build-and-sequelize-save-">Sequelize: <code>sequelize.build()</code> and <code>sequelize.save()</code></h3>
+<pre><code class="lang-js">var user = yield User.build({
+  name: &#39;fengmk2&#39;,
+  ip: &#39;127.0.0.1&#39;
+}).save();
+</code></pre>
+<h2 id="select">Select</h2>
+<pre><code class="lang-js">User.findAll({
+  where: {
+    id: {
+      gt: 6,              // id &gt; 6
+      gte: 6,             // id &gt;= 6
+      lt: 10,             // id &lt; 10
+      lte: 10,            // id &lt;= 10
+      ne: 20,             // id != 20
+      between: [6, 10],   // BETWEEN 6 AND 10
+      nbetween: [11, 15]  // NOT BETWEEN 11 AND 15
+    }
+  }
+})
+</code></pre>
+<h3 id="select-all">Select all</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT * FROM user;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var users = yield User.findAll();
+</code></pre>
+<h3 id="select-one-row-with-all-columns-by-primary-id-key">Select one row with all columns by primary <code>id</code> key</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT * FROM user WHERE id = 1;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var oneUser = yield User.find(1);
+</code></pre>
+<h3 id="select-one-row-with-all-columns-by-name-index">Select one row with all columns by <code>name</code> index</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT * FROM user WHERE name = &quot;fengmk2&quot; LIMIT 1;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var user = yield User.find({
+  where: {
+    name: &#39;fengmk2&#39;
+  }
+});
+</code></pre>
+<h3 id="select-one-row-with-some-columns-by-name-index">Select one row with some columns by <code>name</code> index</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT name, ip FROM user WHERE name = &quot;fengmk2&quot;;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var user = yield User.find({
+  attributes: [&#39;name&#39;, &#39;ip&#39;],
+  where: {
+    name: &#39;fengmk2&#39;
+  }
+});
+</code></pre>
+<h3 id="select-rows-where-name-not-equal-fengmk2-">Select rows where <code>name</code> not equal &#39;fengmk2&#39;</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT * FROM user WHERE name != &quot;fengmk2&quot;;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var users = yield User.findAll({
+  where: {
+    name: {
+      ne: &#39;fengmk2&#39;
+    }
+  }
+});
+</code></pre>
+<h3 id="select-rows-where-name-not-equal-fengmk2-and-id-bigger-than-100">Select rows where <code>name</code> not equal &#39;fengmk2&#39; and <code>id</code> bigger than 100</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT * FROM user WHERE name != &quot;fengmk2&quot; AND id &gt; 2;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var users = yield User.findAll({
+  where: {
+    name: {
+      ne: &#39;fengmk2&#39;
+    },
+    id: {
+      gt: 2
+    }
+  }
+});
+</code></pre>
+<h3 id="select-rows-where-name-equal-fengmk2-or-yubo-">Select rows where <code>name</code> equal &#39;fengmk2&#39; or &#39;yubo&#39;</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-js">SELECT * FROM user WHERE name = &quot;fengmk2&quot; OR name = &quot;yubo&quot;;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var users = yield User.findAll({
+  where: Sequelize.or(
+    {
+      name: &#39;fengmk2&#39;
+    },
+    {
+      name: &#39;yubo&#39;
+    }
+  )
+});
+</code></pre>
+<h3 id="select-rows-where-name-start-with-feng-">Select rows where <code>name</code> start with &#39;feng*&#39;</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT * FROM user WHERE name LIKE &#39;feng%&#39;;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var users = yield User.findAll({
+  where: {
+    name: {
+      like: &#39;feng%&#39;
+    }
+  }
+});
+</code></pre>
+<h3 id="select-rows-where-name-contains-mk-and-order-by-id-desc-">Select rows where <code>name</code> contains &#39;<em>mk</em>&#39; and order by id <code>desc</code></h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT * FROM user WHERE name LIKE &#39;%mk%&#39; ORDER BY id DESC;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var users = yield User.findAll({
+  where: {
+    name: {
+      like: &#39;%mk%&#39;
+    }
+  },
+  order: [ [ &#39;id&#39;, &#39;desc&#39; ] ]
+});
+</code></pre>
+<h3 id="select-count-">Select COUNT(*)</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT COUNT(*) FROM user;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var count = yield User.count();
+</code></pre>
+<h3 id="select-rows-count-where-name-contains-y-">Select rows count where name contains <code>%y%</code></h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT COUNT(*) FROM user WHERE name LIKE &#39;%y%&#39;;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<pre><code class="lang-js">var count = yield User.count({
+  where: {
+    name: {
+      like: &#39;%y%&#39;
+    }
+  }
+});
+</code></pre>
+<h3 id="select-distinct-ip-count">Select distinct ip count</h3>
+<ul>
+<li>SQL</li>
+</ul>
+<pre><code class="lang-sql">SELECT COUNT(DISTINCT(ip)) FROM user;
+</code></pre>
+<ul>
+<li>Sequelize</li>
+</ul>
+<p>TODO</p>
+<h2 id="update">Update</h2>
+<h3 id="sql-update-set-">SQL: <code>UPDATE SET</code></h3>
+<pre><code class="lang-sql">UPDATE user SET ip = &#39;10.0.0.1&#39;, npm_user = 0, gmt_modified = now() WHERE id = 1;
+UPDATE user SET npm_user = 1, gmt_modified = now() WHERE id = 2;
+</code></pre>
+<h3 id="sequelize-find-and-save-columns-">Sequelize: <code>find()</code> and <code>save([columns])</code></h3>
+<pre><code class="lang-js">var user = yield User.find(1);
+user.ip = &#39;10.0.0.1&#39;;
+user.isNpmUser = false;
+yield user.save([&#39;ip&#39;, &#39;isNpmUser&#39;]);
+
+var user = yield User.find(2);
+user.isNpmUser = true;
+yield user.save([&#39;isNpmUser&#39;]);
+</code></pre>
+<h2 id="delete">Delete</h2>
+<h3 id="sql-delete-from-">SQL: <code>DELETE FROM</code></h3>
+<pre><code class="lang-sql">DELETE FROM user WHERE id = 1;
+DELETE FROM user;
+</code></pre>
+<h3 id="sequelize-model-destroy-where-">Sequelize: <code>Model.destroy(where)</code></h3>
+<pre><code class="lang-js">yield User.destroy({
+  id: 1
+});
+
+yield User.destroy();
+</code></pre>
+<h2 id="love-">Love 💗</h2>
+<p>Hold these can help you a litte bit on coding. :)</p>
+
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>
