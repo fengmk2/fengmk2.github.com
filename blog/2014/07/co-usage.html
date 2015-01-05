@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>[co](https://npm.taobao.org/package/co) 常见使用场景</title>
   <style>
      a{color:#09f;}
@@ -137,6 +137,37 @@ co(function* () {
 ]
 </code></pre>
 <p>默认并发数为 <code>concurrency = 5</code>, 可以自行设置并发数 <code>gather(thunks, [concurrency])</code></p>
+<h3 id="-">只取最快响应的</h3>
+<p><a href="https://github.com/cojs/any">co-any</a> 并发多个请求, 返回最快响应的一个结果</p>
+<pre><code class="lang-js">var any = require(&#39;co-any&#39;);
+var wait = require(&#39;co-wait&#39;);
+var co = require(&#39;co&#39;);
+
+function* random(val) {
+  yield wait(Math.random() * 100);
+  if (Math.random() &gt; 0.5) {
+    throw new Error(&#39;error&#39;);
+  }
+  return val;
+}
+
+co(function* () {
+  var ret = yield any([
+    random(1),
+    random(2),
+    random(3),
+    random(4),
+    random(5)
+  ]);
+  console.log(ret);
+})();
+</code></pre>
+<p>=&gt;</p>
+<pre><code class="lang-js">{
+  _key: 1,
+  value: 2
+}
+</code></pre>
 <h2 id="-eventemitter">事件 EventEmitter</h2>
 <h3 id="-generatorfunction-">事件监听者支持 <code>GeneratorFunction</code></h3>
 <p>使用 <a href="https://npm.taobao.org/package/co-event-wrap">co-event-wrap</a></p>
@@ -182,6 +213,11 @@ while (e = yield event(emitter)) {
 </code></pre>
 <p>emitter 原来的事件依旧会触发, 但是 <code>error</code> 事件不会被触发, 否则抛错无法被处理.</p>
 <p>理解上面代码, 你必须以纯同步的思维来理解.</p>
+<h2 id="-">有爱</h2>
+<ul>
+<li>希望本文对你有用 ^_^</li>
+<li><a href="http://fengmk2.github.com/blog/2014/07/co-usage.html">原始链接</a></li>
+</ul>
 
 
 <h2>Comments</h2>

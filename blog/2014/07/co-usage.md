@@ -132,6 +132,44 @@ co(function* () {
 
 默认并发数为 `concurrency = 5`, 可以自行设置并发数 `gather(thunks, [concurrency])`
 
+### 只取最快响应的
+
+[co-any](https://github.com/cojs/any) 并发多个请求, 返回最快响应的一个结果
+
+```js
+var any = require('co-any');
+var wait = require('co-wait');
+var co = require('co');
+
+function* random(val) {
+  yield wait(Math.random() * 100);
+  if (Math.random() > 0.5) {
+    throw new Error('error');
+  }
+  return val;
+}
+
+co(function* () {
+  var ret = yield any([
+    random(1),
+    random(2),
+    random(3),
+    random(4),
+    random(5)
+  ]);
+  console.log(ret);
+})();
+```
+
+=>
+
+```js
+{
+  _key: 1,
+  value: 2
+}
+```
+
 ## 事件 EventEmitter
 
 ### 事件监听者支持 `GeneratorFunction`
@@ -187,3 +225,8 @@ while (e = yield event(emitter)) {
 emitter 原来的事件依旧会触发, 但是 `error` 事件不会被触发, 否则抛错无法被处理.
 
 理解上面代码, 你必须以纯同步的思维来理解.
+
+## 有爱
+
+- 希望本文对你有用 ^_^
+- [原始链接](http://fengmk2.github.com/blog/2014/07/co-usage.html)
