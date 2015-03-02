@@ -1,4 +1,4 @@
-# 快速搭建 Node.js 开发环境以及加速 npm
+# 快速搭建 Node.js / io.js 开发环境以及加速 npm
 
 在公交车上刷微博，还是有很多同学在咨询:
 
@@ -25,7 +25,7 @@
 
 ```bash
 $ cd ~/git
-$ git clone https://github.com/creationix/nvm.git
+$ git clone https://github.com/cnpm/nvm.git
 ```
 
 配置终端启动时自动执行 `source ~/git/nvm/nvm.sh`,
@@ -71,37 +71,32 @@ Note:
 
 ### 通过 [nvm] 安装任意版本的 [node]
 
-nvm 默认是从 http://nodejs.org/dist/ 下载的, 国外服务器, 必然很慢,
-好在 nvm 以及支持从镜像服务器下载包, 于是我们可以方便地从七牛的 node dist 镜像下载:
-
 ```bash
-$ NVM_NODEJS_ORG_MIRROR=http://dist.u.qiniudn.com nvm install 0.11.11
+$ nvm install 0.12.0
 ```
 
 于是你就会看到一段非常快速进度条:
 
-```
+```bash
 ######################################################################## 100.0%
-Now using node v0.11.11
+Now using node v0.12.0
 ```
 
-如果你不想每次都输入环境变量 `NVM_NODEJS_ORG_MIRROR`, 那么我建议你加入到 `.bashrc` 文件中:
+还可以直接安装 iojs 各个版本
 
 ```bash
-# nvm
-export NVM_NODEJS_ORG_MIRROR=http://dist.u.qiniudn.com
-source ~/git/nvm/nvm.sh
+$ nvm install iojs
 ```
 
-然后你可以继续非常方便地安装各个版本的 node 了, 你可以查看一下你当前已经安装的版本:
+你可以继续非常方便地安装各个版本的 node 了, 你可以查看一下你当前已经安装的版本:
 
 ```bash
-$ nvm ls
+$ nvm ls-remote
          nvm
      v0.8.26
     v0.10.26
-    v0.11.11
-->  v0.11.12
+    v0.11.16
+->  v0.12.0
 ```
 
 ## windows 环境
@@ -113,14 +108,7 @@ $ nvm ls
 ```bash
 $ d:
 $ cd git
-$ git clone https://github.com/hakobera/nvmw.git
-```
-
-在我提交的 [pl#21](https://github.com/hakobera/nvmw/pull/21) 没有合并之前, 是不会有镜像功能的.
-大家可以从我的分支进行安装:
-
-```bash
-$ git clone https://github.com/fengmk2/nvmw.git -b custom-mirror
+$ git clone https://github.com/cnpm/nvmw.git
 ```
 
 设置 `d:\git\nvmw` 目录到你的 `PATH` 环境变量中:
@@ -148,22 +136,23 @@ Example:
 
 ### 通过 [nvmw] 安装任意版本的 [node]
 
-nvmw 默认是从 http://nodejs.org/dist/ 下载的, 国外服务器, 必然很慢,
-好在 [nvmw] 以及支持从镜像服务器下载包, 于是我们可以方便地从七牛的 node dist 镜像下载:
-
 ```bash
-$ set "NVMW_NODEJS_ORG_MIRROR=http://dist.u.qiniudn.com"
-$ nvmw install 0.11.11
+$ nvmw install 0.12.0
 ```
 
 于是你就会看到一段非常快速进度条:
 
 ```
 ######################################################################## 100.0%
-Now using node v0.11.11
+Now using node v0.12.0
 ```
 
-如果你不想每次都输入环境变量 `NVMW_NODEJS_ORG_MIRROR`, 那么我建议你在全局环境变量中增加它.
+安装 iojs
+
+```
+$ nvmw install iojs-1.4.2
+```
+
 
 然后你可以继续非常方便地安装各个版本的 node 了, 你可以查看一下你当前已经安装的版本:
 
@@ -180,25 +169,17 @@ Current: v0.11.12
 ## 使用 [cnpm] 加速 [npm]
 
 同理 nvm , npm 默认是从国外的源获取和下载包信息, 不慢才奇怪.
-可以通过简单的 `---registry` 参数, 使用国内的镜像 http://r.cnpmjs.org :
+可以通过简单的 `---registry` 参数, 使用国内的镜像 http://registry.npm.taobao.org :
 
 ```bash
-$ npm --registry=http://r.cnpmjs.org install koa
+$ npm install koa --registry=http://registry.npm.taobao.org
 ```
 
 于是屏幕又哗啦哗啦地一大片输出:
 
 ```bash
-$ npm --registry=http://r.cnpmjs.org install koa
-npm http GET http://r.cnpmjs.org/koa
-npm http 200 http://r.cnpmjs.org/koa
-npm http GET http://r.cnpmjs.org/koa/download/koa-0.5.2.tgz
-npm http 200 http://r.cnpmjs.org/koa/download/koa-0.5.2.tgz
-npm http GET http://r.cnpmjs.org/escape-html
-npm http GET http://r.cnpmjs.org/statuses
+$ npm install koa --registry=http://registry.npm.taobao.org
 ...
-npm http 200 http://r.cnpmjs.org/negotiator
-npm http 200 http://r.cnpmjs.org/keygrip
 koa@0.5.2 node_modules/koa
 ├── koa-compose@2.2.0
 ├── statuses@1.0.2
@@ -215,11 +196,11 @@ koa@0.5.2 node_modules/koa
 └── cookies@0.4.0 (keygrip@1.0.0)
 ```
 
-但是毕竟镜像跟官方的 npm 源还是会有一个同步时间差异, 目前 cnpm 的默认同步时间间隔是 15 分钟.
+但是毕竟镜像跟官方的 npm 源还是会有一个同步时间差异, 目前 cnpm 的默认同步时间间隔是 10 分钟.
 如果你是模块发布者, 或者你想马上同步一个模块, 那么推荐你安装 [cnpm] cli:
 
 ```bash
-$ npm --registry=http://r.cnpmjs.org install cnpm -g
+$ npm install cnpm -g --registry=http://registry.npm.taobao.org
 ```
 
 通过 cnpm 命令行, 你可以快速同步任意模块:
@@ -230,22 +211,24 @@ $ cnpm sync koa connect mocha
 
 呃, 我就是不想安装 cnpm cli 怎么办? 哈哈, 早就想到你会这么懒了, 于是我们还有一个 web 页面:
 
-例如我想马上同步 koa, 直接打开浏览器: http://cnpmjs.org/sync/koa
+例如我想马上同步 koa, 直接打开浏览器: http://npm.taobao.org/sync/koa
 
 或者你是命令行控, 通过 open 命令打开:
 
 ```bash
-$ open http://cnpmjs.org/sync/koa
+$ open http://npm.taobao.org/sync/koa
 ```
 
 如果你安装的模块依赖了 C++ 模块, 需要编译, 肯定会通过 [node-gyp] 来编译,
 [node-gyp] 在第一次编译的时候, 需要依赖 [node] 源代码, 于是又会去 node dist 下载,
 于是大家又会吐槽, 怎么 npm 安装这么慢...
 
-好吧, 于是又要提到 `--disturl` 参数, 通过七牛的镜像来下载:
+好吧, 于是又要提到 `--disturl` 参数, 通过中国镜像来下载:
 
 ```bash
-$ npm --registry=http://r.cnpmjs.org --disturl=http://dist.u.qiniudn.com install microtime
+$ npm install microtime \
+  --registry=http://registry.npm.taobao.org \
+  --disturl=http://npm.taobao.org/mirrors/node
 ```
 
 再次要提到 cnpm cli, 它已经默认将 `--registry` 和 `--disturl` 都配置好了, 谁用谁知道
@@ -273,11 +256,11 @@ github 慢, 或者说是它的资源 host 被堵而已, 大家可以通过简单
 希望文本对你有用. :)
 
 
- [nvm]: https://github.com/creationix/nvm
- [nvmw]: https://github.com/hakobera/nvmw
- [cnpm]: http://cnpmjs.org
+ [nvm]: https://github.com/cnpm/nvm
+ [nvmw]: https://github.com/cnpm/nvmw
+ [cnpm]: http://npm.taobao.org
  [node]: http://nodejs.org
  [Node.js]: http://nodejs.org
- [npm]: https://www.npmjs.org
+ [npm]: https://www.npmjs.com
  [github]: https://github.com
  [node-gyp]: https://github.com/TooTallNate/node-gyp
