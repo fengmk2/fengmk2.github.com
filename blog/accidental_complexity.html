@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>Nodejs asynchronous programming bring "Accidental complexity" : Nodejs异步编程带来的意外复杂性</title>
   <style>
      a{color:#09f;}
@@ -27,17 +27,13 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Nodejs asynchronous programming bring "Accidental complexity" : Nodejs异步编程带来的意外复杂性</h1>
-
-<p>参考原文: <a href="http://mihai.bazon.net/blog/whats-missing-from-node">What's missing from NodeJS</a></p>
-
-<p>How could you not be interested in language features, since, after all, you write in that language and it's the single most important thing once you get past <a href="http://en.wikipedia.org/wiki/Accidental_complexity">accidental complexity</a>.</p>
-
+<h1 id="nodejs-asynchronous-programming-bring-accidental-complexity-nodejs-">Nodejs asynchronous programming bring &quot;Accidental complexity&quot; : Nodejs异步编程带来的意外复杂性</h1>
+<p>参考原文: <a href="http://mihai.bazon.net/blog/whats-missing-from-node">What&#39;s missing from NodeJS</a></p>
+<p>How could you not be interested in language features, since, after all, you write in that language and it&#39;s the single most important thing once you get past <a href="http://en.wikipedia.org/wiki/Accidental_complexity">accidental complexity</a>.</p>
 <p>A part of those projects were written for fun, and others for learning. But many, probably, were written out of necessity. Now when you see a dozen “control flow” libraries that deal with “asynchronous programming” you begin to wonder if this is a serious problem. And it is. If you want to fetch 3 values from a database and print their sum, you need to do something like this:</p>
-
-<pre class="prettyprint"><code>get_val("foo", function(foo){
-    get_val("bar", function(bar){
-        get_val("baz", function(baz){
+<pre><code>get_val(&quot;foo&quot;, function(foo){
+    get_val(&quot;bar&quot;, function(bar){
+        get_val(&quot;baz&quot;, function(baz){
             print(foo + bar + baz);
         });
     });

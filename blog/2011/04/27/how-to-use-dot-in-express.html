@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>如何在express使用doT模板引擎</title>
   <style>
      a{color:#09f;}
@@ -27,92 +27,63 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>如何在express使用doT模板引擎</h1>
-
+<h1 id="-express-dot-">如何在express使用doT模板引擎</h1>
 <p>本文假设你已经使用过doT和<a href="http://expressjs.com">express</a>，并知道它的模板语法。</p>
-
 <p>js的模板引擎实在太多了，幸好 <a href="http://jsperf.com/dom-vs-innerhtml-based-templating/143">JavaScript template language shootoff</a> 这篇不断被更新的文章，帮我们用真实的测试结果，得到了目前最快的模板引擎<a href="https://github.com/olado/doT">doT</a></p>
-
-<h2>安装dot</h2>
-
-<pre class="prettyprint"><code>$ sudo npm install dot
-</code></pre>
-
-<h2>让express使用dot</h2>
-
+<h2 id="-dot">安装dot</h2>
+<pre><code>$ sudo npm install dot
+</code></pre><h2 id="-express-dot">让express使用dot</h2>
 <p>安装express的模板引擎约定，引擎必须有一个compile方法，接受str和options参数，返回一个function对象即可，接口大致如下：</p>
-
-<pre class="prettyprint"><code>exports.compile = function(str, options) {
+<pre><code>exports.compile = function(str, options) {
     // compile template str
     // return function
 }
-</code></pre>
-
-<p>显然，只需要实现compile接口即可</p>
-
-<pre class="prettyprint"><code>// dot.express.js
-var dot = require('dot');
+</code></pre><p>显然，只需要实现compile接口即可</p>
+<pre><code>// dot.express.js
+var dot = require(&#39;dot&#39;);
 
 exports.compile = function(str, options) {
     return dot.template(str);
 };
-</code></pre>
+</code></pre><p>在express使用dot.express.js</p>
+<pre><code>var dot_express = require(&#39;dot.express&#39;);
 
-<p>在express使用dot.express.js</p>
-
-<pre class="prettyprint"><code>var dot_express = require('dot.express');
-
-app.set("view engine", "html");
-app.register(".html", dot_express);
+app.set(&quot;view engine&quot;, &quot;html&quot;);
+app.register(&quot;.html&quot;, dot_express);
 
 // render
-app.get('/', function(req, res, next) {
-    res.render('index', {world: 'world'});
+app.get(&#39;/&#39;, function(req, res, next) {
+    res.render(&#39;index&#39;, {world: &#39;world&#39;});
 });
-</code></pre>
+</code></pre><h2 id="-">更简约的方式</h2>
+<pre><code>var dot = require(&#39;dot&#39;);
 
-<h2>更简约的方式</h2>
-
-<pre class="prettyprint"><code>var dot = require('dot');
-
-app.set("view engine", "html");
-app.register(".html", {
+app.set(&quot;view engine&quot;, &quot;html&quot;);
+app.register(&quot;.html&quot;, {
     compile: function(str) {
         return dot.template(str);
     }
 });
-</code></pre>
-
-<h2>让你的html模板文件也通过智能提示校验</h2>
-
+</code></pre><h2 id="-html-">让你的html模板文件也通过智能提示校验</h2>
 <p>dot默认的定界符是 {{ 和 }}，这样模板文件会如下</p>
-
-<pre class="prettyprint"><code>// index.html
+<pre><code>// index.html
 &lt;p&gt;hello {{! word }}&lt;/p&gt;
-</code></pre>
-
-<p>这样，肯定不能通过HTML智能提示校验<br />参考<a href="http://www.kuwata-lab.com/tenjin/">tenjin</a>的做法，将定界符修改为能通过智能提示校验的即可</p>
-
-<pre class="prettyprint"><code>// index.js
-dot.templateSettings.begin = '&lt;?js';
-dot.templateSettings.end = '?&gt;';
+</code></pre><p>这样，肯定不能通过HTML智能提示校验
+参考<a href="http://www.kuwata-lab.com/tenjin/">tenjin</a>的做法，将定界符修改为能通过智能提示校验的即可</p>
+<pre><code>// index.js
+dot.templateSettings.begin = &#39;&lt;?js&#39;;
+dot.templateSettings.end = &#39;?&gt;&#39;;
 
 // index.html
 &lt;p&gt;hello &lt;?js! word ?&gt;&lt;/p&gt;
-</code></pre>
+</code></pre><script src="https://gist.github.com/944470.js"> </script>
 
-<script src="https://gist.github.com/944470.js"> </script>
-
-<h2>'view cache' MUST enabled!</h2>
-
-<p>线上环境必须开启'view cache'，因为express的view会使用fs.statSync检测模板是否存在，如果不开启缓存，则每次都会同步检测和加载模板，整个web的性能就完蛋了。</p>
-
-<pre class="prettyprint"><code>app.set('view cache', true);
-</code></pre>
-
-<h2>有爱</h2>
-
+<h2 id="-view-cache-must-enabled-">&#39;view cache&#39; MUST enabled!</h2>
+<p>线上环境必须开启&#39;view cache&#39;，因为express的view会使用fs.statSync检测模板是否存在，如果不开启缓存，则每次都会同步检测和加载模板，整个web的性能就完蛋了。</p>
+<pre><code>app.set(&#39;view cache&#39;, true);
+</code></pre><h2 id="-">有爱</h2>
 <p>希望本文对你有用 ^_^</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

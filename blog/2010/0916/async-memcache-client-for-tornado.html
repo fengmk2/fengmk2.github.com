@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>async_memcache for tornado</title>
   <style>
      a{color:#09f;}
@@ -27,39 +27,34 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>async_memcache for tornado</h1>
-
+<h1 id="async_memcache-for-tornado">async_memcache for tornado</h1>
 <p><a href="http://www.tornadoweb.org">tornado</a> 是一个纯<a href="http://python.org">python</a> 实现的非阻塞web服务器，自带了异步httpclient，可以异步请求http网络资源。</p>
-
-<p>在实际应用中，我们常常需要访问memcached等资源，发现官方并没有具体实现memcache异步客户端，但是tornado留出了ioloop让我们很容易就可以实现异步的socket网络访问。<br />于是参照memcache的通信协议，我简单实现了一个异步socket的memcache客户端。</p>
-
-<h1>使用示例</h1>
-
+<p>在实际应用中，我们常常需要访问memcached等资源，发现官方并没有具体实现memcache异步客户端，但是tornado留出了ioloop让我们很容易就可以实现异步的socket网络访问。
+于是参照memcache的通信协议，我简单实现了一个异步socket的memcache客户端。</p>
+<h1 id="-">使用示例</h1>
 <p>源代码下载: <a href="http://code.google.com/p/net4team/source/browse/trunk/net4libs/async_memcache.py">async_memcache.py</a></p>
-
-<pre class="prettyprint"><code>if __name__ == '__main__':
-    client = MemcacheClient('localhost', 11211)
+<pre><code>if __name__ == &#39;__main__&#39;:
+    client = MemcacheClient(&#39;localhost&#39;, 11211)
     def get_callback(val):
         print val
-    client.set('hello', 'world', get_callback)
-    client.set('hello3', 'world3', get_callback)
-    client.get('hello3', get_callback)
-    client.get('hello2', get_callback)
-    client.get(['hello', 'hello2', 'hello3'], get_callback)
+    client.set(&#39;hello&#39;, &#39;world&#39;, get_callback)
+    client.set(&#39;hello3&#39;, &#39;world3&#39;, get_callback)
+    client.get(&#39;hello3&#39;, get_callback)
+    client.get(&#39;hello2&#39;, get_callback)
+    client.get([&#39;hello&#39;, &#39;hello2&#39;, &#39;hello3&#39;], get_callback)
 
-    client.set('hello4', 'abc', get_callback)
-    client.get('hello4', get_callback)
-    client.append('hello4', 'append', get_callback)
-    client.get('hello4', get_callback)
-    client.prepend('hello4', 'prepend', get_callback)
-    client.get('hello4', get_callback)
-    client.delete('hello4', get_callback)
-    client.get('hello4', get_callback)
-    client.delete('hello4', get_callback)
+    client.set(&#39;hello4&#39;, &#39;abc&#39;, get_callback)
+    client.get(&#39;hello4&#39;, get_callback)
+    client.append(&#39;hello4&#39;, &#39;append&#39;, get_callback)
+    client.get(&#39;hello4&#39;, get_callback)
+    client.prepend(&#39;hello4&#39;, &#39;prepend&#39;, get_callback)
+    client.get(&#39;hello4&#39;, get_callback)
+    client.delete(&#39;hello4&#39;, get_callback)
+    client.get(&#39;hello4&#39;, get_callback)
+    client.delete(&#39;hello4&#39;, get_callback)
     IOLoop.instance().start()
-</code></pre>
+</code></pre><p>希望对你有用 ^_^</p>
 
-<p>希望对你有用 ^_^</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

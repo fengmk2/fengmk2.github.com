@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>[nodejs]Javascript模板引擎性能对比及几点优化</title>
   <style>
      a{color:#09f;}
@@ -27,152 +27,103 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>[nodejs]Javascript模板引擎性能对比及几点优化</h1>
-
+<h1 id="-nodejs-javascript-">[nodejs]Javascript模板引擎性能对比及几点优化</h1>
 <p>浏览器版可直接查看: <a href="http://jsperf.com/dom-vs-innerhtml-based-templating/143">JavaScript template language shootoff</a></p>
-
-<h2>运行性能测试</h2>
-
+<h2 id="-">运行性能测试</h2>
 <p>测试代码在：<a href="https://github.com/fengmk2/fengmk2.github.com/tree/master/blog/2011/04/js-template-benchmarks">js-template-benchmarks</a></p>
-
-<pre class="prettyprint lang-bash"><code>$ node benchmarks.js
+<pre><code class="lang-bash">$ node benchmarks.js
 </code></pre>
-
-<h2>我的测试环境</h2>
-
-<pre class="prettyprint lang-bash"><code>CPU:     4核 Intel(R) Core(TM) i3 CPU M 330  @ 2.13GHz
+<h2 id="-">我的测试环境</h2>
+<pre><code class="lang-bash">CPU:     4核 Intel(R) Core(TM) i3 CPU M 330  @ 2.13GHz
 Memory:  4GB
 OS:      Ubuntu 10.10 2.6.35-28-generic-pae i686
 </code></pre>
-
-<h2>我的测试结果</h2>
-
+<h2 id="-">我的测试结果</h2>
 <p>escape延后处理是需要性能代价的。但是这样可以减少业务复杂性。</p>
-
-<h3>场景1：No escape</h3>
-
-<p>渲染10万次，最快的是doU, doT, nTenjin(基于tenjin的优化版本), jst_speed；最慢的是tenjin和jade<br />doT已经达到百万次级别了，好神速啊！<br />!!!新增<a href="https://github.com/shaunlee">@shaunlee</a> 的中国第一速度模板引擎: <a href="https://github.com/shaunlee/node-jst">jst</a>, <br /><a href="https://github.com/shaunlee">@shaunlee</a>看见第一次测试结果后非常不满意，经过优化后，速度已经达到第一梯队了！</p>
-
-<pre class="prettyprint lang-bash"><code>No escape, render 100000 times:
-
-doT running...
-
-
-<h2>use: 0.066 sec, rps: 1515151.5151515151</h2>
-
-doU running...
-
-
-<h2>use: 0.064 sec, rps: 1562500</h2>
-
-nTenjin running...
-
-
-<h2>use: 0.069 sec, rps: 1449275.3623188403</h2>
-
-jqtpl running...
-
-
-<h2>use: 2.059 sec, rps: 48567.26566294317</h2>
-
-ejs running...
-
-
-<h2>use: 1.514 sec, rps: 66050.19815059446</h2>
-
-haml running...
-
-
-<h2>use: 9.532 sec, rps: 10490.97775912715</h2>
-
-jade running...
-
-
-<h2>use: 10.592 sec, rps: 9441.087613293052</h2>
-
-jst running...
-
-
-<h2>use: 2.089 sec, rps: 47869.79415988511</h2>
-
-jst_speed running...
-
-
-<h2>use: 0.065 sec, rps: 1538461.5384615385</h2>
-
-</code></pre>
-
-<h3>场景2：All escape</h3>
-
-<p>性能马上变成浮云了。<br />速度高低排名: jst(果然是第一速度), nTenjin, jqtpl, ejs, doT, doU, haml, jade<br />对比场景1，可看到doT和doU的escape性能非常差。</p>
-
-<pre class="prettyprint lang-bash"><code>All escape, render 100000 times:
+<h3 id="-1-no-escape">场景1：No escape</h3>
+<p>渲染10万次，最快的是doU, doT, nTenjin(基于tenjin的优化版本), jst_speed；最慢的是tenjin和jade
+doT已经达到百万次级别了，好神速啊！
+!!!新增<a href="https://github.com/shaunlee">@shaunlee</a> 的中国第一速度模板引擎: <a href="https://github.com/shaunlee/node-jst">jst</a>, 
+<a href="https://github.com/shaunlee">@shaunlee</a>看见第一次测试结果后非常不满意，经过优化后，速度已经达到第一梯队了！</p>
+<pre><code class="lang-bash">No escape, render 100000 times:
 
 doT running...
-
-
-<h2>use: 3.921 sec, rps: 25503.698036215254</h2>
-
+use: 0.066 sec, rps: 1515151.5151515151
+--------------------------------------------
 doU running...
-
-
-<h2>use: 3.926 sec, rps: 25471.217524197655</h2>
-
+use: 0.064 sec, rps: 1562500
+--------------------------------------------
 nTenjin running...
-
-
-<h2>use: 1.306 sec, rps: 76569.67840735069</h2>
-
+use: 0.069 sec, rps: 1449275.3623188403
+--------------------------------------------
 jqtpl running...
-
-
-<h2>use: 3.012 sec, rps: 33200.531208499335</h2>
-
+use: 2.059 sec, rps: 48567.26566294317
+--------------------------------------------
 ejs running...
-
-
-<h2>use: 3.539 sec, rps: 28256.569652444192</h2>
-
+use: 1.514 sec, rps: 66050.19815059446
+--------------------------------------------
 haml running...
-
-
-<h2>use: 11.098 sec, rps: 9010.632546404757</h2>
-
+use: 9.532 sec, rps: 10490.97775912715
+--------------------------------------------
 jade running...
-
-
-<h2>use: 12.676 sec, rps: 7888.9239507731145</h2>
-
+use: 10.592 sec, rps: 9441.087613293052
+--------------------------------------------
 jst running...
-
-
-<h2>use: 4.004 sec, rps: 24975.02497502498</h2>
-
+use: 2.089 sec, rps: 47869.79415988511
+--------------------------------------------
 jst_speed running...
-
-
-<h2>use: 1.167 sec, rps: 85689.8029134533</h2>
-
+use: 0.065 sec, rps: 1538461.5384615385
+--------------------------------------------
 </code></pre>
+<h3 id="-2-all-escape">场景2：All escape</h3>
+<p>性能马上变成浮云了。
+速度高低排名: jst(果然是第一速度), nTenjin, jqtpl, ejs, doT, doU, haml, jade
+对比场景1，可看到doT和doU的escape性能非常差。</p>
+<pre><code class="lang-bash">All escape, render 100000 times:
 
-<h2>从tenjin到nTenjin的几点性能优化方法</h2>
-
-<p>原文： <a href='https://github.com/QLeelulu/nTenjin/blob/master/README.md'>https://github.com/QLeelulu/nTenjin/blob/master/README.md</a></p>
-
+doT running...
+use: 3.921 sec, rps: 25503.698036215254
+--------------------------------------------
+doU running...
+use: 3.926 sec, rps: 25471.217524197655
+--------------------------------------------
+nTenjin running...
+use: 1.306 sec, rps: 76569.67840735069
+--------------------------------------------
+jqtpl running...
+use: 3.012 sec, rps: 33200.531208499335
+--------------------------------------------
+ejs running...
+use: 3.539 sec, rps: 28256.569652444192
+--------------------------------------------
+haml running...
+use: 11.098 sec, rps: 9010.632546404757
+--------------------------------------------
+jade running...
+use: 12.676 sec, rps: 7888.9239507731145
+--------------------------------------------
+jst running...
+use: 4.004 sec, rps: 24975.02497502498
+--------------------------------------------
+jst_speed running...
+use: 1.167 sec, rps: 85689.8029134533
+--------------------------------------------
+</code></pre>
+<h2 id="-tenjin-ntenjin-">从tenjin到nTenjin的几点性能优化方法</h2>
+<p>原文： <a href="https://github.com/QLeelulu/nTenjin/blob/master/README.md">https://github.com/QLeelulu/nTenjin/blob/master/README.md</a></p>
 <ul>
 <li>jsTenjin是使用eval来解析的，而nTenjin是使用 new Function 来解析的(速度差别之一)。</li>
 <li>jsTenjin是使用Array.push来构造字符串的，而nTenjin是使用 String += str 来构造字符串的(速度差别之二)。</li>
 <li>nTenjin中变量必须由it来指定，例如#{param}要修改为#{it.param},其他和jsTenjin完全一致。</li>
 </ul>
-
-<h2>模板引擎优化步骤</h2>
-
+<h2 id="-">模板引擎优化步骤</h2>
 <ol>
 <li>使用new Function 解析;</li>
 <li>直接字符从相加 str += s;</li>
 <li>变量不切换上下文，直接it指定</li>
 <li>高性能的escape</li>
 </ol>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>关于Nodejs中Buffer释放的二三事</title>
   <style>
      a{color:#09f;}
@@ -27,39 +27,33 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>关于Nodejs中Buffer释放的二三事</h1>
-
-<h2>Buffer不会被GC？</h2>
-
+<h1 id="-nodejs-buffer-">关于Nodejs中Buffer释放的二三事</h1>
+<h2 id="buffer-gc-">Buffer不会被GC？</h2>
 <p>为了看看这个问题，我写了一段测试代码</p>
-
-<pre class="prettyprint"><code>var http = require('http')
-  , os = require('os');
+<pre><code>var http = require(&#39;http&#39;)
+  , os = require(&#39;os&#39;);
 
 function create(size, res) {
     var mb = 1024 * 1024;
-    res.write('free ' + os.freemem() / mb + 'MB\r\n');
-    res.write('------------- after new ' + size + 'MB buffer\r\n');
+    res.write(&#39;free &#39; + os.freemem() / mb + &#39;MB\r\n&#39;);
+    res.write(&#39;------------- after new &#39; + size + &#39;MB buffer\r\n&#39;);
     var buffer = new Buffer(size * mb);
     for(var i = 0, len = buffer.length; i &lt; len; i++) {
         buffer[i] = 0;
     }
-    res.write('free ' + os.freemem() / mb + 'MB\r\n\r\n');
+    res.write(&#39;free &#39; + os.freemem() / mb + &#39;MB\r\n\r\n&#39;);
 }
 
 http.createServer(function(req, res) {
     var size = 1;
     for(var i = 0; i &lt; 100; i++) {
-        res.write('------------- new Buffer ' + i + '\r\n');
+        res.write(&#39;------------- new Buffer &#39; + i + &#39;\r\n&#39;);
         create(size, res);
     }
-    res.end('');
-}).listen('8080');
-</code></pre>
-
-<p>从<a href="http://localhost:8080/"><a href='http://localhost:8080/'>http://localhost:8080/</a></a>可以看到，一次http请求调用后</p>
-
-<pre class="prettyprint"><code>------------- new Buffer 0
+    res.end(&#39;&#39;);
+}).listen(&#39;8080&#39;);
+</code></pre><p>从<a href="http://localhost:8080/">http://localhost:8080/</a>可以看到，一次http请求调用后</p>
+<pre><code>------------- new Buffer 0
 free 139.82421875MB
 ------------- after new 1MB buffer
 free 138.890625MB
@@ -110,17 +104,12 @@ free 133.64453125MB
 free 133.64453125MB
 ------------- after new 1MB buffer
 free 132.76171875MB
-</code></pre>
-
-<p>从结果看来，Buffer会被回收。</p>
-
-<h2>疑问?</h2>
-
+</code></pre><p>从结果看来，Buffer会被回收。</p>
+<h2 id="-">疑问?</h2>
 <p>Buffer的实现是内存复用？还是说每次都重新申请和GC时释放给操作系统呢？</p>
-
-<h2>有爱</h2>
-
+<h2 id="-">有爱</h2>
 <p>^_^ 希望本文对你有用</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>Duff's device 优化循环的性能测试</title>
   <style>
      a{color:#09f;}
@@ -27,13 +27,11 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Duff's device 优化循环的性能测试</h1>
+<h1 id="duff-s-device-">Duff&#39;s device 优化循环的性能测试</h1>
+<p>上周日在北京回杭州的飞机上，看《高性能JavaScript》的循环优化章节，了解到“Duff&#39;s device”这种搓而又惊奇的展开循环体的优化方法。</p>
+<p>那么到底“Duff&#39;s device”真像书里面说的，当循环次数达到1000以上，性能将有明显改善吗？</p>
+<h2 id="-">测试代码</h2>
 
-<p>上周日在北京回杭州的飞机上，看《高性能JavaScript》的循环优化章节，了解到“Duff's device”这种搓而又惊奇的展开循环体的优化方法。</p>
-
-<p>那么到底“Duff's device”真像书里面说的，当循环次数达到1000以上，性能将有明显改善吗？</p>
-
-<h2>测试代码</h2>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

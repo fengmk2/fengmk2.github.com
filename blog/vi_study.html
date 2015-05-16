@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>vi Learn on the road</title>
   <style>
      a{color:#09f;}
@@ -27,49 +27,43 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>vi Learn on the road</h1>
-
-<h2>vim config file</h2>
-
-<pre class="prettyprint"><code># .vimrc config by me
+<h1 id="vi-learn-on-the-road">vi Learn on the road</h1>
+<h2 id="vim-config-file">vim config file</h2>
+<pre><code># .vimrc config by me
 set expandtab 
 set tabstop=4
 set shiftwidth=4
 set nonumber
 set smarttab
-</code></pre>
-
-<p>k up l right j down h right;<br />space right;<br />G move cursor to header of end line of file; </p>
-
-<pre class="prettyprint"><code>function foo(abc){
-    console.log('hello world');
+</code></pre><p>k up l right j down h right;
+space right;
+G move cursor to header of end line of file; </p>
+<pre><code>function foo(abc){
+    console.log(&#39;hello world&#39;);
 };
-</code></pre>
-
-<p>u undo last change; U undo all changes to entire line;</p>
-
-<p>dd delete current cursor line.<br />3dd delete next 3 lines;<br />D delete contents of line after cursor;<br />C delete contents of line after cursor and insert;</p>
-
-<p>dw delete word<br />cw change word<br />x delete char at curosr. </p>
-
-<p>R Overwrite char form cursor onward;<br />s Substitute entire line<br />abc on right</p>
-
-<pre class="prettyprint"><code>function a(){
+</code></pre><p>u undo last change; U undo all changes to entire line;</p>
+<p>dd delete current cursor line.
+3dd delete next 3 lines;
+D delete contents of line after cursor;
+C delete contents of line after cursor and insert;</p>
+<p>dw delete word
+cw change word
+x delete char at curosr. </p>
+<p>R Overwrite char form cursor onward;
+s Substitute entire line
+abc on right</p>
+<pre><code>function a(){
     function() {
-        console.log('hello world');
+        console.log(&#39;hello world&#39;);
     }
 }
 
 :r !date
 2011年 04月 01日 星期五 20:52:55 CST
-</code></pre>
+</code></pre><p>查找当前单词</p>
+<pre><code>:s/\t/    /g
+</code></pre><p>replace tab to 4 space in current line.(how to replace all?)</p>
 
-<p>查找当前单词</p>
-
-<pre class="prettyprint"><code>:s/\t/    /g
-</code></pre>
-
-<p>replace tab to 4 space in current line.(how to replace all?)</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>nodejs一周动态(2011-04-25 - 05-01)</title>
   <style>
      a{color:#09f;}
@@ -27,62 +27,47 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>nodejs一周动态(2011-04-25 - 05-01)</h1>
-
+<h1 id="nodejs-2011-04-25-05-01-">nodejs一周动态(2011-04-25 - 05-01)</h1>
 <p>本文收集一周来业界关于nodejs的相关动态信息和新闻摘要，并会推荐一下非常棒的node.js模块。</p>
-
-<h2><a href="http://www.zdnetasia.com/mozilla-jumps-into-node-js-server-project-62208463.htm">Mozilla jumps into Node.js server project</a></h2>
-
-<p>Mozilla也对Node.js感兴趣了，已经着手为Node.js提供V8以外的另一个引擎: <br /><a href="http://blog.zpao.com/post/4620873765/about-that-hybrid-v8monkey-engine">SpiderNode</a>: This JavaScript engine in Firefox is called SpiderMonkey, and the hybrid technology used in SpiderNode is called V8Monkey</p>
-
-<p>Node.js is built with the V8 JavaScript engine from Google's Chrome browser, but Mozilla is transplanting Firefox's JavaScript technology in a project called SpiderNode. (The JavaScript engine in Firefox is called SpiderMonkey, and the hybrid technology used in SpiderNode is called V8Monkey.)</p>
-
-<h2><a href="http://www.readwriteweb.com/hack/2011/04/build-desktop-apps-with-nodejs.php">Build Desktop Apps with Node.js Using WebApp</a></h2>
-
-<p>Node.js contributor Tim Caswell pushed an initial release of WebApp, a framework for building desktop GUI apps with Node.js, to GitHub. The stated goal is to "Give node developers a way to have a desktop GUI to their node servers using HTML5 + CSS3 as the GUI platform."<br />Node.js也可以开发桌面程序！</p>
-
-<h2><a href="http://blog.nodejs.org/2011/04/23/node-v0-4-7/">Node v0.4.7 release</a></h2>
-
+<h2 id="-mozilla-jumps-into-node-js-server-project-http-www-zdnetasia-com-mozilla-jumps-into-node-js-server-project-62208463-htm-"><a href="http://www.zdnetasia.com/mozilla-jumps-into-node-js-server-project-62208463.htm">Mozilla jumps into Node.js server project</a></h2>
+<p>Mozilla也对Node.js感兴趣了，已经着手为Node.js提供V8以外的另一个引擎: 
+<a href="http://blog.zpao.com/post/4620873765/about-that-hybrid-v8monkey-engine">SpiderNode</a>: This JavaScript engine in Firefox is called SpiderMonkey, and the hybrid technology used in SpiderNode is called V8Monkey</p>
+<p>Node.js is built with the V8 JavaScript engine from Google&#39;s Chrome browser, but Mozilla is transplanting Firefox&#39;s JavaScript technology in a project called SpiderNode. (The JavaScript engine in Firefox is called SpiderMonkey, and the hybrid technology used in SpiderNode is called V8Monkey.)</p>
+<h2 id="-build-desktop-apps-with-node-js-using-webapp-http-www-readwriteweb-com-hack-2011-04-build-desktop-apps-with-nodejs-php-"><a href="http://www.readwriteweb.com/hack/2011/04/build-desktop-apps-with-nodejs.php">Build Desktop Apps with Node.js Using WebApp</a></h2>
+<p>Node.js contributor Tim Caswell pushed an initial release of WebApp, a framework for building desktop GUI apps with Node.js, to GitHub. The stated goal is to &quot;Give node developers a way to have a desktop GUI to their node servers using HTML5 + CSS3 as the GUI platform.&quot;
+Node.js也可以开发桌面程序！</p>
+<h2 id="-node-v0-4-7-release-http-blog-nodejs-org-2011-04-23-node-v0-4-7-"><a href="http://blog.nodejs.org/2011/04/23/node-v0-4-7/">Node v0.4.7 release</a></h2>
 <ul>
-<li>Don't emit error on ECONNRESET from read() #670 </li>
+<li>Don&#39;t emit error on ECONNRESET from read() #670 </li>
 <li>Fix: Multiple pipes to the same stream were broken #929 (Felix Geisendörfer) </li>
 <li>URL parsing/formatting corrections #954 (isaacs) </li>
-<li>make it possible to do repl.start('', stream) (Wade Simmons) </li>
+<li>make it possible to do repl.start(&#39;&#39;, stream) (Wade Simmons) </li>
 <li>Add os.loadavg for SunOS (Robert Mustacchi) </li>
 <li>Fix timeouts with floating point numbers #897 </li>
 <li>Improve docs. </li>
 </ul>
-
-<p>Download: <a href='http://nodejs.org/dist/node-v0.4.7.tar.gz'>http://nodejs.org/dist/node-v0.4.7.tar.gz</a> <br />Website: <a href='http://nodejs.org/docs/v0.4.7/'>http://nodejs.org/docs/v0.4.7/</a> <br />Documentation: <a href='http://nodejs.org/docs/v0.4.7/api'>http://nodejs.org/docs/v0.4.7/api</a> </p>
-
-<h2>Cluster Live</h2>
-
+<p>Download: <a href="http://nodejs.org/dist/node-v0.4.7.tar.gz">http://nodejs.org/dist/node-v0.4.7.tar.gz</a> 
+Website: <a href="http://nodejs.org/docs/v0.4.7/">http://nodejs.org/docs/v0.4.7/</a> 
+Documentation: <a href="http://nodejs.org/docs/v0.4.7/api">http://nodejs.org/docs/v0.4.7/api</a> </p>
+<h2 id="cluster-live">Cluster Live</h2>
 <p>TJ Holowaychuk released <a href="http://tjholowaychuk.com/post/4712080732/cluster-live-0-0-1">Cluster Live</a> (GitHub: <a href="https://github.com/visionmedia/cluster-live">visionmedia / cluster-live</a>, MIT License), which is a realtime administration and statistics plugin for Cluster. If you’ve been holding off on Cluster, this is probably the sort of usage TJ envisioned for it and may convince you to use it.</p>
-
 <p>你只需要一点点配置代码，就可以使用了，很cool吧！:</p>
-
-<pre class="prettyprint"><code>var live = require('cluster-live');
+<pre><code>var live = require(&#39;cluster-live&#39;);
 
 cluster(server)
-  .set('workers', 6)
+  .set(&#39;workers&#39;, 6)
   .use(cluster.debug())
   .use(cluster.stats({ connections: true, lightRequests: true }))
   .use(live())
   .listen(3000);
-</code></pre>
-
-<p>截图 <br /><br /><img src="https://d3nwyuy0nl342s.cloudfront.net/img/5dc84aecefb12aa6a2410137e8e48b2ec5241c50/687474703a2f2f662e636c2e6c792f6974656d732f3045306530513161336a317233723335334731592f53637265656e73686f742e706e67" width="90%" height="300" /></p>
-
-<h2>Capsule</h2>
-
+</code></pre><p>截图<br><img src="https://d3nwyuy0nl342s.cloudfront.net/img/5dc84aecefb12aa6a2410137e8e48b2ec5241c50/687474703a2f2f662e636c2e6c792f6974656d732f3045306530513161336a317233723335334731592f53637265656e73686f742e706e67" width="90%" height="300" /></p>
+<h2 id="capsule">Capsule</h2>
 <p><a href="https://github.com/andyet/capsule">Capsule</a> (MIT License) by Henrik Joreteg is a Node framework that uses Socket.io and Backbone.js to synchronise models between the client and server. He’s written some documentation for <a href="http://andyet.github.com/Capsule/docs/capsule.models.html">Capsule.models.js</a> and <a href="http://andyet.github.com/Capsule/docs/capsule.views.html">Capsule.views.js</a>, and the README includes a detailed example of how to set things up for the server and browser.</p>
-
-<h2><a href="https://github.com/nodejitsu/node-http-proxy">node-http-proxy</a></h2>
-
-<p><a href="https://github.com/nodejitsu/node-http-proxy">node-http-proxy</a>: <br />一个基于nodejs全功能http代理<br />A full-featured http proxy for node.js</p>
-
-<h3>Features</h3>
-
+<h2 id="-node-http-proxy-https-github-com-nodejitsu-node-http-proxy-"><a href="https://github.com/nodejitsu/node-http-proxy">node-http-proxy</a></h2>
+<p><a href="https://github.com/nodejitsu/node-http-proxy">node-http-proxy</a>: 
+一个基于nodejs全功能http代理
+A full-featured http proxy for node.js</p>
+<h3 id="features">Features</h3>
 <ul>
 <li>Reverse proxies incoming http.ServerRequest streams</li>
 <li>Can be used as a CommonJS module in node.js</li>
@@ -96,15 +81,10 @@ cluster(server)
 <li>Written entirely in Javascript</li>
 <li>Easy to use API</li>
 </ul>
-
-<h3>When to use node-http-proxy</h3>
-
-<p>Let's suppose you were running multiple http application servers, but you only wanted to expose one machine to the internet. You could setup node-http-proxy on that one machine and then reverse-proxy the incoming http requests to locally running services which were not exposed to the outside network.</p>
-
-<h2>npm 1.0: Released</h2>
-
+<h3 id="when-to-use-node-http-proxy">When to use node-http-proxy</h3>
+<p>Let&#39;s suppose you were running multiple http application servers, but you only wanted to expose one machine to the internet. You could setup node-http-proxy on that one machine and then reverse-proxy the incoming http requests to locally running services which were not exposed to the outside network.</p>
+<h2 id="npm-1-0-released">npm 1.0: Released</h2>
 <p><a href="http://blog.nodejs.org/2011/05/01/npm-1-0-released/">npm 1.0 has been released</a>. Here are the highlights:</p>
-
 <ul>
 <li>Global vs local installation</li>
 <li>ls displays a tree, instead of being a remote search</li>
@@ -116,6 +96,7 @@ cluster(server)
 <li>More help topics</li>
 <li>Simplified folder structure</li>
 </ul>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>基于KV数据库的文件系统 FileSystem Impl on Key-Value Database</title>
   <style>
      a{color:#09f;}
@@ -27,62 +27,47 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>基于KV数据库的文件系统 FileSystem Impl on Key-Value Database</h1>
-
-<h2>需求</h2>
-
+<h1 id="-kv-filesystem-impl-on-key-value-database">基于KV数据库的文件系统 FileSystem Impl on Key-Value Database</h1>
+<h2 id="-">需求</h2>
 <ul>
 <li>分布式文件系统</li>
 <li>分布式系统的自动扩展</li>
 </ul>
-
-<h2>基本的文件系统操作</h2>
-
-<h3>公共</h3>
-
+<h2 id="-">基本的文件系统操作</h2>
+<h3 id="-">公共</h3>
 <ul>
 <li>stat</li>
 <li>rename</li>
 </ul>
-
-<h3>文件夹</h3>
-
+<h3 id="-">文件夹</h3>
 <ul>
 <li>mkdir</li>
 <li>rmdir</li>
 <li>readdir</li>
 </ul>
-
-<h3>文件</h3>
-
+<h3 id="-">文件</h3>
 <ul>
 <li>open</li>
 <li>read</li>
 <li>write</li>
 <li>unlink (delete)</li>
 </ul>
-
-<h2>文件操作的实现</h2>
-
+<h2 id="-">文件操作的实现</h2>
 <p>以文件路径为key，文件内容为value，可以很容易实现文件的基本操作。</p>
-
-<h3>a模式的文件更新(append)</h3>
-
-<p>如果是append模式的文件写操作，所有数据更新都是以追加形式插入的，<br />那么同步到数据库中也只需同步增加的那部分数据。<br />PUT <br />range oldsize_start:appendsize</p>
-
+<h3 id="a-append-">a模式的文件更新(append)</h3>
+<p>如果是append模式的文件写操作，所有数据更新都是以追加形式插入的，
+那么同步到数据库中也只需同步增加的那部分数据。
+PUT 
+range oldsize_start:appendsize</p>
 <p>new data bytes</p>
-
-<h3>文件重命名rename</h3>
-
-<p>由于KV数据库对变更key操作很少支持，所以一般情况下只能使用copy模式。<br />将数据从旧的path复制到新的path。</p>
-
-<h2>文件夹操作的实现</h2>
-
-<h3>文件夹在KV中的实现</h3>
-
+<h3 id="-rename">文件重命名rename</h3>
+<p>由于KV数据库对变更key操作很少支持，所以一般情况下只能使用copy模式。
+将数据从旧的path复制到新的path。</p>
+<h2 id="-">文件夹操作的实现</h2>
+<h3 id="-kv-">文件夹在KV中的实现</h3>
 <p>以文件夹路径为key，文件夹所包含的子元素为内容，存储到KV数据库。</p>
+<h3 id="-rename">文件夹重命名rename</h3>
 
-<h3>文件夹重命名rename</h3>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

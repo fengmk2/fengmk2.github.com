@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>Google Appengine 的自动部署脚本</title>
   <style>
      a{color:#09f;}
@@ -27,15 +27,11 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Google Appengine 的自动部署脚本</h1>
-
+<h1 id="google-appengine-">Google Appengine 的自动部署脚本</h1>
 <p>你是否在appengine上注册了N个应用？每次代码更新都很痛苦？！</p>
-
 <p>在我痛苦了很久后，总算找到一种可以自动部署方式，并写成了脚本，共大家分享</p>
-
-<h2>deploy.py</h2>
-
-<pre class="prettyprint"><code>#!/usr/bin/env python
+<h2 id="deploy-py">deploy.py</h2>
+<pre><code>#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # 将 {project_name} 替换成你的项目目录
@@ -48,27 +44,24 @@ import urllib2
 
 
 def deploy(no):
-    tpl = open('app.yaml', 'rb')
+    tpl = open(&#39;app.yaml&#39;, &#39;rb&#39;)
     try:
-        tpl_data = tpl.read().replace('{{no}}', str(no))
-        to_f = open('./source/app.yaml', 'wb')
+        tpl_data = tpl.read().replace(&#39;{{no}}&#39;, str(no))
+        to_f = open(&#39;./source/app.yaml&#39;, &#39;wb&#39;)
         try:
             to_f.write(tpl_data)
         finally:
             to_f.close()
     finally:
         tpl.close()
-    os.system('appcfg.py --passin --email={email} update {project_name} &lt; {password}')
+    os.system(&#39;appcfg.py --passin --email={email} update {project_name} &lt; {password}&#39;)
 
-if __name__ == '__main__':
+if __name__ == &#39;__main__&#39;:
     start, end = int(sys.argv[1]), int(sys.argv[2]) + 1
     for i in range(start, end):
         deploy(i)
-</code></pre>
-
-<h2>app.yaml</h2>
-
-<pre class="prettyprint"><code>application: demo{{no}}
+</code></pre><h2 id="app-yaml">app.yaml</h2>
+<pre><code>application: demo{{no}}
 version: 1
 runtime: python
 api_version: 1
@@ -76,17 +69,12 @@ api_version: 1
 handlers:
 - url: .*
   script: main.py
-</code></pre>
-
-<h2>运行</h2>
-
-<pre class="prettyprint"><code># 慢慢等吧，^_^
+</code></pre><h2 id="-">运行</h2>
+<pre><code># 慢慢等吧，^_^
 python deploy.py 0, 10000
-</code></pre>
-
-<h2>有爱</h2>
-
+</code></pre><h2 id="-">有爱</h2>
 <p>^_^希望对你有用</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

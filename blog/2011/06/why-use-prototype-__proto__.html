@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>为什么要使用prototype.__proto__</title>
   <style>
      a{color:#09f;}
@@ -27,28 +27,21 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>为什么要使用prototype.<strong>proto</strong></h1>
-
-<h2>问题</h2>
-
-<h2>原理</h2>
-
-<h3>示例1: 直接prototype继承</h3>
-
-<h3>示例2: prototype.<strong>proto</strong>继承</h3>
-
-<h2>解决</h2>
-
-<h2>有爱</h2>
-
-<p>希望本文对你有用 ^_^<br />Server.prototype.<strong>proto</strong> = net.Server.prototype</p>
-
-<h2>参考</h2>
-
+<h1 id="-prototype-__proto__">为什么要使用prototype.<strong>proto</strong></h1>
+<h2 id="-">问题</h2>
+<h2 id="-">原理</h2>
+<h3 id="-1-prototype-">示例1: 直接prototype继承</h3>
+<h3 id="-2-prototype-__proto__-">示例2: prototype.<strong>proto</strong>继承</h3>
+<h2 id="-">解决</h2>
+<h2 id="-">有爱</h2>
+<p>希望本文对你有用 ^<em>^
+Server.prototype.<em>_proto</em></em> = net.Server.prototype</p>
+<h2 id="-">参考</h2>
 <ul>
 <li><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/Proto"><strong>proto</strong> MDC</a></li>
 <li><a href="http://ejohn.org/blog/objectgetprototypeof/">Object.getPrototypeOf</a></li>
 </ul>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>让apt-get的自动补全打开</title>
   <style>
      a{color:#09f;}
@@ -27,31 +27,22 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>让apt-get的自动补全打开</h1>
-
-<pre class="prettyprint"><code>$ vi ~/.bashrc
+<h1 id="-apt-get-">让apt-get的自动补全打开</h1>
+<pre><code>$ vi ~/.bashrc
 
 # enable programmable completion features 
-# (you don't need to enable this, if it's already enabled in 
+# (you don&#39;t need to enable this, if it&#39;s already enabled in 
 # /etc/bash.bashrc and /etc/profile# sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ]; then  
 　　. /etc/bash_completion
 fi
-</code></pre>
-
-<p>若发现/etc/bash_completion文件不存在， 则安装bash-completion</p>
-
-<pre class="prettyprint"><code>$ sudo apt-get install bash-completion
-</code></pre>
-
-<p>重新导入/etc/bash_completion</p>
-
-<pre class="prettyprint"><code>$ source /etc/bash_completion
-</code></pre>
-
-<p>然后，没有然后了，可以自动补全了，安装的软件吧！</p>
-
+</code></pre><p>若发现/etc/bash_completion文件不存在， 则安装bash-completion</p>
+<pre><code>$ sudo apt-get install bash-completion
+</code></pre><p>重新导入/etc/bash_completion</p>
+<pre><code>$ source /etc/bash_completion
+</code></pre><p>然后，没有然后了，可以自动补全了，安装的软件吧！</p>
 <p>^_^</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

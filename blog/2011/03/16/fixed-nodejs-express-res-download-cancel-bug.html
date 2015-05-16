@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>nodejs: 修复express的res.download 下载被取消导致的 “Can't remove headers after they are sent” 异常</title>
   <style>
      a{color:#09f;}
@@ -27,52 +27,44 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>nodejs: 修复express的res.download 下载被取消导致的 “Can't remove headers after they are sent” 异常</h1>
-
-<h2>来自百度？</h2>
-
+<h1 id="nodejs-express-res-download-can-t-remove-headers-after-they-are-sent-">nodejs: 修复express的res.download 下载被取消导致的 “Can&#39;t remove headers after they are sent” 异常</h1>
+<h2 id="-">来自百度？</h2>
 <p>想必你搜索看到此文章，一定是遇到了和我一样的问题。</p>
-
 <p>express 中如果我们使用res.download处理文件下载，中途被取消下载，就会出现以下异常</p>
-
-<pre class="prettyprint"><code>node.js:116
-    throw e; // process.nextTick error, or 'error' event on first tick
+<pre><code>node.js:116
+    throw e; // process.nextTick error, or &#39;error&#39; event on first tick
         ^
-        Error: Can't remove headers after they are sent.
+        Error: Can&#39;t remove headers after they are sent.
         at ServerResponse.removeHeader (http.js:537:11)
         at Socket. (/usr/local/lib/node/.npm/express/2.0.0rc/package/lib/response.js:205:19)
         at Socket.emit (events.js:59:20)
         at Array. (net.js:799:27)
         at EventEmitter._tickCallback (node.js:108:2
-</code></pre>
-
-<p>查看了一下express的源代码，发现出现err的时候，会移除“Content-Disposition“ http header，这样必要会异常，因为响应已经发给客户端了，我们只需要将”if (err) self.removeHeader('Content-Disposition');“ 这段源代码注释掉就可以了。<br />如果不想修改express的源代码，我们可以在require('express')后，对express 进行一个简单修复：</p>
-
-<pre class="prettyprint"><code>var express = require('express');
+</code></pre><p>查看了一下express的源代码，发现出现err的时候，会移除“Content-Disposition“ http header，这样必要会异常，因为响应已经发给客户端了，我们只需要将”if (err) self.removeHeader(&#39;Content-Disposition&#39;);“ 这段源代码注释掉就可以了。
+如果不想修改express的源代码，我们可以在require(&#39;express&#39;)后，对express 进行一个简单修复：</p>
+<pre><code>var express = require(&#39;express&#39;);
 //fixed express download cancel bug:
-require('http').ServerResponse.prototype.download = function(path, filename, fn){
+require(&#39;http&#39;).ServerResponse.prototype.download = function(path, filename, fn){
     var self = this;
     // support callback as second arg
-     if ('function' == typeof filename) {
+     if (&#39;function&#39; == typeof filename) {
         fn = filename;
         filename = null;
     }
     // transfer the file
      this.attachment(filename || path).sendfile(path, function(err){
-        // if (err) self.removeHeader('Content-Disposition');
+        // if (err) self.removeHeader(&#39;Content-Disposition&#39;);
          if (fn) return fn(err);
         if (err) {
-            self.req.next('ENOENT' == err.code
+            self.req.next(&#39;ENOENT&#39; == err.code
                 ? null
                 : err);
         }
     });
 };
-</code></pre>
-
-<h3>有爱</h3>
-
+</code></pre><h3 id="-">有爱</h3>
 <p>^_^ ，希望本文对你有用。</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

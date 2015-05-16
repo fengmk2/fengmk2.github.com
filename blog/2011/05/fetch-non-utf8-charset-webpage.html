@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>Nodejs抓取非utf8字符编码的页面</title>
   <style>
      a{color:#09f;}
@@ -27,72 +27,58 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Nodejs抓取非utf8字符编码的页面</h1>
-
-<h2>问题: nodejs目前无法处理非utf8编码以外的字符</h2>
-
+<h1 id="nodejs-utf8-">Nodejs抓取非utf8字符编码的页面</h1>
+<h2 id="-nodejs-utf8-">问题: nodejs目前无法处理非utf8编码以外的字符</h2>
 <p>在cnodejs用户组，有同学遇到<a href="https://groups.google.com/group/cnodejs/browse_thread/thread/2a7dba383f3e3de8">抓取百度页面出现编码问题</a></p>
-
 <p>由于Buffer.toString(encoding)中encoding只支持utf8编码，所以需要附加模块才能处理此问题</p>
-
-<h2>解决：<a href="https://github.com/bnoordhuis/node-iconv">node-iconv</a> 模块</h2>
-
+<h2 id="-node-iconv-https-github-com-bnoordhuis-node-iconv-">解决：<a href="https://github.com/bnoordhuis/node-iconv">node-iconv</a> 模块</h2>
 <p>安装: </p>
-
-<pre class="prettyprint"><code>$ npm install iconv
-</code></pre>
-
-<h2>示例</h2>
-
-<pre class="prettyprint"><code>var http = require('http');
+<pre><code>$ npm install iconv
+</code></pre><h2 id="-">示例</h2>
+<pre><code>var http = require(&#39;http&#39;);
 
 var options = {
-    host: 'www.baidu.com',
+    host: &#39;www.baidu.com&#39;,
     port: 80,
-    path: '/s?wd=gfw'
+    path: &#39;/s?wd=gfw&#39;
 };
 
-var Iconv = require('iconv').Iconv;
+var Iconv = require(&#39;iconv&#39;).Iconv;
 
 http.get(options, function(res) {
-    console.log("Got response: " + res.statusCode, res.headers);
+    console.log(&quot;Got response: &quot; + res.statusCode, res.headers);
     var buffers = [], size = 0;
-    res.on('data', function(buffer) {
+    res.on(&#39;data&#39;, function(buffer) {
         buffers.push(buffer);
         size += buffer.length;
     });
-    res.on('end', function() {
+    res.on(&#39;end&#39;, function() {
         var buffer = new Buffer(size), pos = 0;
         for(var i = 0, l = buffers.length; i &lt; l; i++) {
             buffers[i].copy(buffer, pos);
             pos += buffers[i].length;
         }
         // 百度返回的页面数据流竟然还无法使用gbk完全解码。。
-        // var gbk_to_utf8_iconv = new Iconv('GBK', 'UTF-8//TRANSLIT//IGNORE');
+        // var gbk_to_utf8_iconv = new Iconv(&#39;GBK&#39;, &#39;UTF-8//TRANSLIT//IGNORE&#39;);
 
         // 百度页面的实际编码是：只能猜是GB18030，目前测试用此编码进行iconv转换处理，还没出现异常。。。
         // 既不是html meta里面声明的charset=gb2312，
         // 也不是response header声明的Content-Type:text/html;charset=gbk。
-        var gb18030_to_utf8_iconv = new Iconv('GB18030', 'UTF-8');
+        var gb18030_to_utf8_iconv = new Iconv(&#39;GB18030&#39;, &#39;UTF-8&#39;);
         var utf8_buffer = gb18030_to_utf8_iconv.convert(buffer);
         var utf8_buffer = gbk_to_utf8_iconv.convert(buffer);
         console.log(utf8_buffer.toString());
     });
-}).on('error', function(e) {
-    console.log("Got error: " + e.message);
+}).on(&#39;error&#39;, function(e) {
+    console.log(&quot;Got error: &quot; + e.message);
 });
-</code></pre>
-
-<p>具体页面编码可以根据res.headers['content-type'] 来判断。<br />如果没有res.headers['content-type']，则需要分析html的 Content-Type 来判断charset了 </p>
-
-<pre class="prettyprint"><code>“{meta http-equiv="Content-Type" content="text/html; charset=xxxx"/}”
-</code></pre>
-
-<p>更多url相关请求，可以使用<a href="http://github.com/fengmk2/urllib">urllib</a>库实现</p>
-
-<h2>有爱</h2>
-
+</code></pre><p>具体页面编码可以根据res.headers[&#39;content-type&#39;] 来判断。
+如果没有res.headers[&#39;content-type&#39;]，则需要分析html的 Content-Type 来判断charset了 </p>
+<pre><code>“{meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=xxxx&quot;/}”
+</code></pre><p>更多url相关请求，可以使用<a href="http://github.com/fengmk2/urllib">urllib</a>库实现</p>
+<h2 id="-">有爱</h2>
 <p>希望本文对你有用 ^_^</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

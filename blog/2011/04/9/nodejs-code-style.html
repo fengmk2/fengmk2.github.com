@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="//typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css" />
-  <script src="//imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
-  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
+  <link rel="stylesheet" href="http://imk2.qiniudn.com/css/prettify.css" />
+  <script src="http://imk2.qiniudn.com/js/jquery-1.7.min.js"></script>
+  <script src="http://imk2.qiniudn.com/js/prettify.js"></script>
   <title>Nodejs 代码规范</title>
   <style>
      a{color:#09f;}
@@ -27,48 +27,36 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Nodejs 代码规范</h1>
-
-<h2>空格</h2>
-
-<h3>缩进 tab => 2空格</h3>
-
-<pre class="prettyprint"><code>exports.print = function() {
+<h1 id="nodejs-">Nodejs 代码规范</h1>
+<h2 id="-">空格</h2>
+<h3 id="-tab-2-">缩进 tab =&gt; 2空格</h3>
+<pre><code>exports.print = function() {
   for (var i = 0, len = arguments.length; i &lt; len; ++i) {
     process.stdout.write(String(arguments[i]));
   }
 };
-</code></pre>
-
-<h3>for, if 括号前后间隔 1空格</h3>
-
-<pre class="prettyprint"><code>function format(value, recurseTimes) {
+</code></pre><h3 id="for-if-1-">for, if 括号前后间隔 1空格</h3>
+<pre><code>function format(value, recurseTimes) {
   // Provide a hook for user-specified inspect functions.
   // Check that value is an object with an inspect function on it
-  if (value &amp;&amp; typeof value.inspect === 'function' &amp;&amp;
-      // Filter out the util module, it's inspect function is special
+  if (value &amp;&amp; typeof value.inspect === &#39;function&#39; &amp;&amp;
+      // Filter out the util module, it&#39;s inspect function is special
       value !== exports &amp;&amp;
       // Also filter out any prototype objects using the circular check.
       !(value.constructor &amp;&amp; value.constructor.prototype === value)) {
     return value.inspect(recurseTimes);
   }
 }
-</code></pre>
-
-<h3>function 只需后 ) 与 { 直接间隔 1空格</h3>
-
-<pre class="prettyprint"><code>function timestamp() {
+</code></pre><h3 id="function-1-">function 只需后 ) 与 { 直接间隔 1空格</h3>
+<pre><code>function timestamp() {
   var d = new Date();
   var time = [pad(d.getHours()),
               pad(d.getMinutes()),
-              pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
+              pad(d.getSeconds())].join(&#39;:&#39;);
+  return [d.getDate(), months[d.getMonth()], time].join(&#39; &#39;);
 }
-</code></pre>
-
-<h2>相等判断，使用 === , !==</h2>
-
-<pre class="prettyprint"><code>readStream.addListener('data', function(chunk) {
+</code></pre><h2 id="-">相等判断，使用 === , !==</h2>
+<pre><code>readStream.addListener(&#39;data&#39;, function(chunk) {
   if (writeStream.write(chunk) === false) readStream.pause();
 });
 </code></pre>
