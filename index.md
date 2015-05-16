@@ -40,6 +40,8 @@
 
 ## Articles
 
+* [Blog/2015](blog/2015)
+  * [使用 coffee 来测试 cli 工具](blog/2015/test-cli-with-coffee.html)
 * [Blog/2014](blog/2014)
  * [SQL to Sequelize Mapping Chart](blog/2014/10/sql-to-sequelize-mapping-chart.html)
  * [co 常见使用场景](blog/2014/07/co-usage.html)

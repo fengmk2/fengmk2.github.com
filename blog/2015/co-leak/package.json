@@ -1,0 +1,7 @@
+{
+  "name": "co-leak",
+  "dependencies": {
+    "co": "^4.2.0",
+    "urllib": "^2.2.2"
+  }
+}
