@@ -60,7 +60,7 @@ if (process.env.running_under_istanbul) {
       &#39;--print&#39;, &#39;none&#39;,
       &#39;--include-all-sources&#39;,
       &#39;--include-pid&#39;,
-      workerPath, &#39;--&#39;
+      workerPath,
     ]
   });
 } else {
@@ -94,7 +94,52 @@ app.use(function* () {
 app.listen(1984);
 console.log(&#39;[%s] start listening on 1984&#39;, process.pid);
 </code></pre>
-<h3 id="test">test</h3>
+<h3 id="test-all-test-js">test/all.test.js</h3>
+<p>Using <a href="http://npm.taobao.org/package/mocha">mocha</a> and <a href="http://npm.taobao.org/package/supertest">supertest</a>.</p>
+<pre><code class="lang-js">const request = require(&#39;supertest&#39;);
+
+describe(&#39;cluster coverage unittest&#39;, function () {
+
+  before(function (done) {
+    require(&#39;../master&#39;);
+    const port = 1984;
+    const app = {
+      port: port,
+      url: &#39;http://127.0.0.1:&#39; + port,
+      address: function () {
+        return {
+          port: port
+        };
+      },
+      // mock koa api
+      callback: function () {
+        return app;
+      },
+    };
+    this.app = app;
+    setTimeout(done, 1500);
+  });
+
+  it(&#39;should 200 when user login&#39;, function (done) {
+    request(this.app.callback())
+    .get(&#39;/?uid=123&#39;)
+    .expect({
+      uid: &#39;123&#39;
+    })
+    .expect(200, done);
+  });
+
+  it(&#39;should 403 when anonymous user request&#39;, function (done) {
+    request(this.app.callback())
+    .get(&#39;/&#39;)
+    .expect({
+      error: &#39;please login first&#39;
+    })
+    .expect(403, done);
+  });
+});
+</code></pre>
+<h2 id="run-test">run test</h2>
 <p>Run the unittest and create coverage report</p>
 <pre><code class="lang-js">$ npm run cov
 
