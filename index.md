@@ -41,6 +41,7 @@
 ## Articles
 
 * [Blog/2015](blog/2015)
+  * [`cluster` code coverage with istanbul](blog/2015/cluster-coverage/README.html)
   * [使用 coffee 来测试 cli 工具](blog/2015/test-cli-with-coffee.html)
 * [Blog/2014](blog/2014)
  * [SQL to Sequelize Mapping Chart](blog/2014/10/sql-to-sequelize-mapping-chart.html)

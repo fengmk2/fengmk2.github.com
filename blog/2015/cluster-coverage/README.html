@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="//cdn.staticfile.org/typo.css/1.1/typo.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="//imk2.qiniudn.com/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+
+  <script src="//cdn.staticfile.org/jquery/2.0.3/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+  <script src="//imk2.qiniudn.com/js/prettify.js"></script>
+  <title>`cluster` code coverage with istanbul</title>
+  <style>
+    a{color:#09f;}
+    code{color:#080;}
+    pre{line-height: 1.4;}
+    h1, #tagline{display:inline;}
+    #wrapper{padding:5% 8%;min-width:480px;}
+    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+    #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="-cluster-code-coverage-with-istanbul"><code>cluster</code> code coverage with istanbul</h1>
+<p><a href="https://github.com/gotwarlost/istanbul">istanbul</a> is already supported <a href="https://github.com/gotwarlost/istanbul/blob/master/README.md#multiple-process-usage">Multiple Process Coverage</a>.</p>
+<p>I want to show you how to create code coverage using <a href="https://github.com/gotwarlost/istanbul">istanbul</a>.</p>
+<h3 id="master-js">master.js</h3>
+<pre><code class="lang-js">const cluster = require(&#39;cluster&#39;);
+const path = require(&#39;path&#39;);
+
+const workerPath = path.join(__dirname, &#39;worker.js&#39;);
+
+// setup cluster if running with istanbul coverage
+if (process.env.running_under_istanbul) {
+  // use coverage for forked process
+  // disabled reporting and output for child process
+  // enable pid in child process coverage filename
+  cluster.setupMaster({
+    exec: &#39;./node_modules/.bin/istanbul&#39;,
+    args: [
+      &#39;cover&#39;,
+      &#39;--report&#39;, &#39;none&#39;,
+      &#39;--print&#39;, &#39;none&#39;,
+      &#39;--include-all-sources&#39;,
+      &#39;--include-pid&#39;,
+      workerPath, &#39;--&#39;
+    ]
+  });
+} else {
+  cluster.setupMaster({
+    exec: workerPath,
+  });
+}
+
+// fork two workers
+cluster.fork();
+cluster.fork();
+</code></pre>
+<h3 id="worker-js">worker.js</h3>
+<pre><code class="lang-js">const koa = require(&#39;koa&#39;);
+
+const app = koa();
+
+app.use(function* () {
+  if (this.query.uid) {
+    return this.body = {
+      uid: this.query.uid,
+    };
+  }
+
+  this.status = 403;
+  this.body = {
+    error: &#39;please login first&#39;
+  };
+});
+
+app.listen(1984);
+console.log(&#39;[%s] start listening on 1984&#39;, process.pid);
+</code></pre>
+<h3 id="test">test</h3>
+<p>Run the unittest and create coverage report</p>
+<pre><code class="lang-js">$ npm run cov
+
+&gt; cluster-coverage@ cov /Users/mk2/git/fengmk2.github.com/blog/2015/cluster-coverage
+&gt; npm run clean &amp;&amp; npm run test-cov &amp;&amp; istanbul report
+
+
+&gt; cluster-coverage@ clean /Users/mk2/git/fengmk2.github.com/blog/2015/cluster-coverage
+&gt; rm -rf coverage
+
+
+&gt; cluster-coverage@ test-cov /Users/mk2/git/fengmk2.github.com/blog/2015/cluster-coverage
+&gt; istanbul cover --include-all-sources node_modules/.bin/_mocha -- --check-leaks test/*.test.js
+
+&gt; istanbul report
+</code></pre>
+<p>See the <a href="./coverage/lcov-report/index.html">cluster-coverage report</a></p>
+<p><img src="http://ww3.sinaimg.cn/large/61c56ebcjw1evjbdbyfgjj20sr06b407.jpg" alt=""></p>
+
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

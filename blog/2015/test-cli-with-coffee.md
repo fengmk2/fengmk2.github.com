@@ -1,4 +1,4 @@
-# 使用 [coffee] 来测试 cli 命令行工具
+# 使用 coffee 来测试 cli 命令行工具
 
 npm 团队最近也在大力推广使用 node 来开发 cli 命令行工具，[Building a simple command line tool with npm](http://blog.npmjs.org/post/118810260230/building-a-simple-command-line-tool-with-npm)。
 

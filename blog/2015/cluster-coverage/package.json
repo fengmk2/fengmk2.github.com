@@ -1,0 +1,16 @@
+{
+  "name": "cluster-coverage",
+  "scripts": {
+    "clean": "rm -rf coverage",
+    "test-cov": "istanbul cover --include-all-sources node_modules/.bin/_mocha -- --check-leaks test/*.test.js",
+    "cov": "npm run clean && npm run test-cov && istanbul report"
+  },
+  "dependencies": {
+    "koa": "~1.0.0"
+  },
+  "devDependencies": {
+    "istanbul": "^0.3.18",
+    "mocha": "2",
+    "supertest": "1"
+  }
+}
