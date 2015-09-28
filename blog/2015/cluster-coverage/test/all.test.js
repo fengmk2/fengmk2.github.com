@@ -14,12 +14,13 @@
  * Module dependencies.
  */
 
+const assert = require('assert');
 const request = require('supertest');
 
 describe('cluster coverage unittest', function () {
 
   before(function (done) {
-    require('../master');
+    this.master = require('../master');
     const port = 1984;
     const app = {
       port: port,
@@ -54,5 +55,20 @@ describe('cluster coverage unittest', function () {
       error: 'please login first'
     })
     .expect(403, done);
+  });
+
+  it('should send message to monitor work', function (done) {
+    this.master.monitor.send({
+      id: 1,
+      hi: 'I\'m master',
+    });
+    this.master.monitor.once('message', function (msg) {
+      assert.deepEqual(msg, {
+        from: 'monitor',
+        type: 'confirm',
+        id: 1,
+      });
+      done();
+    });
   });
 });

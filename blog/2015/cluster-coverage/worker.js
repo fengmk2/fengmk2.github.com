@@ -32,4 +32,5 @@ app.use(function* () {
 });
 
 app.listen(1984);
-console.log('[%s] start listening on 1984', process.pid);
+console.log('[worker#%d] start listening on 1984, running_under_istanbul: %s', 
+  process.pid, process.env.running_under_istanbul);

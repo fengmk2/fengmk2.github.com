@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for cluster-coverage/worker.js</title>
+    <title>Code coverage report for cluster-coverage/monitor.js</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../prettify.css">
     <link rel="stylesheet" href="../base.css">
@@ -13,15 +13,15 @@
 </head>
 <body>
 <div class="header high">
-    <h1>Code coverage report for <span class="entity">cluster-coverage/worker.js</span></h1>
+    <h1>Code coverage report for <span class="entity">cluster-coverage/monitor.js</span></h1>
     <h2>
-        Statements: <span class="metric">100% <small>(9 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">100% <small>(2 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(0 / 0)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Functions: <span class="metric">100% <small>(1 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">100% <small>(9 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
-    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">cluster-coverage/</a> &#187; worker.js</div>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">cluster-coverage/</a> &#187; monitor.js</div>
 </div>
 <div class="body">
 <pre><table class="coverage">
@@ -51,17 +51,7 @@
 24
 25
 26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+27</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -77,28 +67,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**!
- * worker process
+ * monitor process
  *
  * Copyright(c) fengmk2 and other contributors.
  * MIT Licensed
@@ -113,26 +93,16 @@
  * Module dependencies.
  */
 &nbsp;
-const koa = require('koa');
-&nbsp;
-const app = koa();
-&nbsp;
-app.use(function* () {
-  if (this.query.uid) {
-    return this.body = {
-      uid: this.query.uid,
-    };
-  }
-&nbsp;
-  this.status = 403;
-  this.body = {
-    error: 'please login first'
-  };
+console.log('monitor:%d start with %j, running_under_istanbul: %s',
+  process.pid, process.argv, process.env.running_under_istanbul);
+process.on('message', function (msg) {
+  console.log('[monitor] got message from master: %j', msg);
+  process.send({
+    from: 'monitor',
+    type: 'confirm',
+    id: msg.id
+  });
 });
-&nbsp;
-app.listen(1984);
-console.log('[worker#%d] start listening on 1984, running_under_istanbul: %s', 
-  process.pid, process.env.running_under_istanbul);
 &nbsp;</pre></td></tr>
 </table></pre>
 
