@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>npm.taobao.org 月下载量统计</title>
+</head>
+<body>
+  <h2>npm.taobao.org / cnpmjs.org 月下载量</h2>
+  <div id="c1"></div>
+  <script src="https://as.alipayobjects.com/g/datavis/g2/1.1.4/index.js"></script>
+  <script>
+var data = [
+  {month: '2014-01', 'npm.taobao.org': 0, 'cnpmjs.org': 169889},
+  {month: '2014-02', 'npm.taobao.org': 0, 'cnpmjs.org': 149522},
+  {month: '2014-03', 'npm.taobao.org': 0, 'cnpmjs.org': 1130291},
+  {month: '2014-04', 'npm.taobao.org': 0, 'cnpmjs.org': 1156330},
+  {month: '2014-05', 'npm.taobao.org': 0, 'cnpmjs.org': 515621},
+  {month: '2014-06', 'npm.taobao.org': 0, 'cnpmjs.org': 517845},
+  {month: '2014-07', 'npm.taobao.org': 0, 'cnpmjs.org': 629654},
+  {month: '2014-08', 'npm.taobao.org': 0, 'cnpmjs.org': 635415},
+  {month: '2014-09', 'npm.taobao.org': 0, 'cnpmjs.org': 448631},
+  {month: '2014-10', 'npm.taobao.org': 1844544, 'cnpmjs.org': 415652},
+  {month: '2014-11', 'npm.taobao.org': 3328225, 'cnpmjs.org': 402044},
+  {month: '2014-12', 'npm.taobao.org': 3381627, 'cnpmjs.org': 459287},
+  {month: '2015-01', 'npm.taobao.org': 4777286, 'cnpmjs.org': 482132},
+  {month: '2015-02 新年', 'npm.taobao.org': 4333816, 'cnpmjs.org': 423628},
+  {month: '2015-03', 'npm.taobao.org': 7264010, 'cnpmjs.org': 849006},
+  {month: '2015-04', 'npm.taobao.org': 8697106, 'cnpmjs.org': 1031368},
+  {month: '2015-05', 'npm.taobao.org': 8373910, 'cnpmjs.org': 1003387},
+  {month: '2015-06', 'npm.taobao.org': 6904747, 'cnpmjs.org': 1235985},
+  {month: '2015-07', 'npm.taobao.org': 12276333, 'cnpmjs.org': 1505126},
+  {month: '2015-08', 'npm.taobao.org': 7335825, 'cnpmjs.org': 1366610},
+  {month: '2015-09', 'npm.taobao.org': 11118975, 'cnpmjs.org': 1742208},
+  {month: '2015-10', 'npm.taobao.org': 9646503, 'cnpmjs.org': 1454715},
+  {month: '2015-11', 'npm.taobao.org': 14444223, 'cnpmjs.org': 1707419},
+  {month: '2015-12', 'npm.taobao.org': 27598034, 'cnpmjs.org': 1857297},
+  {month: '2016-01', 'npm.taobao.org': 26794340, 'cnpmjs.org': 1645012},
+  {month: '2016-02 新年', 'npm.taobao.org': 16174961, 'cnpmjs.org': 1262057},
+  {month: '2016-03', 'npm.taobao.org': 22741556, 'cnpmjs.org': 2241355},
+  {month: '2016-04', 'npm.taobao.org': 26065377, 'cnpmjs.org': 2059887},
+];
+
+var chart = new G2.Chart({
+  id: 'c1',
+  width: 1200,
+  height: 600,
+  plotCfg: {
+    margin: [20, 200, 80, 80]
+  }
+});
+
+var Frame = G2.Frame;
+var frame = new Frame(data);
+frame = Frame.combinColumns(frame,
+  ['npm.taobao.org', 'cnpmjs.org'], '次数', '源站', 'month');
+
+chart.source(frame);
+chart.line().position('month*次数').color('源站');
+chart.point().position('month*次数').color('源站');
+chart.render();
+</script>
+
+</body>
+</html>
