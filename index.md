@@ -3,7 +3,7 @@
 ## Who is MK2
 
 ![mk2 photo](https://secure.gravatar.com/avatar/95b9d41231617a05ced5604d242c9670?s=200)
-<iframe src="http://githubbadge.appspot.com/fengmk2?s=1" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder="0"></iframe>
+<iframe src="//githubbadge.appspot.com/fengmk2?s=1" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder="0"></iframe>
 
 * Github: [@fengmk2](https://github.com/fengmk2)
 * Weibo: [@Python发烧友](http://weibo.com/imk2)
@@ -85,15 +85,15 @@
 
 * <img width="100" src="http://jsconfcn.qiniudn.com/logo.png"> [杭JS 2014](http://2014.jsconf.cn/) is a two day conference focused on JavaScript and Node.js technologies. This developer driven event will bring together notable figures from both the Chinese and international JavaScript communities to share their knowledge and passion for JavaScript. The conference will be held in Hangzhou from June 21-22.
 
-<a href="http://ww4.sinaimg.cn/large/61c56ebcgw1ehp32sddkgj21kw0s5k52.jpg" target="_blank"><img src="http://ww4.sinaimg.cn/mw1024/61c56ebcgw1ehp32sddkgj21kw0s5k52.jpg" alt="HangJS"></a>
+<a href="//ww4.sinaimg.cn/large/61c56ebcgw1ehp32sddkgj21kw0s5k52.jpg" target="_blank"><img src="//ww4.sinaimg.cn/mw1024/61c56ebcgw1ehp32sddkgj21kw0s5k52.jpg" alt="HangJS"></a>
 
 * <img width="100" src="http://nfs.nodeblog.org/b/2/b2d5557fcea267c6b5ef13eb8762c4be.png" alt="Jingjs"> [京JS](http://jingjs.org/): 2013 9 - 10, NOVEMBER, A two day conference in Beijing for the Chinese JavaScript and Node.js community. (一个在北京举办的为期二天，为中国JavaScript和Node.js研发者社区举办的国际性技术大会)
 
 ![mk2&jackson&troy&goddy](http://nfs.nodeblog.org/b/8/b89258b13b66ee5abd4f530d018409f1.jpg)
 
-* <img width="100" src="http://ww1.sinaimg.cn/bmiddle/6cfc7910jw1ehp6uh3sjrj20dw0dwglw.jpg" alt="Hujs"> [沪JS](http://www.hujs.org/): 2012 九月14－16日，上海, 一个为中国Javascript和Node.js开发者社区举办的会议
+* <img width="100" src="//ww1.sinaimg.cn/bmiddle/6cfc7910jw1ehp6uh3sjrj20dw0dwglw.jpg" alt="Hujs"> [沪JS](http://www.hujs.org/): 2012 九月14－16日，上海, 一个为中国Javascript和Node.js开发者社区举办的会议
 
-[![gleen&troy&goddy&jackson&mk2](http://ww3.sinaimg.cn/bmiddle/6cfc7910jw1dx6wgxck38j.jpg)](http://ww3.sinaimg.cn/large/6cfc7910jw1dx6wgxck38j.jpg)
+[![gleen&troy&goddy&jackson&mk2](//ww3.sinaimg.cn/bmiddle/6cfc7910jw1dx6wgxck38j.jpg)](//ww3.sinaimg.cn/large/6cfc7910jw1dx6wgxck38j.jpg)
 
 * [Alibaba Developer Conference]
 
