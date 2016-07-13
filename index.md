@@ -41,7 +41,7 @@
 ## Articles
 
 * [Blog/2016](blog/2016)
-  * [我是如何发布一个 npm 包的](blog/2016/how-i-publish-a-npm-package.html)
+  * [我是如何发布一个 npm 包的](blog/2016/how-i-publish-a-npm-package)
 * [Blog/2015](blog/2015)
   * [`cluster` code coverage with istanbul](blog/2015/cluster-coverage/README.html)
   * [使用 coffee 来测试 cli 工具](blog/2015/test-cli-with-coffee.html)
