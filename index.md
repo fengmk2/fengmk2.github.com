@@ -41,6 +41,7 @@
 ## Articles
 
 * [Blog/2016](blog/2016)
+  * [Google Fonts 加速代理](blog/2016/google-fonts-mirror)
   * [我是如何发布一个 npm 包的](blog/2016/how-i-publish-a-npm-package)
 * [Blog/2015](blog/2015)
   * [`cluster` code coverage with istanbul](blog/2015/cluster-coverage/README.html)
