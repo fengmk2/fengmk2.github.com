@@ -1,3 +1,4 @@
 #!/bin/bash
 # http://twopenguins.org/tips/git-through-proxy.php
-nc -x127.0.0.1:7080 -X5 $*
+# https://segmentfault.com/q/1010000000118837
+nc -x127.0.0.1:1080 -X5 $*
