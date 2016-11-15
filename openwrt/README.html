@@ -55,8 +55,7 @@
 
 <p>复制之前先将 shadowsocks.json 和 shadowsocks 配置好。</p>
 
-<pre><code>bash
-scp ~/git/fengmk2.github.com/openwrt/shadowsocks-libev_2.4.8-3_mvebu.ipk wrt:~/
+<pre><code>scp ~/git/fengmk2.github.com/openwrt/shadowsocks-libev_2.4.8-3_mvebu.ipk wrt:~/
 scp ~/git/fengmk2.github.com/openwrt/gfwlist2dnsmasq.py wrt:~/
 scp ~/git/fengmk2.github.com/openwrt/update_dnsmasq_list.sh wrt:~/
 scp ~/git/fengmk2.github.com/openwrt/shadowsocks.json wrt:/etc/shadowsocks.json
@@ -67,8 +66,7 @@ scp ~/git/fengmk2.github.com/openwrt/shadowsocks wrt:/etc/init.d/shadowsocks
 
 <p>在 wrt 上执行 pkg 更新</p>
 
-<pre><code>bash
-cd ~
+<pre><code>cd ~
 opkg update
 opkg remove dnsmasq
 opkg install dnsmasq-full
@@ -78,76 +76,59 @@ opkg install shadowsocks-libev_2.4.8-3_mvebu.ipk
 
 <p>检查 ss 是否安装完成</p>
 
-<pre><code>bash
-ldd /usr/bin/ss-redir
+<pre><code>ldd /usr/bin/ss-redir
 </code></pre>
 
 <h2>启动 shadowsocks</h2>
 
-<pre><code>bash
-chmod +x /etc/init.d/shadowsocks
+<pre><code>chmod +x /etc/init.d/shadowsocks
 /etc/init.d/shadowsocks enable
 /etc/init.d/shadowsocks start
 </code></pre>
 
 <p>通过 netstat 可以看到监听了 1080 和 5353 端口</p>
 
-<pre><code>bash
-netstat -nat
+<pre><code>netstat -nat
 </code></pre>
 
 <h2>配置 ipset</h2>
 
-<pre><code>bash
+<ul>
+<li>创建名为gfwlist，格式为iphash的集合</li>
+<li>匹配gfwlist中ip的nat流量均被转发到shadowsocks端口</li>
+<li>匹配gfwlist中ip的本机流量均被转发到shadowsocks端口</li>
+</ul>
 
-
-<h1>创建名为gfwlist，格式为iphash的集合</h1>
-
-ipset -N gfwlist iphash
-
-
-
-<h1>匹配gfwlist中ip的nat流量均被转发到shadowsocks端口</h1>
-
+<pre><code>ipset -N gfwlist iphash
 iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080
-
-
-
-<h1>匹配gfwlist中ip的本机流量均被转发到shadowsocks端口</h1>
-
 iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080
 </code></pre>
 
 <h2>配置 dnsmasq-full</h2>
 
-<pre><code>bash
-echo 'conf-dir=/etc/dnsmasq.d' >> /etc/dnsmasq.conf
+<pre><code>echo 'conf-dir=/etc/dnsmasq.d' >> /etc/dnsmasq.conf
+</code></pre>
 
+<p>更新 gfwlist 并且重启 dnsmasq</p>
 
-
-<h1>更新 gfwlist 并且重启 dnsmasq</h1>
-
-sh update_dnsmasq_list.sh
+<pre><code>sh update_dnsmasq_list.sh
 </code></pre>
 
 <ul>
 <li>查看 dns 缓存信息</li>
 </ul>
 
-<pre><code>bash
-ipset -L gfwlist
+<pre><code>ipset -L gfwlist
 </code></pre>
 
 <p>清空 dns 缓存</p>
 
-<pre><code>bash
-ipset flush gfwlist
+<pre><code>ipset flush gfwlist
 </code></pre>
 
 <h2>测试</h2>
 
-<pre><code>bash
-curl -v twitter.com
+<pre><code>curl -v twitter.com
 curl -v facebook.com
 </code></pre>
 

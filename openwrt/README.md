@@ -16,7 +16,7 @@ Host wrt 192.168.2.1
 
 复制之前先将 shadowsocks.json 和 shadowsocks 配置好。
 
-```bash
+```
 scp ~/git/fengmk2.github.com/openwrt/shadowsocks-libev_2.4.8-3_mvebu.ipk wrt:~/
 scp ~/git/fengmk2.github.com/openwrt/gfwlist2dnsmasq.py wrt:~/
 scp ~/git/fengmk2.github.com/openwrt/update_dnsmasq_list.sh wrt:~/
@@ -28,7 +28,7 @@ scp ~/git/fengmk2.github.com/openwrt/shadowsocks wrt:/etc/init.d/shadowsocks
 
 在 wrt 上执行 pkg 更新
 
-```bash
+```
 cd ~
 opkg update
 opkg remove dnsmasq
@@ -39,13 +39,13 @@ opkg install shadowsocks-libev_2.4.8-3_mvebu.ipk
 
 检查 ss 是否安装完成
 
-```bash
+```
 ldd /usr/bin/ss-redir
 ```
 
 ## 启动 shadowsocks
 
-```bash
+```
 chmod +x /etc/init.d/shadowsocks
 /etc/init.d/shadowsocks enable
 /etc/init.d/shadowsocks start
@@ -53,47 +53,49 @@ chmod +x /etc/init.d/shadowsocks
 
 通过 netstat 可以看到监听了 1080 和 5353 端口
 
-```bash
+```
 netstat -nat
 ```
 
 ## 配置 ipset
 
-```bash
-# 创建名为gfwlist，格式为iphash的集合
+- 创建名为gfwlist，格式为iphash的集合
+- 匹配gfwlist中ip的nat流量均被转发到shadowsocks端口
+- 匹配gfwlist中ip的本机流量均被转发到shadowsocks端口
+
+```
 ipset -N gfwlist iphash
-
-# 匹配gfwlist中ip的nat流量均被转发到shadowsocks端口
 iptables -t nat -A PREROUTING -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080
-
-# 匹配gfwlist中ip的本机流量均被转发到shadowsocks端口
 iptables -t nat -A OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1080
 ```
 
 ## 配置 dnsmasq-full
 
-```bash
+```
 echo 'conf-dir=/etc/dnsmasq.d' >> /etc/dnsmasq.conf
+```
 
-# 更新 gfwlist 并且重启 dnsmasq
+更新 gfwlist 并且重启 dnsmasq
+
+```
 sh update_dnsmasq_list.sh
 ```
 
 - 查看 dns 缓存信息
 
-```bash
+```
 ipset -L gfwlist
 ```
 
 清空 dns 缓存
 
-```bash
+```
 ipset flush gfwlist
 ```
 
 ## 测试
 
-```bash
+```
 curl -v twitter.com
 curl -v facebook.com
 ```
