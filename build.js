@@ -1,15 +1,5 @@
-/*!
- * mk2blog - bulid.js
- * Copyright(c) 2012 fengmk2 <fengmk2@gmail.com>
- * MIT Licensed
- */
-
-/**
- * Module dependencies.
- */
-
-var mdit = require('../mdit');
-var ndir = require('../ndir');
+var mdit = require('mdit');
+var ndir = require('ndir');
 var path = require('path');
 var fs = require('fs');
 
