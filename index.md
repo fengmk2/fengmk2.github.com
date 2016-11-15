@@ -41,6 +41,7 @@
 ## Articles
 
 * [Blog/2016](blog/2016)
+  * [linksys 刷 openwrt](openwrt/README)
   * [Google Fonts 加速代理](blog/2016/google-fonts-mirror)
   * [我是如何发布一个 npm 包的](blog/2016/how-i-publish-a-npm-package)
 * [Blog/2015](blog/2015)
@@ -105,9 +106,3 @@
 <a href="http://adc.taobao.com/" target="_blank"><img src="http://adc.taobao.com/bundles/devcarnival/images/d2_728x90.jpg" width="728" height="90" alt="ADC·阿里技术嘉年华（7月7-8日·杭州）" /></a>
 
 [Alibaba Developer Conference]: http://adc.taobao.com/
-
-## Clone MK2's Blog
-
-```
-$ git clone git://github.com/fengmk2/fengmk2.github.com
-```
