@@ -19,6 +19,9 @@ ipsetname = 'gfwlist'
 EX_DOMAIN=[ \
 # custom
 '.cokebar.info', \
+'.github.io', \
+'.github.com', \
+'.nodejs.org', \
 # orginal
 '.google.com', \
 '.google.com.hk', \
