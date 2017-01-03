@@ -7,6 +7,8 @@
 <body>
   <h2>npm.taobao.org / cnpmjs.org 月下载量</h2>
   <div id="c1"></div>
+  <h2>npm.taobao.org / cnpmjs.org 年下载量</h2>
+  <div id="c2"></div>
   <script src="https://as.alipayobjects.com/g/datavis/g2/1.1.4/index.js"></script>
   <script>
 var data = [
@@ -39,6 +41,13 @@ var data = [
   {month: '2016-03', 'npm.taobao.org': 22741556, 'cnpmjs.org': 2241355},
   {month: '2016-04', 'npm.taobao.org': 26065377, 'cnpmjs.org': 2059887},
   {month: '2016-05', 'npm.taobao.org': 26776883, 'cnpmjs.org': 2173102},
+  {month: '2016-06', 'npm.taobao.org': 25692609, 'cnpmjs.org': 2063525},
+  {month: '2016-07', 'npm.taobao.org': 34396891, 'cnpmjs.org': 2619863},
+  {month: '2016-08', 'npm.taobao.org': 38744968, 'cnpmjs.org': 2342537},
+  {month: '2016-09 G20', 'npm.taobao.org': 41987115, 'cnpmjs.org': 2680755},
+  {month: '2016-10 国庆', 'npm.taobao.org': 46909227, 'cnpmjs.org': 3357999},
+  {month: '2016-11 双十一', 'npm.taobao.org': 62170023, 'cnpmjs.org': 4639624},
+  {month: '2016-12', 'npm.taobao.org': 67895414, 'cnpmjs.org': 5087981},
 ];
 
 var chart = new G2.Chart({
@@ -47,6 +56,12 @@ var chart = new G2.Chart({
   height: 600,
   plotCfg: {
     margin: [20, 200, 80, 80]
+  }
+});
+chart.on('tooltipchange', function(ev) {
+  for (var i = 0; i < ev.items.length; i++) {
+    var item = ev.items[i];
+    item.value = Number(item.value).toLocaleString();
   }
 });
 
@@ -59,6 +74,52 @@ chart.source(frame);
 chart.line().position('month*次数').color('源站');
 chart.point().position('month*次数').color('源站');
 chart.render();
+
+// year
+var data2 = [
+  { year: '2014', 'npm.taobao.org': 0, 'cnpmjs.org': 0 },
+  { year: '2015', 'npm.taobao.org': 0, 'cnpmjs.org': 0 },
+  { year: '2016', 'npm.taobao.org': 0, 'cnpmjs.org': 0 },
+];
+for (var i = 0; i < data.length; i++) {
+  var item = data[i];
+  var year = item.month.split('-')[0];
+  for (var j = 0; j < data2.length; j++) {
+    var yearItem = data2[j];
+    if (year === yearItem.year) {
+      for (var domain in yearItem) {
+        if (domain === 'year') continue;
+        yearItem[domain] += item[domain] || 0;
+      }
+    }
+  }
+}
+
+var chart2 = new G2.Chart({
+  id: 'c2',
+  width: 1200,
+  height: 600,
+  plotCfg: {
+    margin: [20, 200, 80, 80]
+  }
+});
+
+chart2.on('tooltipchange', function(ev) {
+  for (var i = 0; i < ev.items.length; i++) {
+    var item = ev.items[i];
+    item.value = Number(item.value).toLocaleString();
+  }
+});
+
+var Frame2 = G2.Frame;
+var frame2 = new Frame(data2);
+frame2 = Frame.combinColumns(frame2,
+  ['npm.taobao.org', 'cnpmjs.org'], '次数', '源站', 'year');
+
+chart2.source(frame2);
+chart2.line().position('year*次数').color('源站');
+chart2.point().position('year*次数').color('源站');
+chart2.render();
 </script>
 
 </body>
