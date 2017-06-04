@@ -32,7 +32,8 @@ d3.csv('./stats.csv', function(d) {
     .range([ '#00bcd4', '#ffc107' ]);
 
   const groupKeys = Array.from(new Set(data.map(d => d.name)));
-  const valueKeys = [ 'req_per_sec', 'byte_per_sec' ];
+  // const valueKeys = [ 'req_per_sec', 'byte_per_sec' ];
+  const valueKeys = [ 'req_per_sec' ];
   const configKeys = Array.from(new Set(data.map(d => d.config)));
   const barKeys = [];
   for (const v of valueKeys) {
