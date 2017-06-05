@@ -28,8 +28,14 @@ d3.csv('./stats.csv', function(d) {
   const y = d3.scaleLinear()
     .rangeRound([ height, 0 ]);
 
+  // https://antv.alipay.com/vis/doc/design/principle/color.html
   const z = d3.scaleOrdinal()
-    .range([ '#00bcd4', '#ffc107' ]);
+    .range([
+      '#61A5E8', '#7ECF51',
+      '#EECB5F', '#9570E5',
+      '#E3035D', '#E16757',
+      '#605FF0',
+      '#00bcd4', '#ffc107' ]);
 
   const groupKeys = Array.from(new Set(data.map(d => d.name)));
   // const valueKeys = [ 'req_per_sec', 'byte_per_sec' ];
