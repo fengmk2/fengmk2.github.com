@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+
+  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
+  <title>#title#</title>
+  <style>
+    a{color:#09f;}
+    code{color:#080;}
+    pre{line-height: 1.4;}
+    h1, #tagline{display:inline;}
+    #wrapper{padding:5% 8%;min-width:480px;}
+    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+    #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>子进程的优雅退出</h1>
+
+<h2>案例描述</h2>
+
+<p>在做 egg-cluster 的时候，app worker 是由 cluster fork 出来的，然而 agent worker 是 master 通过 child_process.fork 出来的。<br />他们两者之间在 master 正常退出的情况下，没太大区别。</p>
+
+<p>但是在 master 意外被强杀，如 <code>kill -9</code> 杀掉，那么 app worker 还是会优雅退出，<br />但是 agent worker 缺变成了孤儿进程，通过 <a href='https://github.com/eggjs/egg-cluster/pull/27'>https://github.com/eggjs/egg-cluster/pull/27</a> 可以看到最终的效果。</p>
+
+<blockquote>
+  <p>这个 fix 也证明，通过 child_process fork 出来的子进程，<br />如果需要实现父进程挂了子进程也跟着挂，必须在子进程里面也加上相应的处理，才能实现，没办法只通过父进程来实现。</p>
+</blockquote>
+
+<p>于是我们将这里子进程优雅退出的解决方案封装到一个 <a href="https://github.com/node-modules/graceful-process">graceful-process</a> 模块统一解决，只需要在子进程代码里面执行一下优雅退出逻辑即可。</p>
+
+<pre><code>js
+const gracefulExit = require('graceful-process');
+
+gracefulExit({
+  logger: yourlogger,
+  label: 'my_worker',
+});
+</code></pre>
+
+<h2>使用案例</h2>
+
+<ul>
+<li>egg-cluster: <a href='https://github.com/eggjs/egg-cluster/pull/30'>https://github.com/eggjs/egg-cluster/pull/30</a></li>
+<li>egg-staticlocal: <a href='http://gitlab.alipay-inc.com/chair/egg-staticlocal/merge_requests/33'>http://gitlab.alipay-inc.com/chair/egg-staticlocal/merge_requests/33</a></li>
+</ul>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>
