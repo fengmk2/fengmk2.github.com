@@ -1,4 +1,4 @@
-# MK2 in Github
+# A simple blog of fengmk2
 
 ## Who is MK2
 

@@ -71,7 +71,7 @@ walker.on('end', function () {
         return;
       }
       var dirurl = dir.replace(__dirname, '');
-      var list = '#Index of ' + dirurl + '\n';
+      var list = '# Index of ' + dirurl + '\n';
       for (var i = 0, l = files.length; i < l; i++) {
         var info = files[i];
         var url = info[0].replace(__dirname, '');
