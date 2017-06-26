@@ -41,6 +41,8 @@
 
 ## Articles
 
+* [Blog/2017](blog/2017)
+  * [子进程的优雅退出](blog/2017/graceful-process-exit)
 * [Blog/2016](blog/2016)
   * [linksys 刷 openwrt](openwrt/README)
   * [Google Fonts 加速代理](blog/2016/google-fonts-mirror)
