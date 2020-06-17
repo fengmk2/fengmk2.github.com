@@ -25,4 +25,3 @@ gracefulExit({
 ## 使用案例
 
 - egg-cluster: https://github.com/eggjs/egg-cluster/pull/30
-- egg-staticlocal: http://gitlab.alipay-inc.com/chair/egg-staticlocal/merge_requests/33
