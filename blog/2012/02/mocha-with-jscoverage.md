@@ -59,4 +59,4 @@ mocha在[Release 0.13.0](https://github.com/visionmedia/mocha/commit/6caeb30386e
 
 ^_^ 希望本文对你有用
 
-原文链接: [http://fengmk2.github.com/blog/2012/02/mocha-with-jscoverage.html](http://fengmk2.github.com/blog/2012/02/mocha-with-jscoverage.html)
+原文链接: [/blog/2012/02/mocha-with-jscoverage.html](/blog/2012/02/mocha-with-jscoverage.html)

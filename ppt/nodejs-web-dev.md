@@ -60,7 +60,7 @@
 
 ![fibonacci](http://nfs.nodeblog.org/e/c/eca1b2026c120772533318553454c7c6.png)
 
-* [fibonacci(40) benchmark](http://fengmk2.github.com/blog/2011/fibonacci/nodejs-python-php-ruby-lua.html)
+* [fibonacci(40) benchmark](/blog/2011/fibonacci/nodejs-python-php-ruby-lua.html)
 
 ---
 
@@ -394,7 +394,7 @@ exports.finish = function (req, res, next) {
 
 ---
 
-[http://fengmk2.github.com/ppt/nodejs-web-dev.html](http://fengmk2.github.com/ppt/nodejs-web-dev.html)
+[/ppt/nodejs-web-dev.html](/ppt/nodejs-web-dev.html)
 
 # web.emit(`'Thanks'`) <br/>&&<br/> console.log(`'end'`);
 

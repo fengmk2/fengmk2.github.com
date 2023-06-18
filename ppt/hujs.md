@@ -269,7 +269,7 @@ s.setNoDelay(true);
 
 <hr/>
 
-Read more: [模拟 Nagle 算法的Delayed Ack](http://fengmk2.github.com/benchmark/nagle-algorithm-delayed-ack-mock.html)
+Read more: [模拟 Nagle 算法的Delayed Ack](/benchmark/nagle-algorithm-delayed-ack-mock.html)
 
 ---
 
@@ -458,6 +458,6 @@ connection.on("close", function() {
 
 ---
 
-[http://fengmk2.github.com/ppt/hujs.html](http://fengmk2.github.com/ppt/hujs.html)
+[/ppt/hujs.html](/ppt/hujs.html)
 
 # hujs.emit(`'Thanks'`) <br/>&&<br/> console.log(`'end'`);
