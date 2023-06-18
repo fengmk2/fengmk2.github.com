@@ -29,6 +29,9 @@ var walker = ndir.walk(root, function (dir, files) {
   if (dir.indexOf('/.git') >= 0) {
     return;
   }
+  if (dir.indexOf('node_modules/.store/') >= 0) {
+    return;
+  }
   for (var i = 0, l = files.length; i < l; i++) {
     var info = files[i];
     if (info[1].isFile()) {
