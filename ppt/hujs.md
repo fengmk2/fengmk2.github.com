@@ -280,8 +280,8 @@ Read more: [模拟 Nagle 算法的Delayed Ack](/benchmark/nagle-algorithm-delaye
 
 <hr/>
 
-### We connecting mongodb with [node-mongodb-native](http://mongodb.github.com/node-mongodb-native/) and [mongoskin](https://github.com/kissjs/node-mongoskin).
-### 我们使用[node-mongodb-native](http://mongodb.github.com/node-mongodb-native/) 和 [mongoskin](https://github.com/kissjs/node-mongoskin) 来连接mongodb.
+### We connecting mongodb with [node-mongodb-native](http://mongodb.github.io/node-mongodb-native/) and [mongoskin](https://github.com/kissjs/node-mongoskin).
+### 我们使用[node-mongodb-native](http://mongodb.github.io/node-mongodb-native/) 和 [mongoskin](https://github.com/kissjs/node-mongoskin) 来连接mongodb.
 
 ---
 

@@ -14,4 +14,4 @@ nodejs的web开发，目前最受欢迎的必然是 [express]。
 * template engine and render helper
 
 [express]: http://expressjs.com/ "High performance, high class web development for Node.js"
-[connect]: http://senchalabs.github.com/connect "Connect is a middleware framework for node, shipping with over 18 bundled middleware and a rich selection of 3rd-party middleware."
+[connect]: http://senchalabs.github.io/connect "Connect is a middleware framework for node, shipping with over 18 bundled middleware and a rich selection of 3rd-party middleware."

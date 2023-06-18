@@ -6576,7 +6576,7 @@ Utf8.decode = function(strUtf) {
 
 /* ===========================================================
  * bootstrap-tooltip.js v2.0.1
- * http://twitter.github.com/bootstrap/javascript.html#tooltips
+ * http://twitter.github.io/bootstrap/javascript.html#tooltips
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ===========================================================
  * Copyright 2012 Twitter, Inc.

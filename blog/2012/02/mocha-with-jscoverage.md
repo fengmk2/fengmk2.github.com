@@ -4,7 +4,7 @@ mocha在[Release 0.13.0](https://github.com/visionmedia/mocha/commit/6caeb30386e
 
 ## 如何做?
 
-参照 [mocha](http://visionmedia.github.com/mocha/) 的 [Best practices](http://visionmedia.github.com/mocha/), 在 `Makefile` 中配置所有命令:
+参照 [mocha](https://mochajs.org/) 的 [Best practices](https://mochajs.org/), 在 `Makefile` 中配置所有命令:
 
 1. 使用 `jscoverage` 命令行程序转换源代码
 

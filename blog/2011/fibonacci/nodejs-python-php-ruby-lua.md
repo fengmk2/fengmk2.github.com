@@ -9,11 +9,11 @@ I implement the **fibonacci function** in other **[Dynamic Languages](http://en.
 ### Dynamic
 
 * [nodejs](http://nodejs.org)
-* [nodejs + cpp module](http://kkaefer.github.com/node-cpp-modules)
+* [nodejs + cpp module](http://kkaefer.github.io/node-cpp-modules)
 * [python](http://python.org)
 * [pypy](http://pypy.org/): a fast, compliant alternative implementation of the Python language. 
 * [jython](http://www.jython.org/)
-* [perl](http://perl.org) 
+* [perl](http://perl.org)
 * [php](http://www.php.net/)
 * [ruby](http://www.ruby-lang.org/)
 * [lua](http://www.lua.org/)
