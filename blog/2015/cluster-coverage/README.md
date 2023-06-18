@@ -135,7 +135,7 @@ $ npm run cov
 
 See the [cluster-coverage report](./coverage/lcov-report/index.html)
 
-![](http://ww3.sinaimg.cn/large/61c56ebcjw1evjbdbyfgjj20sr06b407.jpg)
+![](report.jpg)
 
 
 [istanbul]: https://github.com/gotwarlost/istanbul

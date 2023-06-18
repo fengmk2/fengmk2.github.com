@@ -86,7 +86,7 @@ http.createServer(function (req, res) {
 
 ## 看看得到什么
 
-![hello world result](http://ww1.sinaimg.cn/large/6cfc7910jw1dy32hus4ipj.jpg)
+![hello world result](nodejs-web-dev-hello.jpg)
 
 ---
 
@@ -167,7 +167,7 @@ $ npm init
 
 ### HTML + CSS，服务器端使用 [ejs] 模板引擎渲染
 
-![index page](http://ww4.sinaimg.cn/large/6cfc7910jw1dy3aj29sgyj.jpg)
+![index page](nodejs-web-dev-index-page.jpg)
 
 ---
 
@@ -317,7 +317,7 @@ module.exports = function home(req, res, next) {
 
 ## 添加任务效果
 
-![add task](http://ww1.sinaimg.cn/large/6cfc7910jw1dy3drrvbboj.jpg)
+![add task](nodejs-web-dev-add-task.jpg)
 
 ---
 
@@ -352,7 +352,7 @@ exports.finish = function (req, res, next) {
 
 ## 整体效果
 
-![todo2](http://ww3.sinaimg.cn/large/6cfc7910jw1dy3cyzeczlj.jpg)
+![todo2](nodejs-web-dev-todo2.jpg)
 
 ---
 
@@ -372,25 +372,25 @@ exports.finish = function (req, res, next) {
 
 ## 淘宝指数
 
-![shu](http://ww1.sinaimg.cn/large/6cfc7910jw1dy3d4ac0kpj.jpg)
+![shu](nodejs-web-dev-shu.jpg)
 
 ---
 
 ## 数据魔方
 
-![mofang](http://ww1.sinaimg.cn/large/6cfc7910jw1dy3d6a73rfj.jpg)
+![mofang](nodejs-web-dev-mofang.jpg)
 
 ---
 
-## 内部NPM Web
+## 内部 NPM Web
 
-![npmweb](http://ww4.sinaimg.cn/large/6cfc7910jw1dy3v4d0zs1j.jpg)
+![npmweb](nodejs-web-dev-npmweb.jpg)
 
 ---
 
 ## CNodejs 社区
 
-![cnode](http://ww3.sinaimg.cn/large/6cfc7910jw1dy3d9uzu1yj.jpg)
+![cnode](nodejs-web-dev-cnode.jpg)
 
 ---
 

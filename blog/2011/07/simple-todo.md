@@ -10,14 +10,14 @@
 * 源代码: [https://github.com/fengmk2/todo](https://github.com/fengmk2/todo)
 * 在线demo: [http://api.yongwo.de:3888](http://api.yongwo.de:3888/)
 
-![http://ww3.sinaimg.cn/large/6cfc7910jw1diwdadumcwj.jpg](http://ww3.sinaimg.cn/large/6cfc7910jw1diwdadumcwj.jpg)
+![simple-todo.jpg](simple-todo.jpg)
 
 ## 代码目录
 
 目录还是很清晰的, public存放静态文件, views存放模版, controllers处理业务逻辑, 
 还有配置config.js, web主入口server.js
 
-![代码目录](http://ww1.sinaimg.cn/large/6cfc7910jw1dix4wp92nmj.jpg)
+![代码目录](simple-todo-code-tree.jpg)
 
 ## 使用到的第三方nodejs模块
 
@@ -70,7 +70,7 @@ express可以帮我们默认实现了静态文件处理, cookie处理, 请求参
 看看views/index.html里面的一个最复杂的模版例子, 
 ejs最让我喜欢的是不用再学一套语法, 直接是内嵌js, 还是很容易读懂的
 
-![http://ww1.sinaimg.cn/large/6cfc7910jw1dix6f9kailj.jpg](http://ww1.sinaimg.cn/large/6cfc7910jw1dix6f9kailj.jpg)
+![](simple-todo-1.jpg)
 
 ### URL Routing与Controllers ###
 

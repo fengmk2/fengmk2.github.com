@@ -26,4 +26,4 @@ at 2011年10月24日 01:49
 
 奔跑吧，岁月，时光……
 
-![http://ww4.sinaimg.cn/large/6cfc7910jw1dn9ud6169aj.jpg](http://ww4.sinaimg.cn/large/6cfc7910jw1dn9ud6169aj.jpg)
+![birthday-27th.jpg](birthday-27th.jpg)

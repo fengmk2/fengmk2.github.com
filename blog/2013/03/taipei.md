@@ -37,7 +37,7 @@
 
 ## 地图
 
-![1](http://ww2.sinaimg.cn/large/6cfc7910jw1e26xoryax9j.jpg)
+![1](taipei-map.jpg)
 
 ## 行程 10天, 3.28 - 4.6
 

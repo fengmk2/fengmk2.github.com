@@ -25,9 +25,9 @@ mocha在[Release 0.13.0](https://github.com/visionmedia/mocha/commit/6caeb30386e
 
 1. 执行 `make test-cov` 命令享受测试报告吧, 92%的覆盖率, 还不错吧.
 
-![http://ww4.sinaimg.cn/large/6cfc7910jw1dqguzalbuzj.jpg](http://ww4.sinaimg.cn/large/6cfc7910jw1dqguzalbuzj.jpg)
+![mocha-with-jscoverage-1.jpg](mocha-with-jscoverage-1.jpg)
 
-![http://ww3.sinaimg.cn/large/6cfc7910jw1dqguzmli6aj.jpg](http://ww3.sinaimg.cn/large/6cfc7910jw1dqguzmli6aj.jpg)
+![mocha-with-jscoverage-2.jpg](mocha-with-jscoverage-2.jpg)
 
 ## 完整Makefile
 

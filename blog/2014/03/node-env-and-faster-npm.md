@@ -249,7 +249,7 @@ github 慢, 或者说是它的资源 host 被堵而已, 大家可以通过简单
 
 听说是 APCN2 又断了: http://weibo.com/1415338244/ACTYkq8xK
 
-![1](http://ww4.sinaimg.cn/large/545c5904gw1eeu7h63hxvj20qs0mp78p.jpg)
+![1](APCN2.jpg)
 
 ## 有爱
 

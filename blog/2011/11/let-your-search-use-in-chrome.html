@@ -5,70 +5,55 @@
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
-  <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
-
-  <!-- Optional theme -->
   <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
-
-  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
-
-  <script src="/js/prettify.js"></script>
   <title>让你的搜索出现在Chrome地址栏智能搜索中</title>
-  <style>
-    a{color:#09f;}
-    code{color:#080;}
-    pre{line-height: 1.4;}
-    h1, #tagline{display:inline;}
-    #wrapper{padding:5% 8%;min-width:480px;}
-    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
-    #fork{position:fixed;top:0;right:0;_position:absolute;}
-  </style>
 </head>
 <body>
 
 <div id="wrapper" class="typo">
 
 <div id="header">
-<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
 </div> <!-- #header -->
 
 <div id="content">
 <h1 id="让你的搜索出现在chrome地址栏智能搜索中">让你的搜索出现在Chrome地址栏智能搜索中</h1>
 <h2 id="先看看最终效果">先看看最终效果</h2>
-<p><img src="http://ww4.sinaimg.cn/large/6cfc7910jw1dmq13148y4j.jpg" alt="http://ww4.sinaimg.cn/large/6cfc7910jw1dmq13148y4j.jpg"></p>
+<p><img src="search.jpg" alt="search.jpg"></p>
 <p>很炫对吧！</p>
 <h2 id="怎样做到的呢？">怎样做到的呢？</h2>
 <ul>
-<li><p>在页面html的head中增加 &quot;search link&quot;</p>
-  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="淘宝指数" /> 
-  </li>
-<li><p>opensearch.xml 内容大致如下，你相应修改成你的内容就可以了</p>
-  <?xml version="1.0" encoding="UTF-8"?>
-  <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-      <ShortName>淘宝指数</ShortName>
-      <Description>淘宝指数搜索</Description>
-      <Tags>淘宝指数</Tags>
-      <Contact>suqian.yf@taobao.com</Contact>
-      <Url type="text/html" template="http://shu.taobao.com/search?query={searchTerms}&from=opensearch"/>
-      <LongName>淘宝指数搜索</LongName>
-      <Image height="16" width="16" type="image/x-icon">http://shu.taobao.com/favicon.ico</Image>
-      <Query role="example" searchTerms="连衣裙" />
-      <Developer>淘宝指数</Developer>
-      <Attribution>source: shu.taobao.com</Attribution>
-      <SyndicationRight>open</SyndicationRight>
-      <AdultContent>false</AdultContent>
-      <Language>*</Language>
-      <OutputEncoding>UTF-8</OutputEncoding>
-      <InputEncoding>UTF-8</InputEncoding>
-  </OpenSearchDescription>
-</li>
-<li><p>打开你的页面，在地址栏输入域名，然后按tab，出现了吧！</p>
-</li>
+<li>在页面html的head中增加 &quot;search link&quot;</li>
+</ul>
+<pre><code class="language-html">&lt;link rel=&quot;search&quot; type=&quot;application/opensearchdescription+xml&quot; href=&quot;/opensearch.xml&quot; title=&quot;淘宝指数&quot; /&gt; 
+</code></pre>
+<ul>
+<li>opensearch.xml 内容大致如下，你相应修改成你的内容就可以了</li>
+</ul>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;OpenSearchDescription xmlns=&quot;http://a9.com/-/spec/opensearch/1.1/&quot;&gt;
+    &lt;ShortName&gt;淘宝指数&lt;/ShortName&gt;
+    &lt;Description&gt;淘宝指数搜索&lt;/Description&gt;
+    &lt;Tags&gt;淘宝指数&lt;/Tags&gt;
+    &lt;Contact&gt;suqian.yf@taobao.com&lt;/Contact&gt;
+    &lt;Url type=&quot;text/html&quot; template=&quot;http://shu.taobao.com/search?query={searchTerms}&amp;from=opensearch&quot;/&gt;
+    &lt;LongName&gt;淘宝指数搜索&lt;/LongName&gt;
+    &lt;Image height=&quot;16&quot; width=&quot;16&quot; type=&quot;image/x-icon&quot;&gt;http://shu.taobao.com/favicon.ico&lt;/Image&gt;
+    &lt;Query role=&quot;example&quot; searchTerms=&quot;连衣裙&quot; /&gt;
+    &lt;Developer&gt;淘宝指数&lt;/Developer&gt;
+    &lt;Attribution&gt;source: shu.taobao.com&lt;/Attribution&gt;
+    &lt;SyndicationRight&gt;open&lt;/SyndicationRight&gt;
+    &lt;AdultContent&gt;false&lt;/AdultContent&gt;
+    &lt;Language&gt;*&lt;/Language&gt;
+    &lt;OutputEncoding&gt;UTF-8&lt;/OutputEncoding&gt;
+    &lt;InputEncoding&gt;UTF-8&lt;/InputEncoding&gt;
+&lt;/OpenSearchDescription&gt;
+</code></pre>
+<ul>
+<li>打开你的页面，在地址栏输入域名，然后按tab，出现了吧！</li>
 </ul>
 <h2 id="有爱">有爱</h2>
 <p>希望本文对你有用 ^-^</p>
@@ -102,6 +87,9 @@
 </a>
 
 <!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
 <script>
 $(function() {
   $('pre code').parent().addClass('prettyprint');

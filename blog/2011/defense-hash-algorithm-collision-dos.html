@@ -5,36 +5,18 @@
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
-  <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
-
-  <!-- Optional theme -->
   <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
-
-  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
-
-  <script src="/js/prettify.js"></script>
   <title>Defense hash algorithm collision 防御hash算法冲突导致拒绝服务器</title>
-  <style>
-    a{color:#09f;}
-    code{color:#080;}
-    pre{line-height: 1.4;}
-    h1, #tagline{display:inline;}
-    #wrapper{padding:5% 8%;min-width:480px;}
-    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
-    #fork{position:fixed;top:0;right:0;_position:absolute;}
-  </style>
 </head>
 <body>
 
 <div id="wrapper" class="typo">
 
 <div id="header">
-<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
 </div> <!-- #header -->
 
 <div id="content">
@@ -60,7 +42,7 @@
 <h2 id="在nodejs防御此问题">在Nodejs防御此问题</h2>
 <p><strike>虽然在目前为止还没看到对Nodejs造成攻击的具体方法，但是还是以防范于未然为原则，需要对此问题做好充分的防御措施。</strike></p>
 <p><strong>Nodejs 的攻击方法已经出现</strong>，具体测试结果可以查看 <a href="/blog/2011/hac-in-nodejs-results.html">Hash algorithm collision in Nodejs</a>
-<img src="http://ww1.sinaimg.cn/large/6cfc7910jw1doryp1riixj.jpg" alt="hac-results"></p>
+<img src="hac-results.jpg" alt="hac-results"></p>
 <p>由于我个人一直使用的是 <a href="https://github.com/senchalabs/connect">connect</a> ，所以我以 connect 为示例说明吧 ^_^</p>
 <h3 id="使用-connectlimit-限制-request-body-size">使用 connect.limit 限制 request-body-size</h3>
 <p><a href="https://github.com/senchalabs/connect/issues/446">Issue #446</a> 已有同学提出此问题了，@TJ回复如下:</p>
@@ -217,6 +199,9 @@ Happy New Year!</p>
 </a>
 
 <!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
 <script>
 $(function() {
   $('pre code').parent().addClass('prettyprint');

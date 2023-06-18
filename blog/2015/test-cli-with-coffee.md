@@ -60,7 +60,7 @@ describe('cat', function() {
 
 通过 [mocha] 运行它，pass！
 
-![](http://ww2.sinaimg.cn/large/61c56ebcgw1es6kia7igfj208y03xmxc.jpg)
+![](test-cli-with-coffee-mocha-pass.jpg)
 
 如何出错了，会有什么提示呢？我们修改一下测试代码：
 
@@ -75,7 +75,7 @@ it('should concat input', function(done) {
 });
 ```
 
-![](http://ww4.sinaimg.cn/large/61c56ebcgw1es6kmaxpv1j20ij0a3jso.jpg)
+![](test-cli-with-coffee-mocha-2.jpg)
 
 会告知 stdout 输出没有满足期望了！
 

@@ -12,4 +12,4 @@
 
 我們在台灣去過的一些地方
 
-![taipei1](http://ww1.sinaimg.cn/large/61c56ebcjw1e3fj6v16vgj.jpg)
+![taipei1](images/taipei1.jpg)

@@ -10,7 +10,7 @@
 
 最终因收费问题, 非阿里巴巴主办, 法务财务问题, 还只能在一个月前才能预定场地. 最终放弃了.
 
-![1](http://ww2.sinaimg.cn/large/6cfc7910jw1ehsf5t8yx7j20wx0be763.jpg)
+![1](hangjs/images/1.jpg)
 
 ---
 
@@ -20,7 +20,7 @@
 * 后来知道我们不是以阿里巴巴财务付款, 喜来登的销售马上就翻脸了, 之后就没有之后了.
 * 投影仪需要1.2w一天, 2台2天需要4.8w, 再加上场地费, 远远超出预算了.
 
-![1](http://img.yaokaihui.com/86114220/7960680deb06391fb944e8a7372a3ed0.jpg)
+![1](hangjs/images/2.jpg)
 
 ---
 
@@ -39,7 +39,7 @@
 * 开了一个天价: 宴会厅AB/课桌式/300/人民币60000元
 * @如茵 出马, 砍价, 最终将希尔顿谈下来了.
 
-![1](http://ww3.sinaimg.cn/large/6cfc7910jw1ehsfnqwwbrj20ra0ixtcz.jpg)
+![1](hangjs/images/3.jpg)
 
 ---
 
@@ -56,7 +56,7 @@
 * [Jacob Groundwater](https://github.com/groundwater), [NodeOS](http://node-os.com/) 作者, 从澳大利亚路过中国看望女朋友,
 发现我们正在办 杭JS, 于是就来了.
 
-![1](http://ww3.sinaimg.cn/large/6cfc7910jw1ehsg344wodj20gs033dg9.jpg)
+![1](hangjs/images/4.jpg)
 
 ![1](https://avatars0.githubusercontent.com/u/538488?s=300)
 
@@ -69,9 +69,9 @@
 * 发现有很多大姓, 于是将大姓单独索引
 * 发现单字母下面还是挺多 items 的, 于是再按姓名字数做二级索引
 
-![1](http://ww4.sinaimg.cn/mw1024/61c56ebcjw1ehkfugn801j218g0xcn3r.jpg)
+![1](hangjs/images/5.jpg)
 
-![1](http://ww4.sinaimg.cn/large/6cfc7910jw1ehsg4c5jjwj20go0m8419.jpg)
+![1](hangjs/images/6.jpg)
 
 ---
 
@@ -82,7 +82,7 @@
 * 现场还拉了 @神仙, @翰文 帮忙做拍立得工作人员
 * 感谢帮忙过 杭JS 的同学们
 
-![1](http://ww1.sinaimg.cn/mw1024/61b90cbejw1ehmvbbq3etj20xc18gtjb.jpg)
+![1](hangjs/images/7.jpg)
 
 ---
 
@@ -114,16 +114,16 @@
 
 当年 Troy 从联系上我的第一封原始邮件, 也是我收到的第一封包含中英文的邮件. PS: 这3年来, 我已经从害怕说英语, 到乐意说英语了.
 
-![1](http://ww2.sinaimg.cn/large/61c56ebcgw1ehrgoqodgqj20yf1cqnao.jpg)
+![1](hangjs/images/8.jpg)
 
 ---
 
 ## 第一次中美合作会面
 
-![1](http://ww4.sinaimg.cn/large/6cfc7910jw1ehsejqslzsj20go0ch40n.jpg)
+![1](hangjs/images/9.jpg)
 
 ---
 
 ## jsconfcn 团队
 
-![1](http://ww4.sinaimg.cn/large/6cfc7910jw1ehsekinkqjj20zp0qoq7a.jpg)
+![1](hangjs/images/10.jpg)

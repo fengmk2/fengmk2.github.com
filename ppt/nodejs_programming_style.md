@@ -46,7 +46,7 @@
 
 * [sublimetext](http://www.sublimetext.com/docs/2/indentation.html)
 * [vim](http://stackoverflow.com/questions/426963/replace-tab-with-spaces-in-vim)
-* [eclipse](http://ww3.sinaimg.cn/large/6cfc7910jw1dnf44jzellj.jpg)
+* [eclipse](nodejs_programming_style-eclipse.jpg)
 
 ---
 

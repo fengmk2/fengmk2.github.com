@@ -17,7 +17,7 @@
 ## chrome.app.getDetails() 方法
 
 在Console调试窗口，我发现chrome.appchrome.app.getDetails()方法
-![getDetails()](http://ww2.sinaimg.cn/large/6cfc7910jw1dhjnh6ac7rj.jpg)
+![getDetails()](getDetails.jpg)
 
 不过此API目前无法搜索到相关文档，经测试发现只有在Chrome12以上版本才有。
 

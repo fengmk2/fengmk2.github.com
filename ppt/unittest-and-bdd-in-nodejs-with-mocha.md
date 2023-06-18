@@ -113,7 +113,7 @@ Agent.prototype.removeSocket = function(s, name, host, port) {
 
 ## 眼花缭乱的Nodejs测试模块
 
-![unit test in npm](http://ww1.sinaimg.cn/large/6cfc7910jw1doil8n1kq0j.jpg)
+![unit test in npm](unittest-and-bdd-in-nodejs-with-mocha-npm.jpg)
 
 ---
 
@@ -141,7 +141,7 @@ BDD: behaviour-driven development
 
 ## Mocha ，我喜欢
 
-![Mocha's Features](http://ww2.sinaimg.cn/large/6cfc7910jw1doimelmi7hj.jpg)
+![Mocha's Features](unittest-and-bdd-in-nodejs-with-mocha-features.jpg)
 
 ---
 
@@ -328,11 +328,12 @@ it('GET / should show the title, a form and a text input', function (done) {
 ---
 
 ## 疯了吧？！直接运行测试
+
 ```
 $ make test
 ```
 
-![first test error](http://ww4.sinaimg.cn/large/6cfc7910jw1doiqgenjt8j.jpg)
+![first test error](unittest-and-bdd-in-nodejs-with-mocha-first-error.jpg)
 
 ---
 
@@ -365,7 +366,7 @@ module.exports = app;
 $ make test
 ```
 
-![index page run success](http://ww3.sinaimg.cn/large/6cfc7910jw1doiqk4qnvtj.jpg)
+![index page run success](unittest-and-bdd-in-nodejs-with-mocha-success.jpg)
 
 ---
 
@@ -386,7 +387,7 @@ it('GET /other should not found the page', function (done) {
 });
 ```
 
-![3 more tests](http://ww4.sinaimg.cn/large/6cfc7910jw1doiqorpn1zj.jpg)
+![3 more tests](unittest-and-bdd-in-nodejs-with-mocha-tests.jpg)
 
 ---
 
@@ -658,7 +659,7 @@ it(desc + ' with pedding', function (done) {
 
 mock mate, easy to mock `http` request, `fs` access and so on.
 
-![mm](http://ww3.sinaimg.cn/large/68bf1523tw1dyvifhardzj.jpg)
+![mm](unittest-and-bdd-in-nodejs-with-mocha.jpg)
 
 ---
 

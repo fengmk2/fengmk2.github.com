@@ -23,7 +23,7 @@ A simple web UI for efficient nodejs administration
     
 浏览器访问 http://127.0.0.1:8085 
 
-![http://ww4.sinaimg.cn/large/61c56ebcjw1dnd6elhv81j.jpg](http://ww4.sinaimg.cn/large/61c56ebcjw1dnd6elhv81j.jpg)
+![forever-webui.jpg](forever-webui.jpg)
 
 PS：如果你使用forever来启动forever-webui，还可以自己监控自己喔，不知道会不会死循环？！
 

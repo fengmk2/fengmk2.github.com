@@ -27,7 +27,7 @@
 <strike>虽然在目前为止还没看到对Nodejs造成攻击的具体方法，但是还是以防范于未然为原则，需要对此问题做好充分的防御措施。</strike>
 
 **Nodejs 的攻击方法已经出现**，具体测试结果可以查看 [Hash algorithm collision in Nodejs](/blog/2011/hac-in-nodejs-results.html)
-![hac-results](http://ww1.sinaimg.cn/large/6cfc7910jw1doryp1riixj.jpg)
+![hac-results](hac-results.jpg)
 
 由于我个人一直使用的是 [connect](https://github.com/senchalabs/connect) ，所以我以 connect 为示例说明吧 ^_^
 

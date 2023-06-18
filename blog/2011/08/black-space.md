@@ -11,4 +11,5 @@ at 2011年08月01日 02:28
 这种生活还要持续多久呢？
 也许明天醒来就结束了。
 晚安，好梦。
-![http://ww1.sinaimg.cn/large/6cfc7910jw1dn9w8aj27qj.jpg](http://ww1.sinaimg.cn/large/6cfc7910jw1dn9w8aj27qj.jpg)
+
+![black.jpg](black.jpg)
