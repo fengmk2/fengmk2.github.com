@@ -14,7 +14,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "connect": "*"
+    "connect": "2"
   },
   "readmeFilename": "README.html"
 }
