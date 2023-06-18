@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>Callback again again and again in Nodejs</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,33 +38,49 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="callback-again-again-and-again-in-nodejs">Callback again again and again in Nodejs</h1>
-<h2 id="-callback-">为什么会有这么多callback嵌套</h2>
-<h2 id="-">异步调用：串行和并行</h2>
-<h3 id="-">串行</h3>
-<h3 id="-">并行</h3>
-<h3 id="callback-">callback嵌套问题</h3>
-<h2 id="-callback-">解决并行调用的callback嵌套问题</h2>
+<h1>Callback again again and again in Nodejs</h1>
+
+<h2>为什么会有这么多callback嵌套</h2>
+
+<h2>异步调用：串行和并行</h2>
+
+<h3>串行</h3>
+
+<h3>并行</h3>
+
+<h3>callback嵌套问题</h3>
+
+<h2>解决并行调用的callback嵌套问题</h2>
+
 <p>优点</p>
+
 <ul>
 <li>还是callback的概念，没有引入新概念</li>
 </ul>
+
 <p>缺点</p>
+
 <ul>
 <li>无法解决串行调用的callback嵌套问题</li>
 </ul>
-<h2 id="-callback-">解决串行和并行调用的callback嵌套问题</h2>
+
+<h2>解决串行和并行调用的callback嵌套问题</h2>
+
 <p>优点</p>
+
 <ul>
 <li>彻底解决了callback嵌套问题</li>
 </ul>
+
 <p>缺点</p>
+
 <ul>
 <li>引入事件机制概念 P.S: ^_^ 对于喜欢事件机制的人来说，这应该算优点吧 :) </li>
 </ul>
-<h2 id="-">有爱</h2>
-<p>希望本文对你有用</p>
 
+<h2>有爱</h2>
+
+<p>希望本文对你有用</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

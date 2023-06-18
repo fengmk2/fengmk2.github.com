@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="http://fengmk2.github.com/css/prettify.css" />
-  <script src="http://cdn.staticfile.org/jquery/2.0.3/jquery.min.js"></script>
-  <script src="http://fengmk2.github.com/js/prettify.js"></script>
-  <title>老婆, 圣诞快乐</title>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
-     a{color:#09f;}
-     code{color:#080;}
-     pre{line-height: 1.4;}
-     h1, #tagline{display:inline;}
-     #wrapper{padding:5% 8%;min-width:480px;}
-     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
-     #fork{position:fixed;top:0;right:0;_position:absolute;}
+    a{color:#09f;}
+    code{color:#080;}
+    pre{line-height: 1.4;}
+    h1, #tagline{display:inline;}
+    #wrapper{padding:5% 8%;min-width:480px;}
+    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+    #fork{position:fixed;top:0;right:0;_position:absolute;}
   </style>
 </head>
 <body>
@@ -36,7 +47,7 @@ var timeline_config = {
   type:       'timeline',
   width:              '100%',
   height:             '600',
-  source:             '/spreadsheet_yfrsj.json?t=2',
+  source:             '/spreadsheet_yfrsj.json?t=1',
   embed_id:           'timeline-embed',               //OPTIONAL USE A DIFFERENT DIV ID FOR EMBED
   start_at_end:       false,                          //OPTIONAL START AT LATEST DATE
   // start_at_slide:     '0',                            //OPTIONAL START AT SPECIFIC SLIDE
@@ -47,11 +58,11 @@ var timeline_config = {
   // lang:               'zh',                           //OPTIONAL LANGUAGE
   maptype:            'watercolor',                   //OPTIONAL MAP STYLE
   // css:                '/timeline.css',     //OPTIONAL PATH TO CSS
-  js:                 '/timeline.js?t=100'    //OPTIONAL PATH TO JS
+  js:                 '/timeline.js'    //OPTIONAL PATH TO JS
 };
 </script>
 
-<script src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js?v214"></script>
+<script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js?v214"></script>
 
 <p><embed src="http://www.xiami.com/widget/158012_1770906987,_235_346_FF8719_494949_1/multiPlayer.swf" type="application/x-shockwave-flash" width="0" height="0" wmode="opaque"></embed></p>
 
@@ -78,7 +89,7 @@ var timeline_config = {
 </div> <!-- #wrapper -->
 
 <a href="https://github.com/fengmk2" id="fork">
-    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+    <img alt="Fork me on GitHub" src="//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
 </a>
 
 <!-- Specific to this page -->

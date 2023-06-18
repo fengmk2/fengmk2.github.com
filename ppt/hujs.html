@@ -20,16 +20,14 @@
   <link rel="stylesheet" href="./deck.js/extensions/navigation/deck.navigation.css">
   <link rel="stylesheet" href="./deck.js/extensions/status/deck.status.css">
   <link rel="stylesheet" href="./deck.js/extensions/hash/deck.hash.css">
-  <link rel="stylesheet" href="./style.css">
   
   <!-- Theme CSS files (menu swaps these out) -->
   <link rel="stylesheet" id="style-theme-link" href="./deck.js/themes/style/neon.css">
   <link rel="stylesheet" id="transition-theme-link" href="./deck.js/themes/transition/horizontal-slide.css">
   
-  <link rel="stylesheet" href="http://fengmk2.github.com/css/prettify.css" />
-  <script src="http://fengmk2.github.com/js/jquery-1.7.min.js"></script>
-  <script src="http://fengmk2.github.com/js/prettify.js"></script>
-
+  <!-- Custom CSS just for this page -->
+  <link rel="stylesheet" href="./prettify.css">
+  
   <script src="./deck.js/modernizr.custom.js"></script>
 </head>
 
@@ -37,202 +35,285 @@
 
 
 <section class="slide"><h1>Code traps in Nodejs<br/>在Nodejs上踩过的坑</h1>
-<p>2012-09-14 at 沪JS@2012
 
-</p>
+<p>2012-09-14 at 沪JS@2012</p>
+
 </section>
 
-<section class="slide"><h2>Who am I?我是谁？</h2>
+<section class="slide">
+<h2>Who am I?我是谁？</h2>
+
 <h3>Alibaba Data EDP</h3>
+
 <h3>阿里巴巴数据平台EDP，花名@苏千</h3>
+
 <h3>Chinese nodejs community: <a href="http://cnodejs.org">cnodejs.org</a></h3>
+
 <hr/>
 
 <h3>Github: @<a href="https://github.com/fengmk2/">fengmk2</a></h3>
-<h3>Blog: <a href="http://fengmk2.github.com">http://fengmk2.github.com</a></h3>
+
+<h3>Blog: <a href='http://fengmk2.github.com'>http://fengmk2.github.com</a></h3>
+
 <h3>Twitter: @fengmk2</h3>
+
 <h3>Weibo: @Python发烧友 , @FaWave</h3>
+
 <blockquote>
-<p>生命是一场幻觉
-
-</p>
+  <p>生命是一场幻觉</p>
 </blockquote>
+
 </section>
 
-<section class="slide"><p><img src="./hujs2012/nodejs-tdc2011.png" alt="我在TDC2012">
-@nodejs workshop on TDC2011
+<section class="slide">
+<p><img src="./hujs2012/nodejs-tdc2011.png" alt="我在TDC2012" title="" /><br />@nodejs workshop on TDC2011</p>
 
-</p>
 </section>
 
-<section class="slide"><h2>绕开 =&gt; 绕不开 =&gt; 踩上去 =&gt; 享受</h2>
+<section class="slide">
+<h2>绕开 => 绕不开 => 踩上去 => 享受</h2>
+
 <h3>使用 <code>nodejs</code> 近一年来，遇到过许多千奇百怪的坑</h3>
+
 <hr/>
 
 <h3>一开始，遇到坑，第一反应是<code>绕开</code></h3>
+
 <h3>逐渐发现，有些坑，你是<code>绕不过去</code>的</h3>
+
 <h3>然后，尝试去<code>fixed</code>它们</h3>
+
 <h3>到现在，很喜欢未被人发现的坑，然后<code>踩上去</code></h3>
+
 </section>
 
-<section class="slide"><h2>Three traps | 三个坑</h2>
+<section class="slide">
+<h2>Three traps | 三个坑</h2>
+
 <h3>1. callback was called twice | 回调函数被调用两次</h3>
+
 <h3>2. 40ms RT delayed | 响应延时了40毫秒</h3>
+
 <h3>3. black hole in mongodb | mongodb驱动的黑洞</h3>
+
 </section>
 
-<section class="slide"><h2>callback was called twice<br/>回调函数被调用两次</h2>
+<section class="slide">
+<h2>callback was called twice<br/>回调函数被调用两次</h2>
+
 <blockquote>
-<p>I won&#39;t write out this obvious bug.
-
-</p>
-<p>我不会写出这种显而易见的bug。
-
-</p>
+  <p>I won't write out this obvious bug.</p>
+  
+  <p>我不会写出这种显而易见的bug。</p>
 </blockquote>
+
 </section>
 
-<section class="slide"><h2>callback was called twice<br/>回调函数被调用两次</h2>
+<section class="slide">
+<h2>callback was called twice<br/>回调函数被调用两次</h2>
+
 <h1>Really？ <br/>真的不会吗？</h1>
+
 </section>
 
-<section class="slide"><h2>Can you find out the trap?<br/>你能找出隐藏很深的坑吗？</h2>
-<p>Code come from <img class="head" src="./hujs2012/tj.jpg" />@<a href="https://github.com/visionmedia">TJ</a>: <a href="https://github.com/visionmedia/connect-redis/blob/bf5b3159bf47be3b8521933efad0f05060fc5b21/lib/connect-redis.js#L89">connect-redis.js</a>
+<section class="slide">
+<h2>Can you find out the trap?<br/>你能找出隐藏很深的坑吗？</h2>
 
-</p>
-<pre><code class="lang-js">RedisStore.prototype.get = function(sid, fn){
+<p>Code come from <img class="head" src="./hujs2012/tj.jpg" />@<a href="https://github.com/visionmedia">TJ</a>: <a href="https://github.com/visionmedia/connect-redis/blob/bf5b3159bf47be3b8521933efad0f05060fc5b21/lib/connect-redis.js#L89">connect-redis.js</a></p>
+
+<pre><code>js
+RedisStore.prototype.get = function(sid, fn){
   sid = this.prefix + sid;
-  debug(&#39;GET &quot;%s&quot;&#39;, sid);
+  debug('GET "%s"', sid);
   this.client.get(sid, function(err, data){
     if (err) return fn(err);
     try {
       if (!data) return fn();
       data = data.toString();
-      debug(&#39;GOT %s&#39;, data);
+      debug('GOT %s', data);
       fn(null, JSON.parse(data));
     } catch (err) {
       fn(err);
     } 
   });
-};</code></pre>
+};
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>try {} catch (e) {}</h2>
-<pre><code class="lang-js">try {
+<section class="slide">
+<h2>try {} catch (e) {}</h2>
+
+<pre><code>js
+try {
   // ...
   fn(null, JSON.parse(data));
 } catch (err) {
   fn(err);
-}</code></pre>
+} 
+</code></pre>
+
 <h3>What would happen when <code>fn(null, data)</code> throw an Error?</h3>
+
 <h3>当 <code>fn(null, data)</code> 调用抛出异常的时候，会发生什么事情？</h3>
+
 </section>
 
-<section class="slide"><h2><code>fn</code> called twice</h2>
+<section class="slide">
+<h2><code>fn</code> called twice</h2>
+
 <h2>try {}</h2>
+
 <h2>catch (err) {</h2>
+
 <h1><code>fn(err);</code> <br/>was invoked</h1>
+
 <h2>}</h2>
+
 </section>
 
-<section class="slide"><h2>pull request for this trap</h2>
-<p><a href="https://github.com/visionmedia/connect-redis/pull/37">connect-redis#37</a>
+<section class="slide">
+<h2>pull request for this trap</h2>
 
-</p>
-<pre><code class="lang-js">RedisStore.prototype.get = function(sid, fn){
+<p><a href="https://github.com/visionmedia/connect-redis/pull/37">connect-redis#37</a></p>
+
+<pre><code>js
+RedisStore.prototype.get = function(sid, fn){
   sid = this.prefix + sid;
-  debug(&#39;GET &quot;%s&quot;&#39;, sid);
+  debug('GET "%s"', sid);
   this.client.get(sid, function(err, data){
     if (err) return fn(err);
     try {
       if (!data) return fn();
       data = data.toString();
-      debug(&#39;GOT %s&#39;, data);
+      debug('GOT %s', data);
       data = JSON.parse(data);
     } catch (err) {
       return fn(err);
     }
     fn(null, data);
   });
-};</code></pre>
+};
+</code></pre>
+
 </section>
 
-<section class="slide"><h1>Do not try catch the callback<br/>不要捕获回调函数的异常</h1>
+<section class="slide">
+<h1>Do not try catch the callback<br/>不要捕获回调函数的异常</h1>
+
 </section>
 
-<section class="slide"><h2>40ms RT delayed<br/>响应延时了40毫秒</h2>
-<h3>As we know, <a href="https://github.com/joyent/node/blob/master/lib/http.js#L1012">http.Agent</a> don&#39;t not support really <code>keepalive</code>. So I wrote the <a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a> to support this feature.</h3>
+<section class="slide">
+<h2>40ms RT delayed<br/>响应延时了40毫秒</h2>
+
+<h3>As we know, <a href="https://github.com/joyent/node/blob/master/lib/http.js#L1012">http.Agent</a> don't not support really <code>keepalive</code>. So I wrote the <a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a> to support this feature.</h3>
+
 <h3>我们知道，<a href="https://github.com/joyent/node/blob/master/lib/http.js#L1012">http.Agent</a> 并不支持真正意义上的<code>keepalive</code>。所以我写了<a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a>模块支持这个特性。</h3>
+
 <hr/>
 
 <h3>When I using the <a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a> module on production environment, found out the <em>http response time(RT)</em> increase <code>40ms</code> unexpectedly.</h3>
+
 <h3>当我在生产环境使用<a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a>模块的时候，发现<em>http 请求响应时间(RT)</em> 竟然增加了<code>40ms</code>。</h3>
+
 </section>
 
-<section class="slide"><p><img src="./hujs2012/agentkeepalive.png" alt="agentkeepalive">
+<section class="slide">
+<p><img src="./hujs2012/agentkeepalive.png" alt="agentkeepalive" title="" /></p>
 
-</p>
 </section>
 
-<section class="slide"><h2>What causes <code>RT</code> increase？<br/>什么原因导致<code>RT</code>增长了？</h2>
-<h3><em>Google &quot;<a href="https://www.google.com/search?q=40ms+delayed">40ms delayed</a>&quot; </em></h3>
+<section class="slide">
+<h2>What causes <code>RT</code> increase？<br/>什么原因导致<code>RT</code>增长了？</h2>
+
+<h3>*Google "<a href="https://www.google.com/search?q=40ms+delayed">40ms delayed</a>" *</h3>
+
 <hr/>
 
 <h3>The answer is: <a href="http://en.wikipedia.org/wiki/Nagle%27s_algorithm">Nagle algorithm</a> and TCP delayed ack</h3>
+
 <h3>答案是: <a href="http://en.wikipedia.org/wiki/Nagle%27s_algorithm">Nagle算法</a>和TCP延迟确认</h3>
-<p><hr/>
-</p>
-<h3><code>write-write-read</code> sequences will wait for a delayed ack timeout when Nagle&#39;s algorithm enabled.</h3>
+
+<hr/>
+
+<h3><code>write-write-read</code> sequences will wait for a delayed ack timeout when Nagle's algorithm enabled.</h3>
+
 <h3>当Nagle算法生效的时候，<code>write-write-read</code> 这种方式将会等待一个延迟确认超时后，才会吧数据发送出去。</h3>
+
 </section>
 
-<section class="slide"><h2>Why <code>40ms</code>?<br/>为什么是<code>40毫秒</code>呢？</h2>
-<h3>&gt; <a href="https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Enterprise_MRG/1.3/html/Realtime_Tuning_Guide/sect-Realtime_Tuning_Guide-General_System_Tuning-Reducing_the_TCP_delayed_ack_timeout.html">2.13. Reducing the TCP delayed ack timeout</a>: Some applications that send small network packets can experience latencies due to the TCP delayed acknowledgement timeout. This value defaults to <code>40ms</code>.</h3>
+<section class="slide">
+<h2>Why <code>40ms</code>?<br/>为什么是<code>40毫秒</code>呢？</h2>
+
+<h3>> <a href="https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Enterprise_MRG/1.3/html/Realtime_Tuning_Guide/sect-Realtime_Tuning_Guide-General_System_Tuning-Reducing_the_TCP_delayed_ack_timeout.html">2.13. Reducing the TCP delayed ack timeout</a>: Some applications that send small network packets can experience latencies due to the TCP delayed acknowledgement timeout. This value defaults to <code>40ms</code>.</h3>
+
 <hr/>
 
 <h3>We can even reducing the timeout value to <code>1ms</code> by this:</h3>
+
 <h3>我们甚至可以将超时时间设置为<code>1毫秒</code>:</h3>
-<pre><code class="lang-bash"># echo 1 &gt; /proc/sys/net/ipv4/tcp_delack_min</code></pre>
+
+<pre><code>bash
+
+
+<h1>echo 1 > /proc/sys/net/ipv4/tcp_delack_min</h1>
+
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>Reappear the <code>RT</code> delay<br/>重现<code>RT</code>延迟</h2>
+<section class="slide">
+<h2>Reappear the <code>RT</code> delay<br/>重现<code>RT</code>延迟</h2>
+
 <h3>Server: <em>nagle_delayed_ack_server.js</em></h3>
-<pre><code class="lang-js">require(&#39;http&#39;).createServer(function (req, res) {
+
+<pre><code>js
+require('http').createServer(function (req, res) {
   var start = Date.now();
-  req.on(&#39;end&#39;, function () {
-    res.end(&#39;hello world&#39;);
-    console.log(&#39;[%s ms] %s %s&#39;,
+  req.on('end', function () {
+    res.end('hello world');
+    console.log('[%s ms] %s %s',
       Date.now() - start, req.method, req.url);
   });
-}).listen(1984);</code></pre>
+}).listen(1984);
+</code></pre>
+
 </section>
 
-<section class="slide"><h3>Client: <em>nagle_delayed_ack_client.js</em></h3>
-<pre><code class="lang-js">// agentkeepalive@0.1.0: should reappear the delay problem
-var Agent = require(&#39;agentkeepalive&#39;);
+<section class="slide">
+<h3>Client: <em>nagle_delayed_ack_client.js</em></h3>
+
+<pre><code>js
+// <a href='mailto:agentkeepalive@0.1.0'>agentkeepalive@0.1.0</a>: should reappear the delay problem
+var Agent = require('agentkeepalive');
 var agent = new Agent();
 function request(callback) {
-  var options = {port: 1984, path: &#39;/fengmk2&#39;,
-    method: &#39;POST&#39;, agent: agent};
+  var options = {port: 1984, path: '/fengmk2',
+    method: 'POST', agent: agent};
   var start = Date.now();
-  var req = require(&#39;http&#39;).request(options, function (res) {
-    res.on(&#39;end&#39;, function () {
-      console.log(&#39;[%s ms] %s&#39;, 
+  var req = require('http').request(options, function (res) {
+    res.on('end', function () {
+      console.log('[%s ms] %s', 
         Date.now() - start, res.statusCode);
       callback();
     });
   });
-  req.write(&#39;foo&#39;);
-  process.nextTick(function () { req.end(&#39;bar&#39;); });
+  req.write('foo');
+  process.nextTick(function () { req.end('bar'); });
 }
 function next() {
   setTimeout(function () { request(next); }, 1000);
 }
-next();</code></pre>
+next();
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>Run Server and Client</h2>
-<pre><code class="lang-bash">$ node nagle_delayed_ack_server.js
+<section class="slide">
+<h2>Run Server and Client</h2>
+
+<pre><code>bash
+$ node nagle_delayed_ack_server.js
 [1 ms] POST /fengmk2
 [40 ms] POST /fengmk2 // increase 40ms
 [38 ms] POST /fengmk2
@@ -242,88 +323,137 @@ $ node nagle_delayed_ack_client.js
 [7 ms] 200
 [41 ms] 200 // increase 40ms
 [40 ms] 200
-[40 ms] 200</code></pre>
+[40 ms] 200
+</code></pre>
+
 <h3>RT increase <code>40ms</code> from the second request</h3>
+
 <h3>从第二次请求开始，RT增加了<code>40ms</code></h3>
+
 </section>
 
-<section class="slide"><h2>pull request for <a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a></h2>
+<section class="slide">
+<h2>pull request for <a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a></h2>
+
 <h3>commit@<a href="https://github.com/TBEDP/agentkeepalive/commit/b04778071a9e2a5a47516daebe16c8f175b92460#diff-2">b04778071a9e2a5a47516daebe16c8f175b92460</a></h3>
+
 <h3><em>Set socket.<a href="http://nodejs.org/docs/latest/api/net.html#net_socket_setnodelay_nodelay">setNoDelay</a>(true)</em></h3>
+
 <h3>Disables the Nagle algorithm. <br/>禁用Nagle算法即可解决问题</h3>
+
 <hr/>
 
-<pre><code class="lang-js">var s = http.Agent.prototype.createSocket.call(this, name, host, 
+<pre><code>js
+var s = http.Agent.prototype.createSocket.call(this, name, host, 
     port, localAddress, req);
-s.setNoDelay(true);</code></pre>
+s.setNoDelay(true);
+</code></pre>
+
 <hr/>
 
-<p>Read more: <a href="http://fengmk2.github.com/benchmark/nagle-algorithm-delayed-ack-mock.html">模拟 Nagle 算法的Delayed Ack</a>
+<p>Read more: <a href="http://fengmk2.github.com/benchmark/nagle-algorithm-delayed-ack-mock.html">模拟 Nagle 算法的Delayed Ack</a></p>
 
-</p>
 </section>
 
-<section class="slide"><h2>Black hole in mongodb<br/>mongodb驱动的黑洞</h2>
+<section class="slide">
+<h2>Black hole in mongodb<br/>mongodb驱动的黑洞</h2>
+
 <h3>Everyone like <a href="www.mongodb.org">mongodb</a>.</h3>
+
 <h3>大家都喜欢<a href="www.mongodb.org">mongodb</a>.</h3>
+
 <hr/>
 
 <h3>We connecting mongodb with <a href="http://mongodb.github.com/node-mongodb-native/">node-mongodb-native</a> and <a href="https://github.com/kissjs/node-mongoskin">mongoskin</a>.</h3>
+
 <h3>我们使用<a href="http://mongodb.github.com/node-mongodb-native/">node-mongodb-native</a> 和 <a href="https://github.com/kissjs/node-mongoskin">mongoskin</a> 来连接mongodb.</h3>
+
 </section>
 
-<section class="slide"><h2>Upgrade to mongodb@1.1.0<br/>更新到mongodb@1.1.0</h2>
+<section class="slide">
+<h2>Upgrade to <a href='mailto:mongodb@1.1.0'>mongodb@1.1.0</a><br/>更新到<a href='mailto:mongodb@1.1.0'>mongodb@1.1.0</a></h2>
+
 <h3>Query, Insert, Update are worked, but CPU load very <code>high</code> in ReplSet mode!</h3>
+
 <h3>虽然查询，插入，更新等操作都正常工作，但是，CPU负载在ReplSet模式下意外地变得很<code>高</code>！</h3>
+
 <h3>Google not work at this time.</h3>
+
 <h3>即使Google一下也没找到头绪。</h3>
+
 </section>
 
-<section class="slide"><h2>Explore the cause of the problem<br/>探索问题原因</h2>
+<section class="slide">
+<h2>Explore the cause of the problem<br/>探索问题原因</h2>
+
 <h3>既然能正常工作，但是CPU很高，那么就代表着不是所有服务器都出问题了。</h3>
+
 <h3>于是我人工连接每一台服务器测试，果然有发现： <code>Arbiter</code> 有异常。</h3>
-<pre><code class="lang-bash">$ telnet arbiter.mongodb.fengmk2.com
+
+<pre><code>bash
+$ telnet arbiter.mongodb.fengmk2.com
 
 Trying arbiter.mongodb.fengmk2.com...
 Connected to arbiter.mongodb.fengmk2.com.
-Escape character is &#39;^]&#39;.
-Connection closed by foreign host.</code></pre>
+Escape character is '^]'.
+Connection closed by foreign host.
+</code></pre>
+
 <h3><code>Connected</code>, then <code>Closed</code> immediately.</h3>
+
 </section>
 
-<section class="slide"><h2>Why connected -&gt; closed? <br/>为什么会出现连接后马上断开的情况呢？</h2>
+<section class="slide">
+<h2>Why connected -> closed? <br/>为什么会出现连接后马上断开的情况呢？</h2>
+
 <h3>I tell the situation to DBA, he gave me the answer : <code>ACL</code></h3>
+
 <h3>我将发现的情况咨询DBA，得到的回答是： <code>ACL</code></h3>
+
 <h3>ACL: Access control logic</h3>
+
 <hr/>
 
 <h3><code>ACL</code> would blocked all unauthorized network access.</h3>
+
 <h3><code>ACL</code>会拦截掉所有未授权的网络访问。</h3>
+
 <h3>因为DBA认为，我们只需要访问Primary和Secondanry，所以未开通对Arbiter的权限。</h3>
+
 </section>
 
-<section class="slide"><h2>Is really causes by ACL?<br/>真的是ACL导致的吗？</h2>
+<section class="slide">
+<h2>Is really causes by ACL?<br/>真的是ACL导致的吗？</h2>
+
 <h3>Mock the network ACL:</h3>
+
 <h3>为了验证这个问题，我写了一个黑洞模拟代码：</h3>
-<pre><code class="lang-js">var mongodb = require(&#39;mongodb&#39;);
+
+<pre><code>js
+var mongodb = require('mongodb');
 var count = 0;
-var blackhole = require(&#39;net&#39;).createServer(function (c) {
-  console.log(&#39;new connection: &#39; + count++);
+var blackhole = require('net').createServer(function (c) {
+  console.log('new connection: ' + count++);
   c.end();
 });
 blackhole.listen(24008, function () {
   var replSet = new mongodb.ReplSetServers([ 
-    new mongodb.Server(&#39;127.0.0.1&#39;, 24008, {auto_reconnect: true})
+    new mongodb.Server('127.0.0.1', 24008, {auto_reconnect: true})
   ]);
-  var client = new mongodb.Db(&#39;test&#39;, replSet);
+  var client = new mongodb.Db('test', replSet);
   client.open(function (err, p_client) {
     console.log(err);
   });
-});</code></pre>
+});
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>$ node mongodb_blackhole.js</h2>
-<pre><code class="lang-js">$ node mongodb_blackhole.js 
+<section class="slide">
+<h2>$ node mongodb_blackhole.js</h2>
+
+<pre><code>js
+$ node mongodb_blackhole.js 
 new connection: 0
 new connection: 1
 new connection: 2
@@ -334,81 +464,113 @@ new connection: 3327
 new connection: 3328
 new connection: 3329
 new connection: 3330
-new connection: 3331</code></pre>
+new connection: 3331
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>CPU load high</h2>
-<p><img src="./hujs2012/mongodb.jpg" alt="mongodb cpu">
+<section class="slide">
+<h2>CPU load high</h2>
 
-</p>
+<p><img src="./hujs2012/mongodb.jpg" alt="mongodb cpu" title="" /></p>
+
 <h3>The problem is reappear.</h3>
+
 <h3>问题总算被重现了。</h3>
+
 </section>
 
-<section class="slide"><h2>Search the source code<br/>从代码中找答案</h2>
+<section class="slide">
+<h2>Search the source code<br/>从代码中找答案</h2>
+
 <h3>I found out the problem, it eat the CPU by <a href="https://github.com/mongodb/node-mongodb-native/blob/master/lib/mongodb/connection/connection_pool.js"><code>/lib/mongodb/connection/connection_pool.js</code></a> .</h3>
+
 <h3>经过一轮的代码阅读，我找到将CPU吃光的代码了：<a href="https://github.com/mongodb/node-mongodb-native/blob/master/lib/mongodb/connection/connection_pool.js"><code>/lib/mongodb/connection/connection_pool.js</code></a> 。</h3>
+
 </section>
 
-<section class="slide"><h2>Show me the code | 上代码吧</h2>
-<pre><code class="lang-js">connection.on(&quot;connect&quot;, function(err, connection) {
+<section class="slide">
+<h2>Show me the code | 上代码吧</h2>
+
+<pre><code>js
+connection.on("connect", function(err, connection) {
   // Add connection to list of open connections
   _self.openConnections.push(connection);
   // If the number of open connections is equal to the poolSize
-  if(_self.openConnections.length === _self.poolSize &amp;&amp; _self._poolState !== &#39;disconnected&#39;) {
+  if(_self.openConnections.length === _self.poolSize && _self._poolState !== 'disconnected') {
     // Set connected
-    _self._poolState = &#39;connected&#39;;
+    _self._poolState = 'connected';
     // Emit pool ready
-    _self.emit(&quot;poolReady&quot;);
-  } else if(_self.openConnections.length &lt; _self.poolSize) {
-    // need to open another connection, make sure it&#39;s in the next
-    // tick so we don&#39;t get a cascade of errors
+    _self.emit("poolReady");
+  } else if(_self.openConnections.length < _self.poolSize) {
+    // need to open another connection, make sure it's in the next
+    // tick so we don't get a cascade of errors
     process.nextTick(function() {
       _connect(_self);
     });
   }
-});</code></pre>
+});
+</code></pre>
+
 </section>
 
-<section class="slide"><h3>when <code>openConnections.length &lt; poolSize</code>, pool will create a new connection in <code>nextTick</code>.</h3>
-<h3>But in meantime, if the openning connection <code>emit(&#39;close&#39;)</code>, this <code>openConnections.length</code> will be cleanup to <code>0</code>.</h3>
-<pre><code class="lang-js">connection.on(&quot;close&quot;, function() {
+<section class="slide">
+<h3>when <code>openConnections.length &lt; poolSize</code>, pool will create a new connection in <code>nextTick</code>.</h3>
+
+<h3>But in meantime, if the openning connection <code>emit('close')</code>, this <code>openConnections.length</code> will be cleanup to <code>0</code>.</h3>
+
+<pre><code>js
+connection.on("close", function() {
   // If we are already disconnected ignore the event
-  if(_self._poolState !== &#39;disconnected&#39; &amp;&amp; _self.listeners(&quot;close&quot;).length &gt; 0) {
-    _self.emit(&quot;close&quot;);
+  if(_self._poolState !== 'disconnected' && _self.listeners("close").length > 0) {
+    _self.emit("close");
   }
   // Set disconnected
-  _self._poolState = &#39;disconnected&#39;;
+  _self._poolState = 'disconnected';
   // Stop
   _self.stop();
-});</code></pre>
+});
+</code></pre>
+
 <h3>This case will be <code>Infinite loop</code>, open, close, open, close...</h3>
+
 <h3>这就导致了死循环，不断地 open, close, open, close...</h3>
+
 </section>
 
-<section class="slide"><h1>How to fixed this?<br/>如何修复？</h1>
+<section class="slide">
+<h1>How to fixed this?<br/>如何修复？</h1>
+
 </section>
 
-<section class="slide"><h1>Waiting for your pull request on <a href="https://github.com/mongodb/node-mongodb-native">node-mongodb-native</a></h1>
+<section class="slide">
+<h1>Waiting for your pull request on <a href="https://github.com/mongodb/node-mongodb-native">node-mongodb-native</a></h1>
+
 </section>
 
-<section class="slide"><h2>Conclusion 总结</h2>
+<section class="slide">
+<h2>Conclusion 总结</h2>
+
 <h3>通常，解决问题是<code>一瞬间</code>的事情</h3>
-<p><hr/>
-</p>
+
+<hr/>
+
 <h3>但是，真正理解问题所在，重现问题，给出最准确的解决方案，是一个<code>非常漫长的过程</code>。</h3>
-<p><hr/>
-</p>
+
+<hr/>
+
 <h2>码路上本有千奇百怪的坑，踩的人多了，</h2>
+
 <h2>也便成了高速公路。</h2>
+
 <h3>(@GoddyZhao, please help me to translate this.)</h3>
+
 </section>
 
-<section class="slide"><p><a href="http://fengmk2.github.com/ppt/hujs.html"><a href="http://fengmk2.github.com/ppt/hujs.html">http://fengmk2.github.com/ppt/hujs.html</a></a>
+<section class="slide">
+<p><a href="http://fengmk2.github.com/ppt/hujs.html"><a href='http://fengmk2.github.com/ppt/hujs.html'>http://fengmk2.github.com/ppt/hujs.html</a></a></p>
 
-</p>
-<h1>hujs.emit(<code>&#39;Thanks&#39;</code>) <br/>&amp;&amp;<br/> console.log(<code>&#39;end&#39;</code>);</h1>
-</section>
+<h1>hujs.emit(<code>'Thanks'</code>) <br/>&amp;&amp;<br/> console.log(<code>'end'</code>);</h1></section>
 
 
 <p class="deck-status">
@@ -425,6 +587,11 @@ new connection: 3331</code></pre>
 </form>
 
 <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+
+<!-- Grab CDN jQuery, with a protocol relative URL; fall back to local if offline -->
+<script>window.jQuery || document.write('<script src="./deck.js/jquery-1.7.min.js"><\/script>')</script>
+<script src="./prettify.js"></script>
 
 <!-- Deck Core and extensions -->
 <script src="./deck.js/core/deck.core.js"></script>

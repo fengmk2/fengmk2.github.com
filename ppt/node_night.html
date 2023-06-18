@@ -20,16 +20,14 @@
   <link rel="stylesheet" href="./deck.js/extensions/navigation/deck.navigation.css">
   <link rel="stylesheet" href="./deck.js/extensions/status/deck.status.css">
   <link rel="stylesheet" href="./deck.js/extensions/hash/deck.hash.css">
-  <link rel="stylesheet" href="./style.css">
   
   <!-- Theme CSS files (menu swaps these out) -->
   <link rel="stylesheet" id="style-theme-link" href="./deck.js/themes/style/neon.css">
   <link rel="stylesheet" id="transition-theme-link" href="./deck.js/themes/transition/horizontal-slide.css">
   
-  <link rel="stylesheet" href="http://fengmk2.github.com/css/prettify.css" />
-  <script src="http://fengmk2.github.com/js/jquery-1.7.min.js"></script>
-  <script src="http://fengmk2.github.com/js/prettify.js"></script>
-
+  <!-- Custom CSS just for this page -->
+  <link rel="stylesheet" href="./prettify.css">
+  
   <script src="./deck.js/modernizr.custom.js"></script>
 </head>
 
@@ -37,14 +35,19 @@
 
 
 <section class="slide"><h1>node之夜</h1>
+
 </section>
 
-<section class="slide"><h2>时间表</h2>
+<section class="slide">
+<h2>时间表</h2>
+
 <h3>@继风：在nodejs上踩过的坑</h3>
+
 <h3>@苏千：我的 <code>nodejs</code> 编程规范</h3>
+
 <h3>@朴灵：项目结构组织</h3>
-<h3>@朋春：我这样写node</h3>
-</section>
+
+<h3>@朋春：我这样写node</h3></section>
 
 
 <p class="deck-status">
@@ -61,6 +64,11 @@
 </form>
 
 <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+
+<!-- Grab CDN jQuery, with a protocol relative URL; fall back to local if offline -->
+<script>window.jQuery || document.write('<script src="./deck.js/jquery-1.7.min.js"><\/script>')</script>
+<script src="./prettify.js"></script>
 
 <!-- Deck Core and extensions -->
 <script src="./deck.js/core/deck.core.js"></script>

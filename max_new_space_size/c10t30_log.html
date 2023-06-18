@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
+  <style>
+    a{color:#09f;}
+    code{color:#080;}
+    pre{line-height: 1.4;}
+    h1, #tagline{display:inline;}
+    #wrapper{padding:5% 8%;min-width:480px;}
+    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+    #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>c 10, t 30</h1>
+
+<pre><code>Requests per second:    1586.33 [#/sec] (mean)
+Time per request:       6.304 [ms] (mean)
+Time per request:       0.630 [ms] (mean, across all concurrent requests)
+
+[2282]    43801 ms: Scavenge 29.2 (55.1) -> 18.4 (55.1) MB, 7.0 ms [Runtime::PerformGC].
+[2282] Memory allocator,   used:  56420 KB, available: 1442716 KB
+[2282] New space,          used:   2324 KB, available:  14059 KB, committed:  32768 KB
+[2282] Old pointers,       used:   7704 KB, available:    811 KB, committed:   8574 KB
+[2282] Old data space,     used:   4605 KB, available:    550 KB, committed:   5230 KB
+[2282] Code space,         used:   3634 KB, available:   1091 KB, committed:   4980 KB
+[2282] Map space,          used:    562 KB, available:    569 KB, committed:   1135 KB
+[2282] Cell space,         used:     25 KB, available:    102 KB, committed:    128 KB
+[2282] PropertyCell space, used:     17 KB, available:     46 KB, committed:     64 KB
+[2282] Large object space, used:      0 KB, available: 1441675 KB, committed:      0 KB
+[2282] All spaces,         used:  18874 KB, available:  17230 KB, committed:  52880 KB
+[2282] External memory reported:    411 KB
+[2282] Total time spent in GC  : 1075.7 ms
+</code></pre>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

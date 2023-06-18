@@ -4,7 +4,7 @@
   "description": "mk2 personal blog",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js",
     "start": "node server.js"
   },
   "repository": {
@@ -14,7 +14,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "connect": "2"
+    "connect": "2",
+    "mdit": "^0.0.1",
+    "ndir": "^0.1.5"
   },
   "readmeFilename": "README.html"
 }

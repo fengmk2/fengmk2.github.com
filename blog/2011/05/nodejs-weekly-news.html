@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>nodejs一周动态(2011-05-05 - 05-15)</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,69 +38,89 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="nodejs-2011-05-05-05-15-">nodejs一周动态(2011-05-05 - 05-15)</h1>
-<h2 id="-google-go-boldly-goes-where-no-code-has-gone-before-http-www-theregister-co-uk-2011-05-05-google_go-"><a href="http://www.theregister.co.uk/2011/05/05/google_go/">Google Go boldly goes where no code has gone before</a></h2>
+<h1>nodejs一周动态(2011-05-05 - 05-15)</h1>
+
+<h2><a href="http://www.theregister.co.uk/2011/05/05/google_go/">Google Go boldly goes where no code has gone before</a></h2>
+
 <p>文章中说到与Nodejs的对比: <a href="http://www.theregister.co.uk/2011/05/05/google_go/page4.html">The New Node?</a></p>
-<pre><code>Node.js shows great numbers for heavy numbers of clients, and they&#39;ve done a really good job. 
-But if those clients are CPU-intensive, they&#39;ve got no place to go. 
-You can&#39;t get the parallelism you need. 
+
+<pre><code>Node.js shows great numbers for heavy numbers of clients, and they've done a really good job. 
+But if those clients are CPU-intensive, they've got no place to go. 
+You can't get the parallelism you need. 
 With Go, you get the best of both worlds: 
-You get many clients easily handled, and if they&#39;re CPU intensive, 
+You get many clients easily handled, and if they're CPU intensive, 
 you can imagine scaling to a much larger number of requests.
-</code></pre><p>同步形式的异步代码:</p>
+</code></pre>
+
+<p>同步形式的异步代码:</p>
+
 <pre><code>That lets you write asynchronous code in a synchronous style. 
-As people, we&#39;re much better suited to writing about things in a synchronous style.
-</code></pre><p>Node作者 Ryan Dahl 回答:</p>
+As people, we're much better suited to writing about things in a synchronous style.
+</code></pre>
+
+<p>Node作者 Ryan Dahl 回答:</p>
+
 <pre><code>JavaScript is a familiar language to a whole generation of developers,
 The ability to apply an existing programming language 
-    to the domain of writing servers goes a long way towards being &#39;easy&#39;.
-The Node runtime doesn&#39;t provide parallel execution, 
+    to the domain of writing servers goes a long way towards being 'easy'.
+The Node runtime doesn't provide parallel execution, 
 if you like, you can take advantage of the parallelism in the operating system, 
-&quot;pre-forking&quot; the Node server.
-</code></pre><p>此文章还引起在nodejs用户的讨论: <a href="http://groups.google.com/group/nodejs/browse_thread/thread/b9656566d87eef4c">Google&#39;s Go language</a></p>
-<h2 id="-nodeconf-slides-nodeconf-https-gist-github-com-958556-"><a href="https://gist.github.com/958556">NodeConf Slides: NodeConf演讲稿</a></h2>
-<p>Ryan Dahl 在<a href="http://nodejs.org/nodeconf.pdf">Node v0.5 Roadmap</a> 讲到，
-将在下一版本实现对windows的原生支持，不再需要Cygwin的辅助了。</p>
+"pre-forking" the Node server.
+</code></pre>
+
+<p>此文章还引起在nodejs用户的讨论: <a href="http://groups.google.com/group/nodejs/browse_thread/thread/b9656566d87eef4c">Google's Go language</a></p>
+
+<h2><a href="https://gist.github.com/958556">NodeConf Slides: NodeConf演讲稿</a></h2>
+
+<p>Ryan Dahl 在<a href="http://nodejs.org/nodeconf.pdf">Node v0.5 Roadmap</a> 讲到，<br />将在下一版本实现对windows的原生支持，不再需要Cygwin的辅助了。</p>
+
 <p>Ryan Dahl’s NodeConf slides includes some background on liboio with a focus on Windows support.</p>
+
 <pre><code>Today Node runs on Windows via Cygwin. This is an unacceptable port. 
 Cygwin is slow, old, buggy. Users hate it
-</code></pre><p>更多PPT请查看: <a href="https://gist.github.com/958556">https://gist.github.com/958556</a></p>
-<h2 id="-ntunes-https-github-com-tootallnate-ntunes-"><a href="https://github.com/TooTallNate/nTunes">nTunes</a></h2>
-<p>nTunes (MIT License) by Nathan Rajlich is a REST API for controlling iTunes. 
-There’s an npm package, but you might want to install this globally: </p>
+</code></pre>
+
+<p>更多PPT请查看: <a href='https://gist.github.com/958556'>https://gist.github.com/958556</a></p>
+
+<h2><a href="https://github.com/TooTallNate/nTunes">nTunes</a></h2>
+
+<p>nTunes (MIT License) by Nathan Rajlich is a REST API for controlling iTunes. <br />There’s an npm package, but you might want to install this globally: </p>
+
 <pre><code>npm install -g nTunes. 
-</code></pre><p>Once it’s installed and you’ve run nTunes, it can be used like this:</p>
+</code></pre>
+
+<p>Once it’s installed and you’ve run nTunes, it can be used like this:</p>
+
 <pre><code>~$ nTunes
           ______                                     
          /\__  _\                                    
   ___    \/_/\ \/   __  __    ___       __     ____  
-/&#39; _ `\     \ \ \  /\ \/\ \ /&#39; _ `\   /&#39;__`\  /&#39;,__\ 
+/' _ `\     \ \ \  /\ \/\ \ /' _ `\   /'__`\  /',__\ 
 /\ \/\ \     \ \ \ \ \ \_\ \/\ \/\ \ /\  __/ /\__, `\
 \ \_\ \_\     \ \_\ \ \____/\ \_\ \_\\ \____\\/\____/
  \/_/\/_/      \/_/  \/___/  \/_/\/_/ \/____/ \/___/
   v0.1.0
           HTTP Server started on port: 8888
-     Type &#39;help&#39; for a list of runtime commands...
+     Type 'help' for a list of runtime commands...
 
 curl localhost:8888/current%20track/name
-// &quot;Tres Brujas&quot;
+// "Tres Brujas"
 
 curl -d value=50 localhost:8888/sound%20volume
 // Volume changed to 50
-</code></pre><h2 id="-kanso-http-kansojs-org-"><a href="http://kansojs.org/">Kanso</a></h2>
-<p><img src="http://dailyjs.com/images/posts/kanso.png" alt="Kanso Logo">
-完全利用javascript可以运行在浏览器端和服务器的特性，将使web开发达到机制体验。
-什么时Kanso：</p>
-<p>Modern web development increasingly means pushing more logic onto the client. 
-This provides us with fast and responsive interfaces, but not without cost. 
-When grafted onto traditional web-frameworks, rich interfaces require the complete re-implementation of features on both the server and client-side. 
-Form validation, Templating and URL routing must either be handled at both ends or become fragile and insecure.</p>
-<p>开发一个web应用有多快？可以看看<a href="http://kansojs.org/tutorial.html">Kanso的教程</a>： <a href="http://kansojs.org/tutorial.html">http://kansojs.org/tutorial.html</a></p>
-<h2 id="-ibm-doesn-t-care-about-node-js-people-http-blog-nodejitsu-com-ibm-doesnt-care-about-nodejs-people-"><a href="http://blog.nodejitsu.com/ibm-doesnt-care-about-nodejs-people">IBM Doesn&#39;t Care About Node.Js People</a></h2>
-<p>IBM上的<a href="http://www.ibm.com/developerworks/opensource/library/os-nodejs/index.html">一篇关于Nodejs的文章</a>写得太过分，
-激怒了Nodejs社区上的许多开发者。
-为了避免误导Nodejs的新开发者，<a href="http://github.com/marak">Marak Squires</a> 写了此文章来申讨IBM的上的这篇不负责任的文章。</p>
+</code></pre>
 
+<h2><a href="http://kansojs.org/">Kanso</a></h2>
+
+<p><img src="http://dailyjs.com/images/posts/kanso.png" alt="Kanso Logo" title="" /><br />完全利用javascript可以运行在浏览器端和服务器的特性，将使web开发达到机制体验。<br />什么时Kanso：</p>
+
+<p>Modern web development increasingly means pushing more logic onto the client. <br />This provides us with fast and responsive interfaces, but not without cost. <br />When grafted onto traditional web-frameworks, rich interfaces require the complete re-implementation of features on both the server and client-side. <br />Form validation, Templating and URL routing must either be handled at both ends or become fragile and insecure.</p>
+
+<p>开发一个web应用有多快？可以看看<a href="http://kansojs.org/tutorial.html">Kanso的教程</a>： <a href='http://kansojs.org/tutorial.html'>http://kansojs.org/tutorial.html</a></p>
+
+<h2><a href="http://blog.nodejitsu.com/ibm-doesnt-care-about-nodejs-people">IBM Doesn't Care About Node.Js People</a></h2>
+
+<p>IBM上的<a href="http://www.ibm.com/developerworks/opensource/library/os-nodejs/index.html">一篇关于Nodejs的文章</a>写得太过分，<br />激怒了Nodejs社区上的许多开发者。<br />为了避免误导Nodejs的新开发者，<a href="http://github.com/marak">Marak Squires</a> 写了此文章来申讨IBM的上的这篇不负责任的文章。</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

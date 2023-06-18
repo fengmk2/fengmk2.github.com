@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>让你的搜索出现在Chrome地址栏智能搜索中</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,41 +38,31 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-chrome-">让你的搜索出现在Chrome地址栏智能搜索中</h1>
-<h2 id="-">先看看最终效果</h2>
-<p><img src="http://ww4.sinaimg.cn/large/6cfc7910jw1dmq13148y4j.jpg" alt="http://ww4.sinaimg.cn/large/6cfc7910jw1dmq13148y4j.jpg"></p>
-<p>很炫对吧！</p>
-<h2 id="-">怎样做到的呢？</h2>
-<ul>
-<li><p>在页面html的head中增加 &quot;search link&quot;</p>
-  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="淘宝指数" /> 
-</li>
-<li><p>opensearch.xml 内容大致如下，你相应修改成你的内容就可以了</p>
-<p>  &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</p>
-  <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-      <ShortName>淘宝指数</ShortName>
-      <Description>淘宝指数搜索</Description>
-      <Tags>淘宝指数</Tags>
-      <Contact>suqian.yf@taobao.com</Contact>
-      <Url type="text/html" template="http://shu.taobao.com/search?query={searchTerms}&from=opensearch"/>
-      <LongName>淘宝指数搜索</LongName>
-      <Image height="16" width="16" type="image/x-icon"><a href="http://shu.taobao.com/favicon.ico">http://shu.taobao.com/favicon.ico</a></Image>
-      <Query role="example" searchTerms="连衣裙" />
-      <Developer>淘宝指数</Developer>
-      <Attribution>source: shu.taobao.com</Attribution>
-      <SyndicationRight>open</SyndicationRight>
-      <AdultContent>false</AdultContent>
-      <Language>*</Language>
-      <OutputEncoding>UTF-8</OutputEncoding>
-      <InputEncoding>UTF-8</InputEncoding>
-  </OpenSearchDescription>
-</li>
-<li><p>打开你的页面，在地址栏输入域名，然后按tab，出现了吧！</p>
-</li>
-</ul>
-<h2 id="-">有爱</h2>
-<p>希望本文对你有用 ^-^</p>
+<h1>让你的搜索出现在Chrome地址栏智能搜索中</h1>
 
+<h2>先看看最终效果</h2>
+
+<p><img src="http://ww4.sinaimg.cn/large/6cfc7910jw1dmq13148y4j.jpg" alt="http://ww4.sinaimg.cn/large/6cfc7910jw1dmq13148y4j.jpg" title="" /></p>
+
+<p>很炫对吧！</p>
+
+<h2>怎样做到的呢？</h2>
+
+<ul>
+<li><p>在页面html的head中增加 "search link"</p>
+
+<p><link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="淘宝指数" /> </p></li>
+<li><p>opensearch.xml 内容大致如下，你相应修改成你的内容就可以了</p>
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<p><OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><br />    <ShortName>淘宝指数</ShortName><br />    <Description>淘宝指数搜索</Description><br />    <Tags>淘宝指数</Tags><br />    <Contact><a href='mailto:suqian.yf@taobao.com'>suqian.yf@taobao.com</a></Contact><br />    <Url type="text/html" template="http://shu.taobao.com/search?query={searchTerms}&amp;from=opensearch"/><br />    <LongName>淘宝指数搜索</LongName><br />    <Image height="16" width="16" type="image/x-icon"><a href='http://shu.taobao.com/favicon.ico'>http://shu.taobao.com/favicon.ico</a></Image><br />    <Query role="example" searchTerms="连衣裙" /><br />    <Developer>淘宝指数</Developer><br />    <Attribution>source: shu.taobao.com</Attribution><br />    <SyndicationRight>open</SyndicationRight><br />    <AdultContent>false</AdultContent><br />    <Language>*</Language><br />    <OutputEncoding>UTF-8</OutputEncoding><br />    <InputEncoding>UTF-8</InputEncoding><br /></OpenSearchDescription></p></li>
+<li><p>打开你的页面，在地址栏输入域名，然后按tab，出现了吧！</p></li>
+</ul>
+
+<h2>有爱</h2>
+
+<p>希望本文对你有用 ^-^</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

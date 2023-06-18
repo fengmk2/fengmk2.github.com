@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>使用nodejs解决phonegap开发期间的跨域问题</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,29 +38,36 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-nodejs-phonegap-">使用nodejs解决phonegap开发期间的跨域问题</h1>
+<h1>使用nodejs解决phonegap开发期间的跨域问题</h1>
+
 <p>使用phonegap开发基于HTML5的iOS程序，应用程序需要访问额外的网络资源，就必然需要面对跨域访问的问题。</p>
+
 <p>phonegap可以配置白名单，这样可以让最终打包的应用程序能跨域访问。</p>
+
 <p>但是我们开发环境下，一般都是直接使用浏览器进行开发调试的，而浏览器没有这样的选项让我们设置白名单。</p>
+
 <p>那要怎么解决跨域问题呢？每次修改代码后的测试都要启动模拟器，然后不方便地调试？我想大家不会这么做吧。</p>
-<h2 id="nodejs-proxy-">nodejs 实现超简单的 <code>proxy</code></h2>
-<p>将所有请求，通过本地node进程进行转发。
-静态文件资源也有此proxy服务处理，也就解决了跨域问题。</p>
-<pre><code class="lang-javascript">var http = require(&#39;http&#39;);
-var path = require(&#39;path&#39;);
-var urlparse = require(&#39;url&#39;).parse;
-var connect = require(&#39;connect&#39;);
+
+<h2>nodejs 实现超简单的 <code>proxy</code></h2>
+
+<p>将所有请求，通过本地node进程进行转发。<br />静态文件资源也有此proxy服务处理，也就解决了跨域问题。</p>
+
+<pre><code>javascript
+var http = require('http');
+var path = require('path');
+var urlparse = require('url').parse;
+var connect = require('connect');
 
 var app = connect();
-app.use(&quot;/proxy&quot;, function (req, res) {
+app.use("/proxy", function (req, res) {
   var url = urlparse(req.url, true).query.url;
   if (!url) {
-    return res.end(req.method + &#39;: &#39; + req.url);
+    return res.end(req.method + ': ' + req.url);
   }
   var target = urlparse(url);
   var headers = {};
   for (var k in req.headers) {
-    if (k === &#39;host&#39; || k === &#39;connection&#39;) {
+    if (k === 'host' || k === 'connection') {
       continue;
     }
     headers[k] = req.headers[k];
@@ -75,44 +82,50 @@ app.use(&quot;/proxy&quot;, function (req, res) {
 
   var proxyReq = http.request(options, function (response) {
     res.writeHead(response.statusCode, response.headers);
-    response.on(&#39;data&#39;, function (chunk) {
+    response.on('data', function (chunk) {
       res.write(chunk);
     });
-    response.on(&#39;end&#39;, function () {
+    response.on('end', function () {
       res.end();
     });
   });
 
-  proxyReq.on(&#39;error&#39;, function (err) {
+  proxyReq.on('error', function (err) {
     proxyReq.abort();
     res.writeHead(500);
-    res.end(url + &#39; error: &#39; + err.message);
+    res.end(url + ' error: ' + err.message);
   });
 
-  req.on(&#39;data&#39;, function (chunk) {
+  req.on('data', function (chunk) {
     proxyReq.write(chunk);
   });
-  req.on(&#39;end&#39;, function () {
+  req.on('end', function () {
     proxyReq.end();
   });
 });
 
-app.use(connect.static(path.join(__dirname, &quot;www&quot;), { maxAge: 0 }));
+app.use(connect.static(path.join(__dirname, "www"), { maxAge: 0 }));
 
 
 app.listen(8001);
-console.log(&quot;Server is launching at http://localhost:8001&quot;);
+console.log("Server is launching at <a href='http://localhost:8001'>http://localhost:8001</a>");
 </code></pre>
-<h2 id="-proxy-">在代码中自动判断是否使用 <code>proxy</code></h2>
+
+<h2>在代码中自动判断是否使用 <code>proxy</code></h2>
+
 <p>通过判断 <code>navigator.notification</code> 是否存在，确定当前执行环境是浏览器还是模拟器。</p>
-<pre><code class="lang-javascript">if (!navigator.notification) {
-  V5.Model.proxy = location.origin + &#39;/proxy&#39;;
+
+<pre><code>javascript
+if (!navigator.notification) {
+  V5.Model.proxy = location.origin + '/proxy';
 }
 </code></pre>
-<h2 id="-">有爱</h2>
-<p>本文所有示例代码来自于<a href="https://github.com/JacksonTian/fawave_mobile">FaWave 移动版</a>.</p>
-<p>希望本文对你有用 ^_^</p>
 
+<h2>有爱</h2>
+
+<p>本文所有示例代码来自于<a href="https://github.com/JacksonTian/fawave_mobile">FaWave 移动版</a>.</p>
+
+<p>希望本文对你有用 ^_^</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

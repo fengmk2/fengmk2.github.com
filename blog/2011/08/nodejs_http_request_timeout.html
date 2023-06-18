@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>Nodejs HTTP请求的超时处理 Nodejs HTTP Client Request Timeout Handle</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,48 +38,57 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="nodejs-http-nodejs-http-client-request-timeout-handle">Nodejs HTTP请求的超时处理 Nodejs HTTP Client Request Timeout Handle</h1>
-<h2 id="-">问题</h2>
-<p>Nodejs原生的<a href="http://nodejs.org/docs/v0.5.3/api/http.html#http.request">http.request</a> 方法是不支持设置超时参数的，
-而网络请求经常会遇到超时的情况，特别是对于外部网络，如果不处理超时，发起的请求将会一直卡主，消耗的系统资源也不能及时被释放。</p>
-<h2 id="-socket-http-clientrequest-settimeout-">解决方案(新, 有问题，socket会重用，设置超时会有问题)：扩展http.ClientRequest, 增加setTimeout方法</h2>
-<p>利用<a href="http://nodejs.org/docs/v0.4.11/api/net.html#socket.setTimeout">socket.setTimeout</a>，
-我们可以为<a href="http://nodejs.org/docs/v0.4.11/api/http.html#http.ClientRequest">http.ClientRequest</a>增加超时设置方法</p>
-<pre><code>var http = require(&#39;http&#39;);
+<h1>Nodejs HTTP请求的超时处理 Nodejs HTTP Client Request Timeout Handle</h1>
+
+<h2>问题</h2>
+
+<p>Nodejs原生的<a href="http://nodejs.org/docs/v0.5.3/api/http.html#http.request">http.request</a> 方法是不支持设置超时参数的，<br />而网络请求经常会遇到超时的情况，特别是对于外部网络，如果不处理超时，发起的请求将会一直卡主，消耗的系统资源也不能及时被释放。</p>
+
+<h2>解决方案(新, 有问题，socket会重用，设置超时会有问题)：扩展http.ClientRequest, 增加setTimeout方法</h2>
+
+<p>利用<a href="http://nodejs.org/docs/v0.4.11/api/net.html#socket.setTimeout">socket.setTimeout</a>，<br />我们可以为<a href="http://nodejs.org/docs/v0.4.11/api/http.html#http.ClientRequest">http.ClientRequest</a>增加超时设置方法</p>
+
+<pre><code>var http = require('http');
 http.ClientRequest.prototype.setTimeout = function(timeout, callback) {
     var self = this;
     if(callback) {
-        self.on(&#39;timeout&#39;, callback);
+        self.on('timeout', callback);
     }
     self.connection.setTimeout(timeout, function() {
         self.abort();
-        self.emit(&#39;timeout&#39;);
+        self.emit('timeout');
     });
 };
-</code></pre><h2 id="-">解决方案(旧)</h2>
-<p>定时器：通过定时器，当timeout事件触发的时候，主动调用<a href="http://nodejs.org/docs/v0.5.3/api/http.html#request.abort">req.abort()</a> 终止请求，
-然后返回超时异常。</p>
-<h2 id="request-timeout-response-timeout">Request Timeout &amp; Response Timeout</h2>
+</code></pre>
+
+<h2>解决方案(旧)</h2>
+
+<p>定时器：通过定时器，当timeout事件触发的时候，主动调用<a href="http://nodejs.org/docs/v0.5.3/api/http.html#request.abort">req.abort()</a> 终止请求，<br />然后返回超时异常。</p>
+
+<h2>Request Timeout &amp; Response Timeout</h2>
+
 <ul>
 <li>超时有请求超时(Request Timeout)：HTTP客户端发起请求到接受到HTTP服务器端返回响应头的这段时间，
 如果超出设定时间，则表示请求超时。</li>
 <li>响应超时(Response Timeout)：HTTP服务器端开始发送响应数据到HTTP客户端接收全部数据的这段时间，
 如果超出设定时间，则表示响应超时。</li>
 </ul>
-<h2 id="-timeout-demo">示例代码：Timeout Demo</h2>
-<pre><code>var http = require(&#39;http&#39;);
+
+<h2>示例代码：Timeout Demo</h2>
+
+<pre><code>var http = require('http');
 
 var request_timer = null, req = null;
 // 请求5秒超时
 request_timer = setTimeout(function() {
     req.abort();
-    console.log(&#39;Request Timeout.&#39;);
+    console.log('Request Timeout.');
 }, 5000);
 
 var options = {
-    host: &#39;www.google.com&#39;,
+    host: 'www.google.com',
     port: 80,
-    path: &#39;/&#39;
+    path: '/'
 };
 req = http.get(options, function(res) {
     clearTimeout(request_timer);
@@ -87,16 +96,16 @@ req = http.get(options, function(res) {
     // 等待响应60秒超时
     var response_timer = setTimeout(function() {
         res.destroy();
-        console.log(&#39;Response Timeout.&#39;);
+        console.log('Response Timeout.');
     }, 60000);
 
-    console.log(&quot;Got response: &quot; + res.statusCode);
+    console.log("Got response: " + res.statusCode);
     var chunks = [], length = 0;
-    res.on(&#39;data&#39;, function(chunk) {
+    res.on('data', function(chunk) {
         length += chunk.length;
         chunks.push(chunk);
     });
-    res.on(&#39;end&#39;, function() {
+    res.on('end', function() {
         clearTimeout(response_timer);
         var data = new Buffer(length);
         // 延后copy
@@ -104,17 +113,19 @@ req = http.get(options, function(res) {
             chunks[i].copy(data, pos);
             pos += chunks[i].length;
         }
-        console.log(&#39;Body:\r\n&#39;);
+        console.log('Body:\r\n');
         console.log(data.toString());
     });
-}).on(&#39;error&#39;, function(e) {
+}).on('error', function(e) {
     // 响应头有错误
     clearTimeout(request_timer);
-    console.log(&quot;Got error: &quot; + e.message);
+    console.log("Got error: " + e.message);
 });
-</code></pre><h2 id="-">有爱</h2>
-<p>^_^ 希望本文对你有用。</p>
+</code></pre>
 
+<h2>有爱</h2>
+
+<p>^_^ 希望本文对你有用。</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

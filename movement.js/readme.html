@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
+  <style>
+    a{color:#09f;}
+    code{color:#080;}
+    pre{line-height: 1.4;}
+    h1, #tagline{display:inline;}
+    #wrapper{padding:5% 8%;min-width:480px;}
+    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+    #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>Movement.js</h1>
+
+<p>Movement.js is library for recognition of basic gestures using JavaScript and HTML5. Demo videos can be found <a href="https://www.youtube.com/watch?v=0_yfU_iNUYo">here</a> and <a href="https://www.youtube.com/watch?v=7C0D2CkD3pc">here</a>.</p>
+
+<h1>How to use it?</h1>
+
+<p>You can initialize it by:</p>
+
+<pre><code>Movement.init(callbacks);
+</code></pre>
+
+<p>The <code>callbacks</code> object can contain the following callbacks:</p>
+
+<ul>
+<li><code>movementChanged</code> - callback which will be invoked when the user gesture is changed.</li>
+<li><code>positionChanged</code> - callback which will be invoked when the user change his position in the visible area.</li>
+</ul>
+
+<p>Both callbacks accept a single argument the new callback/movement.</p>
+
+<h3>List of movements</h3>
+
+<p>This is list of all gestures which Movement.js can currently recognize:</p>
+
+<ul>
+<li><code>STAND</code></li>
+<li><code>LEFT_ARM_UP</code></li>
+<li><code>RIGHT_ARM_UP</code></li>
+<li><code>ARMS_UP</code></li>
+<li><code>SQUAT_LEFT_ARM_UP</code></li>
+<li><code>SQUAT_RIGHT_ARM_UP</code></li>
+<li><code>LEFT_LEG_UP</code></li>
+<li><code>SQUAT</code></li>
+<li><code>EMPTY</code></li>
+<li><code>RIGHT_LEG_UP</code></li>
+</ul>
+
+<p>All movements are located in the namespace <code>Movement.movements</code>.</p>
+
+<h3>List of positions</h3>
+
+<p>This is list of all positions which Movement.js supports currently:</p>
+
+<ul>
+<li><code>LEFT</code></li>
+<li><code>RIGHT</code></li>
+<li><code>MIDDLE</code></li>
+<li><code>EMPTY</code></li>
+</ul>
+
+<p>All positions are located in the namespace <code>Movement.positions</code>.</p>
+
+<h3>Example</h3>
+
+<pre><code>Movement.init({
+    positionChanged: function (pos) {
+        if (pos === Movement.positions.LEFT) {
+            console.log('You\'re in the left part of the visible zone');
+        }
+    },
+    movementChanged: function (mov) {
+        if (mov === Movement.movements.RIGHT_LEG_UP) {
+            console.log('You\'re kicking?');
+        }
+    }
+});
+</code></pre>
+
+<h1>License</h1>
+
+<p>This software is distributed under the terms of the MIT license.</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

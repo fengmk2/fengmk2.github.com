@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>[nodejs]Buffer vs String</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,12 +38,14 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-nodejs-buffer-vs-string">[nodejs]Buffer vs String</h1>
-<h2 id="-">疑问</h2>
-<p>按nodejs官方的文档说明，使用Buffer操作字节流通常会比转化成String要高效。
-实际情况全都是这样的吗？
-本文通过一个简单的解析HTTP Request Header实例来解开此疑问。</p>
-<h2 id="http-request-header-demo">HTTP Request Header Demo</h2>
+<h1>[nodejs]Buffer vs String</h1>
+
+<h2>疑问</h2>
+
+<p>按nodejs官方的文档说明，使用Buffer操作字节流通常会比转化成String要高效。<br />实际情况全都是这样的吗？<br />本文通过一个简单的解析HTTP Request Header实例来解开此疑问。</p>
+
+<h2>HTTP Request Header Demo</h2>
+
 <pre><code>POST /foo HTTP/1.1\r\n
 Host: foo.example.com\r\n
 Content-Length: 5\r\n
@@ -53,10 +55,15 @@ Cookie:connect.sid=OY2nKGqI3obs5lYee0JKTjhf.FDtbY1Jz5Ngw5So9Jv3MUetI5ITvrIfwgCkR
 User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.41 Safari/535.7
 \r\n\r\n
 q=bar
-</code></pre><h2 id="-">需求</h2>
+</code></pre>
+
+<h2>需求</h2>
+
 <p>获取Header中Host的值</p>
-<h2 id="buffer-">Buffer版本</h2>
-<pre><code>var SPACE = 0x20, // &#39; &#39;
+
+<h2>Buffer版本</h2>
+
+<pre><code>var SPACE = 0x20, // ' '
     COLON = 0x3a, // 58, :
     NEWLINE = 0x0a, // \n
     ENTER = 0x0d; // \r
@@ -66,13 +73,13 @@ exports.parse = function parse(data) {
     for(var i = 0 ; i &lt; len; i++) {
         // Host: xxx.abc.com
         if(data[i] === COLON) {
-            var key = data.toString(&#39;ascii&#39;, line_start, i).toLowerCase();
-            i++; // skip &#39;:&#39;
-            if(key === &#39;host&#39;) {
+            var key = data.toString('ascii', line_start, i).toLowerCase();
+            i++; // skip ':'
+            if(key === 'host') {
                 var value_start = i;
                 while(i &lt; len) {
                     if(data[i] === ENTER) {
-                        return data.toString(&#39;ascii&#39;, value_start, i).trim().toLowerCase();
+                        return data.toString('ascii', value_start, i).trim().toLowerCase();
                     }
                     i++;
                 }
@@ -82,22 +89,25 @@ exports.parse = function parse(data) {
             line_start = i;
             if(data[i] ===  ENTER &amp;&amp; data[i+1] === NEWLINE) {
                 // \r\n\r\n
-                return &#39;Host header not found&#39;;
+                return 'Host header not found';
             }
         }
     }
     return null;
 };
-</code></pre><h2 id="string-">String版本</h2>
+</code></pre>
+
+<h2>String版本</h2>
+
 <pre><code>exports.parse = function parse(data) {
-    var lines = data.toString(&#39;ascii&#39;).split(&quot;\n&quot;);
+    var lines = data.toString('ascii').split("\n");
     var cut, name, host;
     for (var i = 0, len = lines.length; i &lt; len; i++) {
-        cut = lines[i].split(&#39;:&#39;);
+        cut = lines[i].split(':');
         name = cut[0];
-        if (name === &#39;Host&#39;) {
+        if (name === 'Host') {
             if (cut[1] === undefined) {
-                return &#39;Host header not found&#39;;
+                return 'Host header not found';
             }
             host = cut[1].trim().toLowerCase();
             return host;
@@ -105,11 +115,14 @@ exports.parse = function parse(data) {
     }
     return null;
 };
-</code></pre><h2 id="-">测试脚本</h2>
-<pre><code>var buffer_parse = require(&#39;./string-buffer-benchmark-parse-header-buffer&#39;).parse
-  , string_parse = require(&#39;./string-buffer-benchmark-parse-header-string&#39;).parse;
+</code></pre>
 
-var data = new Buffer(&#39;POST /foo HTTP/1.1\r\nHost: foo.example.com\r\nContent-Length: 5\r\nConnection:keep-alive\r\nAccept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nCookie:connect.sid=OY2nKGqI3obs5lYee0JKTjhf.FDtbY1Jz5Ngw5So9Jv3MUetI5ITvrIfwgCkRw%2FcXUCk\r\nUser-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.41 Safari/535.7\r\n\r\nq=bar&#39;);
+<h2>测试脚本</h2>
+
+<pre><code>var buffer_parse = require('./string-buffer-benchmark-parse-header-buffer').parse
+  , string_parse = require('./string-buffer-benchmark-parse-header-string').parse;
+
+var data = new Buffer('POST /foo HTTP/1.1\r\nHost: foo.example.com\r\nContent-Length: 5\r\nConnection:keep-alive\r\nAccept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nCookie:connect.sid=OY2nKGqI3obs5lYee0JKTjhf.FDtbY1Jz5Ngw5So9Jv3MUetI5ITvrIfwgCkRw%2FcXUCk\r\nUser-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.41 Safari/535.7\r\n\r\nq=bar');
 
 //console.log(buffer_parse(data));
 //console.log(string_parse(data), data.length);
@@ -119,20 +132,25 @@ var start = new Date();
 for(var i = 0; i &lt; n; i++) {
     buffer_parse(data);
 }
-console.log(&#39;buffer_parse take: &#39; + (new Date() - start) + &#39; ms&#39;);
+console.log('buffer_parse take: ' + (new Date() - start) + ' ms');
 
 start = new Date();
 for(var i = 0; i &lt; n; i++) {
     string_parse(data);
 }
-console.log(&#39;string_parse take: &#39; + (new Date() - start) + &#39; ms&#39;);
-</code></pre><h2 id="-">测试结果</h2>
+console.log('string_parse take: ' + (new Date() - start) + ' ms');
+</code></pre>
+
+<h2>测试结果</h2>
+
 <pre><code>$ node string-buffer-benchmark.js
 buffer_parse take: 1888 ms
 string_parse take: 4948 ms
-</code></pre><h2 id="-">结论</h2>
-<p>Buffer比String快多了。</p>
+</code></pre>
 
+<h2>结论</h2>
+
+<p>Buffer比String快多了。</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

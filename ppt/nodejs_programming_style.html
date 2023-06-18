@@ -20,16 +20,14 @@
   <link rel="stylesheet" href="./deck.js/extensions/navigation/deck.navigation.css">
   <link rel="stylesheet" href="./deck.js/extensions/status/deck.status.css">
   <link rel="stylesheet" href="./deck.js/extensions/hash/deck.hash.css">
-  <link rel="stylesheet" href="./style.css">
   
   <!-- Theme CSS files (menu swaps these out) -->
   <link rel="stylesheet" id="style-theme-link" href="./deck.js/themes/style/neon.css">
   <link rel="stylesheet" id="transition-theme-link" href="./deck.js/themes/transition/horizontal-slide.css">
   
-  <link rel="stylesheet" href="http://fengmk2.github.com/css/prettify.css" />
-  <script src="http://fengmk2.github.com/js/jquery-1.7.min.js"></script>
-  <script src="http://fengmk2.github.com/js/prettify.js"></script>
-
+  <!-- Custom CSS just for this page -->
+  <link rel="stylesheet" href="./prettify.css">
+  
   <script src="./deck.js/modernizr.custom.js"></script>
 </head>
 
@@ -37,59 +35,73 @@
 
 
 <section class="slide"><h1>我的 nodejs 编程规范</h1>
+
 <h2>苏千@<a href="http://weibo.com/81715239">Python发烧友</a></h2>
-<p>2012-06-12 晚上 at Taobao
 
-</p>
+<p>2012-06-12 晚上 at Taobao</p>
+
 </section>
 
-<section class="slide"><h2>大纲</h2>
+<section class="slide">
+<h2>大纲</h2>
+
 <h3>为什么要遵循编程规范</h3>
+
 <h3>我的 nodejs 编程规范</h3>
+
 <h3>之乎@者也</h3>
+
 </section>
 
-<section class="slide"><h2>为什么要遵循编程规范</h2>
+<section class="slide">
+<h2>为什么要遵循编程规范</h2>
+
 <h3>代码清晰易读</h3>
-<p>质量好的代码，通常都是有观赏性的。
 
-</p>
+<p>质量好的代码，通常都是有观赏性的。</p>
+
 <h3>减少出错</h3>
-<p>让代码能在眼睛里运行，无须猜测运行结果。
 
-</p>
+<p>让代码能在眼睛里运行，无须猜测运行结果。</p>
+
 <h3>团队开发</h3>
-<p>参与团队开发或者给开源项目提交pull request之前，必须了解项目的编程规范。
 
-</p>
+<p>参与团队开发或者给开源项目提交pull request之前，必须了解项目的编程规范。</p>
+
 <h3>代码艺术</h3>
-<p><code>Coding</code> 也是一门 <code>艺术</code> (<a href="http://kb.cnblogs.com/page/132089/">link</a>)。
 
-</p>
+<p><code>Coding</code> 也是一门 <code>艺术</code> (<a href="http://kb.cnblogs.com/page/132089/">link</a>)。</p>
+
 </section>
 
-<section class="slide"><h2>我的 nodejs 编程规范</h2>
+<section class="slide">
+<h2>我的 nodejs 编程规范</h2>
+
 </section>
 
-<section class="slide"><h2>缩进: <code>tab</code> =&gt; <code>2 space</code></h2>
-<p>避免代码显示差异，入乡随俗，这是 <code>nodejs</code> 源码及 <code>module</code> 采用的标准。
+<section class="slide">
+<h2>缩进: <code>tab</code> => <code>2 space</code></h2>
 
-</p>
-<p>必须让编辑器自动转换:
+<p>避免代码显示差异，入乡随俗，这是 <code>nodejs</code> 源码及 <code>module</code> 采用的标准。</p>
 
-</p>
+<p>必须让编辑器自动转换:</p>
+
 <ul>
 <li><a href="http://www.sublimetext.com/docs/2/indentation.html">sublimetext</a></li>
 <li><a href="http://stackoverflow.com/questions/426963/replace-tab-with-spaces-in-vim">vim</a></li>
 <li><a href="http://ww3.sinaimg.cn/large/6cfc7910jw1dnf44jzellj.jpg">eclipse</a></li>
 </ul>
+
 </section>
 
-<section class="slide"><h2>空格！空格！空格！</h2>
+<section class="slide">
+<h2>空格！空格！空格！</h2>
+
 <ul>
 <li><code>function</code>关键词与<code>函数名</code>之间有<code>一个空格</code></li>
 <li>调用函数的时候，<code>函数名</code>与<code>左括号</code>之间<code>没有空格</code></li>
 </ul>
+
 <pre><code>// right
 function foo(bar) {...}
 foo(bar);
@@ -100,157 +112,190 @@ foo(function (err, data) {...});
 function foo (bar) {...}
 foo (bar);
 foo(function callback (err, data) {...});
-foo(function(err, data) {...});</code></pre>
+foo(function(err, data) {...});
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>空格！空格！空格！</h2>
+<section class="slide">
+<h2>空格！空格！空格！</h2>
+
 <ul>
 <li>所有其他<code>语法元素</code>与<code>左括号</code>之间，都有<code>一个空格</code></li>
 </ul>
+
 <pre><code>// right
 return (a + b);
 if (a === 0) {...}
 for (var k in map) {...}
-while (i &gt; 0) {...}
+while (i > 0) {...}
 
 // wrong
 return(a + b);
 if(a === 0) {...}
 for(var k in map) {...}
-while(i &gt; 0) {...}</code></pre>
+while(i > 0) {...}
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>空格！空格！空格！</h2>
+<section class="slide">
+<h2>空格！空格！空格！</h2>
+
 <ul>
 <li><code>操作符</code>号与<code>参数</code>之前有<code>一个空格</code></li>
 <li>能提高阅读性的空格不能省略</li>
 </ul>
+
 <pre><code>// right
 var a = 1 + 2;
-for (var i = 0, l = items.length; i &lt; l; i++) {...}
+for (var i = 0, l = items.length; i < l; i++) {...}
 
 //wrong
 var a=1+2;
-for(var i=0,l=items.length;i&lt;l;i++){...}</code></pre>
+for(var i=0,l=items.length;i<l;i++){...}
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>直观明了的变量与函数命名</h2>
-<p>好的变量与函数命名，可以避免大量的注释，以及让圈内的同学感到熟悉。
+<section class="slide">
+<h2>直观明了的变量与函数命名</h2>
 
-</p>
-<p>驼峰式:
+<p>好的变量与函数命名，可以避免大量的注释，以及让圈内的同学感到熟悉。</p>
 
-</p>
+<p>驼峰式:</p>
+
 <ul>
 <li>函数和变量：<code>functionNamesLikeThis</code>, <code>variableNamesLikeThis</code></li>
 <li>类名和枚举类型：<code>ClassNamesLikeThis</code>, <code>EnumNamesLikeThis</code></li>
 <li>类方法：<code>methodNamesLikeThis</code></li>
 <li>常量：<code>SYMBOLIC_CONSTANTS_LIKE_THIS</code></li>
 </ul>
+
 <pre><code>// var definition
-var adminUser = db.query(&#39;SELECT * FROM users ...&#39;);
+var adminUser = db.query('SELECT * FROM users ...');
 
 // function definition
 function run() {...}
 
 // Class definition
-function BankAccount() {...}</code></pre>
+function BankAccount() {...}
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>Only <code>===</code></h2>
-<p>你能只看到代码，就能保证下面对比的结果吗？
+<section class="slide">
+<h2>Only <code>===</code></h2>
 
-</p>
-<pre><code>0 == &#39;&#39;
+<p>你能只看到代码，就能保证下面对比的结果吗？</p>
+
+<pre><code>0 == ''
 1 == true
 2 == true
-0 == &#39;0&#39;
-false == &#39;false&#39;
-false == &#39;0&#39;
-&quot; \t\r\n &quot; == 0</code></pre>
+0 == '0'
+false == 'false'
+false == '0'
+" \t\r\n " == 0
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>Only <code>===</code></h2>
-<p>结果绝对是 <code>坑爹</code> 的：
+<section class="slide">
+<h2>Only <code>===</code></h2>
 
-</p>
-<pre><code>&gt; 0 == &#39;&#39;
+<p>结果绝对是 <code>坑爹</code> 的：</p>
+
+<pre><code>> 0 == ''
 true
-&gt; 1 == true
+> 1 == true
 true
-&gt; 2 == true
+> 2 == true
 false
-&gt; 0 == &#39;0&#39;
+> 0 == '0'
 true
-&gt; false == &#39;false&#39;
+> false == 'false'
 false
-&gt; false == &#39;0&#39;
+> false == '0'
 true
-&gt; &quot; \t\r\n &quot; == 0
-true</code></pre>
+> " \t\r\n " == 0
+true
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>回调潜规则: <code>callback(err, data)</code></h2>
-<p>在 nodejs 的代码里面，异步IO回调方法必须遵循的潜规则: <code>callback(err, data)</code>
+<section class="slide">
+<h2>回调潜规则: <code>callback(err, data)</code></h2>
 
-</p>
-<pre><code>var fs = require(&#39;fs&#39;);
+<p>在 nodejs 的代码里面，异步IO回调方法必须遵循的潜规则: <code>callback(err, data)</code></p>
 
-fs.readFile(__dirname + &#39;/foo.txt&#39;, &#39;utf8&#39;, function (err, data) {
+<pre><code>var fs = require('fs');
+
+fs.readFile(__dirname + '/foo.txt', 'utf8', function (err, data) {
   if (err) {
     return console.log(err);
   }
   console.log(data);
-});</code></pre>
-<p>dns 域名查询ip: <a href="http://nodejs.org/docs/latest/api/dns.html#dns_dns_lookup_domain_family_callback">dns_dns_lookup_domain_family_callback</a>
+});
+</code></pre>
 
-</p>
-<pre><code>var dns = require(&#39;dns&#39;);
+<p>dns 域名查询ip: <a href="http://nodejs.org/docs/latest/api/dns.html#dns_dns_lookup_domain_family_callback">dns_dns_lookup_domain_family_callback</a></p>
 
-dns.lookup(&#39;taobao.com&#39;, function (err, address, family) {
+<pre><code>var dns = require('dns');
+
+dns.lookup('taobao.com', function (err, address, family) {
   console.log(err, address, family);
-});</code></pre>
+});
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>String is not <code>Error</code></h2>
-<pre><code class="lang-javascript">function request(url, callback) {
+<section class="slide">
+<h2>String is not <code>Error</code></h2>
+
+<pre><code>javascript
+function request(url, callback) {
   requestURLAsync(url, function () {
     // ...
     if (isTimeout) {
-      return callback(&#39;Request `&#39; + url &#39;` timeout.&#39;);
+      return callback('Request `' + url '` timeout.');
     }
     callback(null, ...);
   });
-}</code></pre>
-<p>将 <code>String</code> 当 <code>Error</code> 使用，会有什么问题呢？
+}
+</code></pre>
 
-</p>
+<p>将 <code>String</code> 当 <code>Error</code> 使用，会有什么问题呢？</p>
+
 </section>
 
-<section class="slide"><h2>String is not <code>Error</code></h2>
-<p>使用 <code>String</code> 会丢失了 <code>Error</code> 的上下文堆栈信息: <a href="http://www.devthought.com/2011/12/22/a-string-is-not-an-error/">A String is not an Error</a>
+<section class="slide">
+<h2>String is not <code>Error</code></h2>
 
-</p>
-<p>正确的方式:
+<p>使用 <code>String</code> 会丢失了 <code>Error</code> 的上下文堆栈信息: <a href="http://www.devthought.com/2011/12/22/a-string-is-not-an-error/">A String is not an Error</a></p>
 
-</p>
-<pre><code class="lang-javascript">function request(url, callback) {
+<p>正确的方式:</p>
+
+<pre><code>javascript
+function request(url, callback) {
   requestURLAsync(url, function () {
     // ...
     if (isTimeout) {
-      var err = new Error(&#39;Request `&#39; + url &#39;` timeout.&#39;);
-      err.name = &#39;RequestTimeout&#39;;
+      var err = new Error('Request `' + url '` timeout.');
+      err.name = 'RequestTimeout';
       return callback(err);
     }
     callback(null, ...);
   });
-}</code></pre>
+}
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>嵌套嵌套嵌套？开玩笑吧你？</h2>
-<p>demo场景: 复制文件 <code>foo.txt</code> 内容到 <code>bar.txt</code>
+<section class="slide">
+<h2>嵌套嵌套嵌套？开玩笑吧你？</h2>
 
-</p>
+<p>demo场景: 复制文件 <code>foo.txt</code> 内容到 <code>bar.txt</code></p>
+
 <pre><code>function copyfileNestedCallback(from, to, callback) {
   fs.stat(from, function (err, stats) {
     if (err) {
@@ -268,71 +313,85 @@ dns.lookup(&#39;taobao.com&#39;, function (err, address, family) {
       });
     });  
   });
-}</code></pre>
+}
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>嵌套嵌套嵌套？开玩笑吧你？</h2>
-<p><code>事件驱动</code> 方式: <a href="http://nodejs.org/docs/latest/api/events.html">EventEmitter</a>
+<section class="slide">
+<h2>嵌套嵌套嵌套？开玩笑吧你？</h2>
 
-</p>
+<p><code>事件驱动</code> 方式: <a href="http://nodejs.org/docs/latest/api/events.html">EventEmitter</a></p>
+
 <pre><code>function copyfileEventEmitter(from, to, callback) {
   var ep = new EventEmitter();
-  ep.on(&#39;stats&#39;, function (stats) {
+  ep.on('stats', function (stats) {
     fs.readFile(from, function (err, content) {
       if (err) {
-        return ep.emit(&#39;error&#39;, err);
+        return ep.emit('error', err);
       }
-      ep.emit(&#39;content&#39;, content);
+      ep.emit('content', content);
     });
   });
-  ep.on(&#39;content&#39;, function (content) {
+  ep.on('content', function (content) {
     fs.writeFile(to, content, function (err) {
       if (err) {
-        return ep.emit(&#39;error&#39;, err);
+        return ep.emit('error', err);
       }
       return callback(null, content.length);
     });
-  });</code></pre>
+  });
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>嵌套嵌套嵌套？开玩笑吧你？</h2>
-<pre><code>  ep.once(&#39;error&#39;, function (err) {
+<section class="slide">
+<h2>嵌套嵌套嵌套？开玩笑吧你？</h2>
+
+<pre><code>  ep.once('error', function (err) {
     ep.removeAllListeners();
     callback(err);
   });
   fs.stat(from, function (err, stats) {
     if (err) {
-      return ep.emit(&#39;error&#39;, err);
+      return ep.emit('error', err);
     }
-    ep.emit(&#39;stats&#39;, stats);
+    ep.emit('stats', stats);
   });
-}</code></pre>
+}
+</code></pre>
+
 </section>
 
-<section class="slide"><h2>嵌套嵌套嵌套？开玩笑吧你？</h2>
-<p>更多解决方案: <a href="https://github.com/joyent/node/wiki/modules#wiki-async-flow">Control flow / Async goodies</a>
+<section class="slide">
+<h2>嵌套嵌套嵌套？开玩笑吧你？</h2>
 
-</p>
+<p>更多解决方案: <a href="https://github.com/joyent/node/wiki/modules#wiki-async-flow">Control flow / Async goodies</a></p>
+
 <ul>
 <li><a href="https://github.com/JacksonTian/eventproxy">eventproxy</a></li>
 <li><a href="http://github.com/JeffreyZhao/jscex">jscex</a></li>
 <li><a href="https://github.com/caolan/async">async</a></li>
 </ul>
+
 </section>
 
-<section class="slide"><h2>参考</h2>
+<section class="slide">
+<h2>参考</h2>
+
 <ul>
 <li><a href="https://github.com/windyrobin/iFrame/blob/master/style.md">EDP Node 编码规范</a></li>
 <li><a href="http://www.ruanyifeng.com/blog/2012/04/javascript_programming_style.html">Javascript编程风格</a></li>
 <li><a href="http://chajn.org/jsguide/javascriptguide.html">Google JavaScript代码风格指南</a></li>
-<li><a href="http://nodeguide.com/style.html">Felix&#39;s Node.js Style Guide</a></li>
+<li><a href="http://nodeguide.com/style.html">Felix's Node.js Style Guide</a></li>
 <li><a href="http://dailyjs.com/2012/01/12/style/">Programming Styles in the Node Community</a></li>
 <li><a href="http://nodemanual.org/latest/nodejs_dev_guide/writing_asynchronous_code.html">Writing Asynchronous Code</a></li>
 </ul>
+
 </section>
 
-<section class="slide"><h1>QA === 知乎者也</h1>
-</section>
+<section class="slide">
+<h1>QA === 知乎者也</h1></section>
 
 
 <p class="deck-status">
@@ -349,6 +408,11 @@ dns.lookup(&#39;taobao.com&#39;, function (err, address, family) {
 </form>
 
 <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+
+<!-- Grab CDN jQuery, with a protocol relative URL; fall back to local if offline -->
+<script>window.jQuery || document.write('<script src="./deck.js/jquery-1.7.min.js"><\/script>')</script>
+<script src="./prettify.js"></script>
 
 <!-- Deck Core and extensions -->
 <script src="./deck.js/core/deck.core.js"></script>

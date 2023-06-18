@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>nodejs: 随想javascript并行调用带callback的异步函数</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,37 +38,37 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="nodejs-javascript-callback-">nodejs: 随想javascript并行调用带callback的异步函数</h1>
+<h1>nodejs: 随想javascript并行调用带callback的异步函数</h1>
+
 <p>先看看本文基于的一个应用场景</p>
-<h2 id="-">用户发表评论</h2>
+
+<h2>用户发表评论</h2>
+
 <ol>
 <li>允许用户发表文字评论，并且可以带附件。</li>
 <li>服务器端处理需要认证用户是否登录；</li>
 <li>需要将文字评论保存到数据库，附件以文件形式保存在服务器上；</li>
 </ol>
-<h2 id="-1-callback">实现1：串行callback</h2>
-<h2 id="-2-callback">实现2：并行callback</h2>
-<h2 id="-3-">实现3：去除冗余</h2>
-<h2 id="-4-3-function-">实现4：实现3的改进？闭包？function(){}</h2>
-<h2 id="-">结论</h2>
-<h2 id="-">有爱</h2>
-<p>^_^ 希望本文对你有用。</p>
-<h2 id="without-the-async-module">Without the async module</h2>
-<p>var files = [&#39;file1&#39;, &#39;file2&#39;, &#39;file3&#39;],
-    results = [],
-    completed = 0;</p>
-<p>files.forEach(function(f){
-    path.exists(f, function(exists){
-        if(exists) results.push(f);
-        completed++;
-        if(completed == files.length){
-            if(results){
-                sys.puts(&#39;The following files already exist: &#39; + results);
-            }
-        }
-    });
-});</p>
 
+<h2>实现1：串行callback</h2>
+
+<h2>实现2：并行callback</h2>
+
+<h2>实现3：去除冗余</h2>
+
+<h2>实现4：实现3的改进？闭包？function(){}</h2>
+
+<h2>结论</h2>
+
+<h2>有爱</h2>
+
+<p>^_^ 希望本文对你有用。</p>
+
+<h2>Without the async module</h2>
+
+<p>var files = ['file1', 'file2', 'file3'],<br />    results = [],<br />    completed = 0;</p>
+
+<p>files.forEach(function(f){<br />    path.exists(f, function(exists){<br />        if(exists) results.push(f);<br />        completed++;<br />        if(completed == files.length){<br />            if(results){<br />                sys.puts('The following files already exist: ' + results);<br />            }<br />        }<br />    });<br />});</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

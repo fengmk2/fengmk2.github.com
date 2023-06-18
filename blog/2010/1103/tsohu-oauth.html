@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>搜狐微博的oauth</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,19 +38,29 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-oauth">搜狐微博的oauth</h1>
-<p>最近拿到了搜狐微博(t.sohu.com)的oauth开发key，本想做个oauth登录的，可是发现在发中文微博的时候，总是提示401认证不通过:</p>
-<pre><code>{&quot;code&quot;:401,&quot;error&quot;:&quot;This method requires authentication.&quot;,
-    &quot;request&quot;:&quot;/statuses/upload.json&quot;}。
-</code></pre><p>然后我试着发全ASCII码的微博，竟然可以发成功。</p>
-<p>这样就定位到有可能是我用的utf-8编码有问题，于是尝试了个种中文编码gb2312, gbk 还有更多其他编码，都是一个401不通过的结果。</p>
-<p>在和搜狐的开发技术支持沟通期间，我突然间灵光一动，会不会是urlencode的问题？</p>
-<p>然后我将没有urlencode之前的微博status用来算oauth的签名，然后发送，晕，竟然成功了。</p>
-<p>oauth签名的参数不是http的参数吗？怎么是urlencode编码前的参数呢？</p>
-<p>为了求证对比，我尝试了twitter和新浪微博的oauth，果然，他们都是使用http的参数，即urlencode之后的参数进行签名的。</p>
-<p>无论如何，总算解决搜狐微博oauth的问题，感谢期间热情给我技术支持的搜狐微博开放人员。</p>
-<p>^_^</p>
+<h1>搜狐微博的oauth</h1>
 
+<p>最近拿到了搜狐微博(t.sohu.com)的oauth开发key，本想做个oauth登录的，可是发现在发中文微博的时候，总是提示401认证不通过:</p>
+
+<pre><code>{"code":401,"error":"This method requires authentication.",
+    "request":"/statuses/upload.json"}。
+</code></pre>
+
+<p>然后我试着发全ASCII码的微博，竟然可以发成功。</p>
+
+<p>这样就定位到有可能是我用的utf-8编码有问题，于是尝试了个种中文编码gb2312, gbk 还有更多其他编码，都是一个401不通过的结果。</p>
+
+<p>在和搜狐的开发技术支持沟通期间，我突然间灵光一动，会不会是urlencode的问题？</p>
+
+<p>然后我将没有urlencode之前的微博status用来算oauth的签名，然后发送，晕，竟然成功了。</p>
+
+<p>oauth签名的参数不是http的参数吗？怎么是urlencode编码前的参数呢？</p>
+
+<p>为了求证对比，我尝试了twitter和新浪微博的oauth，果然，他们都是使用http的参数，即urlencode之后的参数进行签名的。</p>
+
+<p>无论如何，总算解决搜狐微博oauth的问题，感谢期间热情给我技术支持的搜狐微博开放人员。</p>
+
+<p>^_^</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

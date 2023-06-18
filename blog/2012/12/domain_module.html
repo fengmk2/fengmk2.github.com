@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>使用 connect-domain 捕获异步调用中出现的异常</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,34 +38,43 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-connect-domain-">使用 connect-domain 捕获异步调用中出现的异常</h1>
+<h1>使用 connect-domain 捕获异步调用中出现的异常</h1>
+
 <p>之前经常有同学会问到怎么有些异常无法捕获到呢？</p>
+
 <p>虽然 <a href="https://github.com/senchalabs/connect">connect</a> 已经在 handler 外层加了 <code>try catch</code> ，还是无法捕获异步调用中产生的异常。</p>
-<h2 id="-">现状</h2>
+
+<h2>现状</h2>
+
 <p>例如最简单的 helloworld.js 代码</p>
-<pre><code class="lang-js">var connect = require(&#39;connect&#39;);
+
+<pre><code>js
+var connect = require('connect');
 
 var app = connect()
 .use(function (req, res, next) {
-  if (req.url === &#39;/sync_error&#39;) {
-    throw new Error(&#39;sync error&#39;);
+  if (req.url === '/sync_error') {
+    throw new Error('sync error');
   }
-  if (req.url === &#39;/async_error&#39;) {
+  if (req.url === '/async_error') {
     return process.nextTick(function () {
       mk2.haha();
     });
   }
-  res.end(&#39;hello, &#39; + req.method + &#39; &#39; + req.url);
+  res.end('hello, ' + req.method + ' ' + req.url);
 });
 
-process.on(&#39;uncaughtException&#39;, function (err) {
+process.on('uncaughtException', function (err) {
   console.error(err);
 });
 
 app.listen(1985);
 </code></pre>
+
 <p>使用 <code>curl</code> 来简单测试一下</p>
-<pre><code class="lang-bash">$ curl localhost:1985/foo
+
+<pre><code>bash
+$ curl localhost:1985/foo
 hello, GET /foo
 
 $ curl localhost:1985/sync_error
@@ -73,56 +82,73 @@ Error: sync error
     at Object.handle ( .../app.js:33:11)
     ....
 </code></pre>
+
 <p>好像还挺正常的，异常也被捕获了。 继续测试</p>
-<pre><code class="lang-bash">$ curl localhost:1985/async_error
+
+<pre><code>bash
+$ curl localhost:1985/async_error
 </code></pre>
+
 <p>没任何输出了吧？从服务器端控制台看到这样的输出: 证明触发了 <code>uncaughtException</code> 事件。</p>
-<pre><code class="lang-bash">[ReferenceError: mk2 is not defined]
+
+<pre><code>bash
+[ReferenceError: mk2 is not defined]
 </code></pre>
-<p>虽然我们能通过 <code>uncaughtException</code> 事件捕获到异步调用中产生的异常，但是我们没办法返回 HTTP 500 异常响应给调用者。
-调用者也只能一直hold住，直到请求超时。</p>
+
+<p>虽然我们能通过 <code>uncaughtException</code> 事件捕获到异步调用中产生的异常，但是我们没办法返回 HTTP 500 异常响应给调用者。<br />调用者也只能一直hold住，直到请求超时。</p>
+
 <p>这是非常不好的做法，因为请求量很大，服务进程内存会暴涨，会导致进程超出内存限制，非正常退出。</p>
-<h2 id="-">改进</h2>
+
+<h2>改进</h2>
+
 <p>任何时候，如果服务器端出现异常，我们就应该返回HTTP 500 告诉调用者服务器异常了。</p>
+
 <p>异步调用产生的异常也应该如此处理。</p>
-<p><a href="http://blog.nodejs.org/2012/06/25/node-v0-8-0/">nodejs@0.8</a> 开始，增加了 <a href="http://nodejs.org/api/domain.html">domain</a> 模块来帮助我们更好地处理异常。</p>
+
+<p><a href="http://blog.nodejs.org/2012/06/25/node-v0-8-0/"><a href='mailto:nodejs@0.8'>nodejs@0.8</a></a> 开始，增加了 <a href="http://nodejs.org/api/domain.html">domain</a> 模块来帮助我们更好地处理异常。</p>
+
 <p>让我们使用 <a href="https://github.com/baryshev/connect-domain">connect-domain</a> 来改进一下之前的 helloworld.js:</p>
-<pre><code class="lang-js">var connect = require(&#39;connect&#39;);
-var connectDomain = require(&#39;connect-domain&#39;);
+
+<pre><code>js
+var connect = require('connect');
+var connectDomain = require('connect-domain');
 
 var app = connect()
 .use(connectDomain()) // just using connect-domian middleware
 .use(function (req, res, next) {
-  if (req.url === &#39;/sync_error&#39;) {
-    throw new Error(&#39;sync error&#39;);
+  if (req.url === '/sync_error') {
+    throw new Error('sync error');
   }
-  if (req.url === &#39;/async_error&#39;) {
+  if (req.url === '/async_error') {
     return process.nextTick(function () {
       mk2.haha();
     });
   }
-  res.end(&#39;hello, &#39; + req.method + &#39; &#39; + req.url);
+  res.end('hello, ' + req.method + ' ' + req.url);
 });
 
-process.on(&#39;uncaughtException&#39;, function (err) {
+process.on('uncaughtException', function (err) {
   console.error(err);
 });
 
 app.listen(1984);
 </code></pre>
+
 <p>再看看 <a href="https://github.com/baryshev/connect-domain">connect-domain</a> 的实现，非常简单:</p>
-<pre><code class="lang-js">var domain = require(&#39;domain&#39;);
+
+<pre><code>js
+var domain = require('domain');
 
 module.exports = function (handler) {
   return function domainMiddleware(req, res, next) {
     var reqDomain = domain.create();
 
-    res.on(&#39;close&#39;, function () {
+    res.on('close', function () {
       reqDomain.dispose();
     });
 
-    reqDomain.on(&#39;error&#39;, function (err) {
-      if (typeof handler === &#39;function&#39;) {
+    reqDomain.on('error', function (err) {
+      if (typeof handler === 'function') {
         handler(err, req, res, next);
       } else {
         next(err);
@@ -133,8 +159,11 @@ module.exports = function (handler) {
   };
 };
 </code></pre>
+
 <p>重复刚才的 curl 测试:</p>
-<pre><code class="lang-bash">$ curl localhost:1984/foo
+
+<pre><code>bash
+$ curl localhost:1984/foo
 hello, GET /foo
 
 $ curl localhost:1984/sync_error
@@ -147,9 +176,13 @@ ReferenceError: mk2 is not defined
     at .../app.js:24:7
     at process.startup.processNextTick.process._tickCallback (node.js:244:9)
 </code></pre>
+
 <p>所有请求都有响应了。</p>
+
 <p>服务器进程的输出: </p>
-<pre><code class="lang-bash">{ [ReferenceError: mk2 is not defined]
+
+<pre><code>bash
+{ [ReferenceError: mk2 is not defined]
   domain_thrown: true,
   domain: 
    { domain: null,
@@ -157,38 +190,55 @@ ReferenceError: mk2 is not defined
      _maxListeners: 10,
      members: [] } }
 </code></pre>
+
 <p>奇怪的连 <code>uncaughtException</code> 事件也触发了。这按我的思维来说，不应该触发才对的。</p>
-<p>@isaacs 最新的提交已经修复此问题: <a href="https://github.com/joyent/node/issues/4375#issuecomment-11691069">https://github.com/joyent/node/issues/4375#issuecomment-11691069</a> </p>
-<h2 id="-">性能对比</h2>
+
+<p>@isaacs 最新的提交已经修复此问题: <a href='https://github.com/joyent/node/issues/4375#issuecomment-11691069'>https://github.com/joyent/node/issues/4375#issuecomment-11691069</a> </p>
+
+<h2>性能对比</h2>
+
 <p>到底使用了 domain 模块，会影响多少性能呢？</p>
+
 <p>我写了一个对比 <code>http.createServer()</code>, <code>connect()</code> 和 <code>connect() with domain()</code> 的性能对比测试:</p>
-<pre><code class="lang-bash">$ git clone git://github.com/fengmk2/connect-domain.git
-$ cd connect-domain &amp;&amp; git checkout benchmark
+
+<pre><code>bash
+$ git clone git://github.com/fengmk2/connect-domain.git
+$ cd connect-domain && git checkout benchmark
 $ sh bench.sh
 </code></pre>
+
 <p>我的2010年的MBP 测试结果: node v0.8.16</p>
+
 <ul>
 <li><code>http.createServer()</code>: 8293.73 trans/sec</li>
 <li><code>connect()</code>: 7158.11 trans/sec , -13.7%</li>
 <li><code>connect() with domain</code>: 6128.33 trans/sec, -26.1%</li>
 </ul>
-<h2 id="-">总结</h2>
+
+<h2>总结</h2>
+
 <p>应该没人再说 <a href="http://nodejs.org">nodejs</a> 无法捕获异步调用中出现的异常了吧？</p>
-<h2 id="-">参考链接</h2>
+
+<h2>参考链接</h2>
+
 <ul>
 <li><a href="http://snmaynard.com/2012/12/21/node-error-handling/">Node.js error handling</a></li>
 <li><a href="http://nodejs.org/api/domain.html">domain module</a></li>
 <li><a href="https://github.com/baryshev/connect-domain">connect-domain</a></li>
 </ul>
-<h2 id="benchmark-results">Benchmark results</h2>
+
+<h2>Benchmark results</h2>
+
 <p>server.js</p>
-<pre><code class="lang-js">var connectDomain = require(&#39;connect-domain&#39;);
-var connect = require(&#39;connect&#39;);
-var http = require(&#39;http&#39;);
+
+<pre><code>js
+var connectDomain = require('connect-domain');
+var connect = require('connect');
+var http = require('http');
 
 var helloworld = function (req, res, next) {
-  req.on(&#39;end&#39;, function () {
-    res.end(&#39;Hello world&#39;);
+  req.on('end', function () {
+    res.end('Hello world');
   });
 };
 
@@ -200,7 +250,9 @@ app1.listen(9890);
 app2.listen(9891);
 app3.listen(9892);
 </code></pre>
-<pre><code class="lang-bash">$ sh bench.sh
+
+<pre><code>bash
+$ sh bench.sh
 
 v0.8.16
 
@@ -261,7 +313,6 @@ Failed transactions:             0
 Longest transaction:          0.10
 Shortest transaction:         0.00
 </code></pre>
-
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

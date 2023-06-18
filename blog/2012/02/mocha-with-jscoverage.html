@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>mocha + jscoverage</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,33 +38,44 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="mocha-jscoverage">mocha + jscoverage</h1>
+<h1>mocha + jscoverage</h1>
+
 <p>mocha在<a href="https://github.com/visionmedia/mocha/commit/6caeb30386e92b4a980074b535747319324dfe99">Release 0.13.0</a> 已经支持 <code>HTMLCov</code> 和 <code>JSONCov</code> 两种reporter, 那么显然可以非常简便地将 <a href="https://github.com/visionmedia/node-jscoverage">jscoverage</a> 整合到mocha中, 进行代码覆盖率测试了.</p>
-<h2 id="-">如何做?</h2>
+
+<h2>如何做?</h2>
+
 <p>参照 <a href="http://visionmedia.github.com/mocha/">mocha</a> 的 <a href="http://visionmedia.github.com/mocha/">Best practices</a>, 在 <code>Makefile</code> 中配置所有命令:</p>
+
 <ol>
 <li><p>使用 <code>jscoverage</code> 命令行程序转换源代码</p>
-<pre><code> lib-cov:
-   @rm -rf ./$@
-   @jscoverage lib $@
+
+<pre><code>lib-cov:
+  @rm -rf ./$@
+  @jscoverage lib $@
 </code></pre></li>
 <li><p>代码中根据环境变量 <code>JSCOV</code> 判断载入的模块是经过转换的 <code>lib-cov</code> 模块, 如: <a href="https://github.com/fengmk2/ndir/blob/master/index.js">index.js</a></p>
-<pre><code> module.exports = process.env.JSCOV 
-   ? require(&#39;./lib-cov/ndir&#39;)
-   : require(&#39;./lib/ndir&#39;);
+
+<pre><code>module.exports = process.env.JSCOV 
+  ? require('./lib-cov/ndir')
+  : require('./lib/ndir');
 </code></pre></li>
 <li><p>增加 <code>test-cov</code> 命令, 设置reporter 为 <code>html-cov</code></p>
-<pre><code> test-cov: lib-cov
-   @JSCOV=1 $(MAKE) test REPORTER=html-cov &gt; coverage.html &amp;&amp; open coverage.html
+
+<pre><code>test-cov: lib-cov
+  @JSCOV=1 $(MAKE) test REPORTER=html-cov &gt; coverage.html &amp;&amp; open coverage.html
 </code></pre></li>
-<li><p>执行 <code>make test-cov</code> 命令享受测试报告吧, 92%的覆盖率, 还不错吧.</p>
-</li>
+<li><p>执行 <code>make test-cov</code> 命令享受测试报告吧, 92%的覆盖率, 还不错吧.</p></li>
 </ol>
-<p><img src="http://ww4.sinaimg.cn/large/6cfc7910jw1dqguzalbuzj.jpg" alt="http://ww4.sinaimg.cn/large/6cfc7910jw1dqguzalbuzj.jpg"></p>
-<p><img src="http://ww3.sinaimg.cn/large/6cfc7910jw1dqguzmli6aj.jpg" alt="http://ww3.sinaimg.cn/large/6cfc7910jw1dqguzmli6aj.jpg"></p>
-<h2 id="-makefile">完整Makefile</h2>
+
+<p><img src="http://ww4.sinaimg.cn/large/6cfc7910jw1dqguzalbuzj.jpg" alt="http://ww4.sinaimg.cn/large/6cfc7910jw1dqguzalbuzj.jpg" title="" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/large/6cfc7910jw1dqguzmli6aj.jpg" alt="http://ww3.sinaimg.cn/large/6cfc7910jw1dqguzmli6aj.jpg" title="" /></p>
+
+<h2>完整Makefile</h2>
+
 <p>本文完整的<code>Makefile</code> 示例来自 <a href="https://github.com/fengmk2/ndir">ndir</a></p>
-<pre><code>SRC = $(shell find lib -type f -name &quot;*.js&quot;)
+
+<pre><code>SRC = $(shell find lib -type f -name "*.js")
 TESTS = test/*.js
 TESTTIMEOUT = 5000
 REPORTER = spec
@@ -85,10 +96,13 @@ clean:
   rm -f coverage.html
 
 .PHONY: test test-cov
-</code></pre><h2 id="-">有爱</h2>
-<p>^_^ 希望本文对你有用</p>
-<p>原文链接: <a href="http://fengmk2.github.com/blog/2012/02/mocha-with-jscoverage.html">http://fengmk2.github.com/blog/2012/02/mocha-with-jscoverage.html</a></p>
+</code></pre>
 
+<h2>有爱</h2>
+
+<p>^_^ 希望本文对你有用</p>
+
+<p>原文链接: <a href="http://fengmk2.github.com/blog/2012/02/mocha-with-jscoverage.html"><a href='http://fengmk2.github.com/blog/2012/02/mocha-with-jscoverage.html'>http://fengmk2.github.com/blog/2012/02/mocha-with-jscoverage.html</a></a></p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

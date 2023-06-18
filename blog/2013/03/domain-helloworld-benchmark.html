@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>nodejs domain module hello world and benchmark</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,29 +38,33 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="nodejs-domain-module-hello-world-and-benchmark">nodejs domain module hello world and benchmark</h1>
+<h1>nodejs domain module hello world and benchmark</h1>
+
 <p><a href="http://nodejs.org/docs/v0.8.21/api/domain.html#domain_domain">domain</a>: Domains provide a way to handle multiple different IO operations as a single group. </p>
-<h2 id="example-http-hello-world-using-domain-https-gist-github-com-fengmk2-5079492-">Example: <a href="https://gist.github.com/fengmk2/5079492">http hello world using <code>domain</code></a></h2>
-<pre><code class="lang-js">var domain = require(&#39;domain&#39;);
-var http = require(&#39;http&#39;);
+
+<h2>Example: <a href="https://gist.github.com/fengmk2/5079492">http hello world using <code>domain</code></a></h2>
+
+<pre><code>js
+var domain = require('domain');
+var http = require('http');
 
 var domainMiddleware = function (req, res, next, errorHandle) {
   var d = domain.create();
-  d.once(&#39;error&#39;, errorHandle);
+  d.once('error', errorHandle);
   d.run(next);
 };
 
 var app = http.createServer(function (req, res) {
   domainMiddleware(req, res, function () {
     // normal response
-    if (req.url === &#39;/error&#39;) {
+    if (req.url === '/error') {
       process.nextTick(function () {
         var a = null;
         a.foo();
       });
       return;
     }
-    res.end(&#39;hello domain&#39;);
+    res.end('hello domain');
   }, function (err) {
     // sending err response
     res.statusCode = 500;
@@ -70,24 +74,33 @@ var app = http.createServer(function (req, res) {
 
 app.listen(1984);
 </code></pre>
-<h2 id="benchmark">Benchmark</h2>
+
+<h2>Benchmark</h2>
+
 <p>Results: QPS reduced by <strong>8%</strong> </p>
-<h3 id="hello-world">hello world</h3>
-<pre><code class="lang-js">var appNoDomain = http.createServer(function (req, res) {
-  if (req.url === &#39;/error&#39;) {
+
+<h3>hello world</h3>
+
+<pre><code>js
+var appNoDomain = http.createServer(function (req, res) {
+  if (req.url === '/error') {
     process.nextTick(function () {
       var a = null;
       a.foo();
     });
     return;
   }
-  res.end(&#39;hello domain&#39;);
+  res.end('hello domain');
 });
 appNoDomain.listen(1985);
 </code></pre>
-<pre><code class="lang-bash">$ siege -c 100 -b -t 10s http://127.0.0.1:1985/
+
+<pre><code>bash
+$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1985/'>http://127.0.0.1:1985/</a>
 </code></pre>
-<pre><code class="lang-bash">$ siege -c 100 -b -t 10s http://127.0.0.1:1985/
+
+<pre><code>bash
+$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1985/'>http://127.0.0.1:1985/</a>
 ** SIEGE 2.72
 ** Preparing 100 concurrent users for battle.
 The server is now under siege...
@@ -106,10 +119,15 @@ Failed transactions:             0
 Longest transaction:          0.05
 Shortest transaction:         0.00
 </code></pre>
-<h3 id="hello-world-with-domain-">hello world with <code>domain</code></h3>
-<pre><code class="lang-bash">$ siege -c 100 -b -t 10s http://127.0.0.1:1984/
+
+<h3>hello world with <code>domain</code></h3>
+
+<pre><code>bash
+$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1984/'>http://127.0.0.1:1984/</a>
 </code></pre>
-<pre><code class="lang-bash">$ siege -c 100 -b -t 10s http://127.0.0.1:1984/
+
+<pre><code>bash
+$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1984/'>http://127.0.0.1:1984/</a>
 ** SIEGE 2.72
 ** Preparing 100 concurrent users for battle.
 The server is now under siege...
@@ -128,7 +146,6 @@ Failed transactions:             0
 Longest transaction:          0.10
 Shortest transaction:         0.00
 </code></pre>
-
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

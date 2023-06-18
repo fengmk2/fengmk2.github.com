@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
+  <style>
+    a{color:#09f;}
+    code{color:#080;}
+    pre{line-height: 1.4;}
+    h1, #tagline{display:inline;}
+    #wrapper{padding:5% 8%;min-width:480px;}
+    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+    #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1>max_new_space_size 参数调整</h1>
+
+<p><a href='https://gist.github.com/fengmk2/7395406'>https://gist.github.com/fengmk2/7395406</a></p>
+
+<h2>trace_gc_verbose 按总 gc 时间统计</h2>
+
+<p>重点关注 <code>New space</code> 的 <code>available</code> 是否一直在变化, 如果应用超过了这个值, 那么就需要将 <code>max_new_space_size</code> 调大</p>
+
+<p>max_new_space_size 必须按 16MB, 32MB, 64MB, 128MB, 256MB 步长递增才有效.</p>
+
+<pre><code>[8223] New space,          used:      0 KB, available: 131072 KB, committed: 262144 KB
+</code></pre>
+
+<h3>并发2, 压测 15s, node 进程占用内存 135 MB</h3>
+
+<pre><code>$ ./ab -t 15 -c 2 -k '127.0.0.1:7001/'
+</code></pre>
+
+<p>size | gc time | qps | rt<br />--- | --- | --- | ---<br />10240 | 567.5 | 1283.58 | 1.558<br />20480 | 574.7 | 1237.98 | 1.616<br />32768 (默认) | 554.6 | 1236.95 | 1.617<br />65536 | 484.3 | 1291.73 | 1.548<br />81920 | 342.7 | 1341.85 | 1.490<br />92160 | 358.5 | 1263.66 | 1.583<br />102400 | 362.7 | 1308.52 | 1.528<br />122880 | 341.9 | 1301.96 | 1.536<br />153600 | 351.2 | 1256.35 | 1.592<br />204800 | 344.8 | 1256.52 | 1.592</p>
+
+<h3>并发10, 压测 30s, node 进程占用内存 93MB</h3>
+
+<pre><code>$ ./ab -t 30 -c 10 -k '127.0.0.1:7001/'
+</code></pre>
+
+<p>size | gc time | qps | rt<br />--- | --- | --- | ---<br />20480 | 1076.6 | 1595.43 | 6.268<br />25600 | 1050.2 | 1523.93 | 6.562<br />30720 | 1054.5 | 1522.61 | 6.568<br />32768 (默认) | 1075.7 | 1586.33 | 6.304<br />40960 | 1025.1 | 1619.56 | 6.175<br />51200 | 932.2 | 1562.26 | 6.401<br />65536 | 571.8 | 1530.07 | 6.536<br />81920 | 534.0 | 1656.32 | 6.037<br />92160 | 536.4 | 1560.68 | 6.407<br />97280 (95MB) | 524.3 | 1594.59 | 6.271<br />102400 | 527.8 | 1575.34 | 6.348<br />122880 | 537.4 | 1586.04 | 6.305<br />153600 | 544.7 | 1618.33 | 6.179<br />204800 | 520.4 | 1569.66 | 6.371<br />256000 | 519.6 | 1552.86 | 6.440<br />131072 | </p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>让python json encode datetime类型</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,28 +38,30 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-python-json-encode-datetime-">让python json encode datetime类型</h1>
-<p>python2.6+ 自带的json模块，不支持datetime的json encode，每次都需要手动转为字符串，很累人，我们可以自己封装一个简单的方法处理此问题.
-实现代码如下:</p>
+<h1>让python json encode datetime类型</h1>
+
+<p>python2.6+ 自带的json模块，不支持datetime的json encode，每次都需要手动转为字符串，很累人，我们可以自己封装一个简单的方法处理此问题.<br />实现代码如下:</p>
+
 <pre><code>import json
 from datetime import date, datetime
 
 
 def __default(obj):
     if isinstance(obj, datetime):
-        return obj.strftime(&#39;%Y-%m-%dT%H:%M:%S&#39;)
+        return obj.strftime('%Y-%m-%dT%H:%M:%S')
     elif isinstance(obj, date):
-        return obj.strftime(&#39;%Y-%m-%d&#39;)
+        return obj.strftime('%Y-%m-%d')
     else:
-        raise TypeError(&#39;%r is not JSON serializable&#39; % obj)
+        raise TypeError('%r is not JSON serializable' % obj)
 
 print json.dumps({
-        &#39;d&#39;: datetime.now(), 
-        &#39;today&#39;: date.today(), 
-        &#39;x&#39;: 111
+        'd': datetime.now(), 
+        'today': date.today(), 
+        'x': 111
     }, default=__default)
-</code></pre><p>希望对你有用^_^</p>
+</code></pre>
 
+<p>希望对你有用^_^</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

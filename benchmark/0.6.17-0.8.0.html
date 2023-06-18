@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
+  <style>
+    a{color:#09f;}
+    code{color:#080;}
+    pre{line-height: 1.4;}
+    h1, #tagline{display:inline;}
+    #wrapper{padding:5% 8%;min-width:480px;}
+    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+    #fork{position:fixed;top:0;right:0;_position:absolute;}
+  </style>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<p><a href='http://blog.nodejs.org/2012/06/25/node-v0-8-0/'>http://blog.nodejs.org/2012/06/25/node-v0-8-0/</a></p>
+
+<h2>io.js</h2>
+
+<p>0.6.17</p>
+
+<p>Wrote 1048576000 bytes in 53.294s using 1024 byte buffers: 18.763838330768944 mB/s<br />Wrote 1048576000 bytes in 16.784s using 4096 byte buffers: 59.580552907530986 mB/s<br />Wrote 1048576000 bytes in 16.016s using 8192 byte buffers: 62.43756243756244 mB/s<br />Wrote 1048576000 bytes in 20.532s using 16384 byte buffers: 48.70446132865771 mB/s<br />Wrote 1048576000 bytes in 25.624s using 32768 byte buffers: 39.02591320636903 mB/s<br />Wrote 1048576000 bytes in 17.3s using 65536 byte buffers: 57.80346820809248 mB/s</p>
+
+<p>Read 1048576000 bytes in 44.485s using 1024 byte buffers: 22.479487467685736 mB/s<br />Read 1048576000 bytes in 16.781s using 4096 byte buffers: 59.59120433823968 mB/s<br />Read 1048576000 bytes in 11.689s using 8192 byte buffers: 85.55051758063136 mB/s<br />Read 1048576000 bytes in 10.065s using 16384 byte buffers: 99.35419771485346 mB/s<br />Read 1048576000 bytes in 8.392s using 32768 byte buffers: 119.16110581506197 mB/s<br />Read 1048576000 bytes in 6.658s using 65536 byte buffers: 150.19525382997895 mB/s</p>
+
+<p>0.8.0</p>
+
+<p>Wrote 1048576000 bytes in 39.002s using 1024 byte buffers: 25.639710784062355 mB/s<br />Wrote 1048576000 bytes in 19.339s using 4096 byte buffers: 51.708981850147374 mB/s<br />Wrote 1048576000 bytes in 18.474s using 8192 byte buffers: 54.130128829706614 mB/s<br />Wrote 1048576000 bytes in 18.617s using 16384 byte buffers: 53.71434710211097 mB/s<br />Wrote 1048576000 bytes in 19.937s using 32768 byte buffers: 50.1579976927321 mB/s<br />Wrote 1048576000 bytes in 22.05s using 65536 byte buffers: 45.35147392290249 mB/s</p>
+
+<p>Read 1048576000 bytes in 40.823s using 1024 byte buffers: 24.495994904833058 mB/s<br />Read 1048576000 bytes in 21.695s using 4096 byte buffers: 46.093569946992396 mB/s<br />Read 1048576000 bytes in 10.468s using 8192 byte buffers: 95.52923194497517 mB/s<br />Read 1048576000 bytes in 7.692s using 16384 byte buffers: 130.00520020800832 mB/s<br />Read 1048576000 bytes in 7.912s using 32768 byte buffers: 126.39029322548028 mB/s<br />Read 1048576000 bytes in 12.722s using 65536 byte buffers: 78.60399308284862 mB/s</p>
+
+<h2>http</h2>
+
+<p>TYPE=unicode LENGTH=55555 bash benchmark/http.sh  2>&amp;1 | grep Req<br />0.6.17<br />Requests per second:    41.13 [#/sec] (mean)<br />0.8.0<br />Requests per second:    480.99 [#/sec] (mean)</p>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+<!-- Specific to this page -->
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>

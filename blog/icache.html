@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>Indexed Cache</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,16 +38,24 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="indexed-cache">Indexed Cache</h1>
-<p>To store key value datas. Only two buffer: index and data</p>
-<h1 id="-">索引</h1>
-<p>save的时候自动创建，顺序索引，二分查找</p>
-<pre><code>key     data_offset   data_size
-</code></pre><p>| 4 bytes |  4 bytes    |  4bytes   |</p>
-<p>key: 从 0 到 2^32 的整型数据</p>
-<h1 id="-">数据存储</h1>
-<p>顺序存储，最大存储空间2^32 bytes</p>
+<h1>Indexed Cache</h1>
 
+<p>To store key value datas. Only two buffer: index and data</p>
+
+<h1>索引</h1>
+
+<p>save的时候自动创建，顺序索引，二分查找</p>
+
+<pre><code>key     data_offset   data_size
+</code></pre>
+
+<p>| 4 bytes |  4 bytes    |  4bytes   |</p>
+
+<p>key: 从 0 到 2^32 的整型数据</p>
+
+<h1>数据存储</h1>
+
+<p>顺序存储，最大存储空间2^32 bytes</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

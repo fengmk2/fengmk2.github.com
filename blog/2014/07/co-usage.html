@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>[co](https://npm.taobao.org/package/co) 常见使用场景</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,32 +38,40 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-co-https-npm-taobao-org-package-co-"><a href="https://npm.taobao.org/package/co">co</a> 常见使用场景</h1>
-<h3 id="-timers">定时器 Timers</h3>
+<h1><a href="https://npm.taobao.org/package/co">co</a> 常见使用场景</h1>
+
+<h3>定时器 Timers</h3>
+
 <p>使用 <a href="https://github.com/cojs/defer">co-defer</a></p>
-<pre><code class="lang-js">var defer = require(&#39;co-defer&#39;)
+
+<pre><code>js
+var defer = require('co-defer')
 
 defer.setImmediate(function* () {
-  console.log(&#39;setImmediate&#39;);
+  console.log('setImmediate');
 });
 
 defer.nextTick(function* () {
-  console.log(&#39;nextTick&#39;);
+  console.log('nextTick');
 });
 
 var timer1 = defer.setInterval(function* () {
-  console.log(&#39;setTimeout 100ms&#39;);
+  console.log('setTimeout 100ms');
   clearTimeout(timer1);
 }, 100);
 
 var timer2 = defer.setInterval(function* () {
-  console.log(&#39;setInterval 100ms&#39;);
+  console.log('setInterval 100ms');
   clearInterval(timer2);
 }, 100);
 </code></pre>
-<h2 id="-">并发</h2>
-<h3 id="-">数组形式</h3>
-<pre><code class="lang-js">co(function* () {
+
+<h2>并发</h2>
+
+<h3>数组形式</h3>
+
+<pre><code>js
+co(function* () {
   var rs = yield [
     get(1),
     get(2),
@@ -74,34 +82,41 @@ var timer2 = defer.setInterval(function* () {
   // [1, 2, 3, 4]
 })();
 </code></pre>
-<h3 id="-">键值对形式</h3>
-<pre><code class="lang-js">co(function* () {
+
+<h3>键值对形式</h3>
+
+<pre><code>js
+co(function* () {
   var data = yield {
     name: getName(),
     age: getAge()
   };
   console.log(data);
-  // { name: &#39;fengmk2&#39;, age: 18 }
+  // { name: 'fengmk2', age: 18 }
 })();
 </code></pre>
-<h3 id="-">限制最大并发数</h3>
+
+<h3>限制最大并发数</h3>
+
 <p>co 默认没有并发数限制, 可以通过 <a href="https://github.com/visionmedia/co-parallel">co-parallel</a> 来限制并发数</p>
-<pre><code class="lang-js">var parallel = require(&#39;co-parallel&#39;);
-var request = require(&#39;co-request&#39;);
-var co = require(&#39;co&#39;);
+
+<pre><code>js
+var parallel = require('co-parallel');
+var request = require('co-request');
+var co = require('co');
 
 var urls = [
-  &#39;http://google.com&#39;,
-  &#39;http://yahoo.com&#39;,
-  &#39;http://ign.com&#39;,
-  &#39;http://cloudup.com&#39;,
-  &#39;http://myspace.com&#39;,
-  &#39;http://facebook.com&#39;,
-  &#39;http://segment.io&#39;
+  '<a href='http://google.com'>http://google.com</a>',
+  '<a href='http://yahoo.com'>http://yahoo.com</a>',
+  '<a href='http://ign.com'>http://ign.com</a>',
+  '<a href='http://cloudup.com'>http://cloudup.com</a>',
+  '<a href='http://myspace.com'>http://myspace.com</a>',
+  '<a href='http://facebook.com'>http://facebook.com</a>',
+  '<a href='http://segment.io'>http://segment.io</a>'
 ];
 
 function* status(url) {
-  console.log(&#39;GET %s&#39;, url);
+  console.log('GET %s', url);
   return (yield request(url)).statusCode;
 }
 
@@ -111,18 +126,22 @@ co(function* () {
   console.log(res);
 })();
 </code></pre>
-<h3 id="-">并发请求容错处理</h3>
+
+<h3>并发请求容错处理</h3>
+
 <p><a href="https://npm.taobao.org/package/co-gather">co-gather</a> 并发多个请求, 即使其中有一些请求错误了, 也能容错返回</p>
-<pre><code class="lang-js">var gather = require(&#39;co-gather&#39;);
-var wait = require(&#39;co-wait&#39;);
-var co = require(&#39;co&#39;);
+
+<pre><code>js
+var gather = require('co-gather');
+var wait = require('co-wait');
+var co = require('co');
 
 var index = 0;
 function* random(val) {
   var i = index++;
   yield wait(Math.random() * 100);
-  if (Math.random() &gt; 0.5) {
-    throw new Error(&#39;error&#39;);
+  if (Math.random() > 0.5) {
+    throw new Error('error');
   }
   return {index: i, value: val};
 }
@@ -138,8 +157,11 @@ co(function* () {
   console.log(ret);
 })();
 </code></pre>
-<p>=&gt;</p>
-<pre><code class="lang-js">[
+
+<p>=></p>
+
+<pre><code>js
+[
   { isError: false, value: {index: 0, value: 1} },
   { isError: true, error: [Error: error] },
   { isError: true, error: [Error: error] },
@@ -147,17 +169,22 @@ co(function* () {
   { isError: false, value: {index: 4, value: 5} }
 ]
 </code></pre>
+
 <p>默认并发数为 <code>concurrency = 5</code>, 可以自行设置并发数 <code>gather(thunks, [concurrency])</code></p>
-<h3 id="-">只取最快响应的</h3>
+
+<h3>只取最快响应的</h3>
+
 <p><a href="https://github.com/cojs/any">co-any</a> 并发多个请求, 返回最快响应的一个结果</p>
-<pre><code class="lang-js">var any = require(&#39;co-any&#39;);
-var wait = require(&#39;co-wait&#39;);
-var co = require(&#39;co&#39;);
+
+<pre><code>js
+var any = require('co-any');
+var wait = require('co-wait');
+var co = require('co');
 
 function* random(val) {
   yield wait(Math.random() * 100);
-  if (Math.random() &gt; 0.5) {
-    throw new Error(&#39;error&#39;);
+  if (Math.random() > 0.5) {
+    throw new Error('error');
   }
   return val;
 }
@@ -173,63 +200,78 @@ co(function* () {
   console.log(ret);
 })();
 </code></pre>
-<p>=&gt;</p>
-<pre><code class="lang-js">{
+
+<p>=></p>
+
+<pre><code>js
+{
   _key: 1,
   value: 2
 }
 </code></pre>
-<h2 id="-eventemitter">事件 EventEmitter</h2>
-<h3 id="-generatorfunction-">事件监听者支持 <code>GeneratorFunction</code></h3>
+
+<h2>事件 EventEmitter</h2>
+
+<h3>事件监听者支持 <code>GeneratorFunction</code></h3>
+
 <p>使用 <a href="https://npm.taobao.org/package/co-event-wrap">co-event-wrap</a></p>
-<pre><code class="lang-js">var co = require(&#39;co&#39;);
-var http = require(&#39;http&#39;);
-var eventWrap = require(&#39;co-event-wrap&#39;);
-var fs = require(&#39;co-fs&#39;);
+
+<pre><code>js
+var co = require('co');
+var http = require('http');
+var eventWrap = require('co-event-wrap');
+var fs = require('co-fs');
 
 co(function* () {
-  var req = http.get(&#39;http://cnodejs.org&#39;);
+  var req = http.get('<a href='http://cnodejs.org'>http://cnodejs.org</a>');
   eventWrap(req);
-  req.on(&#39;response&#39;, function* (res) {
+  req.on('response', function* (res) {
     res = eventWrap(res);
     var datas = [];
-    res.on(&#39;data&#39;, function* (data) {
+    res.on('data', function* (data) {
       datas.push(data);
     });
-    res.on(&#39;end&#39;, function* () {
+    res.on('end', function* () {
       var body = Buffer.concat(datas);
-      yield fs.writeFile(__dirname + &#39;/cnodejs.html&#39;, body);
-      console.log(&#39;got %d bytes, headers: %j&#39;, body.length, res.headers);
+      yield fs.writeFile(__dirname + '/cnodejs.html', body);
+      console.log('got %d bytes, headers: %j', body.length, res.headers);
     });
   });
 })();
 </code></pre>
-<h3 id="-while-">通过 while 方式处理事件</h3>
+
+<h3>通过 while 方式处理事件</h3>
+
 <p><a href="https://npm.taobao.org/package/co-event">co-event</a> 帮你实现</p>
-<pre><code class="lang-js">var event = require(&#39;co-event&#39;);
+
+<pre><code>js
+var event = require('co-event');
 
 var e;
 while (e = yield event(emitter)) {
   switch (e.type) {
-    case &#39;end&#39;:
+    case 'end':
       break;
 
-    case &#39;close&#39;:
+    case 'close':
       break;
 
-    case &#39;error&#39;:
+    case 'error':
       break;
   }
 }
 </code></pre>
+
 <p>emitter 原来的事件依旧会触发, 但是 <code>error</code> 事件不会被触发, 否则抛错无法被处理.</p>
+
 <p>理解上面代码, 你必须以纯同步的思维来理解.</p>
-<h2 id="-">有爱</h2>
+
+<h2>有爱</h2>
+
 <ul>
 <li>希望本文对你有用 ^_^</li>
 <li><a href="http://fengmk2.github.com/blog/2014/07/co-usage.html">原始链接</a></li>
 </ul>
-
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。"/>
-  <link rel="stylesheet" href="http://typo.sofish.de/typo.css" />
-  <link rel="stylesheet" href="http://fengmk2.github.com/css/prettify.css" />
-  <script src="http://fengmk2.github.com/js/jquery-1.7.min.js"></script>
-  <script src="http://fengmk2.github.com/js/prettify.js"></script>
-  <title>Database</title>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
-     a{color:#09f;}
-     code{color:#080;}
-     pre{line-height: 1.4;}
-     h1, #tagline{display:inline;}
-     #wrapper{padding:5% 8%;min-width:480px;}
-     #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
-     #fork{position:fixed;top:0;right:0;_position:absolute;}
+    a{color:#09f;}
+    code{color:#080;}
+    pre{line-height: 1.4;}
+    h1, #tagline{display:inline;}
+    #wrapper{padding:5% 8%;min-width:480px;}
+    #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
+    #fork{position:fixed;top:0;right:0;_position:absolute;}
   </style>
 </head>
 <body>
@@ -28,6 +39,7 @@
 
 <div id="content">
 <h1>Database</h1>
+
 <ul>
 <li><a href="http://snmaynard.com/2012/10/17/things-i-wish-i-knew-about-mongodb-a-year-ago/">Things I wish I knew about MongoDB a year ago</a></li>
 <li><a href="http://www.mongodb.org/display/DOCS/SQL+to+Mongo+Mapping+Chart">SQL to Mongo Mapping Chart</a></li>
@@ -37,10 +49,9 @@
 <li><a href="http://www.yankay.com/wp-content/hbase/book.html">HBase 官方文档</a></li>
 <li><a href="http://blog.nosqlfan.com/html/3379.html">节约内存：Instagram的Redis实践</a>: 每1,000,000个key只消耗了16MB的内存</li>
 <li><a href="http://blog.nosqlfan.com/html/1282.html">Redis资料汇总</a></li>
-<li><a href="http://heikezhi.com/2011/11/09/dont-use-mongod/">MongoDB的8宗罪</a>: <a href="http://pastebin.com/raw.php?i=FD3xe6Jt">http://pastebin.com/raw.php?i=FD3xe6Jt</a>, <a href="http://news.ycombinator.com/item?id=3202959">From CTO of 10gen</a></li>
+<li><a href="http://heikezhi.com/2011/11/09/dont-use-mongod/">MongoDB的8宗罪</a>: <a href='http://pastebin.com/raw.php?i=FD3xe6Jt'>http://pastebin.com/raw.php?i=FD3xe6Jt</a>, <a href="http://news.ycombinator.com/item?id=3202959">From CTO of 10gen</a></li>
 <li><a href="http://blog.nosqlfan.com/html/3448.html">利用Redis构建高效的实时搜索</a></li>
 </ul>
-
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>
@@ -64,8 +75,8 @@
 
 </div> <!-- #wrapper -->
 
-<a href="https://github.com/fengmk2/mk2blog" id="fork">
-    <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+<a href="https://github.com/fengmk2" id="fork">
+    <img alt="Fork me on GitHub" src="//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
 </a>
 
 <!-- Specific to this page -->

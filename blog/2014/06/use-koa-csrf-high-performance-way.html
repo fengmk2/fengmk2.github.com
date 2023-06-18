@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>Use [koa-csrf] in high performance way</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,28 +38,34 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="use-koa-csrf-in-high-performance-way">Use <a href="https://github.com/koajs/csrf">koa-csrf</a> in high performance way</h1>
-<p>If you&#39;re using <a href="https://github.com/koajs/csrf">koa-csrf</a> in <a href="https://github.com/koajs/csrf#middleware">default middleware way</a>,
-it will kill your app performance.</p>
+<h1>Use <a href="https://github.com/koajs/csrf">koa-csrf</a> in high performance way</h1>
+
+<p>If you're using <a href="https://github.com/koajs/csrf">koa-csrf</a> in <a href="https://github.com/koajs/csrf#middleware">default middleware way</a>,<br />it will kill your app performance.</p>
+
 <p><code>app.js</code> like this:</p>
-<pre><code class="lang-js">var koa = require(&#39;koa&#39;);
-var csrf = require(&#39;koa-csrf&#39;);
-var session = require(&#39;koa-session&#39;);
+
+<pre><code>js
+var koa = require('koa');
+var csrf = require('koa-csrf');
+var session = require('koa-session');
 
 var app = koa();
-app.keys = [&#39;session secret&#39;];
+app.keys = ['session secret'];
 app.use(session());
 app.use(csrf());
 
 app.use(function* () {
-  this.body = &#39;hello csrf&#39;;
+  this.body = 'hello csrf';
 });
 
 app.listen(1984);
 </code></pre>
+
 <p>Use <a href="https://github.com/wg/wrk">wrk</a> benchmark it:</p>
-<pre><code class="lang-bash">$ wrk -t2 -c20 http://127.0.0.1:1984/
-Running 10s test @ http://127.0.0.1:1984/
+
+<pre><code>bash
+$ wrk -t2 -c20 <a href='http://127.0.0.1:1984/'>http://127.0.0.1:1984/</a>
+Running 10s test @ <a href='http://127.0.0.1:1984/'>http://127.0.0.1:1984/</a>
   2 threads and 20 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     4.29ms    1.14ms  11.42ms   92.11%
@@ -68,28 +74,36 @@ Running 10s test @ http://127.0.0.1:1984/
 Requests/sec:   4802.27
 Transfer/sec:    797.25KB
 </code></pre>
-<h2 id="the-high-performance-way">The high performance way</h2>
+
+<h2>The high performance way</h2>
+
 <p>Separate <code>csrf define(app)</code> and <code>csrf middleware</code>. Dont <code>define(ctx)</code> on every request context.</p>
+
 <p><code>app_high.js</code> like this:</p>
-<pre><code class="lang-js">var koa = require(&#39;koa&#39;);
-var csrf = require(&#39;koa-csrf&#39;);
-var session = require(&#39;koa-session&#39;);
+
+<pre><code>js
+var koa = require('koa');
+var csrf = require('koa-csrf');
+var session = require('koa-session');
 
 var app = koa();
-app.keys = [&#39;session secret&#39;];
+app.keys = ['session secret'];
 app.use(session());
 csrf(app);
 app.use(csrf.middleware);
 
 app.use(function* () {
-  this.body = &#39;hello csrf&#39;;
+  this.body = 'hello csrf';
 });
 
 app.listen(1985);
 </code></pre>
+
 <p>Use <a href="https://github.com/wg/wrk">wrk</a> benchmark it:</p>
-<pre><code class="lang-bash">$ wrk -t2 -c20 http://127.0.0.1:1985/
-Running 10s test @ http://127.0.0.1:1985/
+
+<pre><code>bash
+$ wrk -t2 -c20 <a href='http://127.0.0.1:1985/'>http://127.0.0.1:1985/</a>
+Running 10s test @ <a href='http://127.0.0.1:1985/'>http://127.0.0.1:1985/</a>
   2 threads and 20 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     3.67ms    2.19ms  15.65ms   93.55%
@@ -98,9 +112,10 @@ Running 10s test @ http://127.0.0.1:1985/
 Requests/sec:   5975.71
 Transfer/sec:      0.97MB
 </code></pre>
-<h2 id="love">Love</h2>
-<p>Hope this help for you.</p>
 
+<h2>Love</h2>
+
+<p>Hope this help for you.</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

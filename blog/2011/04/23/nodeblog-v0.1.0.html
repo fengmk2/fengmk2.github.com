@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>NodeBlog v0.1.0发布</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,9 +38,12 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="nodeblog-v0-1-0-">NodeBlog v0.1.0发布</h1>
-<p><a href="https://github.com/fengmk2/nodeblog">NodeBlog</a>:<a href="http://nodeblog.org/">http://nodeblog.org/</a> 是一个基于<a href="nodejs.org">node.js</a>的开源博客程序。</p>
-<h2 id="features">Features</h2>
+<h1>NodeBlog v0.1.0发布</h1>
+
+<p><a href="https://github.com/fengmk2/nodeblog">NodeBlog</a>:<a href='http://nodeblog.org/'>http://nodeblog.org/</a> 是一个基于<a href="nodejs.org">node.js</a>的开源博客程序。</p>
+
+<h2>Features</h2>
+
 <ul>
 <li>Write, Read, List, Search blog.</li>
 <li>Comments</li>
@@ -52,7 +55,9 @@
 <li>Speed</li>
 <li>Support MetaWeblog API Sync</li>
 </ul>
-<h2 id="requirements">Requirements</h2>
+
+<h2>Requirements</h2>
+
 <ul>
 <li><a href="http://www.xmlsoft.org/">libxml2</a>, libxml2-devel</li>
 <li><a href="http://nodejs.org/">node.js</a></li>
@@ -60,27 +65,40 @@
 <li><a href="http://www.scons.org/">scons</a> (for building)</li>
 <li><a href="http://www.mongodb.org/">mongodb</a></li>
 </ul>
-<h3 id="ubuntu">Ubuntu</h3>
+
+<h3>Ubuntu</h3>
+
 <pre><code>$ sudo apt-get install libxml2 libxml2-dev scons mongodb
-</code></pre><h3 id="centos">CentOS</h3>
+</code></pre>
+
+<h3>CentOS</h3>
+
 <pre><code>$ sudo yum install libxml2 libxml2-devel 
 
 # install scons
-$ wget http://prdownloads.sourceforge.net/scons/scons-2.1.0.alpha.20101125.tar.gz
+$ wget <a href='http://prdownloads.sourceforge.net/scons/scons-2.1.0.alpha.20101125.tar.gz'>http://prdownloads.sourceforge.net/scons/scons-2.1.0.alpha.20101125.tar.gz</a>
 $ cd scons-2.1.0.alpha.20101125
 $ sudo python setup.py install
 
 # install mongodb
-# see: http://www.mongodb.org/display/DOCS/CentOS+and+Fedora+Packages
-</code></pre><h2 id="node-modules-install">Node Modules Install</h2>
+# see: <a href='http://www.mongodb.org/display/DOCS/CentOS+and+Fedora+Packages'>http://www.mongodb.org/display/DOCS/CentOS+and+Fedora+Packages</a>
+</code></pre>
+
+<h2>Node Modules Install</h2>
+
 <pre><code>$ sudo npm install express express-resource weibo metaweblog mongoose github-flavored-markdown
-</code></pre><h2 id="install-nodeblog">Install NodeBlog</h2>
+</code></pre>
+
+<h2>Install NodeBlog</h2>
+
 <pre><code>$ git clone git://github.com/fengmk2/nodeblog.git
 $ git submodule init
 $ git submodule update
-</code></pre><h2 id="demo">Demo</h2>
-<p><a href="http://nodeblog.org/">http://nodeblog.org/</a></p>
+</code></pre>
 
+<h2>Demo</h2>
+
+<p><a href='http://nodeblog.org/'>http://nodeblog.org/</a></p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

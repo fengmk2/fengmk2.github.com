@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>给 connect 的 static 模块加上url路径前缀</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,76 +38,95 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-connect-static-url-">给 connect 的 static 模块加上url路径前缀</h1>
+<h1>给 connect 的 static 模块加上url路径前缀</h1>
+
 <p>估计我们使用 <a href="http://www.senchalabs.org/connect/">connect</a> 都会很自然地按照官方的例子使用静态文件模块 <a href="http://www.senchalabs.org/connect/static.html">static</a>:</p>
-<pre><code class="lang-js">var connect = require(&#39;connect&#39;);
+
+<pre><code>js
+var connect = require('connect');
 
 connect(
   connect.static(__dirname),
   function (req, res) {
-    res.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
-    res.end(&#39;Hello World\n&#39;);
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Hello World\n');
   }
 ).listen(8124);
 
-console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+console.log('Server running at <a href='http://127.0.0.1:8124/'>http://127.0.0.1:8124/</a>');
 </code></pre>
-<h2 id="-">基准性能</h2>
+
+<h2>基准性能</h2>
+
 <p>为了评测 <code>static</code> 的性能，我们需要又一个基准对比。</p>
-<h3 id="-helloworld">官方最纯洁的 helloworld</h3>
+
+<h3>官方最纯洁的 helloworld</h3>
+
 <p>我们使用 nodejs 官方文档给出的 <a href="http://nodejs.org/docs/latest/api/synopsis.html">helloworld</a> 做最基础的参照：</p>
-<pre><code class="lang-js">var http = require(&#39;http&#39;);
+
+<pre><code>js
+var http = require('http');
 
 http.createServer(function (request, response) {
-  response.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
-  response.end(&#39;Hello World\n&#39;);
+  response.writeHead(200, {'Content-Type': 'text/plain'});
+  response.end('Hello World\n');
 }).listen(8124);
 
-console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+console.log('Server running at <a href='http://127.0.0.1:8124/'>http://127.0.0.1:8124/</a>');
 </code></pre>
-<h3 id="-connect-helloworld">最纯洁的 connect helloworld</h3>
+
+<h3>最纯洁的 connect helloworld</h3>
+
 <p>不使用任何中间件模块</p>
-<pre><code class="lang-js">var connect = require(&#39;connect&#39;);
+
+<pre><code>js
+var connect = require('connect');
 
 connect(function (req, res) {
-  res.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
-  res.end(&#39;Hello World\n&#39;);
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
 }).listen(8124);
 
-console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+console.log('Server running at <a href='http://127.0.0.1:8124/'>http://127.0.0.1:8124/</a>');
 </code></pre>
-<h3 id="-domain-http-nodejs-org-docs-latest-api-domain-html-connect-helloworld">结合 <a href="http://nodejs.org/docs/latest/api/domain.html">domain</a> 模块的 connect helloworld</h3>
-<pre><code class="lang-js">var connect = require(&#39;connect&#39;);
-var createDomain = require(&#39;domain&#39;).create;
+
+<h3>结合 <a href="http://nodejs.org/docs/latest/api/domain.html">domain</a> 模块的 connect helloworld</h3>
+
+<pre><code>js
+var connect = require('connect');
+var createDomain = require('domain').create;
 
 connect(
   function (req, res, next) {
     var domain = createDomain();
-    domain.on(&#39;error&#39;, function (err) {
-      console.log(&#39;errrrrr&#39;, err);
+    domain.on('error', function (err) {
+      console.log('errrrrr', err);
       res.statusCode = 500;
-      res.end(err.message + &#39;\n&#39;);
+      res.end(err.message + '\n');
       domain.dispose();
     });
     domain.run(next);
   },
   function (req, res, next) {
-    if (req.url === &#39;/error&#39;) {
+    if (req.url === '/error') {
       process.nextTick(function () {
-        res.end(&#39;params: &#39; + req.query.abc);
+        res.end('params: ' + req.query.abc);
       });
       return;
     }
-    res.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
-    res.end(&#39;Hello World\n&#39;);
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Hello World\n');
   }
 ).listen(8124);
 
-console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+console.log('Server running at <a href='http://127.0.0.1:8124/'>http://127.0.0.1:8124/</a>');
 </code></pre>
-<h2 id="-">测试结果</h2>
+
+<h2>测试结果</h2>
+
 <p>官方最纯洁的 helloworld: <code>7851.56 qps</code></p>
-<pre><code>$ siege -b -c10 -t10S http://127.0.0.1:8124/
+
+<pre><code>$ siege -b -c10 -t10S <a href='http://127.0.0.1:8124/'>http://127.0.0.1:8124/</a>
 ** SIEGE 2.72
 ** Preparing 10 concurrent users for battle.
 The server is now under siege...
@@ -125,8 +144,11 @@ Successful transactions:       78123
 Failed transactions:             0
 Longest transaction:          0.09
 Shortest transaction:         0.00
-</code></pre><p>最纯洁的 connect helloworld: <code>6808.19 qps</code></p>
-<pre><code>$ siege -b -c10 -t10S http://127.0.0.1:8124/
+</code></pre>
+
+<p>最纯洁的 connect helloworld: <code>6808.19 qps</code></p>
+
+<pre><code>$ siege -b -c10 -t10S <a href='http://127.0.0.1:8124/'>http://127.0.0.1:8124/</a>
 ** SIEGE 2.72
 ** Preparing 10 concurrent users for battle.
 The server is now under siege...
@@ -144,8 +166,12 @@ Successful transactions:       65699
 Failed transactions:             0
 Longest transaction:          0.05
 Shortest transaction:         0.00
-</code></pre><p>使用 <a href="http://nodejs.org/docs/latest/api/domain.html">domain</a> 模块的 connect helloworld: <code>5601.35 qps</code></p>
+</code></pre>
+
+<p>使用 <a href="http://nodejs.org/docs/latest/api/domain.html">domain</a> 模块的 connect helloworld: <code>5601.35 qps</code></p>
+
 <p><a href="https://speakerdeck.com/u/felixge/p/domains-in-node-08">domain demo for express</a></p>
+
 <pre><code>** SIEGE 2.72
 ** Preparing 50 concurrent users for battle.
 The server is now under siege...
@@ -163,8 +189,11 @@ Successful transactions:       53885
 Failed transactions:               0
 Longest transaction:            0.05
 Shortest transaction:           0.00
-</code></pre><p>带 static 的 connect helloworld: <code>3636.98 qps</code></p>
-<pre><code>$ siege -b -c10 -t10S http://127.0.0.1:8124/
+</code></pre>
+
+<p>带 static 的 connect helloworld: <code>3636.98 qps</code></p>
+
+<pre><code>$ siege -b -c10 -t10S <a href='http://127.0.0.1:8124/'>http://127.0.0.1:8124/</a>
 ** SIEGE 2.72
 ** Preparing 10 concurrent users for battle.
 The server is now under siege...
@@ -182,11 +211,15 @@ Successful transactions:       34915
 Failed transactions:             0
 Longest transaction:          0.06
 Shortest transaction:         0.00
-</code></pre><h2 id="-50-">为什么性能降低了50%</h2>
-<p>晕，为什么加上了 <code>static</code> 模块，性能会降低了<code>50％</code>这么多？
-查看 <a href="http://www.senchalabs.org/connect/static.html#send">static.send()</a> 源代码:</p>
-<pre><code class="lang-js">// &quot;hidden&quot; file
-if (!hidden &amp;&amp; &#39;.&#39; == basename(path)[0]) return next();
+</code></pre>
+
+<h2>为什么性能降低了50%</h2>
+
+<p>晕，为什么加上了 <code>static</code> 模块，性能会降低了<code>50％</code>这么多？<br />查看 <a href="http://www.senchalabs.org/connect/static.html#send">static.send()</a> 源代码:</p>
+
+<pre><code>js
+// "hidden" file
+if (!hidden && '.' == basename(path)[0]) return next();
 
 fs.stat(path, function(err, stat){
   // mime type
@@ -195,37 +228,45 @@ fs.stat(path, function(err, stat){
   // ignore ENOENT
   if (err) {
     if (fn) return fn(err);
-    return (&#39;ENOENT&#39; == err.code || &#39;ENAMETOOLONG&#39; == err.code)
+    return ('ENOENT' == err.code || 'ENAMETOOLONG' == err.code)
       ? next()
       : next(err);
   // redirect directory in case index.html is present
   } else if (stat.isDirectory()) {
     if (!redirect) return next();
     res.statusCode = 301;
-    res.setHeader(&#39;Location&#39;, url.pathname + &#39;/&#39;);
-    res.end(&#39;Redirecting to &#39; + url.pathname + &#39;/&#39;);
+    res.setHeader('Location', url.pathname + '/');
+    res.end('Redirecting to ' + url.pathname + '/');
     return;
   }
 </code></pre>
+
 <p>static 模块每次都需要一次文件IO，判断文件是否存在，这是多么损耗性能啊。</p>
-<h2 id="-url-">增加静态文件url路径前缀</h2>
-<p>既然找到性能问题所在，就可以解决此问题了。对症下药，无需让所有请求都经过 <code>static</code> 处理即可。
-给 <code>static</code> 增加一个url前缀判断，例如 <code>/public/images/logo.jpg</code> 只有前缀是 <code>/public</code> 的 url 请求才需要进入 <code>static</code> 模块处理。</p>
+
+<h2>增加静态文件url路径前缀</h2>
+
+<p>既然找到性能问题所在，就可以解决此问题了。对症下药，无需让所有请求都经过 <code>static</code> 处理即可。<br />给 <code>static</code> 增加一个url前缀判断，例如 <code>/public/images/logo.jpg</code> 只有前缀是 <code>/public</code> 的 url 请求才需要进入 <code>static</code> 模块处理。</p>
+
 <p>那么我们改进后的代码应该是这样的:</p>
-<pre><code class="lang-js">var connect = require(&#39;connect&#39;);
+
+<pre><code>js
+var connect = require('connect');
 
 var app = connect();
-app.use(&#39;/public&#39;, connect.static(__dirname));
+app.use('/public', connect.static(__dirname));
 
 app.use(function (req, res) {
-  res.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
-  res.end(&#39;Hello World\n&#39;);
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
 }).listen(8124);
 
-console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+console.log('Server running at <a href='http://127.0.0.1:8124/'>http://127.0.0.1:8124/</a>');
 </code></pre>
+
 <p>性能如何？ wow <code>6749.03 qps</code>, 几乎和 connect hellowrold 一致。done!</p>
-<pre><code class="lang-js">$ siege -b -c10 -t10S http://127.0.0.1:8124/
+
+<pre><code>js
+$ siege -b -c10 -t10S <a href='http://127.0.0.1:8124/'>http://127.0.0.1:8124/</a>
 ** SIEGE 2.72
 ** Preparing 10 concurrent users for battle.
 The server is now under siege...
@@ -244,8 +285,11 @@ Failed transactions:             0
 Longest transaction:          0.03
 Shortest transaction:         0.00
 </code></pre>
+
 <p>重现一下之前的性能问题，访问 <code>/public/foo</code> 即可重现。</p>
-<pre><code class="lang-js">$ siege -b -c10 -t10S http://127.0.0.1:8124/public/foo
+
+<pre><code>js
+$ siege -b -c10 -t10S <a href='http://127.0.0.1:8124/public/foo'>http://127.0.0.1:8124/public/foo</a>
 ** SIEGE 2.72
 ** Preparing 10 concurrent users for battle.
 The server is now under siege...
@@ -264,10 +308,12 @@ Failed transactions:             0
 Longest transaction:          0.05
 Shortest transaction:         0.00
 </code></pre>
-<h2 id="-">有爱</h2>
-<p>记得给 <code>connect.static</code> 加上一个url路径前缀喔!</p>
-<p>^_^ 希望本文对你有用.</p>
 
+<h2>有爱</h2>
+
+<p>记得给 <code>connect.static</code> 加上一个url路径前缀喔!</p>
+
+<p>^_^ 希望本文对你有用.</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

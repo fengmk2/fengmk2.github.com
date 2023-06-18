@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>关于Nodejs中Buffer释放的二三事</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,32 +38,38 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-nodejs-buffer-">关于Nodejs中Buffer释放的二三事</h1>
-<h2 id="buffer-gc-">Buffer不会被GC？</h2>
+<h1>关于Nodejs中Buffer释放的二三事</h1>
+
+<h2>Buffer不会被GC？</h2>
+
 <p>为了看看这个问题，我写了一段测试代码</p>
-<pre><code>var http = require(&#39;http&#39;)
-  , os = require(&#39;os&#39;);
+
+<pre><code>var http = require('http')
+  , os = require('os');
 
 function create(size, res) {
     var mb = 1024 * 1024;
-    res.write(&#39;free &#39; + os.freemem() / mb + &#39;MB\r\n&#39;);
-    res.write(&#39;------------- after new &#39; + size + &#39;MB buffer\r\n&#39;);
+    res.write('free ' + os.freemem() / mb + 'MB\r\n');
+    res.write('------------- after new ' + size + 'MB buffer\r\n');
     var buffer = new Buffer(size * mb);
     for(var i = 0, len = buffer.length; i &lt; len; i++) {
         buffer[i] = 0;
     }
-    res.write(&#39;free &#39; + os.freemem() / mb + &#39;MB\r\n\r\n&#39;);
+    res.write('free ' + os.freemem() / mb + 'MB\r\n\r\n');
 }
 
 http.createServer(function(req, res) {
     var size = 1;
     for(var i = 0; i &lt; 100; i++) {
-        res.write(&#39;------------- new Buffer &#39; + i + &#39;\r\n&#39;);
+        res.write('------------- new Buffer ' + i + '\r\n');
         create(size, res);
     }
-    res.end(&#39;&#39;);
-}).listen(&#39;8080&#39;);
-</code></pre><p>从<a href="http://localhost:8080/">http://localhost:8080/</a>可以看到，一次http请求调用后</p>
+    res.end('');
+}).listen('8080');
+</code></pre>
+
+<p>从<a href="http://localhost:8080/"><a href='http://localhost:8080/'>http://localhost:8080/</a></a>可以看到，一次http请求调用后</p>
+
 <pre><code>------------- new Buffer 0
 free 139.82421875MB
 ------------- after new 1MB buffer
@@ -115,12 +121,17 @@ free 133.64453125MB
 free 133.64453125MB
 ------------- after new 1MB buffer
 free 132.76171875MB
-</code></pre><p>从结果看来，Buffer会被回收。</p>
-<h2 id="-">疑问?</h2>
-<p>Buffer的实现是内存复用？还是说每次都重新申请和GC时释放给操作系统呢？</p>
-<h2 id="-">有爱</h2>
-<p>^_^ 希望本文对你有用</p>
+</code></pre>
 
+<p>从结果看来，Buffer会被回收。</p>
+
+<h2>疑问?</h2>
+
+<p>Buffer的实现是内存复用？还是说每次都重新申请和GC时释放给操作系统呢？</p>
+
+<h2>有爱</h2>
+
+<p>^_^ 希望本文对你有用</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

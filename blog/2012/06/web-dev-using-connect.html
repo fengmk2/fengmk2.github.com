@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>使用 connect 进行web开发</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,18 +38,22 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-connect-web-">使用 connect 进行web开发</h1>
+<h1>使用 connect 进行web开发</h1>
+
 <p>nodejs的web开发，目前最受欢迎的必然是 <a href="http://expressjs.com/" title="High performance, high class web development for Node.js">express</a>。</p>
+
 <p>但是我觉得 <a href="http://expressjs.com/" title="High performance, high class web development for Node.js">express</a> 太过复杂了，而且很多功能都不一定会使用上。</p>
+
 <p>于是我最近都在想如何脱离 <a href="http://expressjs.com/" title="High performance, high class web development for Node.js">express</a> ，基于 <a href="http://senchalabs.github.com/connect" title="Connect is a middleware framework for node, shipping with over 18 bundled middleware and a rich selection of 3rd-party middleware.">connect</a> ，结合刚好满足需求功能的 <code>middleware</code>，进行web开发。</p>
-<h2 id="web-">web开发的基本功能</h2>
+
+<h2>web开发的基本功能</h2>
+
 <ul>
 <li>url routing</li>
 <li>query parser, body parser</li>
 <li>upload file</li>
 <li>template engine and render helper</li>
 </ul>
-
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>Use Blanket.js instead of jscover</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,12 +38,16 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="use-blanket-js-instead-of-jscover">Use Blanket.js instead of jscover</h1>
+<h1>Use Blanket.js instead of jscover</h1>
+
 <p>在遇到 <a href="http://blanketjs.org/">Blanket.js</a> 之前，我一直使用这 <a href="https://github.com/fengmk2/jscover">jscover</a> 来做代码覆盖率测试。</p>
-<h2 id="jscover">jscover</h2>
-<p>使用 <a href="https://github.com/fengmk2/jscover">jscover</a> ，好处是不需要编译，直接使用 java 版本；缺点是需要 java 环境依赖。
-通过 Makefile 来驱动整个测试执行，如 <a href="https://github.com/TBEDP/urllib/blob/0.3.4/Makefile">urllib/Makefile</a></p>
-<pre><code class="lang-bash">TESTS = test/*.test.js
+
+<h2>jscover</h2>
+
+<p>使用 <a href="https://github.com/fengmk2/jscover">jscover</a> ，好处是不需要编译，直接使用 java 版本；缺点是需要 java 环境依赖。<br />通过 Makefile 来驱动整个测试执行，如 <a href="https://github.com/TBEDP/urllib/blob/0.3.4/Makefile">urllib/Makefile</a></p>
+
+<pre><code>bash
+TESTS = test/*.test.js
 REPORTER = spec
 TIMEOUT = 20000
 JSCOVERAGE = ./node_modules/jscover/bin/jscover
@@ -58,22 +62,33 @@ test-cov:
   @rm -rf ./lib-cov
   @$(JSCOVERAGE) lib lib-cov
   @URLLIB_COV=1 $(MAKE) test REPORTER=dot
-  @URLLIB_COV=1 $(MAKE) test REPORTER=html-cov &gt; coverage.html
+  @URLLIB_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
 
 .PHONY: test test-cov
 </code></pre>
+
 <p>执行代码覆盖率测试:</p>
-<pre><code class="lang-bash">$ make test-cov
+
+<pre><code>bash
+$ make test-cov
 </code></pre>
+
 <p>打开 <a href="http://fengmk2.github.io/coverage/urllib.html">coverage.html</a> 就能看到覆盖情况了。</p>
-<h2 id="blanket-js">Blanket.js</h2>
+
+<h2>Blanket.js</h2>
+
 <p>某天在github上看到 <a href="http://blanketjs.org/">Blanket.js</a> ，算是意外收获，终于能摆脱代码转换依赖了。</p>
+
 <blockquote>
-<p>Blanket.js is an easy to install, easy to configure, and easy to use JavaScript code coverage library that works both in-browser and with nodejs.</p>
+  <p>Blanket.js is an easy to install, easy to configure, and easy to use JavaScript code coverage library that works both in-browser and with nodejs.</p>
 </blockquote>
+
 <p>使用上 <a href="http://blanketjs.org/">Blanket.js</a> 以后，不再需要将代码转换落地成文件，也不需要java依赖。</p>
+
 <p>还是以 <a href="https://github.com/TBEDP/urllib/blob/master/Makefile">urllib/Makefile</a> 为例:</p>
-<pre><code class="lang-bash">TESTS = test/*.test.js
+
+<pre><code>bash
+TESTS = test/*.test.js
 REPORTER = spec
 TIMEOUT = 20000
 MOCHA_OPTS =
@@ -86,27 +101,41 @@ test:
     $(TESTS)
 
 test-cov:
-  @URLLIB_COV=1 $(MAKE) test MOCHA_OPTS=&#39;--require blanket&#39; REPORTER=dot
-  @URLLIB_COV=1 $(MAKE) test MOCHA_OPTS=&#39;--require blanket&#39; REPORTER=html-cov &gt; coverage.html
+  @URLLIB_COV=1 $(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=dot
+  @URLLIB_COV=1 $(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov > coverage.html
 
 .PHONY: test test-cov
 </code></pre>
+
 <p>参考 <a href="https://github.com/alex-seville/blanket/blob/master/docs/getting_started_node.md">Getting Started Guide (nodejs version)</a></p>
+
 <p>在 <a href="https://github.com/TBEDP/urllib/blob/master/package.json">package.json</a> 添加上 blanket 的代码匹配模式，确定你需要对那个路径下的代码进行转换。</p>
-<pre><code class="lang-js">&quot;scripts&quot;: {
-  &quot;test&quot;: &quot;make test&quot;,
-  &quot;blanket&quot;: { &quot;pattern&quot;: &quot;urllib/lib&quot; }
+
+<pre><code>js
+"scripts": {
+  "test": "make test",
+  "blanket": { "pattern": "urllib/lib" }
 },
 </code></pre>
+
 <p>执行命令还是保持一致：</p>
-<pre><code class="lang-bash">$ make test-cov
+
+<pre><code>bash
+$ make test-cov
 </code></pre>
+
 <p><code>coverage.html</code> 跟使用 <a href="https://github.com/fengmk2/jscover">jscover</a> 的报告结果一致，缺没有了文件生成，也不再需要去服务器上安装java了。</p>
-<h2 id="project">Project</h2>
+
+<h2>Project</h2>
+
 <p>对于非lib类项目，如普通的应用项目，进行代码覆盖率测试，同样可以使用 <a href="http://blanketjs.org/">Blanket.js</a> 很好地做到。</p>
+
 <p>以 <a href="https://github.com/fengmk2/urlrar">urlrar</a> 为例:</p>
+
 <p>Markfile</p>
-<pre><code class="lang-bash">TESTS = test/*.test.js
+
+<pre><code>bash
+TESTS = test/*.test.js
 REPORTER = spec
 TIMEOUT = 10000
 MOCHA_OPTS =
@@ -122,39 +151,47 @@ test: install
     $(TESTS)
 
 test-cov: 
-  @URLRAR_COV=1 $(MAKE) test MOCHA_OPTS=&#39;--require blanket&#39; REPORTER=html-cov &gt; coverage.html
-  @URLRAR_COV=1 $(MAKE) test MOCHA_OPTS=&#39;--require blanket&#39; REPORTER=travis-cov
+  @URLRAR_COV=1 $(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov > coverage.html
+  @URLRAR_COV=1 $(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=travis-cov
 
 test-all: test test-cov
 
 .PHONY: test-cov test test-all
 </code></pre>
+
 <p>package.json</p>
-<pre><code class="lang-js">&quot;devDependencies&quot;: {
-    &quot;travis-cov&quot;: &quot;*&quot;,
-    &quot;blanket&quot;: &quot;*&quot;,
+
+<pre><code>js
+"devDependencies": {
+    "travis-cov": "*",
+    "blanket": "*",
     // ...
   },
-  &quot;scripts&quot;: {
-    &quot;test&quot;: &quot;make test-all&quot;,
-    &quot;blanket&quot;: { 
-      &quot;pattern&quot;: &quot;//^((?!(node_modules|test)).)*$/&quot;,
-      &quot;data-cover-flags&quot;: {
-        &quot;debug&quot;: false
+  "scripts": {
+    "test": "make test-all",
+    "blanket": { 
+      "pattern": "//^((?!(node_modules|test)).)*$/",
+      "data-cover-flags": {
+        "debug": false
       }
     },
-    &quot;travis-cov&quot;: {
-      &quot;threshold&quot;: 93
+    "travis-cov": {
+      "threshold": 93
     }
   },
 </code></pre>
-<pre><code class="lang-bash">$ npm test
-</code></pre>
-<p>运行结果: 包含测试结果和代码覆盖率.</p>
-<p><img src="http://nfs.nodeblog.org/f/a/fa73ef3685d050f6efcdf8b7a1f428c1.png" alt="1"></p>
-<h2 id="-">有爱</h2>
-<p>^_^ 希望本文对你有用。</p>
 
+<pre><code>bash
+$ npm test 
+</code></pre>
+
+<p>运行结果: 包含测试结果和代码覆盖率.</p>
+
+<p><img src="http://nfs.nodeblog.org/f/a/fa73ef3685d050f6efcdf8b7a1f428c1.png" alt="1" title="" /></p>
+
+<h2>有爱</h2>
+
+<p>^_^ 希望本文对你有用。</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

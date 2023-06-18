@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>快速搭建 Node.js / io.js 开发环境以及加速 npm</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,50 +38,66 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-node-js-io-js-npm">快速搭建 Node.js / io.js 开发环境以及加速 npm</h1>
+<h1>快速搭建 Node.js / io.js 开发环境以及加速 npm</h1>
+
 <p>在公交车上刷微博，还是有很多同学在咨询:</p>
+
 <ul>
 <li>如何快速搭建 <a href="http://nodejs.org">node</a> 开发环境</li>
 <li><a href="https://www.npmjs.com">npm</a> 超慢</li>
 <li><a href="https://github.com">github</a> 无法打开的问题</li>
 </ul>
+
 <p>于是我觉得应该写一篇文章解答所有这些起步问题，让新同学也能顺顺利利入门。</p>
-<h2 id="-node-js-">快速搭建 <a href="http://nodejs.org">Node.js</a> 开发环境</h2>
-<p>如果你想长期做 <a href="http://nodejs.org">node</a> 开发, 或者想快速更新 <a href="http://nodejs.org">node</a> 版本, 或者想快速切换 <a href="http://nodejs.org">node</a> 版本,
-那么在<strong>非 Windows(如 osx, linux)</strong> 环境下, 请使用 <a href="https://github.com/cnpm/nvm">nvm</a> 来安装你的 <a href="http://nodejs.org">node</a> 开发环境, 保持系统的干净.</p>
+
+<h2>快速搭建 <a href="http://nodejs.org">Node.js</a> 开发环境</h2>
+
+<p>如果你想长期做 <a href="http://nodejs.org">node</a> 开发, 或者想快速更新 <a href="http://nodejs.org">node</a> 版本, 或者想快速切换 <a href="http://nodejs.org">node</a> 版本,<br />那么在<strong>非 Windows(如 osx, linux)</strong> 环境下, 请使用 <a href="https://github.com/cnpm/nvm">nvm</a> 来安装你的 <a href="http://nodejs.org">node</a> 开发环境, 保持系统的干净.</p>
+
 <p>如果你使用 <strong>Windows</strong> 做开发, 那么你可以使用 <a href="https://github.com/cnpm/nvmw">nvmw</a> 来替代 <a href="https://github.com/cnpm/nvm">nvm</a></p>
-<h2 id="osx-linux-">osx, linux 环境</h2>
+
+<h2>osx, linux 环境</h2>
+
 <p>如果你是 windows 环境开发, 请跳过这里, 直接查看下一章.</p>
-<h3 id="git-clone-nvm-">git clone <a href="https://github.com/cnpm/nvm">nvm</a></h3>
+
+<h3>git clone <a href="https://github.com/cnpm/nvm">nvm</a></h3>
+
 <p>直接从 github clone nvm 到本地, 这里假设大家都使用 <code>~/git</code> 目录存放 git 项目:</p>
-<pre><code class="lang-bash">$ cd ~/git
-$ git clone https://github.com/cnpm/nvm.git
+
+<pre><code>bash
+$ cd ~/git
+$ git clone <a href='https://github.com/cnpm/nvm.git'>https://github.com/cnpm/nvm.git</a>
 </code></pre>
-<p>配置终端启动时自动执行 <code>source ~/git/nvm/nvm.sh</code>,
-在 <code>~/.bashrc</code>, <code>~/.bash_profile</code>, <code>~/.profile</code>, 或者 <code>~/.zshrc</code> 文件添加以下命令:</p>
-<pre><code class="lang-bash">source ~/git/nvm/nvm.sh
+
+<p>配置终端启动时自动执行 <code>source ~/git/nvm/nvm.sh</code>,<br />在 <code>~/.bashrc</code>, <code>~/.bash_profile</code>, <code>~/.profile</code>, 或者 <code>~/.zshrc</code> 文件添加以下命令:</p>
+
+<pre><code>bash
+source ~/git/nvm/nvm.sh
 </code></pre>
+
 <p>重新打开你的终端, 输入 <code>nvm</code></p>
-<pre><code class="lang-bash">$ nvm
+
+<pre><code>bash
+$ nvm
 
 Node Version Manager
 
 Usage:
     nvm help                    Show this message
     nvm --version               Print out the latest released version of nvm
-    nvm install [-s] &lt;version&gt;  Download and install a &lt;version&gt;, [-s] from source
-    nvm uninstall &lt;version&gt;     Uninstall a version
-    nvm use &lt;version&gt;           Modify PATH to use &lt;version&gt;
-    nvm run &lt;version&gt; [&lt;args&gt;]  Run &lt;version&gt; with &lt;args&gt; as arguments
+    nvm install [-s] <version>  Download and install a <version>, [-s] from source
+    nvm uninstall <version>     Uninstall a version
+    nvm use <version>           Modify PATH to use <version>
+    nvm run <version> [<args>]  Run <version> with <args> as arguments
     nvm current                 Display currently activated version
     nvm ls                      List installed versions
-    nvm ls &lt;version&gt;            List versions matching a given description
+    nvm ls <version>            List versions matching a given description
     nvm ls-remote               List remote versions available for install
     nvm deactivate              Undo effects of NVM on current shell
-    nvm alias [&lt;pattern&gt;]       Show all aliases beginning with &lt;pattern&gt;
-    nvm alias &lt;name&gt; &lt;version&gt;  Set an alias named &lt;name&gt; pointing to &lt;version&gt;
-    nvm unalias &lt;name&gt;          Deletes the alias named &lt;name&gt;
-    nvm copy-packages &lt;version&gt; Install global NPM packages contained in &lt;version&gt; to current version
+    nvm alias [<pattern>]       Show all aliases beginning with <pattern>
+    nvm alias <name> <version>  Set an alias named <name> pointing to <version>
+    nvm unalias <name>          Deletes the alias named <name>
+    nvm copy-packages <version> Install global NPM packages contained in <version> to current version
 
 Example:
     nvm install v0.10.24        Install a specific version number
@@ -92,36 +108,62 @@ Example:
 Note:
     to remove, delete or uninstall nvm - just remove ~/.nvm, ~/.npm and ~/.bower folders
 </code></pre>
-<h3 id="-nvm-node-">通过 <a href="https://github.com/cnpm/nvm">nvm</a> 安装任意版本的 <a href="http://nodejs.org">node</a></h3>
-<pre><code class="lang-bash">$ nvm install 0.12.0
+
+<h3>通过 <a href="https://github.com/cnpm/nvm">nvm</a> 安装任意版本的 <a href="http://nodejs.org">node</a></h3>
+
+<pre><code>bash
+$ nvm install 0.12.0
 </code></pre>
+
 <p>于是你就会看到一段非常快速进度条:</p>
-<pre><code class="lang-bash">######################################################################## 100.0%
+
+<pre><code>bash
+
+
+<h6>################################################################## 100.0%</h6>
+
 Now using node v0.12.0
 </code></pre>
+
 <p>还可以直接安装 iojs 各个版本</p>
-<pre><code class="lang-bash">$ nvm install iojs
+
+<pre><code>bash
+$ nvm install iojs
 </code></pre>
+
 <p>你可以继续非常方便地安装各个版本的 node 了, 你可以查看一下你当前已经安装的版本:</p>
-<pre><code class="lang-bash">$ nvm ls-remote
+
+<pre><code>bash
+$ nvm ls-remote
          nvm
      v0.8.26
     v0.10.26
     v0.11.16
--&gt;  v0.12.0
+->  v0.12.0
 </code></pre>
-<h2 id="windows-">windows 环境</h2>
-<h3 id="git-clone-nvmw-">git clone <a href="https://github.com/cnpm/nvmw">nvmw</a></h3>
+
+<h2>windows 环境</h2>
+
+<h3>git clone <a href="https://github.com/cnpm/nvmw">nvmw</a></h3>
+
 <p>直接从 github clone nvmw 到本地, 这里假设大家都使用 <code>d:\git</code> 目录存放 git 项目:</p>
-<pre><code class="lang-bash">$ d:
+
+<pre><code>bash
+$ d:
 $ cd git
-$ git clone https://github.com/cnpm/nvmw.git
+$ git clone <a href='https://github.com/cnpm/nvmw.git'>https://github.com/cnpm/nvmw.git</a>
 </code></pre>
+
 <p>设置 <code>d:\git\nvmw</code> 目录到你的 <code>PATH</code> 环境变量中:</p>
-<pre><code class="lang-bash">set &quot;PATH=d:\git\nvmw;%PATH%&quot;
+
+<pre><code>bash
+set "PATH=d:\git\nvmw;%PATH%"
 </code></pre>
+
 <p>重新打开你的终端, 输入 <code>nvmw</code></p>
-<pre><code class="lang-bash">$ nvmw
+
+<pre><code>bash
+$ nvmw
 
 Usage:
   nvmw help                    Show this message
@@ -134,77 +176,117 @@ Example:
   nvmw install v0.6.0          Install a specific version number
   nvmw use v0.6.0              Use the specific version
 </code></pre>
-<h3 id="-nvmw-node-">通过 <a href="https://github.com/cnpm/nvmw">nvmw</a> 安装任意版本的 <a href="http://nodejs.org">node</a></h3>
-<pre><code class="lang-bash">$ nvmw install 0.12.0
+
+<h3>通过 <a href="https://github.com/cnpm/nvmw">nvmw</a> 安装任意版本的 <a href="http://nodejs.org">node</a></h3>
+
+<pre><code>bash
+$ nvmw install 0.12.0
 </code></pre>
+
 <p>于是你就会看到一段非常快速进度条:</p>
-<pre><code>######################################################################## 100.0%
+
+<pre><code><h6>################################################################## 100.0%</h6>
+
 Now using node v0.12.0
-</code></pre><p>安装 iojs</p>
+</code></pre>
+
+<p>安装 iojs</p>
+
 <pre><code>$ nvmw install iojs-1.4.2
-</code></pre><p>然后你可以继续非常方便地安装各个版本的 node 了, 你可以查看一下你当前已经安装的版本:</p>
+</code></pre>
+
+<p>然后你可以继续非常方便地安装各个版本的 node 了, 你可以查看一下你当前已经安装的版本:</p>
+
 <pre><code>$ nvmw ls
 
 v0.10.26
 v0.11.12
 Current: v0.11.12
-</code></pre><p>到此, 无论是 windows 环境, 还是 osx, linux 环境, 都能快速安装多个版本的 node 了.</p>
-<h2 id="-cnpm-npm-">使用 <a href="http://npm.taobao.org">cnpm</a> 加速 <a href="https://www.npmjs.com">npm</a></h2>
-<p>同理 nvm , npm 默认是从国外的源获取和下载包信息, 不慢才奇怪.
-可以通过简单的 <code>---registry</code> 参数, 使用国内的镜像 <a href="http://registry.npm.taobao.org">http://registry.npm.taobao.org</a> :</p>
-<pre><code class="lang-bash">$ npm install koa --registry=http://registry.npm.taobao.org
 </code></pre>
-<p>于是屏幕又哗啦哗啦地一大片输出:</p>
-<pre><code class="lang-bash">$ npm install koa --registry=http://registry.npm.taobao.org
-...
-koa@0.5.2 node_modules/koa
-├── koa-compose@2.2.0
-├── statuses@1.0.2
-├── finished@1.1.1
-├── escape-html@1.0.1
-├── only@0.0.2
-├── debug@0.8.0
-├── fresh@0.2.2
-├── type-is@1.0.1
-├── delegates@0.0.3
-├── mime@1.2.11
-├── co@3.0.5
-├── accepts@1.0.1 (negotiator@0.4.2)
-└── cookies@0.4.0 (keygrip@1.0.0)
-</code></pre>
-<p>但是毕竟镜像跟官方的 npm 源还是会有一个同步时间差异, 目前 cnpm 的默认同步时间间隔是 10 分钟.
-如果你是模块发布者, 或者你想马上同步一个模块, 那么推荐你安装 <a href="http://npm.taobao.org">cnpm</a> cli:</p>
-<pre><code class="lang-bash">$ npm install cnpm -g --registry=http://registry.npm.taobao.org
-</code></pre>
-<p>通过 cnpm 命令行, 你可以快速同步任意模块:</p>
-<pre><code class="lang-bash">$ cnpm sync koa connect mocha
-</code></pre>
-<p>呃, 我就是不想安装 cnpm cli 怎么办? 哈哈, 早就想到你会这么懒了, 于是我们还有一个 web 页面:</p>
-<p>例如我想马上同步 koa, 直接打开浏览器: <a href="http://npm.taobao.org/sync/koa">http://npm.taobao.org/sync/koa</a></p>
-<p>或者你是命令行控, 通过 open 命令打开:</p>
-<pre><code class="lang-bash">$ open http://npm.taobao.org/sync/koa
-</code></pre>
-<p>如果你安装的模块依赖了 C++ 模块, 需要编译, 肯定会通过 <a href="https://github.com/TooTallNate/node-gyp">node-gyp</a> 来编译,
-<a href="https://github.com/TooTallNate/node-gyp">node-gyp</a> 在第一次编译的时候, 需要依赖 <a href="http://nodejs.org">node</a> 源代码, 于是又会去 node dist 下载,
-于是大家又会吐槽, 怎么 npm 安装这么慢...</p>
-<p>好吧, 于是又要提到 <code>--disturl</code> 参数, 通过中国镜像来下载:</p>
-<pre><code class="lang-bash">$ npm install microtime \
-  --registry=http://registry.npm.taobao.org \
-  --disturl=http://npm.taobao.org/mirrors/node
-</code></pre>
-<p>再次要提到 cnpm cli, 它已经默认将 <code>--registry</code> 和 <code>--disturl</code> 都配置好了, 谁用谁知道
-.
-写到这里, 就更快疑惑那些不想安装 cnpm cli 又吐槽 npm 慢的同学是基于什么考虑不在本地安装一个 cnpm 呢?</p>
-<h2 id="github-">github 好慢</h2>
-<p>好了, 看到这里大家应该对 node 和 npm 已经没有速度慢的问题了.</p>
-<p>github 慢, 或者说是它的资源 host 被堵而已, 大家可以通过简单的 hosts 映射解决:</p>
-<pre><code>185.31.16.184 github.global.ssl.fastly.net
-</code></pre><h2 id="-">为何最近访问国外网站这么慢?</h2>
-<p>听说是 APCN2 又断了: <a href="http://weibo.com/1415338244/ACTYkq8xK">http://weibo.com/1415338244/ACTYkq8xK</a></p>
-<p><img src="http://ww4.sinaimg.cn/large/545c5904gw1eeu7h63hxvj20qs0mp78p.jpg" alt="1"></p>
-<h2 id="-">有爱</h2>
-<p>希望文本对你有用. :)</p>
 
+<p>到此, 无论是 windows 环境, 还是 osx, linux 环境, 都能快速安装多个版本的 node 了.</p>
+
+<h2>使用 <a href="http://npm.taobao.org">cnpm</a> 加速 <a href="https://www.npmjs.com">npm</a></h2>
+
+<p>同理 nvm , npm 默认是从国外的源获取和下载包信息, 不慢才奇怪.<br />可以通过简单的 <code>---registry</code> 参数, 使用国内的镜像 <a href='http://registry.npm.taobao.org'>http://registry.npm.taobao.org</a> :</p>
+
+<pre><code>bash
+$ npm install koa --registry=<a href='http://registry.npm.taobao.org'>http://registry.npm.taobao.org</a>
+</code></pre>
+
+<p>于是屏幕又哗啦哗啦地一大片输出:</p>
+
+<pre><code>bash
+$ npm install koa --registry=<a href='http://registry.npm.taobao.org'>http://registry.npm.taobao.org</a>
+...
+<a href='mailto:koa@0.5.2'>koa@0.5.2</a> node_modules/koa
+├── <a href='mailto:koa-compose@2.2.0'>koa-compose@2.2.0</a>
+├── <a href='mailto:statuses@1.0.2'>statuses@1.0.2</a>
+├── <a href='mailto:finished@1.1.1'>finished@1.1.1</a>
+├── <a href='mailto:escape-html@1.0.1'>escape-html@1.0.1</a>
+├── <a href='mailto:only@0.0.2'>only@0.0.2</a>
+├── <a href='mailto:debug@0.8.0'>debug@0.8.0</a>
+├── <a href='mailto:fresh@0.2.2'>fresh@0.2.2</a>
+├── <a href='mailto:type-is@1.0.1'>type-is@1.0.1</a>
+├── <a href='mailto:delegates@0.0.3'>delegates@0.0.3</a>
+├── <a href='mailto:mime@1.2.11'>mime@1.2.11</a>
+├── <a href='mailto:co@3.0.5'>co@3.0.5</a>
+├── <a href='mailto:accepts@1.0.1'>accepts@1.0.1</a> (<a href='mailto:negotiator@0.4.2'>negotiator@0.4.2</a>)
+└── <a href='mailto:cookies@0.4.0'>cookies@0.4.0</a> (<a href='mailto:keygrip@1.0.0'>keygrip@1.0.0</a>)
+</code></pre>
+
+<p>但是毕竟镜像跟官方的 npm 源还是会有一个同步时间差异, 目前 cnpm 的默认同步时间间隔是 10 分钟.<br />如果你是模块发布者, 或者你想马上同步一个模块, 那么推荐你安装 <a href="http://npm.taobao.org">cnpm</a> cli:</p>
+
+<pre><code>bash
+$ npm install cnpm -g --registry=<a href='http://registry.npm.taobao.org'>http://registry.npm.taobao.org</a>
+</code></pre>
+
+<p>通过 cnpm 命令行, 你可以快速同步任意模块:</p>
+
+<pre><code>bash
+$ cnpm sync koa connect mocha
+</code></pre>
+
+<p>呃, 我就是不想安装 cnpm cli 怎么办? 哈哈, 早就想到你会这么懒了, 于是我们还有一个 web 页面:</p>
+
+<p>例如我想马上同步 koa, 直接打开浏览器: <a href='http://npm.taobao.org/sync/koa'>http://npm.taobao.org/sync/koa</a></p>
+
+<p>或者你是命令行控, 通过 open 命令打开:</p>
+
+<pre><code>bash
+$ open <a href='http://npm.taobao.org/sync/koa'>http://npm.taobao.org/sync/koa</a>
+</code></pre>
+
+<p>如果你安装的模块依赖了 C++ 模块, 需要编译, 肯定会通过 <a href="https://github.com/TooTallNate/node-gyp">node-gyp</a> 来编译,<br /><a href="https://github.com/TooTallNate/node-gyp">node-gyp</a> 在第一次编译的时候, 需要依赖 <a href="http://nodejs.org">node</a> 源代码, 于是又会去 node dist 下载,<br />于是大家又会吐槽, 怎么 npm 安装这么慢...</p>
+
+<p>好吧, 于是又要提到 <code>--disturl</code> 参数, 通过中国镜像来下载:</p>
+
+<pre><code>bash
+$ npm install microtime \
+  --registry=<a href='http://registry.npm.taobao.org'>http://registry.npm.taobao.org</a> \
+  --disturl=<a href='http://npm.taobao.org/mirrors/node'>http://npm.taobao.org/mirrors/node</a>
+</code></pre>
+
+<p>再次要提到 cnpm cli, 它已经默认将 <code>--registry</code> 和 <code>--disturl</code> 都配置好了, 谁用谁知道<br />.<br />写到这里, 就更快疑惑那些不想安装 cnpm cli 又吐槽 npm 慢的同学是基于什么考虑不在本地安装一个 cnpm 呢?</p>
+
+<h2>github 好慢</h2>
+
+<p>好了, 看到这里大家应该对 node 和 npm 已经没有速度慢的问题了.</p>
+
+<p>github 慢, 或者说是它的资源 host 被堵而已, 大家可以通过简单的 hosts 映射解决:</p>
+
+<pre><code>185.31.16.184 github.global.ssl.fastly.net
+</code></pre>
+
+<h2>为何最近访问国外网站这么慢?</h2>
+
+<p>听说是 APCN2 又断了: <a href='http://weibo.com/1415338244/ACTYkq8xK'>http://weibo.com/1415338244/ACTYkq8xK</a></p>
+
+<p><img src="http://ww4.sinaimg.cn/large/545c5904gw1eeu7h63hxvj20qs0mp78p.jpg" alt="1" title="" /></p>
+
+<h2>有爱</h2>
+
+<p>希望文本对你有用. :)</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

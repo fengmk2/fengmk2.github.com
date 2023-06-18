@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>Javascript绝句性能</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,81 +38,96 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="javascript-">Javascript绝句性能</h1>
-<p>前几天在微博中看到一篇叫<a href="http://site.douban.com/widget/notes/22456/note/142716442/">Javascript绝句欣赏</a> 的奇文。
-里面很多绝句实现了我经常用到的功能需求。对比我自己之前的实现方式，我简直觉得自己搓死了。</p>
-<h2 id="-">疑惑</h2>
-<p>虽然绝句很短很好，但是正因为它很绝，比较难以理解。所以我想给自己一个理由，为什么要去使用这些绝句。
-很想当然地我想到性能可能会有所提高，因为实现代码量很少而且又减少了函数调用，某些绝句的性能应该会比较高的。</p>
-<h2 id="-">性能对比</h2>
-<h3 id="-">取整同时转成数值型</h3>
+<h1>Javascript绝句性能</h1>
+
+<p>前几天在微博中看到一篇叫<a href="http://site.douban.com/widget/notes/22456/note/142716442/">Javascript绝句欣赏</a> 的奇文。<br />里面很多绝句实现了我经常用到的功能需求。对比我自己之前的实现方式，我简直觉得自己搓死了。</p>
+
+<h2>疑惑</h2>
+
+<p>虽然绝句很短很好，但是正因为它很绝，比较难以理解。所以我想给自己一个理由，为什么要去使用这些绝句。<br />很想当然地我想到性能可能会有所提高，因为实现代码量很少而且又减少了函数调用，某些绝句的性能应该会比较高的。</p>
+
+<h2>性能对比</h2>
+
+<h3>取整同时转成数值型</h3>
+
 <p>绝句实现： <code>|0 ^0 &gt;&gt;0 ~~</code></p>
-<pre><code>&#39;10.567890&#39;|0
-&#39;10.567890&#39;^0
-~~&#39;10.567890&#39;
-</code></pre><p>结果: 10</p>
+
+<pre><code>'10.567890'|0
+'10.567890'^0
+~~'10.567890'
+</code></pre>
+
+<p>结果: 10</p>
+
 <pre><code>-2.23456789|0
 -2.23456789^0
 ~~-2.23456789
-</code></pre><p>结果: -2</p>
+</code></pre>
+
+<p>结果: -2</p>
+
 <p>大于等于 <code>0x80000000</code> 会出现bug</p>
-<pre><code>-2147483648|0
-</code></pre><p>普通实现：</p>
+
+<pre><code>-2147483648|0 
+</code></pre>
+
+<p>普通实现：</p>
+
 <pre><code>function integer(n) {
-  return n &gt;=0 ? Math.floor(n) : Math.ceil(n);
+  return n >=0 ? Math.floor(n) : Math.ceil(n);
 }
-</code></pre><pre><code>var count = 5000000;
+</code></pre>
+
+<pre><code>var count = 5000000;
 var start = new Date();
 var s = 0;
-for (var i = 0; i &lt; count; i++) {
-  s = &#39;10.567890&#39;|0;
+for (var i = 0; i < count; i++) {
+  s = '10.567890'|0;
 }
-console.log(&#39;|0 =&gt; %d&#39;, new Date() - start);
+console.log('|0 => %d', new Date() - start);
 
 var start = new Date();
 var s = 0;
-for (var i = 0; i &lt; count; i++) {
-  s = &#39;10.567890&#39;^0;
+for (var i = 0; i < count; i++) {
+  s = '10.567890'^0;
 }
-console.log(&#39;^0 =&gt; %d&#39;, new Date() - start);
+console.log('^0 => %d', new Date() - start);
 
 var start = new Date();
 var s = 0;
-for (var i = 0; i &lt; count; i++) {
-  s = &#39;10.567890&#39;&gt;&gt;0;
+for (var i = 0; i < count; i++) {
+  s = '10.567890'>>0;
 }
-console.log(&#39;&gt;&gt;0 =&gt; %d&#39;, new Date() - start);
+console.log('>>0 => %d', new Date() - start);
 
 var start = new Date();
 var s = 0;
-for (var i = 0; i &lt; count; i++) {
-  s = ~~&#39;10.567890&#39;;
+for (var i = 0; i < count; i++) {
+  s = ~~'10.567890';
 }
-console.log(&#39;~~ =&gt; %d&#39;, new Date() - start);
+console.log('~~ => %d', new Date() - start);
 
 var start = new Date();
 var s = 0;
-for (var i = 0; i &lt; count; i++) {
-  s = integer(&#39;10.567890&#39;);
+for (var i = 0; i < count; i++) {
+  s = integer('10.567890');
 }
-console.log(&#39;integer =&gt; %d&#39;, new Date() - start);
+console.log('integer => %d', new Date() - start);
 
 var start = new Date();
 var s = 0;
-var n = &#39;10.567890&#39;;
-for (var i = 0; i &lt; count; i++) {
-  s = n &gt;=0 ? Math.floor(n) : Math.ceil(n);
+var n = '10.567890';
+for (var i = 0; i < count; i++) {
+  s = n >=0 ? Math.floor(n) : Math.ceil(n);
 }
-console.log(&#39;inline =&gt; %d&#39;, new Date() - start);
-console.log(&#39;&#39;);
-</code></pre><h3 id="-">取数组中的最大最小值</h3>
-<p>Array.max = function( array ){
-    return Math.max.apply( Math, array );
-};
-Array.min = function( array ){
-    return Math.min.apply( Math, array );
-};</p>
+console.log('inline => %d', new Date() - start);
+console.log('');
 
+</code></pre>
+
+<h3>取数组中的最大最小值</h3>
+
+<p>Array.max = function( array ){<br />    return Math.max.apply( Math, array );<br />};<br />Array.min = function( array ){<br />    return Math.min.apply( Math, array );<br />};</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

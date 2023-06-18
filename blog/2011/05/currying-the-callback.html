@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>Nodejs中的嵌套callback</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,31 +38,38 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="nodejs-callback">Nodejs中的嵌套callback</h1>
-<h2 id="-">困惑</h2>
-<p>Nodejs是异步的，所有IO请求都是异步的方式调用，需要指定一个callback函数处理返回的数据。
-于是难免会出现一层层的嵌套callback。
-当callback嵌套的层数太多，会引起许多开发者的困惑，怎么消除或者减少callback嵌套呢？</p>
-<h2 id="-">伪同步代码封装异步实现</h2>
+<h1>Nodejs中的嵌套callback</h1>
+
+<h2>困惑</h2>
+
+<p>Nodejs是异步的，所有IO请求都是异步的方式调用，需要指定一个callback函数处理返回的数据。<br />于是难免会出现一层层的嵌套callback。<br />当callback嵌套的层数太多，会引起许多开发者的困惑，怎么消除或者减少callback嵌套呢？</p>
+
+<h2>伪同步代码封装异步实现</h2>
+
 <p>为了解决嵌套callback的问题，目前出现了几个伪同步形式的代码封装异步实现的解决方案:</p>
+
 <ul>
 <li>jscex</li>
 <li>streaming</li>
 </ul>
-<p>但是，这样看上去改变了现有的编码风格，表象让人感觉这是同步代码。
-如果新手还未深入理解什么是异步的话，很难明白这些伪同步代码到底是如何实现异步功能的。</p>
+
+<p>但是，这样看上去改变了现有的编码风格，表象让人感觉这是同步代码。<br />如果新手还未深入理解什么是异步的话，很难明白这些伪同步代码到底是如何实现异步功能的。</p>
+
 <p>其次，虽然去除了嵌套callback的问题，但是却引入了其他成本：</p>
+
 <ul>
 <li>学习这些实现的语法成本;</li>
 <li>在编写代码时，需要时刻分清楚当前代码的情况，是伪同步，还是异步;</li>
 <li>遇到非预料结果出现的时候，如何定位问题，如何调试等问题;</li>
 </ul>
-<h2 id="-callback-callback">还是callback，减少callback</h2>
-<h2 id="-">更多阅读</h2>
+
+<h2>还是callback，减少callback</h2>
+
+<h2>更多阅读</h2>
+
 <ul>
 <li><a href="http://bjouhier.wordpress.com/2011/04/04/currying-the-callback-or-the-essence-of-futures/">Currying the callback, or the essence of futures</a></li>
 </ul>
-
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

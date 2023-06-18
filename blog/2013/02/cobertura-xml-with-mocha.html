@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>Generate cobertura-xml report with mocha</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,41 +38,48 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="generate-cobertura-xml-report-with-mocha">Generate cobertura-xml report with mocha</h1>
-<p>Using <a href="https://github.com/sjonnet19/mocha-cobertura-reporter">mocha-cobertura-reporter</a> module.</p>
-<pre><code class="lang-bash">$ npm install mocha-cobertura-reporter
+<h1>Generate cobertura-xml report with mocha</h1>
 
-$ XXX_COV=1 ./node_modules/.bin/mocha --reporter mocha-cobertura-reporter &gt; cobertura.xml
+<p>Using <a href="https://github.com/sjonnet19/mocha-cobertura-reporter">mocha-cobertura-reporter</a> module.</p>
+
+<pre><code>bash
+$ npm install mocha-cobertura-reporter
+
+$ XXX_COV=1 ./node_modules/.bin/mocha --reporter mocha-cobertura-reporter > cobertura.xml
 </code></pre>
+
 <p>covertura.xml contents</p>
-<pre><code class="lang-xml">&lt;coverage branch-rate=&quot;0&quot; line-rate=&quot;1&quot; timestamp=&quot;1359942445859&quot; version=&quot;3.5.1&quot;&gt;
-  &lt;packages&gt;
-    &lt;package branch-rate=&quot;0&quot; complexity=&quot;0.0&quot; line-rate=&quot;1&quot; name=&quot;.&quot;&gt;
-      &lt;classes&gt;
-        &lt;class branch-rate=&quot;0&quot; complexity=&quot;0.0&quot; filename=&quot;utility.js&quot; line-rate=&quot;1&quot; name=&quot;utility&quot;&gt;
-          &lt;methods/&gt;
-          &lt;lines&gt;
-            &lt;line hits=&quot;&quot; number=&quot;1&quot;/&gt;
-            &lt;line hits=&quot;&quot; number=&quot;2&quot;/&gt;
-            &lt;line hits=&quot;&quot; number=&quot;3&quot;/&gt;
+
+<pre><code>xml
+<coverage branch-rate="0" line-rate="1" timestamp="1359942445859" version="3.5.1">
+  <packages>
+    <package branch-rate="0" complexity="0.0" line-rate="1" name=".">
+      <classes>
+        <class branch-rate="0" complexity="0.0" filename="utility.js" line-rate="1" name="utility">
+          <methods/>
+          <lines>
+            <line hits="" number="1"/>
+            <line hits="" number="2"/>
+            <line hits="" number="3"/>
             // ....
-            &lt;line hits=&quot;&quot; number=&quot;82&quot;/&gt;
-            &lt;line hits=&quot;&quot; number=&quot;83&quot;/&gt;
-            &lt;line hits=&quot;&quot; number=&quot;84&quot;/&gt;
-          &lt;/lines&gt;
-        &lt;/class&gt;
-      &lt;/classes&gt;
-    &lt;/package&gt;
-  &lt;/packages&gt;
-&lt;/coverage&gt;
+            <line hits="" number="82"/>
+            <line hits="" number="83"/>
+            <line hits="" number="84"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>
 </code></pre>
-<h2 id="links">Links</h2>
+
+<h2>Links</h2>
+
 <ul>
 <li><a href="https://github.com/fengmk2/jscover/issues/4">cobertura-xml issue</a></li>
 <li><a href="https://github.com/visionmedia/mocha/pull/349">junit reporter issue</a></li>
 <li><a href="https://github.com/sjonnet19/mocha-cobertura-reporter">mocha cobertura reporter</a></li>
 </ul>
-
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

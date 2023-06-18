@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>Google Appengine 的自动部署脚本</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,10 +38,14 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="google-appengine-">Google Appengine 的自动部署脚本</h1>
+<h1>Google Appengine 的自动部署脚本</h1>
+
 <p>你是否在appengine上注册了N个应用？每次代码更新都很痛苦？！</p>
+
 <p>在我痛苦了很久后，总算找到一种可以自动部署方式，并写成了脚本，共大家分享</p>
-<h2 id="deploy-py">deploy.py</h2>
+
+<h2>deploy.py</h2>
+
 <pre><code>#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -55,23 +59,26 @@ import urllib2
 
 
 def deploy(no):
-    tpl = open(&#39;app.yaml&#39;, &#39;rb&#39;)
+    tpl = open('app.yaml', 'rb')
     try:
-        tpl_data = tpl.read().replace(&#39;{{no}}&#39;, str(no))
-        to_f = open(&#39;./source/app.yaml&#39;, &#39;wb&#39;)
+        tpl_data = tpl.read().replace('{{no}}', str(no))
+        to_f = open('./source/app.yaml', 'wb')
         try:
             to_f.write(tpl_data)
         finally:
             to_f.close()
     finally:
         tpl.close()
-    os.system(&#39;appcfg.py --passin --email={email} update {project_name} &lt; {password}&#39;)
+    os.system('appcfg.py --passin --email={email} update {project_name} &lt; {password}')
 
-if __name__ == &#39;__main__&#39;:
+if __name__ == '__main__':
     start, end = int(sys.argv[1]), int(sys.argv[2]) + 1
     for i in range(start, end):
         deploy(i)
-</code></pre><h2 id="app-yaml">app.yaml</h2>
+</code></pre>
+
+<h2>app.yaml</h2>
+
 <pre><code>application: demo{{no}}
 version: 1
 runtime: python
@@ -80,12 +87,17 @@ api_version: 1
 handlers:
 - url: .*
   script: main.py
-</code></pre><h2 id="-">运行</h2>
+</code></pre>
+
+<h2>运行</h2>
+
 <pre><code># 慢慢等吧，^_^
 python deploy.py 0, 10000
-</code></pre><h2 id="-">有爱</h2>
-<p>^_^希望对你有用</p>
+</code></pre>
 
+<h2>有爱</h2>
+
+<p>^_^希望对你有用</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

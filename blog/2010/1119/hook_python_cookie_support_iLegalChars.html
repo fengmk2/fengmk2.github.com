@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>让python的Cookie.py模块支持:冒号做key</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,15 +38,19 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="-python-cookie-py-key">让python的Cookie.py模块支持:冒号做key</h1>
+<h1>让python的Cookie.py模块支持:冒号做key</h1>
+
 <p>虽然Cookie的标准是不允许:冒号出现在key里面的，但是我们的开发人员是很可爱的，常常会让我们意想不到。</p>
+
 <p>为了做好兼容性，只能选择兼容:冒号。</p>
+
 <p>很简单，修改一下Cookie.Morsel</p>
+
 <pre><code>#!/usr/bin/python
 # -*- coding: utf-8 -*-
-&quot;&quot;&quot;MorselHook
+"""MorselHook
 fix Cookie.CookieError: Illegal key value: ys-tab:entrance:e
-&quot;&quot;&quot;
+"""
 
 import Cookie
 import string
@@ -54,18 +58,18 @@ import string
 _Morsel = Cookie.Morsel
 
 class MorselHook(_Morsel):
-    &quot;&quot;&quot;
+    """
     &gt;&gt;&gt; import inspect
     &gt;&gt;&gt; (inspect.getargspec(MorselHook.set)[3])[0]
-    &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&amp;&#39;*+-.^_`|~:&quot;
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&amp;'*+-.^_`|~:"
     &gt;&gt;&gt; cookie = Cookie.SimpleCookie()
-    &gt;&gt;&gt; cookie.load(&quot;ys-tab:entrance:e=abc; webpy_session_id=75eb60dcc83e2d902146af0bb7f47afe61fbd2b2&quot;)
+    &gt;&gt;&gt; cookie.load("ys-tab:entrance:e=abc; webpy_session_id=75eb60dcc83e2d902146af0bb7f47afe61fbd2b2")
     &gt;&gt;&gt; print cookie
     Set-Cookie: webpy_session_id=75eb60dcc83e2d902146af0bb7f47afe61fbd2b2;
     Set-Cookie: ys-tab:entrance:e=abc;
-    &quot;&quot;&quot;
+    """
     def set(self, key, val, coded_val, 
-            LegalChars=Cookie._LegalChars+&#39;:&#39;, 
+            LegalChars=Cookie._LegalChars+':', 
             idmap=string._idmap, 
             translate=string.translate):
         return super(MorselHook, self).set(key, val, 
@@ -76,12 +80,14 @@ Cookie.Morsel = MorselHook
 # 在你需要使用到Cookie的地方先让上面的代码执行一遍
 
 
-if __name__ == &#39;__main__&#39;:
+if __name__ == '__main__':
     import doctest
     doctest.testmod()
-</code></pre><h3 id="-">有爱</h3>
-<p>^_^ 希望本文对你有用。</p>
+</code></pre>
 
+<h3>有爱</h3>
+
+<p>^_^ 希望本文对你有用。</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

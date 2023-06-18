@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>nodejs读写大文件</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,19 +38,22 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="nodejs-">nodejs读写大文件</h1>
-<h2 id="-">限制</h2>
-<p>大文件读写操作，由于内存限制问题，不要直接使用<a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.readFile">fs.readFile</a> 和 <a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.writeFile">fs.writeFile</a>。 
-必须使用<a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.ReadStream">fs.ReadStream</a> 和 <a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.WriteStream">fs.WriteStream</a> 来对文件进行读写操作。</p>
-<h2 id="-fs-readstream-http-nodejs-org-docs-v0-5-4-api-fs-html-fs-readstream-"><a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.ReadStream">fs.ReadStream</a>：上传大文件</h2>
-<pre><code>var urlparse = require(&#39;url&#39;).parse
-  , http = require(&#39;http&#39;)
-  , fs = require(&#39;fs&#39;);
+<h1>nodejs读写大文件</h1>
+
+<h2>限制</h2>
+
+<p>大文件读写操作，由于内存限制问题，不要直接使用<a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.readFile">fs.readFile</a> 和 <a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.writeFile">fs.writeFile</a>。 <br />必须使用<a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.ReadStream">fs.ReadStream</a> 和 <a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.WriteStream">fs.WriteStream</a> 来对文件进行读写操作。</p>
+
+<h2><a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.ReadStream">fs.ReadStream</a>：上传大文件</h2>
+
+<pre><code>var urlparse = require('url').parse
+  , http = require('http')
+  , fs = require('fs');
 
 function upload(url, uploadfile, callback) {
     var urlinfo = urlparse(url);
     var options = {
-        method: &#39;POST&#39;,
+        method: 'POST',
         host: urlinfo.host,
         path: urlinfo.pathname
     };
@@ -62,11 +65,11 @@ function upload(url, uploadfile, callback) {
     }
     var req = http.request(options, function(res) {
         var chunks = [], length = 0;
-        res.on(&#39;data&#39;, function(chunk) {
+        res.on('data', function(chunk) {
             length += chunk.length;
             chunks.push(chunk);
         });
-        res.on(&#39;end&#39;, function() {
+        res.on('end', function() {
             var buffer = new Buffer(length);
             // delay copy
             for(var i = 0, pos = 0, size = chunks.length; i &lt; size; i++) {
@@ -78,28 +81,31 @@ function upload(url, uploadfile, callback) {
         });
     });
     var readstream = fs.createReadStream(uploadfile);
-    readstream.on(&#39;data&#39;, function(chunk) {
-        console.log(&#39;write&#39;, chunk.length);
+    readstream.on('data', function(chunk) {
+        console.log('write', chunk.length);
         req.write(chunk);
     });
-    readstream.on(&#39;end&#39;, function() {
+    readstream.on('end', function() {
         req.end();
     });
 };
 
-upload(&#39;http://weibo.com/&#39;, &#39;/tmp/bigfile.pdf&#39;, function(err, res) {
+upload('<a href='http://weibo.com/'>http://weibo.com/</a>', '/tmp/bigfile.pdf', function(err, res) {
     console.log(res.statusCode, res.headers);
 });
-</code></pre><h2 id="-fs-writestream-http-nodejs-org-docs-v0-5-4-api-fs-html-fs-writestream-"><a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.WriteStream">fs.WriteStream</a>：下载大文件</h2>
-<pre><code>var urlparse = require(&#39;url&#39;).parse
-  , http = require(&#39;http&#39;)
-  , fs = require(&#39;fs&#39;);
+</code></pre>
+
+<h2><a href="http://nodejs.org/docs/v0.5.4/api/fs.html#fs.WriteStream">fs.WriteStream</a>：下载大文件</h2>
+
+<pre><code>var urlparse = require('url').parse
+  , http = require('http')
+  , fs = require('fs');
 
 function download(url, savefile, callback) {
-    console.log(&#39;download&#39;, url, &#39;to&#39;, savefile)
+    console.log('download', url, 'to', savefile)
     var urlinfo = urlparse(url);
     var options = {
-        method: &#39;GET&#39;,
+        method: 'GET',
         host: urlinfo.host,
         path: urlinfo.pathname
     };
@@ -111,7 +117,7 @@ function download(url, savefile, callback) {
     }
     var req = http.request(options, function(res) {
         var writestream = fs.createWriteStream(savefile);
-        writestream.on(&#39;close&#39;, function() {
+        writestream.on('close', function() {
             callback(null, res);
         });
         res.pipe(writestream);
@@ -119,13 +125,14 @@ function download(url, savefile, callback) {
     req.end();
 };
 
-download(&#39;http://weibo.com/&#39;, &#39;/tmp/downfile.html&#39;, function(err, res) {
+download('<a href='http://weibo.com/'>http://weibo.com/</a>', '/tmp/downfile.html', function(err, res) {
     console.log(res.statusCode, res.headers);
 });
-</code></pre><h2 id="-">有爱</h2>
-<p>本文示例中为了凸显文件操作部分，异常处理部分代码已去除，请读者自行补全。
-^_^ 希望本文对你有用</p>
+</code></pre>
 
+<h2>有爱</h2>
+
+<p>本文示例中为了凸显文件操作部分，异常处理部分代码已去除，请读者自行补全。<br />^_^ 希望本文对你有用</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

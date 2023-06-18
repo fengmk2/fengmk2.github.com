@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="//dn-staticfile.qbox.me/typo.css/1.1/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
 
   <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="//dn-imk2.qbox.me/css/prettify.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
 
-  <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
-  <script src="//dn-imk2.qbox.me/js/prettify.js"></script>
-  <title>vi Learn on the road</title>
+  <script src="/js/prettify.js"></script>
+  <title>#title#</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,43 +38,49 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="vi-learn-on-the-road">vi Learn on the road</h1>
-<h2 id="vim-config-file">vim config file</h2>
+<h1>vi Learn on the road</h1>
+
+<h2>vim config file</h2>
+
 <pre><code># .vimrc config by me
 set expandtab 
 set tabstop=4
 set shiftwidth=4
 set nonumber
 set smarttab
-</code></pre><p>k up l right j down h right;
-space right;
-G move cursor to header of end line of file; </p>
+</code></pre>
+
+<p>k up l right j down h right;<br />space right;<br />G move cursor to header of end line of file; </p>
+
 <pre><code>function foo(abc){
-    console.log(&#39;hello world&#39;);
+    console.log('hello world');
 };
-</code></pre><p>u undo last change; U undo all changes to entire line;</p>
-<p>dd delete current cursor line.
-3dd delete next 3 lines;
-D delete contents of line after cursor;
-C delete contents of line after cursor and insert;</p>
-<p>dw delete word
-cw change word
-x delete char at curosr. </p>
-<p>R Overwrite char form cursor onward;
-s Substitute entire line
-abc on right</p>
+</code></pre>
+
+<p>u undo last change; U undo all changes to entire line;</p>
+
+<p>dd delete current cursor line.<br />3dd delete next 3 lines;<br />D delete contents of line after cursor;<br />C delete contents of line after cursor and insert;</p>
+
+<p>dw delete word<br />cw change word<br />x delete char at curosr. </p>
+
+<p>R Overwrite char form cursor onward;<br />s Substitute entire line<br />abc on right</p>
+
 <pre><code>function a(){
     function() {
-        console.log(&#39;hello world&#39;);
+        console.log('hello world');
     }
 }
 
 :r !date
 2011年 04月 01日 星期五 20:52:55 CST
-</code></pre><p>查找当前单词</p>
-<pre><code>:s/\t/    /g
-</code></pre><p>replace tab to 4 space in current line.(how to replace all?)</p>
+</code></pre>
 
+<p>查找当前单词</p>
+
+<pre><code>:s/\t/    /g
+</code></pre>
+
+<p>replace tab to 4 space in current line.(how to replace all?)</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>
