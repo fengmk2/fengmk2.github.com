@@ -39,7 +39,6 @@
   <div id="content">
   <h1 id="a-simple-blog-of-fengmk2">A simple blog of fengmk2</h1>
 <h2 id="who-is-mk2">Who is MK2</h2>
-<p><img src="https://secure.gravatar.com/avatar/95b9d41231617a05ced5604d242c9670?s=200" alt="mk2 photo"></p>
 <ul>
 <li>Github: <a href="https://github.com/fengmk2">@fengmk2</a></li>
 <li>Weibo: <a href="http://weibo.com/imk2">@Python发烧友</a></li>
@@ -136,11 +135,10 @@
 </ul>
 <p><a href="./images/hangjs-family-photo2.jpg" target="_blank"><img src="./images/hangjs-family-photo2.jpg" alt="HangJS"></a></p>
 <ul>
-<li><img width="100" src="./images/jingjs-alt.svg" alt="Jingjs"> <a href="https://2013.jsconfchina.com/">京JS</a>: 2013 9 - 10, NOVEMBER, A two day conference in Beijing for the Chinese JavaScript and Node.js community. (一个在北京举办的为期二天，为中国JavaScript和Node.js研发者社区举办的国际性技术大会)</li>
-</ul>
-<p><img src="http://nfs.nodeblog.org/b/8/b89258b13b66ee5abd4f530d018409f1.jpg" alt="mk2&amp;jackson&amp;troy&amp;goddy"></p>
-<ul>
-<li><img width="100" src="./images/hujs-logo.jpeg" alt="Hujs"> <a href="http://www.hujs.org/">沪JS</a>: 2012 九月14－16日，上海, 一个为中国Javascript和Node.js开发者社区举办的会议</li>
+<li><p><img width="100" src="./images/jingjs-alt.svg" alt="Jingjs"> <a href="https://2013.jsconfchina.com/">京JS</a>: 2013 9 - 10, NOVEMBER, A two day conference in Beijing for the Chinese JavaScript and Node.js community. (一个在北京举办的为期二天，为中国JavaScript和Node.js研发者社区举办的国际性技术大会)</p>
+</li>
+<li><p><img width="100" src="./images/hujs-logo.jpeg" alt="Hujs"> <a href="http://www.hujs.org/">沪JS</a>: 2012 九月14－16日，上海, 一个为中国Javascript和Node.js开发者社区举办的会议</p>
+</li>
 </ul>
 <p><a href="./images/hujs-mans.jpeg"><img src="./images/hujs-mans.jpeg" alt="gleen&amp;troy&amp;goddy&amp;jackson&amp;mk2"></a></p>
 <ul>
@@ -166,20 +164,15 @@ $(function () {
   prettyPrint();
 
   var src = [
-    'https://dn-imk2.qbox.me/emotional.swf',
-    'https://dn-imk2.qbox.me/family.swf',
-    'https://dn-imk2.qbox.me/building.swf',
+    // 'https://dn-imk2.qbox.me/emotional.swf',
+    // 'https://dn-imk2.qbox.me/family.swf',
+    // 'https://dn-imk2.qbox.me/building.swf',
     'https://download.alicdn.com/seller_2012/gracious-dream.mp3',
   ];
   var index = Math.floor(Math.random(0, 1)  * src.length);
   $('body').append('<embed width="0" height="0" loop="true" src="' + src[index] + '"/>');
 });
 
-(function() {
-  var c = document.createElement('script'); c.type = 'text/javascript'; c.async = true;
-  c.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'www.clicki.cn/boot/44957';
-  var h = document.getElementsByTagName('head')[0]; h.appendChild(c);
-})();
 </script>
 </body>
 </html>

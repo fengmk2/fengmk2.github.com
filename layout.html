@@ -56,20 +56,15 @@ $(function () {
   prettyPrint();
 
   var src = [
-    'https://dn-imk2.qbox.me/emotional.swf',
-    'https://dn-imk2.qbox.me/family.swf',
-    'https://dn-imk2.qbox.me/building.swf',
+    // 'https://dn-imk2.qbox.me/emotional.swf',
+    // 'https://dn-imk2.qbox.me/family.swf',
+    // 'https://dn-imk2.qbox.me/building.swf',
     'https://download.alicdn.com/seller_2012/gracious-dream.mp3',
   ];
   var index = Math.floor(Math.random(0, 1)  * src.length);
   $('body').append('<embed width="0" height="0" loop="true" src="' + src[index] + '"/>');
 });
 
-(function() {
-  var c = document.createElement('script'); c.type = 'text/javascript'; c.async = true;
-  c.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'www.clicki.cn/boot/44957';
-  var h = document.getElementsByTagName('head')[0]; h.appendChild(c);
-})();
 </script>
 </body>
 </html>

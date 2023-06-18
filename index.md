@@ -2,8 +2,6 @@
 
 ## Who is MK2
 
-![mk2 photo](https://secure.gravatar.com/avatar/95b9d41231617a05ced5604d242c9670?s=200)
-
 * Github: [@fengmk2](https://github.com/fengmk2)
 * Weibo: [@Python发烧友](http://weibo.com/imk2)
 * Twitter: [@fengmk2](http://twitter.com/fengmk2)
@@ -94,8 +92,6 @@
 <a href="./images/hangjs-family-photo2.jpg" target="_blank"><img src="./images/hangjs-family-photo2.jpg" alt="HangJS"></a>
 
 * <img width="100" src="./images/jingjs-alt.svg" alt="Jingjs"> [京JS](https://2013.jsconfchina.com/): 2013 9 - 10, NOVEMBER, A two day conference in Beijing for the Chinese JavaScript and Node.js community. (一个在北京举办的为期二天，为中国JavaScript和Node.js研发者社区举办的国际性技术大会)
-
-![mk2&jackson&troy&goddy](http://nfs.nodeblog.org/b/8/b89258b13b66ee5abd4f530d018409f1.jpg)
 
 * <img width="100" src="./images/hujs-logo.jpeg" alt="Hujs"> [沪JS](http://www.hujs.org/): 2012 九月14－16日，上海, 一个为中国Javascript和Node.js开发者社区举办的会议
 
