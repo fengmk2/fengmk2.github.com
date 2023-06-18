@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>Bash one liners explained</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,68 +38,44 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Bash one liners explained</h1>
-
+<h1 id="bash-one-liners-explained">Bash one liners explained</h1>
 <p>links:</p>
-
 <ul>
-<li><a href='http://www.catonmat.net/blog/bash-one-liners-explained-part-one/'>http://www.catonmat.net/blog/bash-one-liners-explained-part-one/</a></li>
+<li><a href="http://www.catonmat.net/blog/bash-one-liners-explained-part-one/">http://www.catonmat.net/blog/bash-one-liners-explained-part-one/</a></li>
 </ul>
-
-<h1>Working with files 文件操作</h1>
-
-<h2>1. 生成空文件</h2>
-
-<pre><code>bash
-$ > file
+<h1 id="working-with-files-文件操作">Working with files 文件操作</h1>
+<h2 id="1-生成空文件">1. 生成空文件</h2>
+<pre><code class="language-bash">$ &gt; file
 </code></pre>
-
 <p>替换文件内容或者创建文件填充内容</p>
-
-<pre><code>bash
-$ echo "hello bash" > file
+<pre><code class="language-bash">$ echo &quot;hello bash&quot; &gt; file
 </code></pre>
-
-<h2>2. 文件追加内容</h2>
-
-<pre><code>bash
-$ echo "I'm append content." >> file
+<h2 id="2-文件追加内容">2. 文件追加内容</h2>
+<pre><code class="language-bash">$ echo &quot;I&#39;m append content.&quot; &gt;&gt; file
 </code></pre>
-
 <p>如果你不想出现换行符，那么需要在<code>echo</code>增加一个<code>-n</code>参数:</p>
-
-<pre><code>bash
-$ echo -n "Hi, man." >> file
+<pre><code class="language-bash">$ echo -n &quot;Hi, man.&quot; &gt;&gt; file
 </code></pre>
-
-<h2>3. 读取文件的第一行内容</h2>
-
-<pre><code>bash
-$ read -r line < file
-$ IFS= read -r line < file
+<h2 id="3-读取文件的第一行内容">3. 读取文件的第一行内容</h2>
+<pre><code class="language-bash">$ read -r line &lt; file
+$ IFS= read -r line &lt; file
 $ line=$(head -1 file)
 $ line=`head -1 file`
 </code></pre>
-
-<h2>4. 一行行地读取文件</h2>
-
-<pre><code>bash
-$ while read -r line; do
+<h2 id="4-一行行地读取文件">4. 一行行地读取文件</h2>
+<pre><code class="language-bash">$ while read -r line; do
     # do something with $line
-done < file
+done &lt; file
 </code></pre>
-
-<pre><code>bash
-$ while IFS= read -r line; do
+<pre><code class="language-bash">$ while IFS= read -r line; do
     # do something with $line
-done < file
+done &lt; file
 </code></pre>
-
-<pre><code>bash
-$ cat file | while IFS= read -r line; do
+<pre><code class="language-bash">$ cat file | while IFS= read -r line; do
     # do something with $line
 done
 </code></pre>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

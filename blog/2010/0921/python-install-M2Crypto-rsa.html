@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>编译安装M2Crypto-0.20.2</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,12 +38,9 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>编译安装M2Crypto-0.20.2</h1>
-
+<h1 id="编译安装m2crypto-0202">编译安装M2Crypto-0.20.2</h1>
 <p>最新需要用到RSA对称密钥加密，所以需要用到<a href="http://chandlerproject.org/Projects/MeTooCrypto#M2Crypto">M2Crypto</a>，可怜的我发现编译这东西一点都不容易，以下是我的杯具经验总结。</p>
-
-<h2>服务器环境</h2>
-
+<h2 id="服务器环境">服务器环境</h2>
 <pre><code>$ lsb_release -a
 
 LSB Version::core-3.0-ia32:core-3.0-noarch:graphics-3.0-ia32:graphics-3.0-noarch
@@ -52,13 +49,10 @@ Description:Red Hat Enterprise Linux AS release 4 (Nahant Update 4)
 Release:4
 Codename:NahantUpdate4
 </code></pre>
-
-<p>下载<a href="http://pypi.python.org/packages/source/M/M2Crypto/M2Crypto-0.20.2.tar.gz#md5=6c24410410d6eb1920ea43f77a93613a">M2Crypto-0.20.2.tar.gz</a> <br />(一定要是0.20.2，要不然会出现 "undefined symbol: RSA_verify_PKCS1_PSS" 错误)</p>
-
-<h2>M2Crypto安装失败，请进行以下排查</h2>
-
+<p>下载<a href="http://pypi.python.org/packages/source/M/M2Crypto/M2Crypto-0.20.2.tar.gz#md5=6c24410410d6eb1920ea43f77a93613a">M2Crypto-0.20.2.tar.gz</a> 
+(一定要是0.20.2，要不然会出现 &quot;undefined symbol: RSA_verify_PKCS1_PSS&quot; 错误)</p>
+<h2 id="m2crypto安装失败，请进行以下排查">M2Crypto安装失败，请进行以下排查</h2>
 <p>依赖环境：</p>
-
 <pre><code>0.20.2:
 Python 2.3 or newer
 m2urllib2 requires Python 2.4 or newer
@@ -68,9 +62,7 @@ SWIG 1.3.28 or newer required for building
 SWIG 1.3.30 or newer may be required with Python 2.5 or newer and Python 2.4 with Py_ssize_t patches
 $ swig -version
 </code></pre>
-
 <p>若swig的版本小于1.3.29，则先安装新版本的<a href="http://prdownloads.sourceforge.net/swig/swig-2.0.0.tar.gz">swig-2.0.0</a></p>
-
 <pre><code>$ tar zxvf swig-2.0.0.tar.gz
 $ cd swig-2.0.0
 $ ./configure --prefix=$HOME/local/swig
@@ -78,35 +70,26 @@ $ make &amp;&amp; make install
 # 设置$HOME/local/swig/bin 到环境变量PATH，替换原来的swig
 $ source ~/.bash_profile
 </code></pre>
-
 <p>解压编译M2Crypto-0.20.2</p>
-
 <pre><code>$ tar zxvf M2Crypto-0.20.2.tar.gz
 $ cd M2Crypto-0.20.2/
 $ ~/local/python/bin/python setup.py build
 </code></pre>
-
 <p>若出现错误提示1： (早期的OpenSSL 0.9.7会有以下问题)</p>
-
 <pre><code>“This openssl-devel package does not work your architecture?”
 </code></pre>
-
-<p>则修改setup.py文件，将#'-D<strong>i386</strong>' 的注释去掉 (或直接下载已修改好的<a href="http://files.cnblogs.com/fengmk2/setup.zip">setup.py</a> 文件替换原来的)</p>
-
+<p>则修改setup.py文件，将#&#39;-D__i386__&#39; 的注释去掉 (或直接下载已修改好的<a href="http://files.cnblogs.com/fengmk2/setup.zip">setup.py</a> 文件替换原来的)</p>
 <p>若出现错误提示2：</p>
-
-<pre><code>“/usr/include/openssl/opensslconf.h:13: Error: Unable to find 'opensslconf-i386.h'”
-# 则先将'opensslconf-i386.h'复制到当前目录
+<pre><code>“/usr/include/openssl/opensslconf.h:13: Error: Unable to find &#39;opensslconf-i386.h&#39;”
+# 则先将&#39;opensslconf-i386.h&#39;复制到当前目录
 $ cp /usr/include/openssl/opensslconf-i386.h ./
 </code></pre>
-
 <p>重新编译安装</p>
-
 <pre><code>$ ~/local/python/bin/python setup.py build
 $ ~/local/python/bin/python setup.py install
 </code></pre>
-
 <p>^_^ 成功了吧！</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

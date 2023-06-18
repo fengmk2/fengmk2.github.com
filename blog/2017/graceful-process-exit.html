@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>子进程的优雅退出</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,34 +38,29 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>子进程的优雅退出</h1>
-
-<h2>案例描述</h2>
-
-<p>在做 egg-cluster 的时候，app worker 是由 cluster fork 出来的，然而 agent worker 是 master 通过 child_process.fork 出来的。<br />他们两者之间在 master 正常退出的情况下，没太大区别。</p>
-
-<p>但是在 master 意外被强杀，如 <code>kill -9</code> 杀掉，那么 app worker 还是会优雅退出，<br />但是 agent worker 缺变成了孤儿进程，通过 <a href='https://github.com/eggjs/egg-cluster/pull/27'>https://github.com/eggjs/egg-cluster/pull/27</a> 可以看到最终的效果。</p>
-
+<h1 id="子进程的优雅退出">子进程的优雅退出</h1>
+<h2 id="案例描述">案例描述</h2>
+<p>在做 egg-cluster 的时候，app worker 是由 cluster fork 出来的，然而 agent worker 是 master 通过 child_process.fork 出来的。
+他们两者之间在 master 正常退出的情况下，没太大区别。</p>
+<p>但是在 master 意外被强杀，如 <code>kill -9</code> 杀掉，那么 app worker 还是会优雅退出，
+但是 agent worker 缺变成了孤儿进程，通过 <a href="https://github.com/eggjs/egg-cluster/pull/27">https://github.com/eggjs/egg-cluster/pull/27</a> 可以看到最终的效果。</p>
 <blockquote>
-  <p>这个 fix 也证明，通过 child_process fork 出来的子进程，<br />如果需要实现父进程挂了子进程也跟着挂，必须在子进程里面也加上相应的处理，才能实现，没办法只通过父进程来实现。</p>
+<p>这个 fix 也证明，通过 child_process fork 出来的子进程，
+如果需要实现父进程挂了子进程也跟着挂，必须在子进程里面也加上相应的处理，才能实现，没办法只通过父进程来实现。</p>
 </blockquote>
-
 <p>于是我们将这里子进程优雅退出的解决方案封装到一个 <a href="https://github.com/node-modules/graceful-process">graceful-process</a> 模块统一解决，只需要在子进程代码里面执行一下优雅退出逻辑即可。</p>
-
-<pre><code>js
-const gracefulExit = require('graceful-process');
+<pre><code class="language-js">const gracefulExit = require(&#39;graceful-process&#39;);
 
 gracefulExit({
   logger: yourlogger,
-  label: 'my_worker',
+  label: &#39;my_worker&#39;,
 });
 </code></pre>
-
-<h2>使用案例</h2>
-
+<h2 id="使用案例">使用案例</h2>
 <ul>
-<li>egg-cluster: <a href='https://github.com/eggjs/egg-cluster/pull/30'>https://github.com/eggjs/egg-cluster/pull/30</a></li>
+<li>egg-cluster: <a href="https://github.com/eggjs/egg-cluster/pull/30">https://github.com/eggjs/egg-cluster/pull/30</a></li>
 </ul>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

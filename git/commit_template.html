@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>git commit 描述模板</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,12 +38,9 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>git commit 描述模板</h1>
-
-<h2>标准模板</h2>
-
-<pre><code>txt
-本次更新的简要描述（50 个字符以内）
+<h1 id="git-commit-描述模板">git commit 描述模板</h1>
+<h2 id="标准模板">标准模板</h2>
+<pre><code class="language-txt">本次更新的简要描述（50 个字符以内）
 
 如果必要，此处展开详尽阐述。段落宽度限定在 72 个字符以内。
 某些情况下，第一行的简要描述将用作邮件标题，其余部分作为邮件正文。
@@ -53,33 +50,25 @@
 (另起空行后，再进一步补充其他说明。 忽略这行说明)
  - 可以使用这样的条目列举式。
 
-<ul>
-<li>一般以单个空格紧跟短划线(-)或者星号(*)作为每项条目的起始符。
-每个条目间用一空行隔开。
-不过这里按自己项目的约定，可以略作变化。
+ - 一般以单个空格紧跟短划线(-)或者星号(*)作为每项条目的起始符。
+   每个条目间用一空行隔开。
+   不过这里按自己项目的约定，可以略作变化。
 </code></pre>
-
-</li>
-</ul>
-<h2>举例</h2>
-
-<pre><code>txt
-目录重构，符合团队约定规范
+<h2 id="举例">举例</h2>
+<pre><code class="language-txt">目录重构，符合团队约定规范
 
 url router 设置全部整合到/routes.js；
 注意区分controllers和common，common之前可以调用，controllers之前不能相互调用；
 
-<ul>
-<li><p>app.js app.get() and app.post() => routes.js</p></li>
-<li><p>config.js => conf/index.js, conf/config_pre|daily|online.js<br /></code></pre>
+* app.js app.get() and app.post() =&gt; routes.js
 
-</p></li>
-</ul>
-<h2>参考</h2>
-
+* config.js =&gt; conf/index.js, conf/config_pre|daily|online.js
+</code></pre>
+<h2 id="参考">参考</h2>
 <ul>
 <li><a href="http://git-scm.com/book/zh/%E5%88%86%E5%B8%83%E5%BC%8F-Git-%E4%B8%BA%E9%A1%B9%E7%9B%AE%E4%BD%9C%E8%B4%A1%E7%8C%AE">分布式-Git-为项目作贡献</a></li>
 </ul>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

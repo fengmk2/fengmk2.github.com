@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>NAE client v1(beta) release</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,117 +38,80 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>NAE client v1(beta) release</h1>
-
+<h1 id="nae-client-v1beta-release">NAE client v1(beta) release</h1>
 <p>如有任何问题，请微博联系<a href="http://weibo.com/literal">@Literal</a></p>
-
-<p>Hi, all<br />NAE client v1(beta) release~。 这回真可以用了！！！</p>
-
+<p>Hi, all
+NAE client v1(beta) release~。 这回真可以用了！！！</p>
 <p>欢迎试用，安全起见，首次试用，请先用一个测试目录。记得保护自己的代码哦</p>
-
 <p>欢迎反馈 ， ^_^ 。</p>
-
-<h2>安装nae客户端</h2>
-
-<pre><code>$ wget <a href='http://cnodejs.net/download/install.sh'>http://cnodejs.net/download/install.sh</a>
+<h2 id="安装nae客户端">安装nae客户端</h2>
+<pre><code>$ wget http://cnodejs.net/download/install.sh
 $ chmod +x ./install.sh
 $ sudo ./install.sh
 </code></pre>
-
 <p>安装之后</p>
-
 <pre><code>$ nae
 # 将打印出版本信息,说明安装成功
 </code></pre>
-
-<h2>使用nae客户端</h2>
-
-<p>在开始之前，请仔细阅读这段说明。<br />nae client在开始使用时需要先身份认证，身份认证需要使用auth命令获取身份认证</p>
-
+<h2 id="使用nae客户端">使用nae客户端</h2>
+<p>在开始之前，请仔细阅读这段说明。
+nae client在开始使用时需要先身份认证，身份认证需要使用auth命令获取身份认证</p>
 <pre><code>$ nae auth
 </code></pre>
-
 <p>份认证成功之后，会在~/.nae_auth文件中保存认证的token信息。所以当切换用户时，需要重新认证。</p>
-
-<p>nae client执行download动作时，是将服务器端的代码同步到本地。<br />同步的过程中，“会删除本地有而服务器端没有的文件！！！”<br />所以在使用download之前，请先commit本地代码，以防代码丢失。</p>
-
-<p>nae client执行upload的时候，同样，“会将本地没有而服务器端有的文件删除！！！”<br />所以在upload之前，如有必要，请先备份服务器端代码。</p>
-
-<h3>身份认证</h3>
-
+<p>nae client执行download动作时，是将服务器端的代码同步到本地。
+同步的过程中，“会删除本地有而服务器端没有的文件！！！”
+所以在使用download之前，请先commit本地代码，以防代码丢失。</p>
+<p>nae client执行upload的时候，同样，“会将本地没有而服务器端有的文件删除！！！”
+所以在upload之前，如有必要，请先备份服务器端代码。</p>
+<h3 id="身份认证">身份认证</h3>
 <pre><code>$ nae auth
 </code></pre>
-
-<h3>查看app状态</h3>
-
+<h3 id="查看app状态">查看app状态</h3>
 <pre><code>$ nae status appname
 </code></pre>
-
-<h3>启动app</h3>
-
+<h3 id="启动app">启动app</h3>
 <pre><code>$ nae start appname
 </code></pre>
-
-<h3>关闭app</h3>
-
+<h3 id="关闭app">关闭app</h3>
 <pre><code>$ nae stop appname
 </code></pre>
-
-<h3>重启app</h3>
-
+<h3 id="重启app">重启app</h3>
 <pre><code>$ nae restart appname
 </code></pre>
-
 <p>调试app,捕获服务器端app的输出信息</p>
-
 <pre><code>$ nae debug appname
 </code></pre>
-
-<h3>上传app</h3>
-
-<p>上传的时候，有需要排除的文件<br />比如.project .setting等文件，可以创建一个.naeignore文件，每行一个正则表达，匹配则忽略文件和目录</p>
-
+<h3 id="上传app">上传app</h3>
+<p>上传的时候，有需要排除的文件
+比如.project .setting等文件，可以创建一个.naeignore文件，每行一个正则表达，匹配则忽略文件和目录</p>
 <pre><code>$ nae upload appname
 $ nae sup appname
 </code></pre>
-
-<h3>下载app</h3>
-
+<h3 id="下载app">下载app</h3>
 <p>下载之后，目录中会有一个索引文件，.naeindex ,这是一个diff文件，不要删除它，client需要这个文件</p>
-
 <pre><code>$ nae syncdown appname
 $ nae sdown appname
 </code></pre>
-
-<h3>帮助信息</h3>
-
+<h3 id="帮助信息">帮助信息</h3>
 <pre><code>$ nae help
 </code></pre>
-
-<h3>更新客户端</h3>
-
+<h3 id="更新客户端">更新客户端</h3>
 <p>自我更新功能，还需要存放客户端的服务器支持，暂无~</p>
-
 <pre><code>$ sudo nae update
 </code></pre>
-
-<h3>启动app</h3>
-
+<h3 id="启动app-1">启动app</h3>
 <p>当cd到app目录中时，nae命令可以省略appname，比如:</p>
-
 <pre><code>$ nae start
 # 重启
 $ nae restart
 </code></pre>
-
-<h2>.naeignore</h2>
-
-<h3>.naeignore文件策略</h3>
-
-<p>. naeignore  文件用来控制syncup、syncdown时，过滤不必要的文件传输，比如一些用户数据、版本控制文件、服务器日志等等。<br />syncup的时候，使用本地的. naeignore文件，<br />syncdown的时候，使用服务器端的. naeignore文件</p>
-
-<h3>.naeignore 编写范例：</h3>
-
+<h2 id="naeignore">.naeignore</h2>
+<h3 id="naeignore文件策略">.naeignore文件策略</h3>
+<p>. naeignore  文件用来控制syncup、syncdown时，过滤不必要的文件传输，比如一些用户数据、版本控制文件、服务器日志等等。
+syncup的时候，使用本地的. naeignore文件，
+syncdown的时候，使用服务器端的. naeignore文件</p>
+<h3 id="naeignore-编写范例：">.naeignore 编写范例：</h3>
 <pre><code>db/*                   =&gt; ^db\/.*$                        过滤服务器根目录下的db目录下的所有文件，db目录不会被过滤
 db                       =&gt; ^db$                               仅过滤服务器根目录下名为 db的文件
 log/*.error       =&gt; ^\/log\/.*\.error$        过滤服务器根目录下 log目录下的 .error后缀的文件
@@ -156,9 +119,7 @@ upload/*           =&gt; ^upload\/.*$                 过滤上传目录下的�
 package.json   =&gt;                                          过滤nae的配置文件
 config.js            =&gt;                                          过滤工程的配置文件
 </code></pre>
-
-<h2>Change log</h2>
-
+<h2 id="change-log">Change log</h2>
 <ol>
 <li>订正了同步协议中的一些bug，更新了同步机制</li>
 <li>同步命令增加两个别名，方便使用</li>
@@ -166,6 +127,7 @@ config.js            =&gt;                                          过滤工程
 <li>修复了cmd的一些bug</li>
 <li>源代码加入了Build工具</li>
 </ol>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

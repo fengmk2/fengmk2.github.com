@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>模拟 Nagle 算法的Delayed Ack</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,49 +38,38 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>模拟 Nagle 算法的Delayed Ack</h1>
-
-<p>最近做了keepalive优化，在线上应用使用了<a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a>，<br />从监控系统观察到，我们预期的 <a href="http://serverfault.com/questions/219939/too-many-time-wait-state-connections">TIME_WAIT</a> 过多的问题解决了；<br />但是，应用的响应时间RT在非正常的情况下，很平均地涨了40ms，由原来的4-5ms，涨到44-46ms之间。</p>
-
-<h2>摸索导致RT增加了40ms的原因</h2>
-
-<p>由于是对Agent增加了KeepAlive的支持，很自然地会去看 <a href="http://nodejs.org/api/net.html">net</a> 模块的文档，通过搜索<code>keepAlive</code>，<br />肯定会定位到<a href="http://nodejs.org/api/net.html#net_socket_setkeepalive_enable_initialdelay">socket.setKeepAlive()</a>方法。</p>
-
+<h1 id="模拟-nagle-算法的delayed-ack">模拟 Nagle 算法的Delayed Ack</h1>
+<p>最近做了keepalive优化，在线上应用使用了<a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a>，
+从监控系统观察到，我们预期的 <a href="http://serverfault.com/questions/219939/too-many-time-wait-state-connections">TIME_WAIT</a> 过多的问题解决了；
+但是，应用的响应时间RT在非正常的情况下，很平均地涨了40ms，由原来的4-5ms，涨到44-46ms之间。</p>
+<h2 id="摸索导致rt增加了40ms的原因">摸索导致RT增加了40ms的原因</h2>
+<p>由于是对Agent增加了KeepAlive的支持，很自然地会去看 <a href="http://nodejs.org/api/net.html">net</a> 模块的文档，通过搜索<code>keepAlive</code>，
+肯定会定位到<a href="http://nodejs.org/api/net.html#net_socket_setkeepalive_enable_initialdelay">socket.setKeepAlive()</a>方法。</p>
 <p>但是根据<a href="http://nodejs.org/api/net.html#net_socket_setkeepalive_enable_initialdelay">socket.setKeepAlive()</a>方法的文档描述，和我们的问题没多大关联。</p>
-
-<p>在屏幕中的<a href="http://nodejs.org/api/net.html#net_socket_setnodelay_nodelay">socket.setNoDelay()</a>吸引了我的视线，然后我看到<code>Nagle algorithm</code>，<br />然后想起之前看过的<a href="http://www.blogjava.net/killme2008/archive/2011/06/30/353441.html">网络编程中Nagle算法和Delayed ACK的测试</a>。</p>
-
+<p>在屏幕中的<a href="http://nodejs.org/api/net.html#net_socket_setnodelay_nodelay">socket.setNoDelay()</a>吸引了我的视线，然后我看到<code>Nagle algorithm</code>，
+然后想起之前看过的<a href="http://www.blogjava.net/killme2008/archive/2011/06/30/353441.html">网络编程中Nagle算法和Delayed ACK的测试</a>。</p>
 <p>文中描述的一段：</p>
-
 <blockquote>
-  <p>可以看到，每次请求到应答的时间间隔都在40ms，除了第一次。linux的delayed ack是40ms，而不是原来以为的200ms。第一次立即ACK，似乎跟linux的quickack mode有关，这里我不是特别清楚，有比较清楚的同学请指教。</p>
+<p>可以看到，每次请求到应答的时间间隔都在40ms，除了第一次。linux的delayed ack是40ms，而不是原来以为的200ms。第一次立即ACK，似乎跟linux的quickack mode有关，这里我不是特别清楚，有比较清楚的同学请指教。</p>
 </blockquote>
-
 <p><em>40ms</em>，和我们的问题现象一致！</p>
-
-<h2>重现 Nagle's Delayed ACK</h2>
-
-<p>按照<a href="http://www.blogjava.net/killme2008/archive/2011/06/30/353441.html">网络编程中Nagle算法和Delayed ACK的测试</a> 文中说到的 <code>write-write-read</code> 模式，<br />使用 <a href="http://nodejs.org/api/http.html#http_http_request_options_callback">http.request()</a> + <a href="https://github.com/TBEDP/agentkeepalive/commits/v0.1.0"><a href='mailto:agentkeepalive@v0.1.0'>agentkeepalive@v0.1.0</a></a> 模拟重现本文遇到的问题。</p>
-
+<h2 id="重现-nagles-delayed-ack">重现 Nagle&#39;s Delayed ACK</h2>
+<p>按照<a href="http://www.blogjava.net/killme2008/archive/2011/06/30/353441.html">网络编程中Nagle算法和Delayed ACK的测试</a> 文中说到的 <code>write-write-read</code> 模式，
+使用 <a href="http://nodejs.org/api/http.html#http_http_request_options_callback">http.request()</a> + <a href="https://github.com/TBEDP/agentkeepalive/commits/v0.1.0">agentkeepalive@v0.1.0</a> 模拟重现本文遇到的问题。</p>
 <p>模拟程序分为 客户端(Client) 和 服务端(Server) 两个角色。</p>
-
 <p>重现过程：Client 发送支持 Keepalive 的HTTP POST请求，然后等待 Server 响应数据。</p>
-
-<h3>服务端(Server)</h3>
-
+<h3 id="服务端server">服务端(Server)</h3>
 <p><a href="https://github.com/fengmk2/fengmk2.github.com/blob/master/benchmark/nagle_delayed_ack_server.js">nagle_delayed_ack_server.js</a></p>
-
-<pre><code>js
-var http = require('http');
-var microtime = require('microtime');
+<pre><code class="language-js">var http = require(&#39;http&#39;);
+var microtime = require(&#39;microtime&#39;);
 
 http.createServer(function (req, res) {
   var size = 0;
   var start = microtime.now();
-  req.on('data', function (data) {
+  req.on(&#39;data&#39;, function (data) {
     size += data.length;
   });
-  req.on('end', function () {
+  req.on(&#39;end&#39;, function () {
     var use = microtime.now() - start;
     res.end(JSON.stringify({
       port: req.connection.remotePort,
@@ -90,44 +79,40 @@ http.createServer(function (req, res) {
       url: req.url,
       use: use,
     }));
-    console.log('[%sμs] %s:%s %s %s',
+    console.log(&#39;[%sμs] %s:%s %s %s&#39;,
       use, req.connection.remoteAddress, req.connection.remotePort, req.method, req.url);
   });
 }).listen(1984);
 </code></pre>
-
-<h3>客户端(Client)</h3>
-
+<h3 id="客户端client">客户端(Client)</h3>
 <p><a href="https://github.com/fengmk2/fengmk2.github.com/blob/master/benchmark/nagle_delayed_ack_client.js">nagle_delayed_ack_client.js</a></p>
-
-<pre><code>js
-// npm install <a href='mailto:agentkeepalive@0.1.0'>agentkeepalive@0.1.0</a>: should reappear the delay problem
-// npm install <a href='mailto:agentkeepalive@0.1.1'>agentkeepalive@0.1.1</a>+: should slove the delay problem
-var Agent = require('agentkeepalive');
-var http = require('http');
-var microtime = require('microtime');
+<pre><code class="language-js">// npm install agentkeepalive@0.1.0: should reappear the delay problem
+// npm install agentkeepalive@0.1.1+: should slove the delay problem
+var Agent = require(&#39;agentkeepalive&#39;);
+var http = require(&#39;http&#39;);
+var microtime = require(&#39;microtime&#39;);
 
 var agent = new Agent();
 
 function request(callback) {
   var options = {
-    host: 'localhost',
+    host: &#39;localhost&#39;,
     port: 1984,
-    path: '/fengmk2',
-    method: 'POST',
+    path: &#39;/fengmk2&#39;,
+    method: &#39;POST&#39;,
     agent: agent
   };
   var start = microtime.now();
   var req = http.request(options, function (res) {
-    res.on('end', function () {
+    res.on(&#39;end&#39;, function () {
       var use = microtime.now() - start;
-      console.log('[%sμs] %s', use, res.statusCode);
+      console.log(&#39;[%sμs] %s&#39;, use, res.statusCode);
       callback();
     });
   });
-  req.write('foo');
+  req.write(&#39;foo&#39;);
   process.nextTick(function () {
-    req.end('bar');
+    req.end(&#39;bar&#39;);
   });
 }
 
@@ -139,17 +124,11 @@ function next() {
 
 next();
 </code></pre>
-
 <p>分别运行 Server 和 Client，输出如下:</p>
-
-<h3>重新 Delayed Ack 的场景</h3>
-
+<h3 id="重新-delayed-ack-的场景">重新 Delayed Ack 的场景</h3>
 <p>可以看到，第一次请求不会等待Ack，但是从第二次请求开始，rt都增加了40ms，就是我们遇到的问题。</p>
-
 <p>Server</p>
-
-<pre><code>bash
-$ node nagle_delayed_ack_server.js
+<pre><code class="language-bash">$ node nagle_delayed_ack_server.js
 
 [402μs] 127.0.0.1:6666 POST /fengmk2
 [38971μs] 127.0.0.1:6666 POST /fengmk2
@@ -162,11 +141,8 @@ $ node nagle_delayed_ack_server.js
 [39659μs] 127.0.0.1:6666 POST /fengmk2
 [39685μs] 127.0.0.1:6666 POST /fengmk2
 </code></pre>
-
 <p>Client</p>
-
-<pre><code>bash
-$ node nagle_delayed_ack_client.js
+<pre><code class="language-bash">$ node nagle_delayed_ack_client.js
 
 [9659μs] 200
 [40702μs] 200
@@ -179,18 +155,13 @@ $ node nagle_delayed_ack_client.js
 [40328μs] 200
 [40317μs] 200
 </code></pre>
-
-<h2>解决问题</h2>
-
+<h2 id="解决问题">解决问题</h2>
 <p>通常，找原因都是非常漫长的，而解决问题通常都是一瞬间的。</p>
-
 <p>只需要在<a href="https://github.com/TBEDP/agentkeepalive">agentkeepalive</a>中增加<a href="https://github.com/TBEDP/agentkeepalive/commit/b04778071a9e2a5a47516daebe16c8f175b92460#diff-2">一行代码</a>:</p>
-
-<pre><code>js
-s.setNoDelay(true);
+<pre><code class="language-js">s.setNoDelay(true);
 </code></pre>
-
 <p>问题就解决了。</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

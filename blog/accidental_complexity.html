@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>Nodejs asynchronous programming bring "Accidental complexity" : Nodejs异步编程带来的意外复杂性</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,22 +38,19 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Nodejs asynchronous programming bring "Accidental complexity" : Nodejs异步编程带来的意外复杂性</h1>
-
-<p>参考原文: <a href="http://mihai.bazon.net/blog/whats-missing-from-node">What's missing from NodeJS</a></p>
-
-<p>How could you not be interested in language features, since, after all, you write in that language and it's the single most important thing once you get past <a href="http://en.wikipedia.org/wiki/Accidental_complexity">accidental complexity</a>.</p>
-
+<h1 id="nodejs-asynchronous-programming-bring-accidental-complexity--nodejs异步编程带来的意外复杂性">Nodejs asynchronous programming bring &quot;Accidental complexity&quot; : Nodejs异步编程带来的意外复杂性</h1>
+<p>参考原文: <a href="http://mihai.bazon.net/blog/whats-missing-from-node">What&#39;s missing from NodeJS</a></p>
+<p>How could you not be interested in language features, since, after all, you write in that language and it&#39;s the single most important thing once you get past <a href="http://en.wikipedia.org/wiki/Accidental_complexity">accidental complexity</a>.</p>
 <p>A part of those projects were written for fun, and others for learning. But many, probably, were written out of necessity. Now when you see a dozen “control flow” libraries that deal with “asynchronous programming” you begin to wonder if this is a serious problem. And it is. If you want to fetch 3 values from a database and print their sum, you need to do something like this:</p>
-
-<pre><code>get_val("foo", function(foo){
-    get_val("bar", function(bar){
-        get_val("baz", function(baz){
+<pre><code>get_val(&quot;foo&quot;, function(foo){
+    get_val(&quot;bar&quot;, function(bar){
+        get_val(&quot;baz&quot;, function(baz){
             print(foo + bar + baz);
         });
     });
 });
 </code></pre>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

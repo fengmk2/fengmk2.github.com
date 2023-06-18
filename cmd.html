@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>常用命令</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,29 +38,21 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>常用命令</h1>
-
-<h2>网络连接数</h2>
-
-<pre><code>bash
-$ netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+<h1 id="常用命令">常用命令</h1>
+<h2 id="网络连接数">网络连接数</h2>
+<pre><code class="language-bash">$ netstat -n | awk &#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&#39;
 
 TIME_WAIT 9
 CLOSE_WAIT 3
 ESTABLISHED 355
 </code></pre>
-
-<h2>监听端口</h2>
-
-<pre><code>bash
-lsof -p $id
+<h2 id="监听端口">监听端口</h2>
+<pre><code class="language-bash">lsof -p $id
+</code></pre>
+<h2 id="最大文件数">最大文件数</h2>
+<pre><code class="language-bash">cat /proc/sys/fs/file-max
 </code></pre>
 
-<h2>最大文件数</h2>
-
-<pre><code>bash
-cat /proc/sys/fs/file-max
-</code></pre>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

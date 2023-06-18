@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>自定义错误</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,25 +38,19 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>自定义错误</h1>
-
-<h2>从前</h2>
-
-<p>大部分情况，我们都是直接 <code>new Error('foo')</code> 来创建一个异常，然后为了有区分度，<br />通常会改变它的 <code>name</code>:</p>
-
-<pre><code>js
-const err = new Error('something wrong');
-err.name = 'RequestError';
+<h1 id="自定义错误">自定义错误</h1>
+<h2 id="从前">从前</h2>
+<p>大部分情况，我们都是直接 <code>new Error(&#39;foo&#39;)</code> 来创建一个异常，然后为了有区分度，
+通常会改变它的 <code>name</code>:</p>
+<pre><code class="language-js">const err = new Error(&#39;something wrong&#39;);
+err.name = &#39;RequestError&#39;;
 
 throw err;
 </code></pre>
-
 <p>会输出以下堆栈信息</p>
-
-<pre><code>js
-RequestError: something wrong
+<pre><code class="language-js">RequestError: something wrong
     at err1 (/Users/mk2/git/fengmk2.github.com/blog/2015/err.js:4:15)
-    at Object.<anonymous> (/Users/mk2/git/fengmk2.github.com/blog/2015/err.js:10:1)
+    at Object.&lt;anonymous&gt; (/Users/mk2/git/fengmk2.github.com/blog/2015/err.js:10:1)
     at Module._compile (module.js:430:26)
     at Object.Module._extensions..js (module.js:448:10)
     at Module.load (module.js:355:32)
@@ -65,6 +59,7 @@ RequestError: something wrong
     at startup (node.js:117:18)
     at node.js:952:3
 </code></pre>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

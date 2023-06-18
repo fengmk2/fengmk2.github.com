@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>max_new_space_size 参数调整</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,32 +38,196 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>max_new_space_size 参数调整</h1>
-
-<p><a href='https://gist.github.com/fengmk2/7395406'>https://gist.github.com/fengmk2/7395406</a></p>
-
-<h2>trace_gc_verbose 按总 gc 时间统计</h2>
-
+<h1 id="max_new_space_size-参数调整">max_new_space_size 参数调整</h1>
+<p><a href="https://gist.github.com/fengmk2/7395406">https://gist.github.com/fengmk2/7395406</a></p>
+<h2 id="trace_gc_verbose-按总-gc-时间统计">trace_gc_verbose 按总 gc 时间统计</h2>
 <p>重点关注 <code>New space</code> 的 <code>available</code> 是否一直在变化, 如果应用超过了这个值, 那么就需要将 <code>max_new_space_size</code> 调大</p>
-
 <p>max_new_space_size 必须按 16MB, 32MB, 64MB, 128MB, 256MB 步长递增才有效.</p>
-
 <pre><code>[8223] New space,          used:      0 KB, available: 131072 KB, committed: 262144 KB
 </code></pre>
-
-<h3>并发2, 压测 15s, node 进程占用内存 135 MB</h3>
-
-<pre><code>$ ./ab -t 15 -c 2 -k '127.0.0.1:7001/'
+<h3 id="并发2-压测-15s-node-进程占用内存-135-mb">并发2, 压测 15s, node 进程占用内存 135 MB</h3>
+<pre><code>$ ./ab -t 15 -c 2 -k &#39;127.0.0.1:7001/&#39;
 </code></pre>
-
-<p>size | gc time | qps | rt<br />--- | --- | --- | ---<br />10240 | 567.5 | 1283.58 | 1.558<br />20480 | 574.7 | 1237.98 | 1.616<br />32768 (默认) | 554.6 | 1236.95 | 1.617<br />65536 | 484.3 | 1291.73 | 1.548<br />81920 | 342.7 | 1341.85 | 1.490<br />92160 | 358.5 | 1263.66 | 1.583<br />102400 | 362.7 | 1308.52 | 1.528<br />122880 | 341.9 | 1301.96 | 1.536<br />153600 | 351.2 | 1256.35 | 1.592<br />204800 | 344.8 | 1256.52 | 1.592</p>
-
-<h3>并发10, 压测 30s, node 进程占用内存 93MB</h3>
-
-<pre><code>$ ./ab -t 30 -c 10 -k '127.0.0.1:7001/'
+<table>
+<thead>
+<tr>
+<th>size</th>
+<th>gc time</th>
+<th>qps</th>
+<th>rt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10240</td>
+<td>567.5</td>
+<td>1283.58</td>
+<td>1.558</td>
+</tr>
+<tr>
+<td>20480</td>
+<td>574.7</td>
+<td>1237.98</td>
+<td>1.616</td>
+</tr>
+<tr>
+<td>32768 (默认)</td>
+<td>554.6</td>
+<td>1236.95</td>
+<td>1.617</td>
+</tr>
+<tr>
+<td>65536</td>
+<td>484.3</td>
+<td>1291.73</td>
+<td>1.548</td>
+</tr>
+<tr>
+<td>81920</td>
+<td>342.7</td>
+<td>1341.85</td>
+<td>1.490</td>
+</tr>
+<tr>
+<td>92160</td>
+<td>358.5</td>
+<td>1263.66</td>
+<td>1.583</td>
+</tr>
+<tr>
+<td>102400</td>
+<td>362.7</td>
+<td>1308.52</td>
+<td>1.528</td>
+</tr>
+<tr>
+<td>122880</td>
+<td>341.9</td>
+<td>1301.96</td>
+<td>1.536</td>
+</tr>
+<tr>
+<td>153600</td>
+<td>351.2</td>
+<td>1256.35</td>
+<td>1.592</td>
+</tr>
+<tr>
+<td>204800</td>
+<td>344.8</td>
+<td>1256.52</td>
+<td>1.592</td>
+</tr>
+</tbody></table>
+<h3 id="并发10-压测-30s-node-进程占用内存-93mb">并发10, 压测 30s, node 进程占用内存 93MB</h3>
+<pre><code>$ ./ab -t 30 -c 10 -k &#39;127.0.0.1:7001/&#39;
 </code></pre>
+<table>
+<thead>
+<tr>
+<th>size</th>
+<th>gc time</th>
+<th>qps</th>
+<th>rt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>20480</td>
+<td>1076.6</td>
+<td>1595.43</td>
+<td>6.268</td>
+</tr>
+<tr>
+<td>25600</td>
+<td>1050.2</td>
+<td>1523.93</td>
+<td>6.562</td>
+</tr>
+<tr>
+<td>30720</td>
+<td>1054.5</td>
+<td>1522.61</td>
+<td>6.568</td>
+</tr>
+<tr>
+<td>32768 (默认)</td>
+<td>1075.7</td>
+<td>1586.33</td>
+<td>6.304</td>
+</tr>
+<tr>
+<td>40960</td>
+<td>1025.1</td>
+<td>1619.56</td>
+<td>6.175</td>
+</tr>
+<tr>
+<td>51200</td>
+<td>932.2</td>
+<td>1562.26</td>
+<td>6.401</td>
+</tr>
+<tr>
+<td>65536</td>
+<td>571.8</td>
+<td>1530.07</td>
+<td>6.536</td>
+</tr>
+<tr>
+<td>81920</td>
+<td>534.0</td>
+<td>1656.32</td>
+<td>6.037</td>
+</tr>
+<tr>
+<td>92160</td>
+<td>536.4</td>
+<td>1560.68</td>
+<td>6.407</td>
+</tr>
+<tr>
+<td>97280 (95MB)</td>
+<td>524.3</td>
+<td>1594.59</td>
+<td>6.271</td>
+</tr>
+<tr>
+<td>102400</td>
+<td>527.8</td>
+<td>1575.34</td>
+<td>6.348</td>
+</tr>
+<tr>
+<td>122880</td>
+<td>537.4</td>
+<td>1586.04</td>
+<td>6.305</td>
+</tr>
+<tr>
+<td>153600</td>
+<td>544.7</td>
+<td>1618.33</td>
+<td>6.179</td>
+</tr>
+<tr>
+<td>204800</td>
+<td>520.4</td>
+<td>1569.66</td>
+<td>6.371</td>
+</tr>
+<tr>
+<td>256000</td>
+<td>519.6</td>
+<td>1552.86</td>
+<td>6.440</td>
+</tr>
+<tr>
+<td>131072</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
 
-<p>size | gc time | qps | rt<br />--- | --- | --- | ---<br />20480 | 1076.6 | 1595.43 | 6.268<br />25600 | 1050.2 | 1523.93 | 6.562<br />30720 | 1054.5 | 1522.61 | 6.568<br />32768 (默认) | 1075.7 | 1586.33 | 6.304<br />40960 | 1025.1 | 1619.56 | 6.175<br />51200 | 932.2 | 1562.26 | 6.401<br />65536 | 571.8 | 1530.07 | 6.536<br />81920 | 534.0 | 1656.32 | 6.037<br />92160 | 536.4 | 1560.68 | 6.407<br />97280 (95MB) | 524.3 | 1594.59 | 6.271<br />102400 | 527.8 | 1575.34 | 6.348<br />122880 | 537.4 | 1586.04 | 6.305<br />153600 | 544.7 | 1618.33 | 6.179<br />204800 | 520.4 | 1569.66 | 6.371<br />256000 | 519.6 | 1552.86 | 6.440<br />131072 | </p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

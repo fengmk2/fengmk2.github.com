@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>nodejs实用示例：缩址还原</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,63 +38,58 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>nodejs实用示例：缩址还原</h1>
-
+<h1 id="nodejs实用示例：缩址还原">nodejs实用示例：缩址还原</h1>
 <p>nodejs最近好红火，我也趁寒冷天气在nodejs的火炉边取暖一下。</p>
-
-<h2>思路非常简单:</h2>
-
+<h2 id="思路非常简单">思路非常简单:</h2>
 <ol>
 <li>httpserver获取需要还原的url；</li>
 <li>使用httpclient递归请求这个url，直到发现http status not in (302, 301)为止。</li>
 <li>返回还原的原url。</li>
 </ol>
-
 <p>好吧，代码如下：</p>
-
-<pre><code>var net = require('net'),
-    http = require('http'),
-    url = require('url'),
-    fs = require('fs');
+<pre><code>var net = require(&#39;net&#39;),
+    http = require(&#39;http&#39;),
+    url = require(&#39;url&#39;),
+    fs = require(&#39;fs&#39;);
 
 var DEFAULT_PORTS = {
-    'http:': 80,
-    'https:': 443
+    &#39;http:&#39;: 80,
+    &#39;https:&#39;: 443
 };
 
-var INDEX_TPL = fs.readFileSync('index.html');
+var INDEX_TPL = fs.readFileSync(&#39;index.html&#39;);
 
 function _write(str, res, content_type) {
     if(res.jsonp_cb) {
-        str = res.jsonp_cb + '("' + str + '")';
+        str = res.jsonp_cb + &#39;(&quot;&#39; + str + &#39;&quot;)&#39;;
     }
     res.writeHead(200, {
-        'Content-Length': str.length,
-        'Content-Type': content_type || 'text/plain'
+        &#39;Content-Length&#39;: str.length,
+        &#39;Content-Type&#39;: content_type || &#39;text/plain&#39;
     });
     res.end(str);
 };
 
 function expand(short_url, res) {
     var info = url.parse(short_url);
-    //  console.log('info: ' + JSON.stringify(info));
-    if(info.protocol != 'http:') { // 无法请求https的url?
+    //  console.log(&#39;info: &#39; + JSON.stringify(info));
+    if(info.protocol != &#39;http:&#39;) { // 无法请求https的url?
         _write(short_url, res);
         return;
     }
     var client = http.createClient(info.port 
         || DEFAULT_PORTS[info.protocol], info.hostname);
-    var path = info.pathname || '/';
+    var path = info.pathname || &#39;/&#39;;
     if(info.search) {
         path += info.search;
     }
     var headers = {
         host: info.hostname,
-        'User-Agent': 'NodejsSpider/1.0'
+        &#39;User-Agent&#39;: &#39;NodejsSpider/1.0&#39;
     };
-    var request = client.request('GET', path, headers);
+    var request = client.request(&#39;GET&#39;, path, headers);
     request.end();
-    request.on('response', function (response) {
+    request.on(&#39;response&#39;, function (response) {
         if(response.statusCode == 302 
             || response.statusCode == 301) {
             expand(response.headers.location, res);
@@ -104,10 +99,10 @@ function expand(short_url, res) {
     }); 
 };
 
-//expand('<a href='http://sinaurl.cn/hbMUII'>http://sinaurl.cn/hbMUII</a>');
+//expand(&#39;http://sinaurl.cn/hbMUII&#39;);
 // http服务
 http.createServer(function(req, res){
-    if(req.url.indexOf('/api?') == 0) {
+    if(req.url.indexOf(&#39;/api?&#39;) == 0) {
         var params = url.parse(req.url, true);
         if(params.query &amp;&amp; params.query.u) {
             if(params.query.cb) { // 支持jsonp跨域请求
@@ -115,33 +110,26 @@ http.createServer(function(req, res){
             }
             expand(params.query.u, res);
         } else {
-            _write('', res);
+            _write(&#39;&#39;, res);
         }
     } else {
-        _write(INDEX_TPL, res, 'text/html');
+        _write(INDEX_TPL, res, &#39;text/html&#39;);
     }
 }).listen(1235);
 
-process.on('uncaughtException', function (err) {
-    console.log('Caught exception: ' + err);
+process.on(&#39;uncaughtException&#39;, function (err) {
+    console.log(&#39;Caught exception: &#39; + err);
 });
 </code></pre>
-
-<h2>启动你的web服务器吧：</h2>
-
+<h2 id="启动你的web服务器吧：">启动你的web服务器吧：</h2>
 <p>$ node urlexpand.js</p>
-
 <p>打开浏览器直接访问:</p>
-
-<p><a href="http://127.0.0.1:1235/api?u=http://is.gd/imWyT"><a href='http://127.0.0.1:1235/api?u=http://is.gd/imWyT'>http://127.0.0.1:1235/api?u=http://is.gd/imWyT</a></a></p>
-
+<p><a href="http://127.0.0.1:1235/api?u=http://is.gd/imWyT">http://127.0.0.1:1235/api?u=http://is.gd/imWyT</a></p>
 <p>或者访问我的测试服务器:</p>
-
-<p><a href="http://s8.hk/api/e?u=http://is.gd/imWyT&amp;cb=foo"><a href='http://s8.hk/api/e?u=http://is.gd/imWyT&amp;cb=foo'>http://s8.hk/api/e?u=http://is.gd/imWyT&amp;cb=foo</a></a></p>
-
-<h3>有爱</h3>
-
+<p><a href="http://s8.hk/api/e?u=http://is.gd/imWyT&amp;cb=foo">http://s8.hk/api/e?u=http://is.gd/imWyT&amp;cb=foo</a></p>
+<h3 id="有爱">有爱</h3>
 <p>希望本文对你有用。^_^ </p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

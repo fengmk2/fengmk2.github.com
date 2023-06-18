@@ -40,7 +40,7 @@ var walker = ndir.walk(root, function (dir, files) {
       if (ext === '.md') {
         var out;
         if (info[0].indexOf('/ppt/') >= 0) {
-          out = mdit.toSlides(info[0]);
+          out = mdit.toSlides(info[0], slideLayout);
         } else if (name === 'index.md') {
           out = mdit.toHTML(info[0], layout);
         } else {

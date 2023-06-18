@@ -6,204 +6,130 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  
+
   <title> Node.js 简介  &amp; 快速开发 Web 产品 </title>
-  
+
   <meta name="description" content="A jQuery library for modern HTML presentations">
   <meta name="author" content="Caleb Troughton">
   <meta name="viewport" content="width=1024, user-scalable=no">
-  
+
   <!-- Core and extension CSS files -->
-  <link rel="stylesheet" href="./deck.js/core/deck.core.css">
-  <link rel="stylesheet" href="./deck.js/extensions/goto/deck.goto.css">
-  <link rel="stylesheet" href="./deck.js/extensions/menu/deck.menu.css">
-  <link rel="stylesheet" href="./deck.js/extensions/navigation/deck.navigation.css">
-  <link rel="stylesheet" href="./deck.js/extensions/status/deck.status.css">
-  <link rel="stylesheet" href="./deck.js/extensions/hash/deck.hash.css">
-  
+  <link rel="stylesheet" href="https://fengmk2.com:9443/ppt/deck.js/core/deck.core.css">
+  <link rel="stylesheet" href="https://fengmk2.com:9443/ppt/deck.js/extensions/goto/deck.goto.css">
+  <link rel="stylesheet" href="https://fengmk2.com:9443/ppt/deck.js/extensions/menu/deck.menu.css">
+  <link rel="stylesheet" href="https://fengmk2.com:9443/ppt/deck.js/extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" href="https://fengmk2.com:9443/ppt/deck.js/extensions/status/deck.status.css">
+  <link rel="stylesheet" href="https://fengmk2.com:9443/ppt/deck.js/extensions/hash/deck.hash.css">
+  <link rel="stylesheet" href="https://fengmk2.com:9443/ppt/style.css">
+
   <!-- Theme CSS files (menu swaps these out) -->
-  <link rel="stylesheet" id="style-theme-link" href="./deck.js/themes/style/neon.css">
-  <link rel="stylesheet" id="transition-theme-link" href="./deck.js/themes/transition/horizontal-slide.css">
-  
-  <!-- Custom CSS just for this page -->
-  <link rel="stylesheet" href="./prettify.css">
-  
-  <script src="./deck.js/modernizr.custom.js"></script>
+  <link rel="stylesheet" id="style-theme-link" href="https://fengmk2.com:9443/ppt/deck.js/themes/style/neon.css">
+  <link rel="stylesheet" id="transition-theme-link" href="https://fengmk2.com:9443/ppt/deck.js/themes/transition/horizontal-slide.css">
+
+  <link rel="stylesheet" href="https://fengmk2.com:9443/css/prettify.css" />
+  <script src="https://registry.npmmirror.com/jquery/1/files/dist/jquery.min.js"></script>
+  <script src="https://fengmk2.com:9443/js/prettify.js"></script>
+  <script src="https://fengmk2.com:9443/ppt/deck.js/modernizr.custom.js"></script>
 </head>
 
 <body class="deck-container">
 
 
-<section class="slide"><h1>Node.js 简介 <br>&amp; 快速开发 Web 产品</h1>
-
+<section class="slide"><h1 id="nodejs-简介--快速开发-web-产品">Node.js 简介 <br>&amp; 快速开发 Web 产品</h1>
 </section>
 
-<section class="slide">
-<h2>Who am I?我是谁？</h2>
-
-<h3>Alibaba Data EDP</h3>
-
-<h3>阿里巴巴数据平台EDP，花名@苏千</h3>
-
-<h3>Chinese nodejs community: <a href="http://cnodejs.org">cnodejs.org</a></h3>
-
+<section class="slide"><h2 id="who-am-i我是谁？">Who am I?我是谁？</h2>
+<h3 id="alibaba-data-edp">Alibaba Data EDP</h3>
+<h3 id="阿里巴巴数据平台edp，花名苏千">阿里巴巴数据平台EDP，花名@苏千</h3>
+<h3 id="chinese-nodejs-community-cnodejsorg">Chinese nodejs community: <a href="http://cnodejs.org">cnodejs.org</a></h3>
 <hr/>
 
-<h3>npm: <a href="http://cnpmjs.org/~fengmk2">cnpmjs.org/~fengmk2</a></h3>
-
-<h3>Github: @<a href="https://github.com/fengmk2/">fengmk2</a></h3>
-
-<h3>Blog: <a href='http://fengmk2.github.com'>http://fengmk2.github.com</a></h3>
-
-<h3>Twitter: @fengmk2</h3>
-
-<h3>Weibo: @Python发烧友 , @FaWave</h3>
-
+<h3 id="npm-cnpmjsorgfengmk2">npm: <a href="http://cnpmjs.org/~fengmk2">cnpmjs.org/~fengmk2</a></h3>
+<h3 id="github-fengmk2">Github: @<a href="https://github.com/fengmk2/">fengmk2</a></h3>
+<h3 id="blog-httpfengmk2githubcom">Blog: <a href="http://fengmk2.github.com">http://fengmk2.github.com</a></h3>
+<h3 id="twitter-fengmk2">Twitter: @fengmk2</h3>
+<h3 id="weibo-python发烧友--fawave">Weibo: @Python发烧友 , @FaWave</h3>
 </section>
 
-<section class="slide">
-<h2>内容简介</h2>
-
-<h3>* 简单介绍 Node.js 的历史以及现状</h3>
-
-<h3>* 以一个实用的Web小应用介绍基于 Node.js 的Web开发过程</h3>
-
+<section class="slide"><h2 id="内容简介">内容简介</h2>
+<h3 id="-简单介绍-nodejs-的历史以及现状">* 简单介绍 Node.js 的历史以及现状</h3>
+<h3 id="-以一个实用的web小应用介绍基于-nodejs-的web开发过程">* 以一个实用的Web小应用介绍基于 Node.js 的Web开发过程</h3>
 </section>
 
-<section class="slide">
-<h1>Node.js 简介</h1>
-
+<section class="slide"><h1 id="nodejs-简介">Node.js 简介</h1>
 </section>
 
-<section class="slide">
-<h2>什么是 Node.js</h2>
-
-<p><img src="http://nfs.nodeblog.org/6/f/6f9650b7769cbb4972cd96d766d5eeae.png" alt="1" title="" /></p>
-
+<section class="slide"><h2 id="什么是-nodejs">什么是 Node.js</h2>
+<p><img src="http://nfs.nodeblog.org/6/f/6f9650b7769cbb4972cd96d766d5eeae.png" alt="1"></p>
 </section>
 
-<section class="slide">
-<h2>Node.js</h2>
-
-<h3>* 09年发布, 最新稳定版本 v0.10.26</h3>
-
-<h3>* <a href="https://github.com/search?q=stars%3A%3E1&amp;s=stars&amp;type=Repositories">github stars 排名第三</a></h3>
-
-<p><img src="http://nfs.nodeblog.org/6/3/63e8007e08f9e6dfd09db51aac97889b.png" alt="1" title="" /></p>
-
+<section class="slide"><h2 id="nodejs">Node.js</h2>
+<h3 id="-09年发布-最新稳定版本-v01026">* 09年发布, 最新稳定版本 v0.10.26</h3>
+<h3 id="-github-stars-排名第三">* <a href="https://github.com/search?q=stars%3A%3E1&amp;s=stars&amp;type=Repositories">github stars 排名第三</a></h3>
+<p><img src="http://nfs.nodeblog.org/6/3/63e8007e08f9e6dfd09db51aac97889b.png" alt="1"></p>
 </section>
 
-<section class="slide">
-<h2>Node.js 最常被提起的特性</h2>
-
-<h3>* 基于 google v8 引擎 (快速)</h3>
-
-<h3>* 事件驱动 (不同的编程思维)</h3>
-
-<h3>* ⾮阻塞I/O (⾼高效)</h3>
-
-<h3>* 单线程 (模型简单, ⽆锁)</h3>
-
+<section class="slide"><h2 id="nodejs-最常被提起的特性">Node.js 最常被提起的特性</h2>
+<h3 id="-基于-google-v8-引擎-快速">* 基于 google v8 引擎 (快速)</h3>
+<h3 id="-事件驱动-不同的编程思维">* 事件驱动 (不同的编程思维)</h3>
+<h3 id="-⾮阻塞io-⾼高效">* ⾮阻塞I/O (⾼高效)</h3>
+<h3 id="-单线程-模型简单-⽆锁">* 单线程 (模型简单, ⽆锁)</h3>
 </section>
 
-<section class="slide">
-<h2>事件循环</h2>
-
-<p><img src="http://nfs.nodeblog.org/5/5/553bd798d3a37e03e8673c64eec65772.png" alt="1" title="" /></p>
-
+<section class="slide"><h2 id="事件循环">事件循环</h2>
+<p><img src="http://nfs.nodeblog.org/5/5/553bd798d3a37e03e8673c64eec65772.png" alt="1"></p>
 </section>
 
-<section class="slide">
-<h2>NPM: Node Packaged Modules</h2>
-
-<h3>* 超过 64000+ 个模块</h3>
-
-<h3>* 跟随 Node.js 源码分发的包管理⼯工具</h3>
-
-<h3>* 精简的 Node.js 内核的丰富扩展</h3>
-
-<p><img src="http://nfs.nodeblog.org/6/4/645c4646334f3bf7820bbd3425e406cc.png" alt="1" title="" /></p>
-
+<section class="slide"><h2 id="npm-node-packaged-modules">NPM: Node Packaged Modules</h2>
+<h3 id="-超过-64000-个模块">* 超过 64000+ 个模块</h3>
+<h3 id="-跟随-nodejs-源码分发的包管理⼯工具">* 跟随 Node.js 源码分发的包管理⼯工具</h3>
+<h3 id="-精简的-nodejs-内核的丰富扩展">* 精简的 Node.js 内核的丰富扩展</h3>
+<p><img src="http://nfs.nodeblog.org/6/4/645c4646334f3bf7820bbd3425e406cc.png" alt="1"></p>
 </section>
 
-<section class="slide">
-<h2>NPM 模块数量增长惊人</h2>
-
-<p><img src="http://nfs.nodeblog.org/8/9/892d741f1ad854b770971162f3460a5d.png" alt="1" title="" /></p>
-
+<section class="slide"><h2 id="npm-模块数量增长惊人">NPM 模块数量增长惊人</h2>
+<p><img src="http://nfs.nodeblog.org/8/9/892d741f1ad854b770971162f3460a5d.png" alt="1"></p>
 </section>
 
-<section class="slide">
-<h2>谁在使用 Node.js?</h2>
-
+<section class="slide"><h2 id="谁在使用-nodejs">谁在使用 Node.js?</h2>
 <p><a href="http://strongloop.com/developers/node-js-infographic/">Learn More About The Node Community</a></p>
-
-<p><img src="http://nfs.nodeblog.org/7/6/76192204b967eeba29527e29fce8b2a7.png" alt="1" title="" /></p>
-
+<p><img src="http://nfs.nodeblog.org/7/6/76192204b967eeba29527e29fce8b2a7.png" alt="1"></p>
 </section>
 
-<section class="slide">
-<h1>Node.js 到底能干吗?</h1>
-
+<section class="slide"><h1 id="nodejs-到底能干吗">Node.js 到底能干吗?</h1>
 </section>
 
-<section class="slide">
-<h2>服务器端</h2>
-
-<h3>* Web 服务</h3>
-
-<h4>* restful API 服务</h4>
-
-<h4>* 前后端彻底分离的web前端服务</h4>
-
-<h4>* 全栈 web 应⽤</h4>
-
-<h3>* ⾼性能中间层</h3>
-
-<h3>* ⾼实时性应⽤用(游戏服务器/在线聊天室)</h3>
-
+<section class="slide"><h2 id="服务器端">服务器端</h2>
+<h3 id="-web-服务">* Web 服务</h3>
+<h4 id="-restful-api-服务">* restful API 服务</h4>
+<h4 id="-前后端彻底分离的web前端服务">* 前后端彻底分离的web前端服务</h4>
+<h4 id="-全栈-web-应⽤">* 全栈 web 应⽤</h4>
+<h3 id="-⾼性能中间层">* ⾼性能中间层</h3>
+<h3 id="-⾼实时性应⽤用游戏服务器在线聊天室">* ⾼实时性应⽤用(游戏服务器/在线聊天室)</h3>
 </section>
 
-<section class="slide">
-<h2>服务器端</h2>
-
-<p><img src="http://nfs.nodeblog.org/5/3/533a53f41638877434108b76a0a21a62.png" alt="1" title="" /></p>
-
+<section class="slide"><h2 id="服务器端-1">服务器端</h2>
+<p><img src="http://nfs.nodeblog.org/5/3/533a53f41638877434108b76a0a21a62.png" alt="1"></p>
 </section>
 
-<section class="slide">
-<h2>前端工具</h2>
-
-<p><img src="http://nfs.nodeblog.org/0/8/0885c2a70669b92f59c2c53c5dc57ce3.png" alt="1" title="" /></p>
-
+<section class="slide"><h2 id="前端工具">前端工具</h2>
+<p><img src="http://nfs.nodeblog.org/0/8/0885c2a70669b92f59c2c53c5dc57ce3.png" alt="1"></p>
 </section>
 
-<section class="slide">
-<h2>更多领域</h2>
-
-<p><img src="http://nfs.nodeblog.org/6/3/63e3774bec0ae6a3a4237a471803af12.png" alt="1" title="" /></p>
-
+<section class="slide"><h2 id="更多领域">更多领域</h2>
+<p><img src="http://nfs.nodeblog.org/6/3/63e3774bec0ae6a3a4237a471803af12.png" alt="1"></p>
 </section>
 
-<section class="slide">
-<h2>Node.js 简介小结</h2>
-
-<h3>* Node.js 还在飞速发展中</h3>
-
-<h3>* Node.js 不仅仅能做服务端开发, 还能做你没想象到的</h3>
-
-<h3>* 等待你开启人生的第一个 node 进程</h3>
-
+<section class="slide"><h2 id="nodejs-简介小结">Node.js 简介小结</h2>
+<h3 id="-nodejs-还在飞速发展中">* Node.js 还在飞速发展中</h3>
+<h3 id="-nodejs-不仅仅能做服务端开发-还能做你没想象到的">* Node.js 不仅仅能做服务端开发, 还能做你没想象到的</h3>
+<h3 id="-等待你开启人生的第一个-node-进程">* 等待你开启人生的第一个 node 进程</h3>
 </section>
 
-<section class="slide">
-<h1>什么是 Web 开发</h1>
-
+<section class="slide"><h1 id="什么是-web-开发">什么是 Web 开发</h1>
 </section>
 
-<section class="slide">
-<h2>Web开发</h2>
-
+<section class="slide"><h2 id="web开发">Web开发</h2>
 <ul>
 <li>HTTP</li>
 <li>Request</li>
@@ -214,101 +140,65 @@
 <li>Template Engine</li>
 <li>DataBase</li>
 </ul>
-
 </section>
 
-<section class="slide">
-<h1>Why Nodejs?</h1>
-
+<section class="slide"><h1 id="why-nodejs">Why Nodejs?</h1>
 </section>
 
-<section class="slide">
-<h2>IO密集型</h2>
-
-<h3>* 磁盘IO：读写文件</h3>
-
-<h3>* 网络IO：数据库，Cache，Services</h3>
-
-<h3>* 进程：进程通信，进程调用</h3>
-
+<section class="slide"><h2 id="io密集型">IO密集型</h2>
+<h3 id="-磁盘io：读写文件">* 磁盘IO：读写文件</h3>
+<h3 id="-网络io：数据库，cache，services">* 网络IO：数据库，Cache，Services</h3>
+<h3 id="-进程：进程通信，进程调用">* 进程：进程通信，进程调用</h3>
 </section>
 
-<section class="slide">
-<h2>V8有多快？</h2>
-
-<p><img src="http://nfs.nodeblog.org/e/c/eca1b2026c120772533318553454c7c6.png" alt="fibonacci" title="" /></p>
-
+<section class="slide"><h2 id="v8有多快？">V8有多快？</h2>
+<p><img src="http://nfs.nodeblog.org/e/c/eca1b2026c120772533318553454c7c6.png" alt="fibonacci"></p>
 <ul>
 <li><a href="http://fengmk2.github.com/blog/2011/fibonacci/nodejs-python-php-ruby-lua.html">fibonacci(40) benchmark</a></li>
 </ul>
-
 </section>
 
-<section class="slide">
-<h2>高楼平地起: Hello World</h2>
-
+<section class="slide"><h2 id="高楼平地起-hello-world">高楼平地起: Hello World</h2>
 <p><a href="https://github.com/fengmk2/nodejs-web-dev/blob/master/helloworld.js">helloworld.js</a></p>
-
-<pre><code>js
-var http = require('http');
+<pre><code class="language-js">var http = require(&#39;http&#39;);
 http.createServer(function (req, res) {
-  console.log('%s %s : %j', req.method, req.url, req.headers);
-  req.on('end', function () {
-    res.writeHeader(200, { 'Content-Type': 'text/html' });
-    res.end('Hello QCon Hangzhou');
+  console.log(&#39;%s %s : %j&#39;, req.method, req.url, req.headers);
+  req.on(&#39;end&#39;, function () {
+    res.writeHeader(200, { &#39;Content-Type&#39;: &#39;text/html&#39; });
+    res.end(&#39;Hello QCon Hangzhou&#39;);
   });
 }).listen(1984);
 </code></pre>
-
 <hr/>
 
-<h3>Event driven: req.<code>on</code>(<code>'end'</code>, function () {})</h3>
-
+<h3 id="event-driven-reqonend-function--">Event driven: req.<code>on</code>(<code>&#39;end&#39;</code>, function () {})</h3>
 </section>
 
-<section class="slide">
-<h2>看看得到什么</h2>
-
-<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dy32hus4ipj.jpg" alt="hello world result" title="" /></p>
-
+<section class="slide"><h2 id="看看得到什么">看看得到什么</h2>
+<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dy32hus4ipj.jpg" alt="hello world result"></p>
 </section>
 
-<section class="slide">
-<h2>console.log()</h2>
+<section class="slide"><h2 id="consolelog">console.log()</h2>
+<pre><code class="language-bash">$ node helloworld.js
 
-<pre><code>bash
-$ node helloworld.js
+GET / : {&quot;host&quot;:&quot;localhost.cnodejs.org:1984&quot;,&quot;connection&quot;:&quot;keep-alive&quot;,&quot;cache-control&quot;:&quot;max-age=0&quot;,&quot;user-agent&quot;:&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/537.4&quot;,&quot;accept&quot;:&quot;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&quot;,&quot;accept-encoding&quot;:&quot;gzip,deflate,sdch&quot;,&quot;accept-language&quot;:&quot;zh-CN,zh;q=0.8,en;q=0.6,en-US;q=0.4&quot;,&quot;accept-charset&quot;:&quot;GBK,utf-8;q=0.7,*;q=0.3&quot;}
 
-GET / : {"host":"localhost.cnodejs.org:1984","connection":"keep-alive","cache-control":"max-age=0","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/537.4","accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","accept-encoding":"gzip,deflate,sdch","accept-language":"zh-CN,zh;q=0.8,en;q=0.6,en-US;q=0.4","accept-charset":"GBK,utf-8;q=0.7,*;q=0.3"}
-
-GET /favicon.ico : {"host":"localhost.cnodejs.org:1984","connection":"keep-alive","accept":"*/*","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/537.4","accept-encoding":"gzip,deflate,sdch","accept-language":"zh-CN,zh;q=0.8,en;q=0.6,en-US;q=0.4","accept-charset":"GBK,utf-8;q=0.7,*;q=0.3"}
+GET /favicon.ico : {&quot;host&quot;:&quot;localhost.cnodejs.org:1984&quot;,&quot;connection&quot;:&quot;keep-alive&quot;,&quot;accept&quot;:&quot;*/*&quot;,&quot;user-agent&quot;:&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/537.4&quot;,&quot;accept-encoding&quot;:&quot;gzip,deflate,sdch&quot;,&quot;accept-language&quot;:&quot;zh-CN,zh;q=0.8,en;q=0.6,en-US;q=0.4&quot;,&quot;accept-charset&quot;:&quot;GBK,utf-8;q=0.7,*;q=0.3&quot;}
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h1>说笑吧，太简单了吧</h1>
-
+<section class="slide"><h1 id="说笑吧，太简单了吧">说笑吧，太简单了吧</h1>
 </section>
 
-<section class="slide">
-<h2>Simple todo</h2>
-
+<section class="slide"><h2 id="simple-todo">Simple todo</h2>
 <p>使用 <a href="https://github.com/rvagg/node-levelup"><code>leveldb</code></a> 存储，快速实现最简单的两个功能:</p>
-
-<h3>* 添加任务</h3>
-
-<h3>* 显示任务</h3>
-
-<h3>* 完成任务</h3>
-
+<h3 id="-添加任务">* 添加任务</h3>
+<h3 id="-显示任务">* 显示任务</h3>
+<h3 id="-完成任务">* 完成任务</h3>
 </section>
 
-<section class="slide">
-<h2>目录结构</h2>
-
-<pre><code>bash
-$ tree -I node_modules
+<section class="slide"><h2 id="目录结构">目录结构</h2>
+<pre><code class="language-bash">$ tree -I node_modules
 .
 ├── Makefile
 ├── README.md
@@ -346,150 +236,102 @@ $ tree -I node_modules
     └── task
         └── edit.html
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2>package.json</h2>
-
-<h3>使用 npm init 生成项目的 package.json</h3>
-
-<pre><code>bash
-$ npm init
+<section class="slide"><h2 id="packagejson">package.json</h2>
+<h3 id="使用-npm-init-生成项目的-packagejson">使用 npm init 生成项目的 package.json</h3>
+<pre><code class="language-bash">$ npm init
 </code></pre>
-
-<h2>使用强大的第三方模块加速开发效率</h2>
-
-<h3>依赖模块:</h3>
-
-<pre><code>json
-  "dependencies": {
-    "utility": "0.1.11",
-    "connect": "2.6.0", // web server, static files hosting
-    "urlrouter": "0.2.3", // url routing
-    "connect-render": "0.1.7", // ejs template engine helper
-    "level": "0.18.0" // leveldb client
+<h2 id="使用强大的第三方模块加速开发效率">使用强大的第三方模块加速开发效率</h2>
+<h3 id="依赖模块">依赖模块:</h3>
+<pre><code class="language-json">  &quot;dependencies&quot;: {
+    &quot;utility&quot;: &quot;0.1.11&quot;,
+    &quot;connect&quot;: &quot;2.6.0&quot;, // web server, static files hosting
+    &quot;urlrouter&quot;: &quot;0.2.3&quot;, // url routing
+    &quot;connect-render&quot;: &quot;0.1.7&quot;, // ejs template engine helper
+    &quot;level&quot;: &quot;0.18.0&quot; // leveldb client
   }
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2>主页面效果</h2>
-
-<h3>HTML + CSS，服务器端使用 <a href="https://github.com/visionmedia/ejs">ejs</a> 模板引擎渲染</h3>
-
-<p><img src="http://ww4.sinaimg.cn/large/6cfc7910jw1dy3aj29sgyj.jpg" alt="index page" title="" /></p>
-
+<section class="slide"><h2 id="主页面效果">主页面效果</h2>
+<h3 id="html--css，服务器端使用-ejs-模板引擎渲染">HTML + CSS，服务器端使用 <a href="https://github.com/visionmedia/ejs">ejs</a> 模板引擎渲染</h3>
+<p><img src="http://ww4.sinaimg.cn/large/6cfc7910jw1dy3aj29sgyj.jpg" alt="index page"></p>
 </section>
 
-<section class="slide">
-<h2>主页面 URL Routing</h2>
-
-<h3>URL路由简单明了</h3>
-
-<pre><code>js
-var home = require('./controllers/home');
-// HTTP GET / => home controller
-app.get('/', home);
+<section class="slide"><h2 id="主页面-url-routing">主页面 URL Routing</h2>
+<h3 id="url路由简单明了">URL路由简单明了</h3>
+<pre><code class="language-js">var home = require(&#39;./controllers/home&#39;);
+// HTTP GET / =&gt; home controller
+app.get(&#39;/&#39;, home);
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2>Home Controller</h2>
-
-<pre><code>js
-module.exports = function home(req, res, next) {
-  res.render('index.html', {
+<section class="slide"><h2 id="home-controller">Home Controller</h2>
+<pre><code class="language-js">module.exports = function home(req, res, next) {
+  res.render(&#39;index.html&#39;, {
     tasks: [] // 稍后会增加数据库逻辑
   });
 };
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2><code>index.html</code> 模板</h2>
-
-<pre><code>html
-
-<div class="box todos">
-  <h2 class="box">待办事项</h2>
-  <ul>
-    <% for (var i = 0; i < tasks.length; i++) {
+<section class="slide"><h2 id="indexhtml-模板"><code>index.html</code> 模板</h2>
+<pre><code class="language-html">&lt;div class=&quot;box todos&quot;&gt;
+  &lt;h2 class=&quot;box&quot;&gt;待办事项&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;% for (var i = 0; i &lt; tasks.length; i++) {
       var task = tasks[i];
-      var classname = task.finished ? 'class="finished"' : '';
-    %>
-      <li <%- classname %>>
-        <% if (!task.finished) { %>
-          <%= task.title %>
-          &nbsp;
-          <a href="/task/<%- task.id %>/finish">完成</a>
-        <% } else { %>
-          <del><%= task.title %></del>
-          &nbsp;
-          <a href="/task/<%- task.id %>/unfinish">恢复</a>
-        <% } %>
-      </li>
-    <% } %>
-  </ul>
-</div>
-
+      var classname = task.finished ? &#39;class=&quot;finished&quot;&#39; : &#39;&#39;;
+    %&gt;
+      &lt;li &lt;%- classname %&gt;&gt;
+        &lt;% if (!task.finished) { %&gt;
+          &lt;%= task.title %&gt;
+          &amp;nbsp;
+          &lt;a href=&quot;/task/&lt;%- task.id %&gt;/finish&quot;&gt;完成&lt;/a&gt;
+        &lt;% } else { %&gt;
+          &lt;del&gt;&lt;%= task.title %&gt;&lt;/del&gt;
+          &amp;nbsp;
+          &lt;a href=&quot;/task/&lt;%- task.id %&gt;/unfinish&quot;&gt;恢复&lt;/a&gt;
+        &lt;% } %&gt;
+      &lt;/li&gt;
+    &lt;% } %&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2>静态文件服务</h2>
-
-<h3>直接使用 <a href="https://github.com/senchalabs/connect">connect</a> 的 static 中间件模块</h3>
-
-<pre><code>js
-app.use('/public',
-  connect.static(path.join(__dirname, 'public')));
+<section class="slide"><h2 id="静态文件服务">静态文件服务</h2>
+<h3 id="直接使用-connect-的-static-中间件模块">直接使用 <a href="https://github.com/senchalabs/connect">connect</a> 的 static 中间件模块</h3>
+<pre><code class="language-js">app.use(&#39;/public&#39;,
+  connect.static(path.join(__dirname, &#39;public&#39;)));
 </code></pre>
-
-<h3>CSS，图片，客户端脚本</h3>
-
-<pre><code>html
-<link href="/public/styles/reset.css" rel="stylesheet" type="text/css" />
-<link href="/public/styles/index/style.css" rel="stylesheet" type="text/css" />
+<h3 id="css，图片，客户端脚本">CSS，图片，客户端脚本</h3>
+<pre><code class="language-html">&lt;link href=&quot;/public/styles/reset.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+&lt;link href=&quot;/public/styles/index/style.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2>添加任务</h2>
+<section class="slide"><h2 id="添加任务">添加任务</h2>
+<h3 id="url路由配置">URL路由配置</h3>
+<pre><code class="language-js">var task = require(&#39;./controllers/task&#39;);
 
-<h3>URL路由配置</h3>
-
-<pre><code>js
-var task = require('./controllers/task');
-
-app.post('/task', task.add);
+app.post(&#39;/task&#39;, task.add);
 </code></pre>
-
-<h3>HTML模板及CSRF保护</h3>
-
-<pre><code>html
-  <div class="box post">
-    <h2>新增</h2>
-    <form action="/task" method="post" id="post_new">
-      <input type="hidden" name="_csrf" value="<%- _csrf %>" />
-      <p><input type="text" name="title" class="long_txt" /></p>
-      <p><input type="submit" class="submit" value="添加" /></p>
-    </form>
-  </div>
+<h3 id="html模板及csrf保护">HTML模板及CSRF保护</h3>
+<pre><code class="language-html">  &lt;div class=&quot;box post&quot;&gt;
+    &lt;h2&gt;新增&lt;/h2&gt;
+    &lt;form action=&quot;/task&quot; method=&quot;post&quot; id=&quot;post_new&quot;&gt;
+      &lt;input type=&quot;hidden&quot; name=&quot;_csrf&quot; value=&quot;&lt;%- _csrf %&gt;&quot; /&gt;
+      &lt;p&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot; class=&quot;long_txt&quot; /&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;input type=&quot;submit&quot; class=&quot;submit&quot; value=&quot;添加&quot; /&gt;&lt;/p&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2>添加任务 controller 实现代码</h2>
-
-<pre><code>js
-var Task = require('../proxy/task');
+<section class="slide"><h2 id="添加任务-controller-实现代码">添加任务 controller 实现代码</h2>
+<pre><code class="language-js">var Task = require(&#39;../proxy/task&#39;);
 
 exports.add = function (req, res, next) {
   var title = req.body.title;
@@ -499,56 +341,41 @@ exports.add = function (req, res, next) {
       return next(err);
     }
     res.writeHeader(302, {
-      Location: '/'
+      Location: &#39;/&#39;
     });
     res.end();
   });
 };
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2>在主页面上显示刚才添加的任务</h2>
-
-<pre><code>js
-var Task = require('../proxy/task');
+<section class="slide"><h2 id="在主页面上显示刚才添加的任务">在主页面上显示刚才添加的任务</h2>
+<pre><code class="language-js">var Task = require(&#39;../proxy/task&#39;);
 
 module.exports = function home(req, res, next) {
   Task.list(function (err, tasks) {
     if (err) {
       return next(err);
     }
-    res.render('index.html', {
+    res.render(&#39;index.html&#39;, {
       tasks: tasks
     });
   });
 };
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2>添加任务效果</h2>
-
-<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dy3drrvbboj.jpg" alt="add task" title="" /></p>
-
+<section class="slide"><h2 id="添加任务效果">添加任务效果</h2>
+<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dy3drrvbboj.jpg" alt="add task"></p>
 </section>
 
-<section class="slide">
-<h2>完成任务</h2>
-
-<h3>URL Routing</h3>
-
-<pre><code>js
-// GET /task/50843cf924438a2dfa000001/finish
-app.get('/task/(:id)/finish', task.finish);
+<section class="slide"><h2 id="完成任务">完成任务</h2>
+<h3 id="url-routing">URL Routing</h3>
+<pre><code class="language-js">// GET /task/50843cf924438a2dfa000001/finish
+app.get(&#39;/task/(:id)/finish&#39;, task.finish);
 </code></pre>
-
-<h3>controller 实现代码</h3>
-
-<pre><code>js
-exports.finish = function (req, res, next) {
+<h3 id="controller-实现代码">controller 实现代码</h3>
+<pre><code class="language-js">exports.finish = function (req, res, next) {
   var tid = req.params.id; // mapping from url
   var task = { finished: 1, updated_at: new Date() };
   Task.updateById(tid, task, function (err, item) {
@@ -556,90 +383,57 @@ exports.finish = function (req, res, next) {
       return next(err);
     }
     res.writeHeader(302, {
-      Location: '/'
+      Location: &#39;/&#39;
     });
     res.end();
   });
 };
 </code></pre>
-
 </section>
 
-<section class="slide">
-<h2>整体效果</h2>
-
-<p><img src="http://ww3.sinaimg.cn/large/6cfc7910jw1dy3cyzeczlj.jpg" alt="todo2" title="" /></p>
-
+<section class="slide"><h2 id="整体效果">整体效果</h2>
+<p><img src="http://ww3.sinaimg.cn/large/6cfc7910jw1dy3cyzeczlj.jpg" alt="todo2"></p>
 </section>
 
-<section class="slide">
-<h2>Talk is cheap</h2>
-
-<h3>删除任务，编辑任务，用户系统...，剩余的功能，等你来完成。</h3>
-
-<h2>“自己动手，丰衣足食”</h2>
-
-<h3>fork <a href="https://github.com/fengmk2/nodejs-web-dev/tree/master/todo/connect">github.com/fengmk2/nodejs-web-dev</a>, then do it.</h3>
-
+<section class="slide"><h2 id="talk-is-cheap">Talk is cheap</h2>
+<h3 id="删除任务，编辑任务，用户系统，剩余的功能，等你来完成。">删除任务，编辑任务，用户系统...，剩余的功能，等你来完成。</h3>
+<h2 id="自己动手，丰衣足食">“自己动手，丰衣足食”</h2>
+<h3 id="fork-githubcomfengmk2nodejs-web-dev-then-do-it">fork <a href="https://github.com/fengmk2/nodejs-web-dev/tree/master/todo/connect">github.com/fengmk2/nodejs-web-dev</a>, then do it.</h3>
 </section>
 
-<section class="slide">
-<h1>应用展示</h1>
-
+<section class="slide"><h1 id="应用展示">应用展示</h1>
 </section>
 
-<section class="slide">
-<h2>淘宝指数</h2>
-
-<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dy3d4ac0kpj.jpg" alt="shu" title="" /></p>
-
+<section class="slide"><h2 id="淘宝指数">淘宝指数</h2>
+<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dy3d4ac0kpj.jpg" alt="shu"></p>
 </section>
 
-<section class="slide">
-<h2>数据魔方</h2>
-
-<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dy3d6a73rfj.jpg" alt="mofang" title="" /></p>
-
+<section class="slide"><h2 id="数据魔方">数据魔方</h2>
+<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dy3d6a73rfj.jpg" alt="mofang"></p>
 </section>
 
-<section class="slide">
-<h2>内部 NPM Web</h2>
-
-<p><img src="http://ww4.sinaimg.cn/large/6cfc7910jw1dy3v4d0zs1j.jpg" alt="npmweb" title="" /></p>
-
+<section class="slide"><h2 id="内部-npm-web">内部 NPM Web</h2>
+<p><img src="http://ww4.sinaimg.cn/large/6cfc7910jw1dy3v4d0zs1j.jpg" alt="npmweb"></p>
 </section>
 
-<section class="slide">
-<h2>CNodejs 社区</h2>
-
-<p><img src="http://ww3.sinaimg.cn/large/6cfc7910jw1dy3d9uzu1yj.jpg" alt="cnode" title="" /></p>
-
+<section class="slide"><h2 id="cnodejs-社区">CNodejs 社区</h2>
+<p><img src="http://ww3.sinaimg.cn/large/6cfc7910jw1dy3d9uzu1yj.jpg" alt="cnode"></p>
 </section>
 
-<section class="slide">
-<h2>cnpmjs.org</h2>
-
-<p><img src="http://nfs.nodeblog.org/f/3/f378cb0295a229eac2531b5a4bdd7786.png" alt="cnpmjs.org" title="" /></p>
-
+<section class="slide"><h2 id="cnpmjsorg">cnpmjs.org</h2>
+<p><img src="http://nfs.nodeblog.org/f/3/f378cb0295a229eac2531b5a4bdd7786.png" alt="cnpmjs.org"></p>
 </section>
 
-<section class="slide">
-<h2>推荐资源</h2>
-
-<h3>* <a href="http://www.nodebeginner.org/">The Node Beginner Book</a>, 中文版: <a href="http://www.nodebeginner.org/index-zh-cn.html">Node入门</a></h3>
-
-<h3>* @朴灵 <a href="http://book.douban.com/subject/25768396/">深入浅出Node.js</a></h3>
-
-<h3>* <a href="http://nqdeng.github.io/7-days-nodejs/">七天学会NodeJS</a></h3>
-
-<h3>* <a href="http://strongloop.com/strongblog/">StrongLoop blog</a> 绝对是 Node.js 最新知识的权威博客</h3>
-
+<section class="slide"><h2 id="推荐资源">推荐资源</h2>
+<h3 id="-the-node-beginner-book-中文版-node入门">* <a href="http://www.nodebeginner.org/">The Node Beginner Book</a>, 中文版: <a href="http://www.nodebeginner.org/index-zh-cn.html">Node入门</a></h3>
+<h3 id="-朴灵-深入浅出nodejs">* @朴灵 <a href="http://book.douban.com/subject/25768396/">深入浅出Node.js</a></h3>
+<h3 id="-七天学会nodejs">* <a href="http://nqdeng.github.io/7-days-nodejs/">七天学会NodeJS</a></h3>
+<h3 id="-strongloop-blog-绝对是-nodejs-最新知识的权威博客">* <a href="http://strongloop.com/strongblog/">StrongLoop blog</a> 绝对是 Node.js 最新知识的权威博客</h3>
 </section>
 
-<section class="slide">
-<p><a href="http://fengmk2.github.com/ppt/nodejs-web-dev.html"><a href='http://fengmk2.github.com/ppt/nodejs-web-dev.html'>http://fengmk2.github.com/ppt/nodejs-web-dev.html</a></a></p>
-
-<h1>web.emit(<code>'Thanks'</code>) <br/>&amp;&amp;<br/> console.log(<code>'end'</code>);</h1></section>
+<section class="slide"><p><a href="http://fengmk2.github.com/ppt/nodejs-web-dev.html">http://fengmk2.github.com/ppt/nodejs-web-dev.html</a></p>
+<h1 id="webemitthanks--consolelogend">web.emit(<code>&#39;Thanks&#39;</code>) <br/>&amp;&amp;<br/> console.log(<code>&#39;end&#39;</code>);</h1>
+</section>
 
 
 <p class="deck-status">
@@ -657,18 +451,13 @@ exports.finish = function (req, res, next) {
 
 <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
 
-
-<!-- Grab CDN jQuery, with a protocol relative URL; fall back to local if offline -->
-<script>window.jQuery || document.write('<script src="./deck.js/jquery-1.7.min.js"><\/script>')</script>
-<script src="./prettify.js"></script>
-
 <!-- Deck Core and extensions -->
-<script src="./deck.js/core/deck.core.js"></script>
-<script src="./deck.js/extensions/hash/deck.hash.js"></script>
-<script src="./deck.js/extensions/menu/deck.menu.js"></script>
-<script src="./deck.js/extensions/goto/deck.goto.js"></script>
-<script src="./deck.js/extensions/status/deck.status.js"></script>
-<script src="./deck.js/extensions/navigation/deck.navigation.js"></script>
+<script src="https://fengmk2.com:9443/ppt/deck.js/core/deck.core.js"></script>
+<script src="https://fengmk2.com:9443/ppt/deck.js/extensions/hash/deck.hash.js"></script>
+<script src="https://fengmk2.com:9443/ppt/deck.js/extensions/menu/deck.menu.js"></script>
+<script src="https://fengmk2.com:9443/ppt/deck.js/extensions/goto/deck.goto.js"></script>
+<script src="https://fengmk2.com:9443/ppt/deck.js/extensions/status/deck.status.js"></script>
+<script src="https://fengmk2.com:9443/ppt/deck.js/extensions/navigation/deck.navigation.js"></script>
 
 <!-- Specific to this page -->
 <script>

@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>Movement.js</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,30 +38,20 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Movement.js</h1>
-
+<p>#Movement.js</p>
 <p>Movement.js is library for recognition of basic gestures using JavaScript and HTML5. Demo videos can be found <a href="https://www.youtube.com/watch?v=0_yfU_iNUYo">here</a> and <a href="https://www.youtube.com/watch?v=7C0D2CkD3pc">here</a>.</p>
-
-<h1>How to use it?</h1>
-
+<p>#How to use it?</p>
 <p>You can initialize it by:</p>
-
 <pre><code>Movement.init(callbacks);
 </code></pre>
-
 <p>The <code>callbacks</code> object can contain the following callbacks:</p>
-
 <ul>
 <li><code>movementChanged</code> - callback which will be invoked when the user gesture is changed.</li>
 <li><code>positionChanged</code> - callback which will be invoked when the user change his position in the visible area.</li>
 </ul>
-
 <p>Both callbacks accept a single argument the new callback/movement.</p>
-
-<h3>List of movements</h3>
-
+<p>###List of movements</p>
 <p>This is list of all gestures which Movement.js can currently recognize:</p>
-
 <ul>
 <li><code>STAND</code></li>
 <li><code>LEFT_ARM_UP</code></li>
@@ -74,41 +64,33 @@
 <li><code>EMPTY</code></li>
 <li><code>RIGHT_LEG_UP</code></li>
 </ul>
-
 <p>All movements are located in the namespace <code>Movement.movements</code>.</p>
-
-<h3>List of positions</h3>
-
+<p>###List of positions</p>
 <p>This is list of all positions which Movement.js supports currently:</p>
-
 <ul>
 <li><code>LEFT</code></li>
 <li><code>RIGHT</code></li>
 <li><code>MIDDLE</code></li>
 <li><code>EMPTY</code></li>
 </ul>
-
 <p>All positions are located in the namespace <code>Movement.positions</code>.</p>
-
-<h3>Example</h3>
-
+<p>###Example</p>
 <pre><code>Movement.init({
     positionChanged: function (pos) {
         if (pos === Movement.positions.LEFT) {
-            console.log('You\'re in the left part of the visible zone');
+            console.log(&#39;You\&#39;re in the left part of the visible zone&#39;);
         }
     },
     movementChanged: function (mov) {
         if (mov === Movement.movements.RIGHT_LEG_UP) {
-            console.log('You\'re kicking?');
+            console.log(&#39;You\&#39;re kicking?&#39;);
         }
     }
 });
 </code></pre>
-
-<h1>License</h1>
-
+<p>#License</p>
 <p>This software is distributed under the terms of the MIT license.</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

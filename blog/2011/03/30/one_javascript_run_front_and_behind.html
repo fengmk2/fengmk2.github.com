@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>nodejs: 真正的一份代码，到处运行</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,156 +38,66 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>nodejs: 真正的一份代码，到处运行</h1>
-
-<h2>现状: 冗余</h2>
-
+<h1 id="nodejs-真正的一份代码，到处运行">nodejs: 真正的一份代码，到处运行</h1>
+<h2 id="现状-冗余">现状: 冗余</h2>
 <p>在web开发中，我们是否常常会使用不同的编程语言实现相同的功能？</p>
-
 <p>如一个文件上传功能，需要对上传文件进行文件格式限制。我们通常会使用后缀名做限制。</p>
-
-<h3>前端</h3>
-
+<h3 id="前端">前端</h3>
 <p>为了用户体验，会在页面对用户选择的文件进行判断，合法才让用户可以上传。</p>
-
 <pre><code>function is_filetype(filename, types) {
-    types = types.split(',');
-    var pattern = '\.(';
+    types = types.split(&#39;,&#39;);
+    var pattern = &#39;\.(&#39;;
     for(var i=0; i&lt;types.length; i++) {
         if(0 != i) {
-            pattern += '|';
+            pattern += &#39;|&#39;;
         }
         pattern += types[i].trim();
     }
-    pattern += ')
-
-<h2>Comments</h2>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-</div> <!-- #content -->
-
-<div id="footer">
-</div> <!-- #footer -->
-
-</div> <!-- #wrapper -->
-
-<a href="https://github.com/fengmk2" id="fork">
-  <img alt="Fork me on GitHub" src="./images//forkme_right_green.png">
-</a>
-
-<!-- Specific to this page -->
-<script>
-$(function() {
-  $('pre code').parent().addClass('prettyprint');
-  prettyPrint();
-});
-</script>
-</body>
-</html>
-;
-    return new RegExp(pattern, 'i').test(filename);
+    pattern += &#39;)#content##39;;
+    return new RegExp(pattern, &#39;i&#39;).test(filename);
 };
 
 // 此处省略N行代码
-if(!is_filetype($('#uploadfile').val(), 'doc,pdf,txt,wps,odf,md,png,gif,jpg')){
+if(!is_filetype($(&#39;#uploadfile&#39;).val(), &#39;doc,pdf,txt,wps,odf,md,png,gif,jpg&#39;)){
     can_submit = false; // 不允许上传
-    $('#uploadfile').val('');
-    alert('只允许上传: ' + constant.RESUME_FILETYPES);
+    $(&#39;#uploadfile&#39;).val(&#39;&#39;);
+    alert(&#39;只允许上传: &#39; + constant.RESUME_FILETYPES);
 }
 // 此处省略N行代码
 </code></pre>
-
-<h3>后端</h3>
-
-<p>由于担心恶意上传，无法避免地需要重新对用户上传的文件进行判断。<br />于是我又用python写了一个判断文件后缀的逻辑</p>
-
+<h3 id="后端">后端</h3>
+<p>由于担心恶意上传，无法避免地需要重新对用户上传的文件进行判断。
+于是我又用python写了一个判断文件后缀的逻辑</p>
 <pre><code>import re
 
 def is_filetype(filename, types):
-    types = types.split(',')
-    pattern = '\.(' + '|'.join([t.strip() for t in types]) + ')
-
-<h2>Comments</h2>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-</div> <!-- #content -->
-
-<div id="footer">
-</div> <!-- #footer -->
-
-</div> <!-- #wrapper -->
-
-<a href="https://github.com/fengmk2" id="fork">
-  <img alt="Fork me on GitHub" src="./images//forkme_right_green.png">
-</a>
-
-<!-- Specific to this page -->
-<script>
-$(function() {
-  $('pre code').parent().addClass('prettyprint');
-  prettyPrint();
-});
-</script>
-</body>
-</html>
-;
+    types = types.split(&#39;,&#39;)
+    pattern = &#39;\.(&#39; + &#39;|&#39;.join([t.strip() for t in types]) + &#39;)#content##39;;
     return re.search(pattern, filename, re.I) != None
 
 # web request handler
 # 此处省略N行代码
 </code></pre>
-
-<h3>导致这样重复工作的原因是为什么？</h3>
-
+<h3 id="导致这样重复工作的原因是为什么？">导致这样重复工作的原因是为什么？</h3>
 <ol>
 <li>前端永远不可信；</li>
 <li>前端和后端使用不同的编程语言；</li>
 </ol>
-
-<h3>这样的冗余会带来什么代价？</h3>
-
+<h3 id="这样的冗余会带来什么代价？">这样的冗余会带来什么代价？</h3>
 <ol>
 <li>修改业务逻辑，需要重复做2次：如突然发现少支持了 <em>docx</em> 文件类型，需要同时修改javascript代码和python代码</li>
 <li>增加确保javascript代码和python代码业务逻辑一致的代价。需要分别写2种测试，unit test跑多一倍。</li>
 </ol>
-
-<h2>nodejs时代：DRY</h2>
-
+<h2 id="nodejs时代：dry">nodejs时代：DRY</h2>
 <p>Use <a href="http://nodejs.org">nodejs</a> no more <a href="http://c2.com/cgi/wiki?DontRepeatYourself">DRY</a> !</p>
-
-<h3>一份代码，前端后端同时运行</h3>
-
+<h3 id="一份代码，前端后端同时运行">一份代码，前端后端同时运行</h3>
 <pre><code>// constant.js
 (function(exports){
-
-exports.RESUME_FILETYPES = 'doc,docx,pdf,txt,wps,odf,md,png,gif,jpg';
+    
+exports.RESUME_FILETYPES = &#39;doc,docx,pdf,txt,wps,odf,md,png,gif,jpg&#39;;
 
 })( (function(){
-    if(typeof exports === 'undefined') {
+    if(typeof exports === &#39;undefined&#39;) {
         window.constant = {};
         return window.constant;
     } else {
@@ -205,7 +115,7 @@ exports.RESUME_FILETYPES = 'doc,docx,pdf,txt,wps,odf,md,png,gif,jpg';
  * @api public
  */
 String.prototype.trim = function(){ 
-    return this.replace(/(^\s*)|(\s*$)/g, ""); 
+    return this.replace(/(^\s*)|(\s*$)/g, &quot;&quot;); 
 };
 
 /**
@@ -217,57 +127,20 @@ String.prototype.trim = function(){
  * @api public
  */
 var is_filetype = exports.is_filetype = function(filename, types) {
-    types = types.split(',');
-    var pattern = '\.(';
+    types = types.split(&#39;,&#39;);
+    var pattern = &#39;\.(&#39;;
     for(var i=0; i&lt;types.length; i++) {
         if(0 != i) {
-            pattern += '|';
+            pattern += &#39;|&#39;;
         }
         pattern += types[i].trim();
     }
-    pattern += ')
-
-<h2>Comments</h2>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'fengmk2github'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-</div> <!-- #content -->
-
-<div id="footer">
-</div> <!-- #footer -->
-
-</div> <!-- #wrapper -->
-
-<a href="https://github.com/fengmk2" id="fork">
-  <img alt="Fork me on GitHub" src="./images//forkme_right_green.png">
-</a>
-
-<!-- Specific to this page -->
-<script>
-$(function() {
-  $('pre code').parent().addClass('prettyprint');
-  prettyPrint();
-});
-</script>
-</body>
-</html>
-;
-    return new RegExp(pattern, 'i').test(filename);
+    pattern += &#39;)#content##39;;
+    return new RegExp(pattern, &#39;i&#39;).test(filename);
 };
 
 })( (function(){
-    if(typeof exports === 'undefined') {
+    if(typeof exports === &#39;undefined&#39;) {
         window.util = {};
         return window.util;
     } else {
@@ -275,31 +148,27 @@ $(function() {
     }
 })() );
 </code></pre>
-
-<h3>前端</h3>
-
-<pre><code>&lt;script src="/js/util.js"&gt;&lt;/script&gt;
-&lt;script src="/js/constant.js"&gt;&lt;/script&gt;
+<h3 id="前端-1">前端</h3>
+<pre><code>&lt;script src=&quot;/js/util.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/js/constant.js&quot;&gt;&lt;/script&gt;
 
 // 此处省略N行代码
-if(!util.is_filetype($('#uploadfile').val(), constant.RESUME_FILETYPES)){
+if(!util.is_filetype($(&#39;#uploadfile&#39;).val(), constant.RESUME_FILETYPES)){
     can_submit = false; // 不允许上传
-    $('#uploadfile').val('');
-    alert('只允许上传: ' + constant.RESUME_FILETYPES);
+    $(&#39;#uploadfile&#39;).val(&#39;&#39;);
+    alert(&#39;只允许上传: &#39; + constant.RESUME_FILETYPES);
 }
 // 此处省略N行代码
 </code></pre>
-
-<h3>后端</h3>
-
-<pre><code>var util = require('./public/js/util.js'),
-    constant = require('./public/js/constant.js');
-app.post('/resume/upload/:job_id', function(req, res, next){
+<h3 id="后端-1">后端</h3>
+<pre><code>var util = require(&#39;./public/js/util.js&#39;),
+    constant = require(&#39;./public/js/constant.js&#39;);
+app.post(&#39;/resume/upload/:job_id&#39;, function(req, res, next){
     req.form.complete(function(err, fields, files){
         if(!util.is_filetype(filepath, constant.RESUME_FILETYPES)) {
             // 由于客户端已做判断，所以这样的情况都是恶意上传的，直接提示
-            res.send('文件格式错误: ' + filepath 
-                + ' , 请上传' + constant.RESUME_FILETYPES + '格式的文件');
+            res.send(&#39;文件格式错误: &#39; + filepath 
+                + &#39; , 请上传&#39; + constant.RESUME_FILETYPES + &#39;格式的文件&#39;);
             return;
         }
         // save file ... 
@@ -307,19 +176,15 @@ app.post('/resume/upload/:job_id', function(req, res, next){
     });
 });
 </code></pre>
-
 <p>wow，没冗余了吧！done</p>
-
-<h2>其他常用场景</h2>
-
+<h2 id="其他常用场景">其他常用场景</h2>
 <ul>
 <li>常量定义</li>
 <li>各种有用的工具模块，如字符串操作</li>
 </ul>
-
-<h2>有爱</h2>
-
+<h2 id="有爱">有爱</h2>
 <p>^_^ 希望本文对你有帮助</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

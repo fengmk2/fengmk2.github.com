@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>Node.js 处理 GBK 编码模板</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,71 +38,58 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Node.js 处理 GBK 编码模板</h1>
-
-<h2>字符串基本原则</h2>
-
+<h1 id="nodejs-处理-gbk-编码模板">Node.js 处理 GBK 编码模板</h1>
+<h2 id="字符串基本原则">字符串基本原则</h2>
 <p>如果你需要对非 UTF8 编码的文本进行处理，如 GBK 编码的，那么我们只有遵循以下原则处理就ok：</p>
-
-<pre><code>js
-fs.readFile(filepath, cb)
-  => GBK encoding Buffer
-    => iconv decode gbk
-      => utf8 js String
-        => 处理String
-          => iconv encode gbk
-            => GBK encoding Buffer
-              => send to client
+<pre><code class="language-js">fs.readFile(filepath, cb)
+  =&gt; GBK encoding Buffer
+    =&gt; iconv decode gbk
+      =&gt; utf8 js String
+        =&gt; 处理String
+          =&gt; iconv encode gbk
+            =&gt; GBK encoding Buffer
+              =&gt; send to client
 </code></pre>
-
 <p>如果你只需要将 GBK 编码的文本直接输出，那么就不需要转换，直接将 GBK 编码的 Buffer 输出即可.</p>
-
 <pre><code>res.send(gbkBuffer);
 </code></pre>
-
-<h2>示例</h2>
-
+<h2 id="示例">示例</h2>
 <p>将 GBK 模板文件进行简单处理，能按 UTF8 和 GBK 两种编码选择输出.</p>
-
 <p>@see <a href="https://github.com/fengmk2/fengmk2.github.com/tree/master/blog/2014/iconv-lite/app.js">app.js</a></p>
-
-<pre><code>js
-var connect = require('connect');
-var fs = require('fs');
-var path = require('path');
-var iconv = require('iconv-lite');
+<pre><code class="language-js">var connect = require(&#39;connect&#39;);
+var fs = require(&#39;fs&#39;);
+var path = require(&#39;path&#39;);
+var iconv = require(&#39;iconv-lite&#39;);
 
 var app = connect();
 
-var filepath = path.join(__dirname, 'index.html');
+var filepath = path.join(__dirname, &#39;index.html&#39;);
 var content = fs.readFileSync(filepath);
 
 app.use(function (req, res) {
-  var s = iconv.decode(content, 'gbk');
-  if (req.url === '/utf8') {
-    res.setHeader('Content-Type', 'text/html; charset=utf8');
-    s = s.replace('<title>淘宝网 - 淘！我喜欢</title>', '<title>淘宝网 - 淘！我喜欢 UTF8</title>')
-      .replace('<meta charset="gbk">', '<meta charset="utf8">')
-      .replace('你好啊', '你好啊 UTF8');
+  var s = iconv.decode(content, &#39;gbk&#39;);
+  if (req.url === &#39;/utf8&#39;) {
+    res.setHeader(&#39;Content-Type&#39;, &#39;text/html; charset=utf8&#39;);
+    s = s.replace(&#39;&lt;title&gt;淘宝网 - 淘！我喜欢&lt;/title&gt;&#39;, &#39;&lt;title&gt;淘宝网 - 淘！我喜欢 UTF8&lt;/title&gt;&#39;)
+      .replace(&#39;&lt;meta charset=&quot;gbk&quot;&gt;&#39;, &#39;&lt;meta charset=&quot;utf8&quot;&gt;&#39;)
+      .replace(&#39;你好啊&#39;, &#39;你好啊 UTF8&#39;);
     // show utf8 page
     return res.end(s);
   }
 
   // show gbk page
-  res.setHeader('Content-Type', 'text/html; charset=gbk');
-  s = s.replace('<title>淘宝网 - 淘！我喜欢</title>', '<title>淘宝网 - 淘！我喜欢 GBK</title>')
-      .replace('你好啊', '你好啊 GBK');
-  res.end(iconv.encode(s, 'gbk'));
+  res.setHeader(&#39;Content-Type&#39;, &#39;text/html; charset=gbk&#39;);
+  s = s.replace(&#39;&lt;title&gt;淘宝网 - 淘！我喜欢&lt;/title&gt;&#39;, &#39;&lt;title&gt;淘宝网 - 淘！我喜欢 GBK&lt;/title&gt;&#39;)
+      .replace(&#39;你好啊&#39;, &#39;你好啊 GBK&#39;);
+  res.end(iconv.encode(s, &#39;gbk&#39;));
 });
 
 app.listen(1984);
 </code></pre>
-
-<h2>有爱</h2>
-
+<h2 id="有爱">有爱</h2>
 <p>希望本文对你有用.</p>
+<p><a href="http://fengmk2.github.io/blog/2014/iconv-lite/iconv-lite.html">http://fengmk2.github.io/blog/2014/iconv-lite/iconv-lite.html</a></p>
 
-<p><a href='http://fengmk2.github.io/blog/2014/iconv-lite/iconv-lite.html'>http://fengmk2.github.io/blog/2014/iconv-lite/iconv-lite.html</a></p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

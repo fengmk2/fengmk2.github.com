@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>NodeBlog v0.1.0发布</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,12 +38,9 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>NodeBlog v0.1.0发布</h1>
-
-<p><a href="https://github.com/fengmk2/nodeblog">NodeBlog</a>:<a href='http://nodeblog.org/'>http://nodeblog.org/</a> 是一个基于<a href="nodejs.org">node.js</a>的开源博客程序。</p>
-
-<h2>Features</h2>
-
+<h1 id="nodeblog-v010发布">NodeBlog v0.1.0发布</h1>
+<p><a href="https://github.com/fengmk2/nodeblog">NodeBlog</a>:<a href="http://nodeblog.org/">http://nodeblog.org/</a> 是一个基于<a href="nodejs.org">node.js</a>的开源博客程序。</p>
+<h2 id="features">Features</h2>
 <ul>
 <li>Write, Read, List, Search blog.</li>
 <li>Comments</li>
@@ -55,9 +52,7 @@
 <li>Speed</li>
 <li>Support MetaWeblog API Sync</li>
 </ul>
-
-<h2>Requirements</h2>
-
+<h2 id="requirements">Requirements</h2>
 <ul>
 <li><a href="http://www.xmlsoft.org/">libxml2</a>, libxml2-devel</li>
 <li><a href="http://nodejs.org/">node.js</a></li>
@@ -65,40 +60,31 @@
 <li><a href="http://www.scons.org/">scons</a> (for building)</li>
 <li><a href="http://www.mongodb.org/">mongodb</a></li>
 </ul>
-
-<h3>Ubuntu</h3>
-
+<h3 id="ubuntu">Ubuntu</h3>
 <pre><code>$ sudo apt-get install libxml2 libxml2-dev scons mongodb
 </code></pre>
-
-<h3>CentOS</h3>
-
+<h3 id="centos">CentOS</h3>
 <pre><code>$ sudo yum install libxml2 libxml2-devel 
 
 # install scons
-$ wget <a href='http://prdownloads.sourceforge.net/scons/scons-2.1.0.alpha.20101125.tar.gz'>http://prdownloads.sourceforge.net/scons/scons-2.1.0.alpha.20101125.tar.gz</a>
+$ wget http://prdownloads.sourceforge.net/scons/scons-2.1.0.alpha.20101125.tar.gz
 $ cd scons-2.1.0.alpha.20101125
 $ sudo python setup.py install
 
 # install mongodb
-# see: <a href='http://www.mongodb.org/display/DOCS/CentOS+and+Fedora+Packages'>http://www.mongodb.org/display/DOCS/CentOS+and+Fedora+Packages</a>
+# see: http://www.mongodb.org/display/DOCS/CentOS+and+Fedora+Packages
 </code></pre>
-
-<h2>Node Modules Install</h2>
-
+<h2 id="node-modules-install">Node Modules Install</h2>
 <pre><code>$ sudo npm install express express-resource weibo metaweblog mongoose github-flavored-markdown
 </code></pre>
-
-<h2>Install NodeBlog</h2>
-
+<h2 id="install-nodeblog">Install NodeBlog</h2>
 <pre><code>$ git clone git://github.com/fengmk2/nodeblog.git
 $ git submodule init
 $ git submodule update
 </code></pre>
+<h2 id="demo">Demo</h2>
+<p><a href="http://nodeblog.org/">http://nodeblog.org/</a></p>
 
-<h2>Demo</h2>
-
-<p><a href='http://nodeblog.org/'>http://nodeblog.org/</a></p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>Javascript benchmarks</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,23 +38,17 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Javascript benchmarks</h1>
-
-<h2>Cycles</h2>
-
-<pre><code>bash
-for (var i = 0; i < l; i++) x 5,127,763 ops/sec ±0.56% (92 runs sampled)
+<h1 id="javascript-benchmarks">Javascript benchmarks</h1>
+<h2 id="cycles">Cycles</h2>
+<pre><code class="language-bash">for (var i = 0; i &lt; l; i++) x 5,127,763 ops/sec ±0.56% (92 runs sampled)
 for (var i = l; i--;) x 4,079,602 ops/sec ±3.47% (87 runs sampled)
-while (i++ < l) x 4,236,812 ops/sec ±0.46% (92 runs sampled)
+while (i++ &lt; l) x 4,236,812 ops/sec ±0.46% (92 runs sampled)
 while (i--) x 4,219,540 ops/sec ±0.52% (92 runs sampled)
 Array.forEach() x 447,358 ops/sec ±0.78% (90 runs sampled)
-Fastest is for (var i = 0; i < l; i++)
+Fastest is for (var i = 0; i &lt; l; i++)
 </code></pre>
-
-<h2>String trim()</h2>
-
-<pre><code>bash
-trim0() x 42,355 ops/sec ±4.61% (80 runs sampled)
+<h2 id="string-trim">String trim()</h2>
+<pre><code class="language-bash">trim0() x 42,355 ops/sec ±4.61% (80 runs sampled)
 trim1() x 3,328 ops/sec ±1.12% (92 runs sampled)
 trim2() x 3,366 ops/sec ±0.68% (91 runs sampled)
 trim3() x 1,725 ops/sec ±3.23% (81 runs sampled)
@@ -69,6 +63,7 @@ trim11() x 21,244 ops/sec ±0.77% (90 runs sampled)
 trim12() x 21,206 ops/sec ±0.90% (66 runs sampled)
 Fastest is trim0()
 </code></pre>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

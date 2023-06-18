@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>mk2 git flow</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,53 +38,33 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>mk2 git flow</h1>
-
-<h2>必须先设置你在当前项目的用户名和邮箱</h2>
-
-<pre><code>bash
-cd yourprojectdir/
-git config user.name "苏千"
-git config user.email "<a href='mailto:suqian.yf@taobao.com'>suqian.yf@taobao.com</a>"
+<h1 id="mk2-git-flow">mk2 git flow</h1>
+<h2 id="必须先设置你在当前项目的用户名和邮箱">必须先设置你在当前项目的用户名和邮箱</h2>
+<pre><code class="language-bash">cd yourprojectdir/
+git config user.name &quot;苏千&quot;
+git config user.email &quot;suqian.yf@taobao.com&quot;
 </code></pre>
-
-<h2>(衍合)rebase before branch merge to master</h2>
-
-<p><img src="http://git-scm.com/figures/18333fig0328-tn.png" alt="http://git-scm.com/figures/18333fig0328-tn.png" title="" /></p>
-
+<h2 id="衍合rebase-before-branch-merge-to-master">(衍合)rebase before branch merge to master</h2>
+<p><img src="http://git-scm.com/figures/18333fig0328-tn.png" alt="http://git-scm.com/figures/18333fig0328-tn.png"></p>
 <p>当发现branch无法让master 快进合并的时候，需要在分支上进行一次对master的rebase</p>
-
-<pre><code>bash
-$ git checkout mybranch
+<pre><code class="language-bash">$ git checkout mybranch
 $ git rebase origin/master
 </code></pre>
-
 <p>这样，解决分支与主干代码冲突的责任，将由分支提交人来解决。</p>
-
 <p>复杂的rebase</p>
-
-<p><img src="http://git-scm.com/figures/18333fig0331-tn.png" alt="http://git-scm.com/figures/18333fig0331-tn.png" title="" /></p>
-
+<p><img src="http://git-scm.com/figures/18333fig0331-tn.png" alt="http://git-scm.com/figures/18333fig0331-tn.png"></p>
 <p>需要将 client 分支合并到 master</p>
-
 <p>“取出 client 分支，找出 client 分支和 server 分支的共同祖先之后的变化，然后把它们在 master 上重演一遍”</p>
-
-<pre><code>bash
-$ git checkout client
+<pre><code class="language-bash">$ git checkout client
 $ git rebase --onto master server client
 </code></pre>
-
-<p><img src="http://git-scm.com/figures/18333fig0332-tn.png" alt="http://git-scm.com/figures/18333fig0332-tn.png" title="" /></p>
-
-<h3>衍合的风险</h3>
-
+<p><img src="http://git-scm.com/figures/18333fig0332-tn.png" alt="http://git-scm.com/figures/18333fig0332-tn.png"></p>
+<h3 id="衍合的风险">衍合的风险</h3>
 <p>奇妙的衍合也并非完美无缺，要用它得遵守一条准则：</p>
-
-<p><code>"一旦分支中的提交对象发布到公共仓库，就千万不要对该分支进行衍合操作。"</code></p>
-
+<p><code>&quot;一旦分支中的提交对象发布到公共仓库，就千万不要对该分支进行衍合操作。&quot;</code></p>
 <p>如果把衍合当成一种在推送之前清理提交历史的手段，而且仅仅衍合那些尚未公开的提交对象，就没问题。如果衍合那些已经公开的提交对象，并且已经有人基于这些提交对象开展了后续开发工作的话，就会出现叫人沮丧的麻烦。</p>
-
 <p>如果已经提交分支到远端，那么需要rebase的话，必须在rebase后，重新提交到新的分支，避免影响原有分支。</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

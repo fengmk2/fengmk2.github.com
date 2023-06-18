@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>vi Learn on the road</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,10 +38,8 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>vi Learn on the road</h1>
-
-<h2>vim config file</h2>
-
+<h1 id="vi-learn-on-the-road">vi Learn on the road</h1>
+<h2 id="vim-config-file">vim config file</h2>
 <pre><code># .vimrc config by me
 set expandtab 
 set tabstop=4
@@ -49,38 +47,38 @@ set shiftwidth=4
 set nonumber
 set smarttab
 </code></pre>
-
-<p>k up l right j down h right;<br />space right;<br />G move cursor to header of end line of file; </p>
-
+<p>k up l right j down h right;
+space right;
+G move cursor to header of end line of file; </p>
 <pre><code>function foo(abc){
-    console.log('hello world');
+    console.log(&#39;hello world&#39;);
 };
 </code></pre>
-
 <p>u undo last change; U undo all changes to entire line;</p>
-
-<p>dd delete current cursor line.<br />3dd delete next 3 lines;<br />D delete contents of line after cursor;<br />C delete contents of line after cursor and insert;</p>
-
-<p>dw delete word<br />cw change word<br />x delete char at curosr. </p>
-
-<p>R Overwrite char form cursor onward;<br />s Substitute entire line<br />abc on right</p>
-
+<p>dd delete current cursor line.
+3dd delete next 3 lines;
+D delete contents of line after cursor;
+C delete contents of line after cursor and insert;</p>
+<p>dw delete word
+cw change word
+x delete char at curosr. </p>
+<p>R Overwrite char form cursor onward;
+s Substitute entire line
+abc on right</p>
 <pre><code>function a(){
     function() {
-        console.log('hello world');
+        console.log(&#39;hello world&#39;);
     }
 }
 
 :r !date
 2011年 04月 01日 星期五 20:52:55 CST
 </code></pre>
-
 <p>查找当前单词</p>
-
 <pre><code>:s/\t/    /g
 </code></pre>
-
 <p>replace tab to 4 space in current line.(how to replace all?)</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

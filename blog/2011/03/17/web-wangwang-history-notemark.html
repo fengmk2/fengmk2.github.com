@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>web旺旺技术变迁的一些笔记痕迹</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,22 +38,14 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>web旺旺技术变迁的一些笔记痕迹</h1>
-
-<h2>如何确定一个连接？</h2>
-
+<h1 id="web旺旺技术变迁的一些笔记痕迹">web旺旺技术变迁的一些笔记痕迹</h1>
+<h2 id="如何确定一个连接？">如何确定一个连接？</h2>
 <p>这是一个很有价值而又让人无法一下子得出答案的问题：</p>
-
 <p>答：原ip，原端口，目的ip，目的端口。</p>
-
-<h2>TCP状态</h2>
-
+<h2 id="tcp状态">TCP状态</h2>
 <p>结合TCP各个状态的转换图，来看看Linux的TCP调优参数及说明：</p>
-
-<p><img src="http://pic002.cnblogs.com/images/2011/18546/2011031710365593.jpg" alt="TCP各个状态的转换图" title="" /></p>
-
-<h2>Linux的TCP调优参数及说明</h2>
-
+<p><img src="http://pic002.cnblogs.com/images/2011/18546/2011031710365593.jpg" alt="TCP各个状态的转换图"></p>
+<h2 id="linux的tcp调优参数及说明">Linux的TCP调优参数及说明</h2>
 <pre><code>//向外连接可用端口范围
 echo “1024 65535” &gt; /proc/sys/net/ipv4/ip_local_port_range
 //time_wait连接重用
@@ -87,10 +79,9 @@ PS:
 增加到/etc/rc.local文件,系统重新引导的时候会自动修改
 */
 </code></pre>
-
-<h3>有爱</h3>
-
+<h3 id="有爱">有爱</h3>
 <p>^_^ 非常感谢这样的分享会，受益良多啊！</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

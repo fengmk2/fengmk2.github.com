@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>Flags:</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,11 +38,20 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Flags:</h1>
+<h1 id="flags">Flags:</h1>
+<p><code>--nouse-idle-notification</code>: 
+does not disable automatic GC in V8. 
+What it does is tells V8 not to perform GC actions (be it advance the sweeper, 
+incremental marker or do a full GC) 
+in response to IdleNotifications that embedder (node.js in this 
+case) sends to V8. If V8 sees fit (e.g. on allocation failure) it 
+<em>will</em> perform it and you can&#39;t disable that. Calling gc() force a 
+full non-incremental collection which is much more expensive than (and 
+is quite different from) from incremental collections that V8 tries to 
+use during the normal run of your program. 
+<a href="https://groups.google.com/forum/#!topic/nodejs/BO6JdYi4n2k%5B1-25%5D">link</a></p>
+<p>&quot;In our experience, disabling idle notification is all good and no bad.  This seems like something that would make a reasonable default change.&quot;</p>
 
-<p><code>--nouse-idle-notification</code>: <br />does not disable automatic GC in V8. <br />What it does is tells V8 not to perform GC actions (be it advance the sweeper, <br />incremental marker or do a full GC) <br />in response to IdleNotifications that embedder (node.js in this <br />case) sends to V8. If V8 sees fit (e.g. on allocation failure) it <br /><em>will</em> perform it and you can't disable that. Calling gc() force a <br />full non-incremental collection which is much more expensive than (and <br />is quite different from) from incremental collections that V8 tries to <br />use during the normal run of your program. <br /><a href="https://groups.google.com/forum/#!topic/nodejs/BO6JdYi4n2k%5B1-25%5D">link</a></p>
-
-<p>"In our experience, disabling idle notification is all good and no bad.  This seems like something that would make a reasonable default change."</p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

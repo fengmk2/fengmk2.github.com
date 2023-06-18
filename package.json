@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "connect": "2",
-    "mdit": "^0.0.1",
+    "mdit": "^1.0.1",
     "ndir": "^0.1.5"
   },
   "readmeFilename": "README.html"

@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>tenjin - 号称全球最快的模板引擎</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,12 +38,9 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>tenjin - 号称全球最快的模板引擎</h1>
-
-<p>Tenjin, "Tenjin is a very fast and full-featured template engine available in several script languages."</p>
-
+<h1 id="tenjin---号称全球最快的模板引擎">tenjin - 号称全球最快的模板引擎</h1>
+<p>Tenjin, &quot;Tenjin is a very fast and full-featured template engine available in several script languages.&quot;</p>
 <p>官方的测试结果： 也快得太夸张了</p>
-
 <pre><code>MacOS X 10.4 Tiger, Intel CoreDuo 1.83GHz, Memory 2GB
     Language    Template Engine Test#1(sec) Test#2(sec)
     Python(2.5.1)   pyTenjin (0.6.1)    6.96    5.61
@@ -67,11 +64,8 @@
     Java(JDK5)  Velocity (1.4)  22.80   11.41
     Velocity (1.5)  20.01   8.42
 </code></pre>
-
 <p>这样一来，就可以做到在web端和浏览器端使用相同的模板语法了.</p>
-
 <p>python的例子:</p>
-
 <pre><code>&lt;html&gt;
   &lt;body&gt;
     &lt;h1&gt;${title}&lt;/h1&gt;
@@ -79,8 +73,8 @@
 &lt;?py i = 0 ?&gt;
 &lt;?py for item in items: ?&gt;
 &lt;?py     i += 1 ?&gt;
-&lt;?py     color = i % 2 == 0 and '#FFCCCC' or '#CCCCFF' ?&gt;
-      &lt;tr bgcolor="#{color}"&gt;
+&lt;?py     color = i % 2 == 0 and &#39;#FFCCCC&#39; or &#39;#CCCCFF&#39; ?&gt;
+      &lt;tr bgcolor=&quot;#{color}&quot;&gt;
         &lt;td&gt;#{i}&lt;/td&gt;
         &lt;td&gt;${item}&lt;/td&gt;
       &lt;/tr&gt;
@@ -94,8 +88,8 @@ javascript的例子:
     &lt;h1&gt;${title}&lt;/h1&gt;
     &lt;table&gt;
 &lt;?js for (var i = 0, n = items.length; i &lt; n; i++) { ?&gt;
-&lt;?js    var color = i % 2 == 1 ? '#FFCCCC' : '#CCCCFF'; ?&gt;
-      &lt;tr bgcolor="#{color}"&gt;
+&lt;?js    var color = i % 2 == 1 ? &#39;#FFCCCC&#39; : &#39;#CCCCFF&#39;; ?&gt;
+      &lt;tr bgcolor=&quot;#{color}&quot;&gt;
         &lt;td&gt;#{i+1}&lt;/td&gt;
         &lt;td&gt;${items[i]}&lt;/td&gt;
       &lt;/tr&gt;
@@ -104,8 +98,8 @@ javascript的例子:
   &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-
 <p>希望本文介绍的内容对你有用! ^_^</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

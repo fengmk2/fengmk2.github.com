@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>fibonacci(40) benchmark</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,14 +38,12 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>fibonacci(40) benchmark</h1>
-
-<p><a href="http://teddziuba.com/2011/10/node-js-is-cancer.html">Node.js is Cancer</a> show a wrong way to use nodejs.<br />But the test code <strong><a href="http://en.wikipedia.org/wiki/Fibonacci">Fibonacci</a></strong> is so funny.<br />I implement the <strong>fibonacci function</strong> in other <strong><a href="http://en.wikipedia.org/wiki/Dynamic_programming_language">Dynamic Languages</a></strong> for comparison testing.</p>
-
-<h2>Languages</h2>
-
-<h3>Dynamic</h3>
-
+<h1 id="fibonacci40-benchmark">fibonacci(40) benchmark</h1>
+<p><a href="http://teddziuba.com/2011/10/node-js-is-cancer.html">Node.js is Cancer</a> show a wrong way to use nodejs.
+But the test code <strong><a href="http://en.wikipedia.org/wiki/Fibonacci">Fibonacci</a></strong> is so funny.
+I implement the <strong>fibonacci function</strong> in other <strong><a href="http://en.wikipedia.org/wiki/Dynamic_programming_language">Dynamic Languages</a></strong> for comparison testing.</p>
+<h2 id="languages">Languages</h2>
+<h3 id="dynamic">Dynamic</h3>
 <ul>
 <li><a href="http://nodejs.org">nodejs</a></li>
 <li><a href="http://kkaefer.github.com/node-cpp-modules">nodejs + cpp module</a></li>
@@ -58,22 +56,16 @@
 <li><a href="http://www.lua.org/">lua</a></li>
 <li><a href="http://luajit.org/">luajit</a>: a Just-In-Time Compiler for Lua.</li>
 </ul>
-
-<h3>Static</h3>
-
+<h3 id="static">Static</h3>
 <ul>
 <li><a href="http://en.wikipedia.org/wiki/C_programming_language">c</a></li>
 <li><a href="http://golang.org/">go</a></li>
 <li><a href="http://www.java.com/">java</a></li>
 <li><a href="http://www.scala-lang.org/">scala</a></li>
 </ul>
-
 <p>If you want to help add more dynamic languagues, please leave the <strong>implement code</strong> in comments.</p>
-
-<h2>Results</h2>
-
-<p>(^_^) c > java > go > scala > luajit > nodejs > ruby 2.0.0-p0 > pypy > ruby 1.9.3+ > lua > php > python > perl > ruby 1.8.x (T_T)</p>
-
+<h2 id="results">Results</h2>
+<p>(^_^) c &gt; java &gt; go &gt; scala &gt; luajit &gt; nodejs &gt; ruby 2.0.0-p0 &gt; pypy &gt; ruby 1.9.3+ &gt; lua &gt; php &gt; python &gt; perl &gt; ruby 1.8.x (T_T)</p>
 <table>
   <tr><th>Language</th><th>Times (user)</th><th>Position</th><th>Version</th></tr>
   <tr>
@@ -179,79 +171,58 @@
 </table>
 
 <p><strong>lua</strong> use <em>local function</em> will get better performance.</p>
-
-<h2>fibonacci(40) benchmark result:</h2>
-
-<h3>c</h3>
-
+<h2 id="fibonacci40-benchmark-result">fibonacci(40) benchmark result:</h2>
+<h3 id="c">c</h3>
 <p>i686-apple-darwin11-llvm-gcc-4.2 (GCC) 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.11.00)</p>
-
-<pre><code>c
-
-
-<h1>include <stdio.h></h1>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 
 int fibonacci(n) {
-  if (n < 2) {
+  if (n &lt; 2) {
     return n;
   }
   return fibonacci(n - 2) + fibonacci(n - 1);
 }
 
 int main() {
-  printf("%d\n", fibonacci(40));
+  printf(&quot;%d\n&quot;, fibonacci(40));
   return 0;
 }
 </code></pre>
-
 <p>gcc -O0</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m4.145s
 user  0m3.892s
 sys 0m0.012s
 </code></pre>
-
 <p>gcc -O1</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m2.732s
 user  0m2.610s
 sys 0m0.009s
 </code></pre>
-
 <p>gcc -O2</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m0.249s
 user  0m0.202s
 sys 0m0.004s
 </code></pre>
-
 <p>gcc -O3</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m0.293s
 user  0m0.202s
 sys 0m0.004s
 </code></pre>
-
-<h3>java</h3>
-
-<p>java version "1.6.0_35"<br />Java(TM) SE Runtime Environment (build 1.6.0_35-b10-428-11M3811)<br />Java HotSpot(TM) 64-Bit Server VM (build 20.10-b01-428, mixed mode)</p>
-
-<pre><code>java
-public class Fibonacci {
+<h3 id="java">java</h3>
+<p>java version &quot;1.6.0_35&quot;
+Java(TM) SE Runtime Environment (build 1.6.0_35-b10-428-11M3811)
+Java HotSpot(TM) 64-Bit Server VM (build 20.10-b01-428, mixed mode)</p>
+<pre><code class="language-java">public class Fibonacci {
   public static int fib(int n) {
-    if (n < 2) {
+    if (n &lt; 2) {
       return n;
     } else {
       return fib(n - 1) + fib(n - 2);
@@ -259,55 +230,43 @@ public class Fibonacci {
   }
 
   public static void main(String[] args) {
-    System.out.print(fib(40) + "\n");
+    System.out.print(fib(40) + &quot;\n&quot;);
   }
 }
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m1.413s
 user  0m1.305s
 sys 0m0.063s
 </code></pre>
-
-<h3>scala</h3>
-
+<h3 id="scala">scala</h3>
 <p>Scala code runner version 2.9.2 -- Copyright 2002-2011, LAMP/EPFL</p>
-
-<pre><code>scala
-object Fibonacci {
+<pre><code class="language-scala">object Fibonacci {
   def fib(n: Int): Int = n match {
-    case 0 | 1 => n
-    case _ => fib(n -1) + fib(n-2)
+    case 0 | 1 =&gt; n
+    case _ =&gt; fib(n -1) + fib(n-2)
   }
-
+  
   def main(args: Array[String]) {
     println(fib(40));
   }
 }
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m1.909s
 user  0m1.808s
 sys 0m0.121s
 </code></pre>
-
-<h3>go</h3>
-
+<h3 id="go">go</h3>
 <p>go version go1.0.2</p>
+<pre><code class="language-go">package main
 
-<pre><code>go
-package main
-
-import "fmt"
+import &quot;fmt&quot;
 
 func fibonacci(n int) int{
-  if (n < 2) {
+  if (n &lt; 2) {
     return n
   }
   return fibonacci(n - 2) + fibonacci(n - 1)
@@ -317,20 +276,15 @@ func main() {
   fmt.Println(fibonacci(40))
 }
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m1.732s
 user  0m1.667s
 sys 0m0.006s
 </code></pre>
-
-<h3>nodejs</h3>
-
-<pre><code>js
-function fibonacci(n) {
-  if (n < 2) {
+<h3 id="nodejs">nodejs</h3>
+<pre><code class="language-js">function fibonacci(n) {
+  if (n &lt; 2) {
     return n;
   }
   return fibonacci(n - 2) + fibonacci(n - 1);
@@ -338,254 +292,184 @@ function fibonacci(n) {
 
 console.log(fibonacci(40));
 </code></pre>
-
 <p>v0.2.6</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m4.959s
 user  0m4.699s
 sys 0m0.028s
 </code></pre>
-
 <p>v0.3.8</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m4.961s
 user  0m4.867s
 sys 0m0.022s
 </code></pre>
-
 <p>v0.4.12</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m7.544s
 user  0m7.219s
 sys 0m0.030s
 </code></pre>
-
 <p>v0.6.19</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m5.264s
 user  0m5.062s
 sys 0m0.040s
 </code></pre>
-
 <p>v0.6.20</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m5.413s
 user  0m5.195s
 sys 0m0.038s
 </code></pre>
-
 <p>v0.6.21-pre</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m5.081s
 user  0m4.906s
 sys 0m0.037s
 </code></pre>
-
 <p>v0.7.12</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m2.964s
 user  0m2.867s
 sys 0m0.029s
 </code></pre>
-
 <p>v0.8.0</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m3.034s
 user  0m2.868s
 sys 0m0.029s
 </code></pre>
-
 <p>v0.8.1</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m3.064s
 user  0m2.863s
 sys 0m0.032s
 </code></pre>
-
 <p>v0.8.3</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m3.024s
 user  0m2.855s
 sys 0m0.030s
 </code></pre>
-
 <p>v0.8.6</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m3.046s
 user  0m2.854s
 sys 0m0.030s
 </code></pre>
-
 <p>v0.8.7</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m3.258s
 user  0m2.933s
 sys 0m0.033s
 </code></pre>
-
 <p>v0.8.8</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m3.052s
 user  0m2.866s
 sys 0m0.031s
 </code></pre>
-
 <p>v0.9.1</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m3.190s
 user  0m2.852s
 sys 0m0.032s
 </code></pre>
-
-<h3>nodejs + cpp module</h3>
-
-<pre><code>js
-var fibonacci = require('./build/Release/cppfibonacci').fibonacci;
+<h3 id="nodejs--cpp-module">nodejs + cpp module</h3>
+<pre><code class="language-js">var fibonacci = require(&#39;./build/Release/cppfibonacci&#39;).fibonacci;
 console.log(fibonacci(40));
 </code></pre>
-
-<p>waf 1.5.16 (7610:7647M)<br />v0.4.12</p>
-
-<pre><code>bash
-102334155
+<p>waf 1.5.16 (7610:7647M)
+v0.4.12</p>
+<pre><code class="language-bash">102334155
 
 real  0m1.374s
 user  0m1.012s
 sys 0m0.024s
 </code></pre>
-
-<p>waf 1.5.16 (7610:7647M)<br />v0.6.20</p>
-
-<pre><code>bash
-102334155
+<p>waf 1.5.16 (7610:7647M)
+v0.6.20</p>
+<pre><code class="language-bash">102334155
 
 real  0m1.063s
 user  0m1.000s
 sys 0m0.018s
 </code></pre>
-
-<p>waf 1.5.16 (7610:7647M)<br />v0.8.8</p>
-
-<pre><code>bash
-102334155
+<p>waf 1.5.16 (7610:7647M)
+v0.8.8</p>
+<pre><code class="language-bash">102334155
 
 real  0m1.076s
 user  0m1.001s
 sys 0m0.015s
 </code></pre>
-
-<h3>luajit</h3>
-
-<p>LuaJIT 2.0.0-beta10 -- Copyright (C) 2005-2012 Mike Pall. <a href='http://luajit.org/'>http://luajit.org/</a></p>
-
-<pre><code>lua
-function fibonacci(n)
-  if n < 2 then
+<h3 id="luajit">luajit</h3>
+<p>LuaJIT 2.0.0-beta10 -- Copyright (C) 2005-2012 Mike Pall. <a href="http://luajit.org/">http://luajit.org/</a></p>
+<pre><code class="language-lua">function fibonacci(n)
+  if n &lt; 2 then
     return n
   end
   return fibonacci(n - 2) + fibonacci(n - 1)
 end
 
-io.write(fibonacci(40), "\n")
+io.write(fibonacci(40), &quot;\n&quot;)
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m2.847s
 user  0m2.579s
 sys 0m0.013s
 </code></pre>
-
-<p>using 'local'</p>
-
-<pre><code>lua
-local function fibonacci(n)
-  if n < 2 then
+<p>using &#39;local&#39;</p>
+<pre><code class="language-lua">local function fibonacci(n)
+  if n &lt; 2 then
     return n
   end
   return fibonacci(n - 2) + fibonacci(n - 1)
 end
 
-io.write(fibonacci(40), "\n")
+io.write(fibonacci(40), &quot;\n&quot;)
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m2.536s
 user  0m2.490s
 sys 0m0.006s
 </code></pre>
-
-<h3>pypy</h3>
-
-<p>Python 2.7.2 (341e1e3821ff, Jun 07 2012, 15:42:54)<br />[PyPy 1.9.0 with GCC 4.2.1]</p>
-
-<pre><code>py
-def fibonacci(n):
-    if n < 2:
+<h3 id="pypy">pypy</h3>
+<p>Python 2.7.2 (341e1e3821ff, Jun 07 2012, 15:42:54)
+[PyPy 1.9.0 with GCC 4.2.1]</p>
+<pre><code class="language-py">def fibonacci(n):
+    if n &lt; 2:
         return n
     return fibonacci(n - 2) + fibonacci(n - 1)
 
 print fibonacci(40)
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m34.082s
 user  0m30.010s
 sys 0m0.303s
 </code></pre>
-
-<h3>ruby 1.9.x</h3>
-
-<pre><code>ruby
-def fibonacci(n)
-  if n < 2
+<h3 id="ruby-19x">ruby 1.9.x</h3>
+<pre><code class="language-ruby">def fibonacci(n)
+  if n &lt; 2
     return n
   end
   return fibonacci(n - 2) + fibonacci(n - 1)
@@ -593,165 +477,120 @@ end
 
 puts fibonacci(40)
 </code></pre>
-
 <p>ruby 1.9.3p194 (2012-04-20 revision 35410) [x86_64-darwin12.1.0]</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m39.972s
 user  0m37.404s
 sys 0m0.124s
 </code></pre>
-
 <p>ruby 2.0.0p0 (2013-02-24 revision 39474) [x86_64-darwin12.2.0]</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m29.078s
 user  0m27.777s
 sys 0m0.072s
 </code></pre>
-
-<h3>lua</h3>
-
+<h3 id="lua">lua</h3>
 <p>Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio</p>
-
-<pre><code>lua
-function fibonacci(n)
-  if n < 2 then
+<pre><code class="language-lua">function fibonacci(n)
+  if n &lt; 2 then
     return n
   end
   return fibonacci(n - 2) + fibonacci(n - 1)
 end
 
-io.write(fibonacci(40), "\n")
+io.write(fibonacci(40), &quot;\n&quot;)
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m42.961s
 user  0m40.709s
 sys 0m0.098s
 </code></pre>
-
-<p>using 'local'</p>
-
-<pre><code>lua
-local function fibonacci(n)
-  if n < 2 then
+<p>using &#39;local&#39;</p>
+<pre><code class="language-lua">local function fibonacci(n)
+  if n &lt; 2 then
     return n
   end
   return fibonacci(n - 2) + fibonacci(n - 1)
 end
 
-io.write(fibonacci(40), "\n")
+io.write(fibonacci(40), &quot;\n&quot;)
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m37.178s
 user  0m35.887s
 sys 0m0.081s
 </code></pre>
-
-<h3>python &amp;&amp; jython</h3>
-
+<h3 id="python--jython">python &amp;&amp; jython</h3>
 <p>Python 2.7.2</p>
-
-<pre><code>py
-def fibonacci(n):
-    if n < 2:
+<pre><code class="language-py">def fibonacci(n):
+    if n &lt; 2:
         return n
     return fibonacci(n - 2) + fibonacci(n - 1)
 
 print fibonacci(40)
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  1m23.989s
 user  1m17.979s
 sys 0m0.303s
 </code></pre>
-
 <p>Jython 2.5.2</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  0m58.651s
 user  0m53.699s
 sys 0m1.945s
 </code></pre>
-
-<h3>php</h3>
-
+<h3 id="php">php</h3>
 <p>PHP 5.3.13 with Suhosin-Patch (cli) (built: Jun 20 2012 17:05:20) </p>
-
-<pre><code>php
-<?php
+<pre><code class="language-php">&lt;?php
 function fibonacci($n) {
-  if ($n < 2) {
+  if ($n &lt; 2) {
     return $n;
   }
   return fibonacci($n - 2) + fibonacci($n - 1);
 }
-echo fibonacci(40)."\n";
-?>
-
+echo fibonacci(40).&quot;\n&quot;;
+?&gt;
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  1m43.579s
 user  1m36.905s
 sys 0m0.349s
 </code></pre>
-
 <p>PHP 5.4.6 (cli) (built: Sep  8 2012 23:49:53) </p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  1m25.155s
 user  1m17.728s
 sys 0m0.261s
 </code></pre>
-
-<h3>perl</h3>
-
+<h3 id="perl">perl</h3>
 <p>This is perl 5, version 12, subversion 4 (v5.12.4) built for darwin-thread-multi-2level</p>
-
-<pre><code>perl
-sub fibonacci {
+<pre><code class="language-perl">sub fibonacci {
   my $n = shift;
-  if ($n < 2) {
+  if ($n &lt; 2) {
     return $n;
   }
   return fibonacci($n - 2) + fibonacci($n - 1);
 }
-print fibonacci(40), "\n";
+print fibonacci(40), &quot;\n&quot;;
 </code></pre>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  2m53.937s
 user  2m41.259s
 sys 0m0.592s
 </code></pre>
-
-<h3>ruby 1.8.x</h3>
-
-<pre><code>ruby
-def fibonacci(n)
-  if n < 2
+<h3 id="ruby-18x">ruby 1.8.x</h3>
+<pre><code class="language-ruby">def fibonacci(n)
+  if n &lt; 2
     return n
   end
   return fibonacci(n - 2) + fibonacci(n - 1)
@@ -759,25 +598,21 @@ end
 
 puts fibonacci(40)
 </code></pre>
-
 <p>ruby 1.8.7 (2012-02-08 patchlevel 358) [universal-darwin12.0]</p>
-
-<pre><code>bash
-102334155
+<pre><code class="language-bash">102334155
 
 real  3m59.076s
 user  3m35.135s
 sys 0m0.833s
 </code></pre>
-
-<h2>Conclusion</h2>
-
+<h2 id="conclusion">Conclusion</h2>
 <ul>
 <li><strong>go</strong> is <strong>awsome</strong>!</li>
 <li><strong>nodejs</strong> is <strong>FAST</strong>, v0.8+ is <strong>FASTER</strong>. </li>
-<li><strong>luajit</strong> 2X faster than <a href='mailto:nodejs@0.6.x'>nodejs@0.6.x</a>, <strong>Shocking</strong>.</li>
+<li><strong>luajit</strong> 2X faster than <a href="mailto:&#x6e;&#111;&#100;&#x65;&#x6a;&#x73;&#x40;&#48;&#x2e;&#54;&#x2e;&#120;">&#x6e;&#111;&#100;&#x65;&#x6a;&#x73;&#x40;&#48;&#x2e;&#54;&#x2e;&#120;</a>, <strong>Shocking</strong>.</li>
 <li><strong>ruby 1.9.x</strong> faster than lua.</li>
 </ul>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

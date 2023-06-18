@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>编写nodejs的C++模块</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,165 +38,119 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>编写nodejs的C++模块</h1>
-
+<h1 id="编写nodejs的c模块">编写nodejs的C++模块</h1>
 <p>nodejs提供了完善的插件机制（addons），让我们可以非常方便地调用C和C++库。</p>
-
-<h2>Javascript 映射到 C++</h2>
-
+<h2 id="javascript-映射到-c">Javascript 映射到 C++</h2>
 <ul>
 <li>普通字符串</li>
 </ul>
-
-<pre><code>js
-'hello world'
+<pre><code class="language-js">&#39;hello world&#39;
 </code></pre>
-
-<pre><code>cpp
-String::New("hello world")
+<pre><code class="language-cpp">String::New(&quot;hello world&quot;)
 </code></pre>
-
 <ul>
 <li>局部Number型变量</li>
 </ul>
-
-<pre><code>js
-var num = 1;
+<pre><code class="language-js">var num = 1;
 </code></pre>
-
-<pre><code>cpp
-Local<Number> num = Number::New(1);
+<pre><code class="language-cpp">Local&lt;Number&gt; num = Number::New(1);
 </code></pre>
-
 <ul>
 <li>undefined</li>
 </ul>
-
-<pre><code>js
-undefined
+<pre><code class="language-js">undefined
 </code></pre>
-
-<pre><code>cpp
-Undefined()
+<pre><code class="language-cpp">Undefined()
 </code></pre>
-
 <ul>
 <li>抛异常</li>
 </ul>
-
-<pre><code>js
-throw new TypeError('Wrong type');
+<pre><code class="language-js">throw new TypeError(&#39;Wrong type&#39;);
 </code></pre>
-
-<pre><code>cpp
-ThrowException(Exception::TypeError(String::New("Wrong type")));
+<pre><code class="language-cpp">ThrowException(Exception::TypeError(String::New(&quot;Wrong type&quot;)));
 </code></pre>
-
 <ul>
 <li>create object</li>
 </ul>
-
-<pre><code>js
-var user = {name: 'mk2', gender: male};
+<pre><code class="language-js">var user = {name: &#39;mk2&#39;, gender: male};
 </code></pre>
-
-<pre><code>cpp
-Local<Object> user = Object::New();
-user->Set(String::NewSymbol("name"), String::New("mk2"));
-user->Set(String::NewSymbol("gender"), String::New("male"));
+<pre><code class="language-cpp">Local&lt;Object&gt; user = Object::New();
+user-&gt;Set(String::NewSymbol(&quot;name&quot;), String::New(&quot;mk2&quot;));
+user-&gt;Set(String::NewSymbol(&quot;gender&quot;), String::New(&quot;male&quot;));
 </code></pre>
-
 <ul>
 <li>function</li>
 </ul>
-
-<pre><code>js
-function add(a, b) {
+<pre><code class="language-js">function add(a, b) {
   return a + b;
 }
 </code></pre>
-
-<pre><code>cpp
-Handle<Value> Add(const Arguments& args) {
+<pre><code class="language-cpp">Handle&lt;Value&gt; Add(const Arguments&amp; args) {
   HandleScope scope;
-  Local<Number> num = Number::New(args[0]->NumberValue() + args[1]->NumberValue());
+  Local&lt;Number&gt; num = Number::New(args[0]-&gt;NumberValue() + args[1]-&gt;NumberValue());
   return scope.Close(num);
 }
 
-void Init(Handle<Object> target) {
-  target->Set(String::NewSymbol("add"), FunctionTemplate::New(Add)->GetFunction());
+void Init(Handle&lt;Object&gt; target) {
+  target-&gt;Set(String::NewSymbol(&quot;add&quot;), FunctionTemplate::New(Add)-&gt;GetFunction());
 }
 </code></pre>
-
 <ul>
 <li>callbacks</li>
 </ul>
-
-<pre><code>js
-function next(callback) {
-  callback('hi');
+<pre><code class="language-js">function next(callback) {
+  callback(&#39;hi&#39;);
 }
 </code></pre>
-
-<pre><code>cpp
-Handle<Value> Next(const Arguments& args) {
+<pre><code class="language-cpp">Handle&lt;Value&gt; Next(const Arguments&amp; args) {
   HandleScope scope;
 
-  Local<Function> cb = Local<Function>::Cast(args[0]);
+  Local&lt;Function&gt; cb = Local&lt;Function&gt;::Cast(args[0]);
   const unsigned argc = 1;
-  Local<Value> argv[argc] = { Local<Value>::New(String::New("hi")) };
-  cb->Call(Context::GetCurrent()->Global(), argc, argv);
+  Local&lt;Value&gt; argv[argc] = { Local&lt;Value&gt;::New(String::New(&quot;hi&quot;)) };
+  cb-&gt;Call(Context::GetCurrent()-&gt;Global(), argc, argv);
 
   return scope.Close(Undefined());
 }
 
-void Init(Handle<Object> target) {
-  target->Set(String::NewSymbol("next"), FunctionTemplate::New(Next)->GetFunction());
+void Init(Handle&lt;Object&gt; target) {
+  target-&gt;Set(String::NewSymbol(&quot;next&quot;), FunctionTemplate::New(Next)-&gt;GetFunction());
 }
 </code></pre>
-
 <ul>
 <li>return a function</li>
 </ul>
-
-<pre><code>js
-function createServer(name) {
+<pre><code class="language-js">function createServer(name) {
   return function echo() {
     return name;
   };
 }
 </code></pre>
-
 <p>(wrong)</p>
-
-<pre><code>cpp
-Handle<Value> Echo(const Arguments& args) {
+<pre><code class="language-cpp">Handle&lt;Value&gt; Echo(const Arguments&amp; args) {
   HandleScope scope;
   return scope.Close(args[0]);
 }
 
-Handle<Value> CreateServer(const Arguments& args) {
+Handle&lt;Value&gt; CreateServer(const Arguments&amp; args) {
   HandleScope scope;
 
-  Local<FunctionTemplate> tpl = FunctionTemplate::New(Echo);
-  Local<Function> fn = tpl->GetFunction(args);
-  fn->SetName(String::NewSymbol("echo")); // omit this to make it anonymous
+  Local&lt;FunctionTemplate&gt; tpl = FunctionTemplate::New(Echo);
+  Local&lt;Function&gt; fn = tpl-&gt;GetFunction(args);
+  fn-&gt;SetName(String::NewSymbol(&quot;echo&quot;)); // omit this to make it anonymous
 
   return scope.Close(fn);
 }
 
-void Init(Handle<Object> target) {
-  target->Set(String::NewSymbol("createServer"), 
-    FunctionTemplate::New(CreateServer)->GetFunction());
+void Init(Handle&lt;Object&gt; target) {
+  target-&gt;Set(String::NewSymbol(&quot;createServer&quot;), 
+    FunctionTemplate::New(CreateServer)-&gt;GetFunction());
 }
 </code></pre>
-
 <ul>
 <li>类定义</li>
 </ul>
-
-<pre><code>js
-function MyObject(startCounter) {
+<pre><code class="language-js">function MyObject(startCounter) {
   this._counter = startCounter;
 }
 
@@ -205,93 +159,70 @@ MyObject.prototype.plusOne = function () {
   return this._counter;
 };
 </code></pre>
-
 <p><code>myobject.h</code></p>
+<pre><code class="language-cpp">#ifndef MYOBJECT_H
+#define MYOBJECT_H
 
-<pre><code>cpp
-
-
-<h1>ifndef MYOBJECT_H</h1>
-
-
-
-<h1>define MYOBJECT_H</h1>
-
-
-
-<h1>include <node.h></h1>
+#include &lt;node.h&gt;
 
 class MyObject : public node::ObjectWrap {
  public:
-  static void Init(v8::Handle<v8::Object> target);
+  static void Init(v8::Handle&lt;v8::Object&gt; target);
 
  private:
   MyObject();
   ~MyObject();
 
-  static v8::Handle<v8::Value> New(const v8::Arguments& args);
-  static v8::Handle<v8::Value> PlusOne(const v8::Arguments& args);
+  static v8::Handle&lt;v8::Value&gt; New(const v8::Arguments&amp; args);
+  static v8::Handle&lt;v8::Value&gt; PlusOne(const v8::Arguments&amp; args);
   double counter_;
 };
 
-
-
-<h1>endif</h1>
-
+#endif
 </code></pre>
-
 <p><code>myobject.cc</code></p>
-
-<pre><code>cpp
-
-
-<h1>define BUILDING_NODE_EXTENSION</h1>
-
-
-
-<h1>include <node.h></h1>
-
-
-
-<h1>include "myobject.h"</h1>
+<pre><code class="language-cpp">#define BUILDING_NODE_EXTENSION
+#include &lt;node.h&gt;
+#include &quot;myobject.h&quot;
 
 using namespace v8;
 
 MyObject::MyObject() {};
 MyObject::~MyObject() {};
 
-void MyObject::Init(Handle<Object> target) {
+void MyObject::Init(Handle&lt;Object&gt; target) {
   // Prepare constructor template
-  Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
-  tpl->SetClassName(String::NewSymbol("MyObject"));
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
+  Local&lt;FunctionTemplate&gt; tpl = FunctionTemplate::New(New);
+  tpl-&gt;SetClassName(String::NewSymbol(&quot;MyObject&quot;));
+  tpl-&gt;InstanceTemplate()-&gt;SetInternalFieldCount(1);
   // Prototype
-  tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
-      FunctionTemplate::New(PlusOne)->GetFunction());
+  tpl-&gt;PrototypeTemplate()-&gt;Set(String::NewSymbol(&quot;plusOne&quot;),
+      FunctionTemplate::New(PlusOne)-&gt;GetFunction());
 
-  Persistent<Function> constructor = Persistent<Function>::New(tpl->GetFunction());
-  target->Set(String::NewSymbol("MyObject"), constructor);
+  Persistent&lt;Function&gt; constructor = Persistent&lt;Function&gt;::New(tpl-&gt;GetFunction());
+  target-&gt;Set(String::NewSymbol(&quot;MyObject&quot;), constructor);
 }
 
-Handle<Value> MyObject::New(const Arguments& args) {
+Handle&lt;Value&gt; MyObject::New(const Arguments&amp; args) {
   HandleScope scope;
 
   MyObject* obj = new MyObject();
-  obj->counter_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
-  obj->Wrap(args.This());
+  obj-&gt;counter_ = args[0]-&gt;IsUndefined() ? 0 : args[0]-&gt;NumberValue();
+  obj-&gt;Wrap(args.This());
 
   return args.This();
 }
 
-Handle<Value> MyObject::PlusOne(const Arguments& args) {
+Handle&lt;Value&gt; MyObject::PlusOne(const Arguments&amp; args) {
   HandleScope scope;
 
-  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.This());
-  obj->counter_ += 1;
+  MyObject* obj = ObjectWrap::Unwrap&lt;MyObject&gt;(args.This());
+  obj-&gt;counter_ += 1;
 
-  return scope.Close(Number::New(obj->counter_));
+  return scope.Close(Number::New(obj-&gt;counter_));
 }
 </code></pre>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

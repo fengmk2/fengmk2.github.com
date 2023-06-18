@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>让 ejs 更加快 | Let ejs faster with `options._with = false`</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,89 +38,71 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>让 ejs 更加快 | Let ejs faster with <code>options._with = false</code></h1>
-
-<p>今天看 <a href="https://github.com/visionmedia/ejs">ejs</a> 源代码的时候，发现 <code>with</code> 是可以设置为 <code>false</code> 的。<br />根据 <a href="https://github.com/QLeelulu/nTenjin#change-from-jstenjin">从tenjin到nTenjin的几点性能优化方法</a> 的优化经验，<br />不使用 <code>with</code> 会有很大的性能提高。</p>
-
-<h2>ejs 普通版使用方式</h2>
-
+<h1 id="让-ejs-更加快--let-ejs-faster-with-options_with--false">让 ejs 更加快 | Let ejs faster with <code>options._with = false</code></h1>
+<p>今天看 <a href="https://github.com/visionmedia/ejs">ejs</a> 源代码的时候，发现 <code>with</code> 是可以设置为 <code>false</code> 的。
+根据 <a href="https://github.com/QLeelulu/nTenjin#change-from-jstenjin">从tenjin到nTenjin的几点性能优化方法</a> 的优化经验，
+不使用 <code>with</code> 会有很大的性能提高。</p>
+<h2 id="ejs-普通版使用方式">ejs 普通版使用方式</h2>
 <p>默认地，ejs 都会开启 <code>with</code> 模式:</p>
-
-<pre><code>js
-var TPL_WITH_TRUE = '\
-<% if (user) { %>\
-  <h2>with_true: <%= user.name %></h2>\
-<% } %>';
+<pre><code class="language-js">var TPL_WITH_TRUE = &#39;\
+&lt;% if (user) { %&gt;\
+  &lt;h2&gt;with_true: &lt;%= user.name %&gt;&lt;/h2&gt;\
+&lt;% } %&gt;&#39;;
 
 var render = ejs.compile(TPL_WITH_TRUE);
-var s = render({user: {name: 'fengmk2'}});
-console.log('_with: true', s);
+var s = render({user: {name: &#39;fengmk2&#39;}});
+console.log(&#39;_with: true&#39;, s);
 </code></pre>
-
-<h2><code>options._with = false</code> 强制关闭 <code>with</code> 模式</h2>
-
-<pre><code>js
-var TPL_WITH_FALSE = '\
-<% if (locals.user) { %>\
-  <h2>with_false: <%= locals.user.name %></h2>\
-<% } %>';
+<h2 id="options_with--false-强制关闭-with-模式"><code>options._with = false</code> 强制关闭 <code>with</code> 模式</h2>
+<pre><code class="language-js">var TPL_WITH_FALSE = &#39;\
+&lt;% if (locals.user) { %&gt;\
+  &lt;h2&gt;with_false: &lt;%= locals.user.name %&gt;&lt;/h2&gt;\
+&lt;% } %&gt;&#39;;
 
 var render = ejs.compile(TPL_WITH_FALSE, {_with: false});
-var s = render({user: {name: 'fengmk2'}});
-console.log('_with: false', s);
+var s = render({user: {name: &#39;fengmk2&#39;}});
+console.log(&#39;_with: false&#39;, s);
 </code></pre>
-
-<h2>对比 ejs 生成的两个模板方法</h2>
-
+<h2 id="对比-ejs-生成的两个模板方法">对比 ejs 生成的两个模板方法</h2>
 <ul>
 <li>开启 <code>with</code></li>
 </ul>
-
-<pre><code>js
-try {
+<pre><code class="language-js">try {
 var buf = [];
 with (locals || {}) { (function(){ 
- buf.push('');__stack.lineno=1; if (user) { ; buf.push('  <h2>with_true: ', escape((__stack.lineno=1,  user.name )), '</h2>');__stack.lineno=1; } ; buf.push(''); })();
+ buf.push(&#39;&#39;);__stack.lineno=1; if (user) { ; buf.push(&#39;  &lt;h2&gt;with_true: &#39;, escape((__stack.lineno=1,  user.name )), &#39;&lt;/h2&gt;&#39;);__stack.lineno=1; } ; buf.push(&#39;&#39;); })();
 } 
-return buf.join('');
+return buf.join(&#39;&#39;);
 } catch (err) {
   rethrow(err, __stack.input, __stack.filename, __stack.lineno);
 }
 </code></pre>
-
 <ul>
 <li>关闭 <code>with</code></li>
 </ul>
-
-<pre><code>js
-try {
+<pre><code class="language-js">try {
 var buf = [];
- buf.push('');__stack.lineno=1; if (locals.user) { ; buf.push('  <h2>with_false: ', escape((__stack.lineno=1,  locals.user.name )), '</h2>');__stack.lineno=1; } ; buf.push('');
-return buf.join('');
+ buf.push(&#39;&#39;);__stack.lineno=1; if (locals.user) { ; buf.push(&#39;  &lt;h2&gt;with_false: &#39;, escape((__stack.lineno=1,  locals.user.name )), &#39;&lt;/h2&gt;&#39;);__stack.lineno=1; } ; buf.push(&#39;&#39;);
+return buf.join(&#39;&#39;);
 } catch (err) {
   rethrow(err, __stack.input, __stack.filename, __stack.lineno);
 }
 </code></pre>
-
-<h2>Benchmark 性能测试</h2>
-
-<p>通过 <a href="https://github.com/fengmk2/fengmk2.github.com/tree/master/benchmark/ejs/options_with.js">options_with.js</a> 的测试结果可以看到，<br />不使用 <code>with</code> 差不多有 <strong>4X</strong> 的性能提高。</p>
-
+<h2 id="benchmark-性能测试">Benchmark 性能测试</h2>
+<p>通过 <a href="https://github.com/fengmk2/fengmk2.github.com/tree/master/benchmark/ejs/options_with.js">options_with.js</a> 的测试结果可以看到，
+不使用 <code>with</code> 差不多有 <strong>4X</strong> 的性能提高。</p>
 <p>使用 <code>{_with: false}</code> 性能就提高了！就这么简单！</p>
+<pre><code class="language-bash">$ node options_with.js
 
-<pre><code>bash
-$ node options_with.js
-
-_with: false   <h2>with_false: fengmk2</h2>
-_with: true   <h2>with_true: fengmk2</h2>
+_with: false   &lt;h2&gt;with_false: fengmk2&lt;/h2&gt;
+_with: true   &lt;h2&gt;with_true: fengmk2&lt;/h2&gt;
 options._with = false x 821,470 ops/sec ±3.55% (85 runs sampled)
 options._with = true x 268,084 ops/sec ±7.05% (87 runs sampled)
 Fastest is options._with = false
 </code></pre>
-
-<h2>有爱</h2>
-
+<h2 id="有爱">有爱</h2>
 <p>^_^ 希望本文对你有用。</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>git submodule，解决依赖模块更新</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,33 +38,28 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>git submodule，解决依赖模块更新</h1>
-
-<h2>git submodule add 添加项目的依赖模块</h2>
-
+<h1 id="git-submodule，解决依赖模块更新">git submodule，解决依赖模块更新</h1>
+<h2 id="git-submodule-add-添加项目的依赖模块">git submodule add 添加项目的依赖模块</h2>
 <p>在项目的根目录添加子模块</p>
-
 <pre><code>$ cd demo_project
 $ git submodule add git://github.com/felixge/node-mysql.git deps/mysql
 $ git submodule init
 $ git submodule update
 # 提交更改
 </code></pre>
-
-<h2>git submodule init and update 就可以直接获取依赖模块了</h2>
-
+<h2 id="git-submodule-init-and-update-就可以直接获取依赖模块了">git submodule init and update 就可以直接获取依赖模块了</h2>
 <pre><code>$ git submodule init
 
-Submodule 'deps/connect' (git://github.com/senchalabs/connect.git) registered for path 'deps/connect'
-Submodule 'deps/connect-form' (git://github.com/visionmedia/connect-form.git) registered for path 'deps/connect-form'
-Submodule 'deps/express' (git://github.com/visionmedia/express.git) registered for path 'deps/express'
-Submodule 'deps/formidable' (git://github.com/felixge/node-formidable.git) registered for path 'deps/formidable'
-Submodule 'deps/jqtpl' (git://github.com/kof/node-jqtpl.git) registered for path 'deps/jqtpl'
-Submodule 'deps/mime' (git://github.com/bentomas/node-mime.git) registered for path 'deps/mime'
-Submodule 'deps/mysql' (git://github.com/felixge/node-mysql.git) registered for path 'deps/mysql'
-Submodule 'deps/node-weibo' (git://github.com/fengmk2/node-weibo.git) registered for path 'deps/node-weibo'
-Submodule 'deps/nodeunit' (git://github.com/caolan/nodeunit.git) registered for path 'deps/nodeunit'
-Submodule 'deps/qs' (git://github.com/visionmedia/node-querystring.git) registered for path 'deps/qs'
+Submodule &#39;deps/connect&#39; (git://github.com/senchalabs/connect.git) registered for path &#39;deps/connect&#39;
+Submodule &#39;deps/connect-form&#39; (git://github.com/visionmedia/connect-form.git) registered for path &#39;deps/connect-form&#39;
+Submodule &#39;deps/express&#39; (git://github.com/visionmedia/express.git) registered for path &#39;deps/express&#39;
+Submodule &#39;deps/formidable&#39; (git://github.com/felixge/node-formidable.git) registered for path &#39;deps/formidable&#39;
+Submodule &#39;deps/jqtpl&#39; (git://github.com/kof/node-jqtpl.git) registered for path &#39;deps/jqtpl&#39;
+Submodule &#39;deps/mime&#39; (git://github.com/bentomas/node-mime.git) registered for path &#39;deps/mime&#39;
+Submodule &#39;deps/mysql&#39; (git://github.com/felixge/node-mysql.git) registered for path &#39;deps/mysql&#39;
+Submodule &#39;deps/node-weibo&#39; (git://github.com/fengmk2/node-weibo.git) registered for path &#39;deps/node-weibo&#39;
+Submodule &#39;deps/nodeunit&#39; (git://github.com/caolan/nodeunit.git) registered for path &#39;deps/nodeunit&#39;
+Submodule &#39;deps/qs&#39; (git://github.com/visionmedia/node-querystring.git) registered for path &#39;deps/qs&#39;
 
 $ git submodule status
 
@@ -79,24 +74,18 @@ da62624813ef2790834a683fa487a74d2f5ea7b4 deps/mime (heads/master)
 121df84c6865e7e57d19c51eb742313db3dedaed deps/nodeunit (0.4.0-60-g121df84)
 534b70356c9f615a50c54534d20b4c3e650e1072 deps/qs (0.0.7-1-g534b703)
 </code></pre>
-
-<h2>删除submodule，竟然没哟命令</h2>
-
+<h2 id="删除submodule，竟然没哟命令">删除submodule，竟然没哟命令</h2>
 <p>先删除git文件中出现的相关信息</p>
-
 <pre><code>.git/config
 .gitmodules
 </code></pre>
-
 <p>将本地缓存也清除，然后直接删除问题，提交修改</p>
-
 <pre><code>git rm --cached path/to/submodule
 rm -r path/to/submodule
 </code></pre>
-
-<h2>有爱</h2>
-
+<h2 id="有爱">有爱</h2>
 <p>希望本文对你有用 ^_^</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

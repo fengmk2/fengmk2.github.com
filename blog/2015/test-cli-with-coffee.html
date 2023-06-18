@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>使用 coffee 来测试 cli 命令行工具</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,98 +38,72 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>使用 coffee 来测试 cli 命令行工具</h1>
-
+<h1 id="使用-coffee-来测试-cli-命令行工具">使用 coffee 来测试 cli 命令行工具</h1>
 <p>npm 团队最近也在大力推广使用 node 来开发 cli 命令行工具，<a href="http://blog.npmjs.org/post/118810260230/building-a-simple-command-line-tool-with-npm">Building a simple command line tool with npm</a>。</p>
-
 <p>可是，我们需要对 cli 工具写自动化测试吗？</p>
-
 <ul>
 <li>不需要？那怎么保证质量？</li>
 <li>需要？那怎么写自动化测试呢？</li>
 </ul>
-
 <p>显而易见，我们都是有追求的程序员，当然要写测试啦！</p>
-
 <p>本文将介绍基于由 <a href="https://github.com/popomore">@popomore</a> 开发的 <a href="http://npm.taobao.org/package/coffee">coffee</a> 测试辅助工具，高效愉快地帮我们写测试代码。</p>
-
-<h2>前戏</h2>
-
+<h2 id="前戏">前戏</h2>
 <p><a href="http://npm.taobao.org/package/coffee">coffee</a> 的 api 设计，来源自非常出名的 http app 测试工具 <a href="http://npm.taobao.org/package/supertest">supertest</a>，我想你应该有使用过吧。</p>
-
 <p>我们先来看看 <a href="http://npm.taobao.org/package/supertest">supertest</a> 是如何帮助我们愉快地编写单元测试代码的：</p>
-
-<pre><code>js
-describe('GET /users', function(){
-  it('respond with json', function(done){
+<pre><code class="language-js">describe(&#39;GET /users&#39;, function(){
+  it(&#39;respond with json&#39;, function(done){
     var app = express();
-    app.get('/user', function(req, res){
-      res.send(200, { name: 'tobi' });
+    app.get(&#39;/user&#39;, function(req, res){
+      res.send(200, { name: &#39;tobi&#39; });
     });
     request(app)
-      .get('/user')
-      .expect('Content-Type', /json/)
+      .get(&#39;/user&#39;)
+      .expect(&#39;Content-Type&#39;, /json/)
       .expect({
-        name: 'tobi'
+        name: &#39;tobi&#39;
       })
       .expect(200, done);
   });
 });
 </code></pre>
-
 <p>Wooooo，原来写 <a href="http://npm.taobao.org/package/express">express</a> 应用的单元测试这么简单啊！再对比看看自己写的单元测试代码，是不是简单很多了？</p>
-
-<h2>高潮</h2>
-
+<h2 id="高潮">高潮</h2>
 <p>好了，前戏过后，我们到高潮部分，看看 <a href="http://npm.taobao.org/package/coffee">coffee</a> 又是如何帮助我们愉快地编写测试代码的。</p>
-
 <p>例如我需要对非常著名的 <code>cat</code> 命令行工具进行测试：</p>
+<pre><code class="language-js">var coffee = require(&#39;coffee&#39;);
 
-<pre><code>js
-var coffee = require('coffee');
-
-describe('cat', function() {
-  it('should concat input', function(done) {
-    coffee.spawn('cat')
-      .write('1') // 往标准输入写入1和2
-      .write('2')
-      .expect('stdout', '12') // 测试 cat 原样将1和2输出
-      .expect('code', 0) // 进程退出码为 0
+describe(&#39;cat&#39;, function() {
+  it(&#39;should concat input&#39;, function(done) {
+    coffee.spawn(&#39;cat&#39;)
+      .write(&#39;1&#39;) // 往标准输入写入1和2
+      .write(&#39;2&#39;)
+      .expect(&#39;stdout&#39;, &#39;12&#39;) // 测试 cat 原样将1和2输出
+      .expect(&#39;code&#39;, 0) // 进程退出码为 0
       .end(done);
   });
 });
 </code></pre>
-
 <p>通过 <a href="http://npm.taobao.org/package/mocha">mocha</a> 运行它，pass！</p>
-
-<p><img src="http://ww2.sinaimg.cn/large/61c56ebcgw1es6kia7igfj208y03xmxc.jpg" alt="" title="" /></p>
-
+<p><img src="http://ww2.sinaimg.cn/large/61c56ebcgw1es6kia7igfj208y03xmxc.jpg" alt=""></p>
 <p>如何出错了，会有什么提示呢？我们修改一下测试代码：</p>
-
-<pre><code>js
-it('should concat input', function(done) {
-  coffee.spawn('cat')
-    .write('foo')
-    .write('bar')
-    .expect('stdout', 'foo!!!')
-    .expect('code', 0)
+<pre><code class="language-js">it(&#39;should concat input&#39;, function(done) {
+  coffee.spawn(&#39;cat&#39;)
+    .write(&#39;foo&#39;)
+    .write(&#39;bar&#39;)
+    .expect(&#39;stdout&#39;, &#39;foo!!!&#39;)
+    .expect(&#39;code&#39;, 0)
     .end(done);
 });
 </code></pre>
-
-<p><img src="http://ww4.sinaimg.cn/large/61c56ebcgw1es6kmaxpv1j20ij0a3jso.jpg" alt="" title="" /></p>
-
+<p><img src="http://ww4.sinaimg.cn/large/61c56ebcgw1es6kmaxpv1j20ij0a3jso.jpg" alt=""></p>
 <p>会告知 stdout 输出没有满足期望了！</p>
-
-<h2>落幕</h2>
-
-<p>cat 例子太简单了？这么想就对了，说明你心动了，想写测试代码了！<br />更多详细的例子，可以看看 <a href="http://npm.taobao.org/package/coffee">coffee</a> 本身的<a href="https://github.com/popomore/coffee/blob/master/test/index.js">单元测试</a>，它就是最好的示例代码！</p>
-
-<h2>有爱 💗</h2>
-
+<h2 id="落幕">落幕</h2>
+<p>cat 例子太简单了？这么想就对了，说明你心动了，想写测试代码了！
+更多详细的例子，可以看看 <a href="http://npm.taobao.org/package/coffee">coffee</a> 本身的<a href="https://github.com/popomore/coffee/blob/master/test/index.js">单元测试</a>，它就是最好的示例代码！</p>
+<h2 id="有爱-💗">有爱 💗</h2>
 <p>希望本文对你有用 :)</p>
-
 <p><a href="http://fengmk2.com/blog/2015/test-cli-with-coffee.html">原文链接</a></p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

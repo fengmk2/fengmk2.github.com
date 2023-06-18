@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>`cluster` code coverage with istanbul</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,19 +38,14 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1><code>cluster</code> code coverage with istanbul</h1>
-
+<h1 id="cluster-code-coverage-with-istanbul"><code>cluster</code> code coverage with istanbul</h1>
 <p><a href="https://github.com/gotwarlost/istanbul">istanbul</a> is already supported <a href="https://github.com/gotwarlost/istanbul/blob/master/README.md#multiple-process-usage">Multiple Process Coverage</a>.</p>
-
 <p>I want to show you how to create code coverage using <a href="https://github.com/gotwarlost/istanbul">istanbul</a>.</p>
+<h3 id="masterjs">master.js</h3>
+<pre><code class="language-js">const cluster = require(&#39;cluster&#39;);
+const path = require(&#39;path&#39;);
 
-<h3>master.js</h3>
-
-<pre><code>js
-const cluster = require('cluster');
-const path = require('path');
-
-const workerPath = path.join(__dirname, 'worker.js');
+const workerPath = path.join(__dirname, &#39;worker.js&#39;);
 
 // setup cluster if running with istanbul coverage
 if (process.env.running_under_istanbul) {
@@ -58,13 +53,13 @@ if (process.env.running_under_istanbul) {
   // disabled reporting and output for child process
   // enable pid in child process coverage filename
   cluster.setupMaster({
-    exec: './node_modules/.bin/istanbul',
+    exec: &#39;./node_modules/.bin/istanbul&#39;,
     args: [
-      'cover',
-      '--report', 'none',
-      '--print', 'none',
-      '--include-all-sources',
-      '--include-pid',
+      &#39;cover&#39;,
+      &#39;--report&#39;, &#39;none&#39;,
+      &#39;--print&#39;, &#39;none&#39;,
+      &#39;--include-all-sources&#39;,
+      &#39;--include-pid&#39;,
       workerPath,
     ]
   });
@@ -78,11 +73,8 @@ if (process.env.running_under_istanbul) {
 cluster.fork();
 cluster.fork();
 </code></pre>
-
-<h3>worker.js</h3>
-
-<pre><code>js
-const koa = require('koa');
+<h3 id="workerjs">worker.js</h3>
+<pre><code class="language-js">const koa = require(&#39;koa&#39;);
 
 const app = koa();
 
@@ -95,29 +87,25 @@ app.use(function* () {
 
   this.status = 403;
   this.body = {
-    error: 'please login first'
+    error: &#39;please login first&#39;
   };
 });
 
 app.listen(1984);
-console.log('[%s] start listening on 1984', process.pid);
+console.log(&#39;[%s] start listening on 1984&#39;, process.pid);
 </code></pre>
-
-<h3>test/all.test.js</h3>
-
+<h3 id="testalltestjs">test/all.test.js</h3>
 <p>Using <a href="http://npm.taobao.org/package/mocha">mocha</a> and <a href="http://npm.taobao.org/package/supertest">supertest</a>.</p>
+<pre><code class="language-js">const request = require(&#39;supertest&#39;);
 
-<pre><code>js
-const request = require('supertest');
-
-describe('cluster coverage unittest', function () {
+describe(&#39;cluster coverage unittest&#39;, function () {
 
   before(function (done) {
-    require('../master');
+    require(&#39;../master&#39;);
     const port = 1984;
     const app = {
       port: port,
-      url: '<a href='http://127.0.0.1'>http://127.0.0.1</a>:' + port,
+      url: &#39;http://127.0.0.1:&#39; + port,
       address: function () {
         return {
           port: port
@@ -132,50 +120,45 @@ describe('cluster coverage unittest', function () {
     setTimeout(done, 1500);
   });
 
-  it('should 200 when user login', function (done) {
+  it(&#39;should 200 when user login&#39;, function (done) {
     request(this.app.callback())
-    .get('/?uid=123')
+    .get(&#39;/?uid=123&#39;)
     .expect({
-      uid: '123'
+      uid: &#39;123&#39;
     })
     .expect(200, done);
   });
 
-  it('should 403 when anonymous user request', function (done) {
+  it(&#39;should 403 when anonymous user request&#39;, function (done) {
     request(this.app.callback())
-    .get('/')
+    .get(&#39;/&#39;)
     .expect({
-      error: 'please login first'
+      error: &#39;please login first&#39;
     })
     .expect(403, done);
   });
 });
 </code></pre>
-
-<h2>run test</h2>
-
+<h2 id="run-test">run test</h2>
 <p>Run the unittest and create coverage report</p>
+<pre><code class="language-js">$ npm run cov
 
-<pre><code>js
-$ npm run cov
-
-> cluster-coverage@ cov /Users/mk2/git/fengmk2.github.com/blog/2015/cluster-coverage
-> npm run clean && npm run test-cov && istanbul report
+&gt; cluster-coverage@ cov /Users/mk2/git/fengmk2.github.com/blog/2015/cluster-coverage
+&gt; npm run clean &amp;&amp; npm run test-cov &amp;&amp; istanbul report
 
 
-> cluster-coverage@ clean /Users/mk2/git/fengmk2.github.com/blog/2015/cluster-coverage
-> rm -rf coverage
+&gt; cluster-coverage@ clean /Users/mk2/git/fengmk2.github.com/blog/2015/cluster-coverage
+&gt; rm -rf coverage
 
 
-> cluster-coverage@ test-cov /Users/mk2/git/fengmk2.github.com/blog/2015/cluster-coverage
-> istanbul cover --include-all-sources node_modules/.bin/_mocha -- --check-leaks test/*.test.js
+&gt; cluster-coverage@ test-cov /Users/mk2/git/fengmk2.github.com/blog/2015/cluster-coverage
+&gt; istanbul cover --include-all-sources node_modules/.bin/_mocha -- --check-leaks test/*.test.js
 
-> istanbul report
+&gt; istanbul report
 </code></pre>
-
 <p>See the <a href="./coverage/lcov-report/index.html">cluster-coverage report</a></p>
+<p><img src="http://ww3.sinaimg.cn/large/61c56ebcjw1evjbdbyfgjj20sr06b407.jpg" alt=""></p>
 
-<p><img src="http://ww3.sinaimg.cn/large/61c56ebcjw1evjbdbyfgjj20sr06b407.jpg" alt="" title="" /></p>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

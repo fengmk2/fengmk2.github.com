@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>itle: nodejs本周动态(2011-04-18/24)</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -39,21 +39,16 @@
 
 <div id="content">
 <p>title: nodejs本周动态(2011-04-18/24)</p>
-
-<h2>Node on iOS</h2>
-
-<p>Nathan Rajlich写了篇在iOS上运行Node的文章: <a href="https://tootallnate.net/nodejs-on-ios">NodeJS on iOS</a>. <br />他建立了一个项目 <a href="https://github.com/TooTallNate/node-iOS">node-iOS</a>，为了让iOS原生支持Node. <br />你的手机必须先越狱。</p>
-
-<h2>Native Windows Support on v0.6.0</h2>
-
+<h2 id="node-on-ios">Node on iOS</h2>
+<p>Nathan Rajlich写了篇在iOS上运行Node的文章: <a href="https://tootallnate.net/nodejs-on-ios">NodeJS on iOS</a>. 
+他建立了一个项目 <a href="https://github.com/TooTallNate/node-iOS">node-iOS</a>，为了让iOS原生支持Node. 
+你的手机必须先越狱。</p>
+<h2 id="native-windows-support-on-v060">Native Windows Support on v0.6.0</h2>
 <p>让更多windows开发者加入Nodejs，原生支持node是必须的！</p>
-
-<p>详细请看PPT: <a href="http://nodejs.org/codeconf.pdf"><a href='http://nodejs.org/codeconf.pdf'>http://nodejs.org/codeconf.pdf</a></a></p>
-
-<h2>Nedis</h2>
-
-<p><a href="https://github.com/visionmedia/nedis">Nedis</a> (MIT License, npm: nedis) by TJ Holowaychuk is a Redis server implemented with Node. <br />TJ has posted some benchmarks of it:</p>
-
+<p>详细请看PPT: <a href="http://nodejs.org/codeconf.pdf">http://nodejs.org/codeconf.pdf</a></p>
+<h2 id="nedis">Nedis</h2>
+<p><a href="https://github.com/visionmedia/nedis">Nedis</a> (MIT License, npm: nedis) by TJ Holowaychuk is a Redis server implemented with Node. 
+TJ has posted some benchmarks of it:</p>
 <pre><code>SET
 nedis: ops 25048, per second 5009.6
 redis: ops 54850, per second 10970
@@ -62,58 +57,41 @@ GET
 nedis: ops 32729, per second 6545.8
 redis: ops 54714, per second 10942.8
 </code></pre>
-
 <p>作者初衷是为了好玩而写了这个模块 ^_^: </p>
-
 <p>He’s written a blog post with more details: <a href="http://tjholowaychuk.com/post/4595959353/redis-implemented-with-node">Redis Implemented With Node</a> and mentions the background of the project:</p>
-
 <p>[…] however as our team grows larger, and as we add more non-technical team members over at LearnBoost I figured it would be nice help prevent the need for compiling development dependencies.</p>
-
-<h2>Will the Rise of Javascript Mean the End of LAMP?</h2>
-
+<h2 id="will-the-rise-of-javascript-mean-the-end-of-lamp">Will the Rise of Javascript Mean the End of LAMP?</h2>
 <ul>
 <li>原文: <a href="http://www.infoq.com/news/2011/04/javascript-lamp">Will the Rise of Javascript Mean the End of LAMP?</a></li>
 <li>中文: <a href="http://www.infoq.com/cn/news/2011/04/javascript-lamp">Javascript的兴起是否意味着LAMP的终结？</a></li>
 <li>引起争论的文章: <a href="http://metamarketsgroup.com/blog/node-js-and-the-javascript-age/">NODE.JS AND THE JAVASCRIPT AGE</a></li>
 </ul>
-
-<h2>虚拟研讨会：Node.js生态系统之框架、库、最佳实践</h2>
-
+<h2 id="虚拟研讨会：nodejs生态系统之框架、库、最佳实践">虚拟研讨会：Node.js生态系统之框架、库、最佳实践</h2>
 <ul>
 <li>原文: <a href="http://www.infoq.com/articles/nodejs-frameworks">Virtual Panel: The Node.js Ecosystem - Frameworks, Libraries and Best Practices</a></li>
 <li>中文: <a href="http://www.infoq.com/cn/articles/nodejs-frameworks">虚拟研讨会：Node.js生态系统之框架、库、最佳实践</a></li>
 <li><a href="http://stackvm.com/">StackVM</a> 也大量使用了Nodejs: Peteris和James（StackVM）：<a href="http://github.com/pkrumins/stackvm/">StackVM</a>本身，它使用了我们为Node.js编写的几个其他模块</li>
 </ul>
-
-<h2>Javascript 模板引擎性能比较</h2>
-
+<h2 id="javascript-模板引擎性能比较">Javascript 模板引擎性能比较</h2>
 <p>根据<a href="http://jsperf.com/dom-vs-innerhtml-based-templating/128">JavaScript template language shootoff</a>的测试结果：</p>
-
 <ul>
 <li>最慢：<a href="https://github.com/janl/mustache.js">Mustache.js</a></li>
 <li>最快: <a href="https://github.com/olado/doT">doT.js</a> 和 <a href="https://github.com/olado/doT">doU.js</a></li>
 </ul>
-
-<h2>ORM on Node</h2>
-
+<h2 id="orm-on-node">ORM on Node</h2>
 <ul>
 <li><a href="https://github.com/dresende/node-orm">Node-ORM</a> is a NodeJS module for multiple databases using Object-Relational Mapping.</li>
 <li><a href="http://mongoosejs.com/">Mongoose</a> is a MongoDB object modeling tool designed to work in an asychronous environment.</li>
 <li><a href="https://github.com/maritz/nohm">Nohm</a> is an object relational mapper (ORM) written for node.js and redis.</li>
 <li><a href="https://github.com/scottburch/couch-ar">couch-ar</a> is a thin active record implementation for couchDB</li>
 </ul>
-
-<h2>SPDY Server on node.js</h2>
-
-<p><img src="https://github.com/fengmk2/mk2blog/raw/master/2011/4/spdy.png" alt="spdy" title="" /></p>
-
+<h2 id="spdy-server-on-nodejs">SPDY Server on node.js</h2>
+<p><img src="https://github.com/fengmk2/mk2blog/raw/master/2011/4/spdy.png" alt="spdy"></p>
 <p>最近google的<a href="https://sites.google.com/a/chromium.org/dev/spdy/spdy-whitepaper">SPDY</a>话题也很火的，果然，在nodejs已经有人实现了一个模块</p>
-
-<p>SPDY Server on node.js: <a href='https://github.com/donnerjack13589/node-spdy'>https://github.com/donnerjack13589/node-spdy</a></p>
-
-<h2>The JavaScript Disruption</h2>
-
+<p>SPDY Server on node.js: <a href="https://github.com/donnerjack13589/node-spdy">https://github.com/donnerjack13589/node-spdy</a></p>
+<h2 id="the-javascript-disruption">The JavaScript Disruption</h2>
 <p><a href="http://www.richardrodger.com/2011/04/05/the-javascript-disruption/">The JavaScript Disruption</a>: The mainstream programming language for the next ten years will be JavaScript. Once considered a toy language useful only for checking form fields on web pages, JavaScript will come to dominate software development. Why this language and why now?</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

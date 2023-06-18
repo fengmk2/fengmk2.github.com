@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>nodejs domain module hello world and benchmark</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,69 +38,56 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>nodejs domain module hello world and benchmark</h1>
-
+<h1 id="nodejs-domain-module-hello-world-and-benchmark">nodejs domain module hello world and benchmark</h1>
 <p><a href="http://nodejs.org/docs/v0.8.21/api/domain.html#domain_domain">domain</a>: Domains provide a way to handle multiple different IO operations as a single group. </p>
-
-<h2>Example: <a href="https://gist.github.com/fengmk2/5079492">http hello world using <code>domain</code></a></h2>
-
-<pre><code>js
-var domain = require('domain');
-var http = require('http');
-
+<h2 id="example-http-hello-world-using-domain">Example: <a href="https://gist.github.com/fengmk2/5079492">http hello world using <code>domain</code></a></h2>
+<pre><code class="language-js">var domain = require(&#39;domain&#39;);
+var http = require(&#39;http&#39;);
+ 
 var domainMiddleware = function (req, res, next, errorHandle) {
   var d = domain.create();
-  d.once('error', errorHandle);
+  d.once(&#39;error&#39;, errorHandle);
   d.run(next);
 };
-
+ 
 var app = http.createServer(function (req, res) {
   domainMiddleware(req, res, function () {
     // normal response
-    if (req.url === '/error') {
+    if (req.url === &#39;/error&#39;) {
       process.nextTick(function () {
         var a = null;
         a.foo();
       });
       return;
     }
-    res.end('hello domain');
+    res.end(&#39;hello domain&#39;);
   }, function (err) {
     // sending err response
     res.statusCode = 500;
     res.end(err.stack);
   });
 });
-
+ 
 app.listen(1984);
 </code></pre>
-
-<h2>Benchmark</h2>
-
+<h2 id="benchmark">Benchmark</h2>
 <p>Results: QPS reduced by <strong>8%</strong> </p>
-
-<h3>hello world</h3>
-
-<pre><code>js
-var appNoDomain = http.createServer(function (req, res) {
-  if (req.url === '/error') {
+<h3 id="hello-world">hello world</h3>
+<pre><code class="language-js">var appNoDomain = http.createServer(function (req, res) {
+  if (req.url === &#39;/error&#39;) {
     process.nextTick(function () {
       var a = null;
       a.foo();
     });
     return;
   }
-  res.end('hello domain');
+  res.end(&#39;hello domain&#39;);
 });
 appNoDomain.listen(1985);
 </code></pre>
-
-<pre><code>bash
-$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1985/'>http://127.0.0.1:1985/</a>
+<pre><code class="language-bash">$ siege -c 100 -b -t 10s http://127.0.0.1:1985/
 </code></pre>
-
-<pre><code>bash
-$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1985/'>http://127.0.0.1:1985/</a>
+<pre><code class="language-bash">$ siege -c 100 -b -t 10s http://127.0.0.1:1985/
 ** SIEGE 2.72
 ** Preparing 100 concurrent users for battle.
 The server is now under siege...
@@ -119,15 +106,10 @@ Failed transactions:             0
 Longest transaction:          0.05
 Shortest transaction:         0.00
 </code></pre>
-
-<h3>hello world with <code>domain</code></h3>
-
-<pre><code>bash
-$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1984/'>http://127.0.0.1:1984/</a>
+<h3 id="hello-world-with-domain">hello world with <code>domain</code></h3>
+<pre><code class="language-bash">$ siege -c 100 -b -t 10s http://127.0.0.1:1984/
 </code></pre>
-
-<pre><code>bash
-$ siege -c 100 -b -t 10s <a href='http://127.0.0.1:1984/'>http://127.0.0.1:1984/</a>
+<pre><code class="language-bash">$ siege -c 100 -b -t 10s http://127.0.0.1:1984/
 ** SIEGE 2.72
 ** Preparing 100 concurrent users for battle.
 The server is now under siege...
@@ -146,6 +128,7 @@ Failed transactions:             0
 Longest transaction:          0.10
 Shortest transaction:         0.00
 </code></pre>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

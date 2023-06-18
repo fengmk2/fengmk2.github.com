@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>关于__proto__的链式记忆</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,10 +38,8 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>关于<strong>proto</strong>的链式记忆</h1>
-
-<h2>实例化解析：</h2>
-
+<h1 id="关于__proto__的链式记忆">关于__proto__的链式记忆</h1>
+<h2 id="实例化解析：">实例化解析：</h2>
 <pre><code>function Foo() {};
 
 var foo = new Foo();
@@ -51,9 +49,7 @@ foo.__proto__.__proto__.__proto__ === null;
 foo.prototype === undefined;
 foo.toString === Object.prototype.toString;
 </code></pre>
-
-<h2>原形继承后的实例化解析：</h2>
-
+<h2 id="原形继承后的实例化解析：">原形继承后的实例化解析：</h2>
 <pre><code>function Bar() {};
 
 Bar.prototype.__proto__ = Foo.prototype;
@@ -66,9 +62,7 @@ bar.__proto__.__proto__.__proto__.__proto__ === null;
 bar.prototype === undefined;
 bar.toString === Object.prototype.toString
 </code></pre>
-
 <p>对象bar，访问toString，整个链式过程如下：</p>
-
 <pre><code>bar.toString 
     || bar.__proto__.toString 
     || bar.__proto__.__proto__.toString
@@ -76,11 +70,8 @@ bar.toString === Object.prototype.toString
 
 bar.toString === Object.prototype.toString
 </code></pre>
-
 <p>最终调用的是 Object.prototype.toString </p>
-
-<h2>奇怪的Foo.toString</h2>
-
+<h2 id="奇怪的footostring">奇怪的Foo.toString</h2>
 <pre><code>Foo.__proto__ === Function.prototype;
 Foo.__proto__.__proto__ === Object.prototype;
 Foo.prototype.__proto__ === Object.prototype;
@@ -88,19 +79,15 @@ Foo.prototype.__proto__ === Object.prototype;
 Foo.toString === Object.toString;
 Foo.prototype.toString === Object.prototype.toString;
 </code></pre>
-
 <p>每个function生成的时候都直接被设置了toString 等于 Object.toString了。</p>
-
-<h2>参考文档</h2>
-
+<h2 id="参考文档">参考文档</h2>
 <ul>
 <li><a href="https://developer.mozilla.org/zh_tw/Core_JavaScript_1.5_%E6%95%99%E5%AD%B8/%E5%86%8D%E8%AB%87%E5%B1%AC%E6%80%A7%E7%9A%84%E7%B9%BC%E6%89%BF/%E5%AF%A6%E9%AB%94%E9%97%9C%E4%BF%82%E7%9A%84%E7%A2%BA%E5%AE%9A">實體關係的確定</a></li>
 <li><a href="https://developer.mozilla.org/cn/A_re-introduction_to_JavaScript">A re-introduction to JavaScript</a></li>
 </ul>
-
-<h2>有爱</h2>
-
+<h2 id="有爱">有爱</h2>
 <p>希望本文对你有用 ^_^</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>Why co use too many memory</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,23 +38,21 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Why co use too many memory</h1>
-
-<pre><code>js
-var co = require('co');
-var urllib = require('urllib');
+<h1 id="why-co-use-too-many-memory">Why co use too many memory</h1>
+<pre><code class="language-js">var co = require(&#39;co&#39;);
+var urllib = require(&#39;urllib&#39;);
 
 var count = 0;
 co(function* () {
   while (true) {
     try {
-      yield urllib.request('<a href='http://www.baidu.com'>http://www.baidu.com</a>');
+      yield urllib.request(&#39;http://www.baidu.com&#39;);
     } catch (err) {
       console.error(err.message);
     }
     yield sleep(10);
     // global.gc();
-    console.log('run %d, %smb', count++, process.memoryUsage().rss / 1024 / 1024);
+    console.log(&#39;run %d, %smb&#39;, count++, process.memoryUsage().rss / 1024 / 1024);
   }
 }).catch(function (err) {
   throw err;
@@ -66,10 +64,8 @@ function sleep(ms) {
   };
 }
 </code></pre>
-
-<pre><code>js
-var co = require('co');
-var urllib = require('urllib');
+<pre><code class="language-js">var co = require(&#39;co&#39;);
+var urllib = require(&#39;urllib&#39;);
 
 var count = 0;
 var running = false;
@@ -81,7 +77,7 @@ function* start() {
   running = true;
   var r;
   try {
-    r = yield urllib.requestThunk('<a href='http://www.baidu.com'>http://www.baidu.com</a>');
+    r = yield urllib.requestThunk(&#39;http://www.baidu.com&#39;);
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -89,8 +85,8 @@ function* start() {
   }
   count++;
   if (count % 10 === 0) {
-    console.log('run %d, %j, %smb',
-      count, r && r.status, process.memoryUsage().rss / 1024 / 1024);
+    console.log(&#39;run %d, %j, %smb&#39;,
+      count, r &amp;&amp; r.status, process.memoryUsage().rss / 1024 / 1024);
   }
 }
 
@@ -102,11 +98,9 @@ setInterval(function () {
   });
 }, 10);
 </code></pre>
-
-<pre><code>js
-var http = require('http');
-var co = require('co');
-var urllib = require('urllib');
+<pre><code class="language-js">var http = require(&#39;http&#39;);
+var co = require(&#39;co&#39;);
+var urllib = require(&#39;urllib&#39;);
 
 var counts = {
   0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0
@@ -117,15 +111,15 @@ function get(url) {
   return function (callback) {
     http.get(url, function(res) {
       var size = 0;
-      res.on('data', function (data) {
+      res.on(&#39;data&#39;, function (data) {
         size += data.length;
-      }).on('end', function () {
+      }).on(&#39;end&#39;, function () {
         callback(null, {
           size: size,
           statusCode: res.statusCode
         });
       });
-    }).on('error', callback);
+    }).on(&#39;error&#39;, callback);
   };
 }
 
@@ -133,15 +127,15 @@ function getPromise(url) {
   return new Promise(function(resolve, reject) {
     http.get(url, function(res) {
       var size = 0;
-      res.on('data', function (data) {
+      res.on(&#39;data&#39;, function (data) {
         size += data.length;
-      }).on('end', function () {
+      }).on(&#39;end&#39;, function () {
         resolve({
           size: size,
           statusCode: res.statusCode
         });
       });
-    }).on('error', reject);
+    }).on(&#39;error&#39;, reject);
   });
 }
 
@@ -152,9 +146,9 @@ function* start(index) {
   running = true;
   var r;
   try {
-    r = yield urllib.request('<a href='http://127.0.0.1:7001'>http://127.0.0.1:7001</a>');
-    // r = yield get('<a href='http://127.0.0.1:7001/'>http://127.0.0.1:7001/</a>');
-    // r = yield getPromise('<a href='http://127.0.0.1:7001/'>http://127.0.0.1:7001/</a>');
+    r = yield urllib.request(&#39;http://127.0.0.1:7001&#39;);
+    // r = yield get(&#39;http://127.0.0.1:7001/&#39;);
+    // r = yield getPromise(&#39;http://127.0.0.1:7001/&#39;);
   } catch (err) {
     console.error(err.message);
   } finally {
@@ -162,8 +156,8 @@ function* start(index) {
   }
   counts[index]++;
   if (counts[index] % 100 === 0) {
-    console.log('[#%d] run %d, %s:%s, %smb',
-      index, counts[index], r && r.status, r && r.size, process.memoryUsage().rss / 1024 / 1024);
+    console.log(&#39;[#%d] run %d, %s:%s, %smb&#39;,
+      index, counts[index], r &amp;&amp; r.status, r &amp;&amp; r.size, process.memoryUsage().rss / 1024 / 1024);
   }
 }
 
@@ -200,6 +194,7 @@ setInterval(function () {
   });
 }, 10);
 </code></pre>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

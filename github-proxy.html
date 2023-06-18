@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>github ssh proxy | github `ssh` 协议代理配置</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,49 +38,32 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>github ssh proxy | github <code>ssh</code> 协议代理配置</h1>
-
+<h1 id="github-ssh-proxy--github-ssh-协议代理配置">github ssh proxy | github <code>ssh</code> 协议代理配置</h1>
 <p>配置一个 <code>proxy-wrapper</code> 脚本</p>
-
-<pre><code>bash
-cat > $HOME/bin/proxy-wrapper
-
-
-<h1>!/bin/bash</h1>
-
+<pre><code class="language-bash">cat &gt; $HOME/bin/proxy-wrapper
+#!/bin/bash
 nc -x127.0.0.1:7080 -X5 $*
 </code></pre>
-
 <p>给它增加一个可执行权限</p>
-
-<pre><code>bash
-$ chmod +x $HOME/bin/proxy-wrapper
+<pre><code class="language-bash">$ chmod +x $HOME/bin/proxy-wrapper
 </code></pre>
-
 <p>配置 <code>.ssh/config</code> , 对 github.com 设置一个代理命令</p>
-
-<pre><code>bash
-Host github github.com
+<pre><code class="language-bash">Host github github.com
     Hostname github.com
     User git
-    ProxyCommand $HOME/bin/proxy-wrapper '%h %p'
+    ProxyCommand $HOME/bin/proxy-wrapper &#39;%h %p&#39;
 </code></pre>
-
 <p><strong>必须全部走ssh协议</strong></p>
-
-<pre><code>bash
-$ git clone <a href='mailto:git@github.com'>git@github.com</a>:jjrdn/node-open.git
+<pre><code class="language-bash">$ git clone git@github.com:jjrdn/node-open.git
 </code></pre>
-
 <p>git 协议请参考 <a href="http://twopenguins.org/tips/git-through-proxy.php">Using GIT through a SOCKS proxy</a>.</p>
-
-<h2>参考</h2>
-
+<h2 id="参考">参考</h2>
 <ul>
 <li><a href="http://segmentfault.com/q/1010000000118837">如何为 Git 设置代理？</a></li>
 <li><a href="http://twopenguins.org/tips/git-through-proxy.php">Using GIT through a SOCKS proxy</a></li>
 <li><a href="http://milnk.com/link/10645">免费的ssh</a></li>
 </ul>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

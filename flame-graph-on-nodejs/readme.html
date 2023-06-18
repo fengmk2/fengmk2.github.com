@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>Create a nodejs application Flame Graph</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,51 +38,33 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>Create a nodejs application Flame Graph</h1>
-
-<h2>Build <code>with-dtrace</code></h2>
-
-<h2>Profile the <code>hello world</code> http server</h2>
-
+<h1 id="create-a-nodejs-application-flame-graph">Create a nodejs application Flame Graph</h1>
+<h2 id="build-with-dtrace">Build <code>with-dtrace</code></h2>
+<h2 id="profile-the-hello-world-http-server">Profile the <code>hello world</code> http server</h2>
 <p><code>server.js</code>:</p>
-
-<pre><code>js
-var http = require('http');
+<pre><code class="language-js">var http = require(&#39;http&#39;);
 http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, '127.0.0.1');
-console.log('Server running at <a href='http://127.0.0.1:1337/'>http://127.0.0.1:1337/</a>');
+  res.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
+  res.end(&#39;Hello World\n&#39;);
+}).listen(1337, &#39;127.0.0.1&#39;);
+console.log(&#39;Server running at http://127.0.0.1:1337/&#39;);
 </code></pre>
-
-<pre><code>bash
-$ node server.js
+<pre><code class="language-bash">$ node server.js
 </code></pre>
-
-<h3>benchmark: ab</h3>
-
-<pre><code>bash
-$ ab -n 1000000 -c 10 -k '<a href='http://127.0.0.1:1337/'>http://127.0.0.1:1337/</a>'
+<h3 id="benchmark-ab">benchmark: ab</h3>
+<pre><code class="language-bash">$ ab -n 1000000 -c 10 -k &#39;http://127.0.0.1:1337/&#39;
 </code></pre>
-
-<h2>Dtrace</h2>
-
+<h2 id="dtrace">Dtrace</h2>
 <p><code>12345</code> replace to your node process id.</p>
-
-<pre><code>$ sudo dtrace -n 'profile-997/pid == $YOURPID/{ @[jstack(80, 8192)] = count(); }' -c "sleep 30" > dtrace.out
+<pre><code>$ sudo dtrace -n &#39;profile-997/pid == $YOURPID/{ @[jstack(80, 8192)] = count(); }&#39; -c &quot;sleep 30&quot; &gt; dtrace.out
+</code></pre>
+<h2 id=""></h2>
+<pre><code class="language-bash">$ npm install -g stackvis
+# then use stackvis to convert the DTrace output to a flamegraph:
+$ stackvis dtrace flamegraph-svg &lt; stacks.out &gt; stacks.svg
+$ stackvis &lt; dtrace.out &gt; flamegraph.htm
 </code></pre>
 
-<h1>#</h1>
-
-<pre><code>bash
-$ npm install -g stackvis
-
-
-<h1>then use stackvis to convert the DTrace output to a flamegraph:</h1>
-
-$ stackvis dtrace flamegraph-svg < stacks.out > stacks.svg
-$ stackvis < dtrace.out > flamegraph.htm
-</code></pre>
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>

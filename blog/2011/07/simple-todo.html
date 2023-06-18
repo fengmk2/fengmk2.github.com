@@ -18,7 +18,7 @@
   <script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/prettify.js"></script>
-  <title>#title#</title>
+  <title>nodejs web开发入门: Simple-TODO Nodejs 实现版</title>
   <style>
     a{color:#09f;}
     code{color:#080;}
@@ -38,126 +38,100 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1>nodejs web开发入门: Simple-TODO Nodejs 实现版</h1>
-
-<h2>起因</h2>
-
-<p>看到<a href="http://simple-is-better.com/news/tag/simple-todo">simple todo的各种python版本实现</a>, 我也来凑凑热闹...<br />既然已经有这么多python版本了, 我就对比实现了一个Simple-TODO的nodejs版本: <a href="https://github.com/fengmk2/todo">Node TODO</a>, 模版和樣式全部copy自web.py版本.</p>
-
-<h2>Source Code &amp;&amp; Demo</h2>
-
+<h1 id="nodejs-web开发入门-simple-todo-nodejs-实现版">nodejs web开发入门: Simple-TODO Nodejs 实现版</h1>
+<h2 id="起因">起因</h2>
+<p>看到<a href="http://simple-is-better.com/news/tag/simple-todo">simple todo的各种python版本实现</a>, 我也来凑凑热闹...
+既然已经有这么多python版本了, 我就对比实现了一个Simple-TODO的nodejs版本: <a href="https://github.com/fengmk2/todo">Node TODO</a>, 模版和樣式全部copy自web.py版本.</p>
+<h2 id="source-code--demo">Source Code &amp;&amp; Demo</h2>
 <ul>
-<li>源代码: <a href="https://github.com/fengmk2/todo"><a href='https://github.com/fengmk2/todo'>https://github.com/fengmk2/todo</a></a></li>
-<li>在线demo: <a href="http://api.yongwo.de:3888/"><a href='http://api.yongwo.de:3888'>http://api.yongwo.de:3888</a></a></li>
+<li>源代码: <a href="https://github.com/fengmk2/todo">https://github.com/fengmk2/todo</a></li>
+<li>在线demo: <a href="http://api.yongwo.de:3888/">http://api.yongwo.de:3888</a></li>
 </ul>
-
-<p><img src="http://ww3.sinaimg.cn/large/6cfc7910jw1diwdadumcwj.jpg" alt="http://ww3.sinaimg.cn/large/6cfc7910jw1diwdadumcwj.jpg" title="" /></p>
-
-<h2>代码目录</h2>
-
-<p>目录还是很清晰的, public存放静态文件, views存放模版, controllers处理业务逻辑, <br />还有配置config.js, web主入口server.js</p>
-
-<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dix4wp92nmj.jpg" alt="代码目录" title="" /></p>
-
-<h2>使用到的第三方nodejs模块</h2>
-
+<p><img src="http://ww3.sinaimg.cn/large/6cfc7910jw1diwdadumcwj.jpg" alt="http://ww3.sinaimg.cn/large/6cfc7910jw1diwdadumcwj.jpg"></p>
+<h2 id="代码目录">代码目录</h2>
+<p>目录还是很清晰的, public存放静态文件, views存放模版, controllers处理业务逻辑, 
+还有配置config.js, web主入口server.js</p>
+<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dix4wp92nmj.jpg" alt="代码目录"></p>
+<h2 id="使用到的第三方nodejs模块">使用到的第三方nodejs模块</h2>
 <ul>
 <li><a href="http://expressjs.com/">express</a>: Web框架, 目前nodejs使用最广泛的web框架</li>
 <li><a href="https://github.com/visionmedia/ejs">ejs</a>: 模版渲染引擎, 用于生成动态内容</li>
 <li><a href="https://github.com/felixge/node-mysql">node-mysql</a>: 纯javascript实现的mysql驱动, 无法安装任何mysql包依赖.</li>
 </ul>
-
 <p>这3个模块都可以直接通过<a href="http://npmjs.org/">npm</a>安装获得:</p>
-
 <pre><code>$ npm install express ejs mysql
 </code></pre>
-
-<h2>开发过程记录</h2>
-
-<h3><a href="https://github.com/fengmk2/todo/blob/master/config.js">config.js</a></h3>
-
-<p>可配置的信息:<br />* 网站名称<br />* 监听端口号, 默认8080<br />* 数据库配置信息</p>
-
-<h3>如何访问数据库</h3>
-
+<h2 id="开发过程记录">开发过程记录</h2>
+<h3 id="configjs"><a href="https://github.com/fengmk2/todo/blob/master/config.js">config.js</a></h3>
+<p>可配置的信息:</p>
+<ul>
+<li>网站名称</li>
+<li>监听端口号, 默认8080</li>
+<li>数据库配置信息</li>
+</ul>
+<h3 id="如何访问数据库">如何访问数据库</h3>
 <p>在<a href="https://github.com/fengmk2/todo/blob/master/config.js">config.js</a>文件里面, 会使用一下方式保持着数据库的链接对象</p>
-
-<pre><code>var db = exports.db = new require('mysql').Client(db_options);
+<pre><code>var db = exports.db = new require(&#39;mysql&#39;).Client(db_options);
 db.connect(function(err) {
     if(err) {
-        console.error('connect db ' + db.host + ' error: ' + err);
+        console.error(&#39;connect db &#39; + db.host + &#39; error: &#39; + err);
         process.exit();
     }
 });
 </code></pre>
-
 <p>这样我们就可以在别的地方直接使用db对象了</p>
-
-<h3><a href="https://github.com/fengmk2/todo/blob/master/server.js">server.js</a></h3>
-
+<h3 id="serverjs"><a href="https://github.com/fengmk2/todo/blob/master/server.js">server.js</a></h3>
 <p>express可以帮我们默认实现了静态文件处理, cookie处理, 请求参数处理等事情, 只需要配置一下, 就可以使用上这些功能了.</p>
-
 <pre><code>var app = express.createServer();
-app.use(express.static(__dirname + '/public', {maxAge: 3600000 * 24 * 30}));
+app.use(express.static(__dirname + &#39;/public&#39;, {maxAge: 3600000 * 24 * 30}));
 app.use(express.cookieParser());
 app.use(express.bodyParser());
 </code></pre>
-
 <p>同样, 需要配置模版渲染引擎为ejs</p>
-
-<pre><code>app.set("view engine", "html");
-app.set("views", __dirname + '/views');
-app.register("html", ejs);
+<pre><code>app.set(&quot;view engine&quot;, &quot;html&quot;);
+app.set(&quot;views&quot;, __dirname + &#39;/views&#39;);
+app.register(&quot;html&quot;, ejs);
 </code></pre>
-
-<p>看看views/index.html里面的一个最复杂的模版例子, <br />ejs最让我喜欢的是不用再学一套语法, 直接是内嵌js, 还是很容易读懂的</p>
-
-<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dix6f9kailj.jpg" alt="http://ww1.sinaimg.cn/large/6cfc7910jw1dix6f9kailj.jpg" title="" /></p>
-
-<h3>URL Routing与Controllers</h3>
-
+<p>看看views/index.html里面的一个最复杂的模版例子, 
+ejs最让我喜欢的是不用再学一套语法, 直接是内嵌js, 还是很容易读懂的</p>
+<p><img src="http://ww1.sinaimg.cn/large/6cfc7910jw1dix6f9kailj.jpg" alt="http://ww1.sinaimg.cn/large/6cfc7910jw1dix6f9kailj.jpg"></p>
+<h3 id="url-routing与controllers">URL Routing与Controllers</h3>
 <p>一个http请求过来, 由那个controller处理, express提供了简便的routing方式</p>
-
-<pre><code>app.get('/', todo.index);
-app.post('/todo/new', todo.new);
-app.get('/todo/:id', todo.view);
-app.get('/todo/:id/edit', todo.edit);
-app.post('/todo/:id/edit', todo.save);
-app.get('/todo/:id/delete', todo.delete);
-app.get('/todo/:id/finish', todo.finish);
+<pre><code>app.get(&#39;/&#39;, todo.index);
+app.post(&#39;/todo/new&#39;, todo.new);
+app.get(&#39;/todo/:id&#39;, todo.view);
+app.get(&#39;/todo/:id/edit&#39;, todo.edit);
+app.post(&#39;/todo/:id/edit&#39;, todo.save);
+app.get(&#39;/todo/:id/delete&#39;, todo.delete);
+app.get(&#39;/todo/:id/finish&#39;, todo.finish);
 </code></pre>
-
-<p>如添加一条todo记录: HTTP GET /new, 将由<a href="https://github.com/fengmk2/todo/blob/master/controllers/todo.js">todo.new</a>方法处理,<br />代码逻辑包括了title参数有效性验证, 数据保存到数据库, http redirect:</p>
-
+<p>如添加一条todo记录: HTTP GET /new, 将由<a href="https://github.com/fengmk2/todo/blob/master/controllers/todo.js">todo.new</a>方法处理,
+代码逻辑包括了title参数有效性验证, 数据保存到数据库, http redirect:</p>
 <pre><code>exports.new = function(req, res, next) {
-    var title = req.body.title || '';
+    var title = req.body.title || &#39;&#39;;
     title = title.trim();
     if(!title) {
-        return res.render('error', {message: '标题是必须的'});
+        return res.render(&#39;error&#39;, {message: &#39;标题是必须的&#39;});
     }
-    db.query('insert into todo set title=?, post_date=now()', [title], function(err, result) {
+    db.query(&#39;insert into todo set title=?, post_date=now()&#39;, [title], function(err, result) {
         if(err) return next(err);
-        res.redirect('/');
+        res.redirect(&#39;/&#39;);
     });
 };
 </code></pre>
-
 <p>更多的controller处理逻辑请查看<a href="https://github.com/fengmk2/todo/blob/master/controllers/todo.js">/controllers/todo.js</a>.</p>
-
-<h3>数据库初始化及启动Web进程</h3>
-
+<h3 id="数据库初始化及启动web进程">数据库初始化及启动Web进程</h3>
 <pre><code>$ mysql xxx
 $ source ~/todo/todo.sql
 $ node server.js
 </code></pre>
-
-<h3>有爱</h3>
-
-<p>可以看到, 无论是python的web开发, 还是nodejs, 我们以前对web的概念还是无需改变的.<br />都是我们熟悉的一些关键词: <br />http, request, response, html, template engine, url routing, MVC, GET, POST, MYSQL, Database...</p>
-
+<h3 id="有爱">有爱</h3>
+<p>可以看到, 无论是python的web开发, 还是nodejs, 我们以前对web的概念还是无需改变的.
+都是我们熟悉的一些关键词: 
+http, request, response, html, template engine, url routing, MVC, GET, POST, MYSQL, Database...</p>
 <p>不同的是, 这里只使用javascript就可以驱动着以上的一切.</p>
-
 <p>希望本文对你有用 ^_^</p>
+
 
 <h2>Comments</h2>
 <div id="disqus_thread"></div>
