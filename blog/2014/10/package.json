@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "co": "~3.1.0",
-    "sequelize": "~2.0.0-rc1",
+    "sequelize": "~5.21.1",
     "sqlite3": "~3.0.2"
   }
 }
