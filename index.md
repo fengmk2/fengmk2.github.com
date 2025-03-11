@@ -92,13 +92,14 @@
 
 * <img width="100" src="./images/hangjs-logo.svg"> [杭JS 2014](http://2014.jsconf.cn/) is a two day conference focused on JavaScript and Node.js technologies. This developer driven event will bring together notable figures from both the Chinese and international JavaScript communities to share their knowledge and passion for JavaScript. The conference will be held in Hangzhou from June 21-22.
 
-<a href="./images/hangjs-family-photo2.jpg" target="_blank"><img src="./images/hangjs-family-photo2.jpg" alt="HangJS"></a>
+  <a href="./images/hangjs-family-photo2.jpg" target="_blank"><img width="100%" src="./images/hangjs-family-photo2.jpg" alt="HangJS"></a>
 
 * <img width="100" src="./images/jingjs-alt.svg" alt="Jingjs"> [京JS](https://2013.jsconfchina.com/): 2013 9 - 10, NOVEMBER, A two day conference in Beijing for the Chinese JavaScript and Node.js community. (一个在北京举办的为期二天，为中国JavaScript和Node.js研发者社区举办的国际性技术大会)
 
 * <img width="100" src="./images/hujs-logo.jpeg" alt="Hujs"> [沪JS](http://www.hujs.org/): 2012 九月14－16日，上海, 一个为中国Javascript和Node.js开发者社区举办的会议
 
-[![gleen&troy&goddy&jackson&mk2](./images/hujs-mans.jpeg)](./images/hujs-mans.jpeg)
+  从左到右：troy, goddy, gleen, jackson, fengmk2
+  <a href="./images/hujs-mans.jpeg" target="_blank"><img width="100%" src="./images/hujs-mans.jpeg" alt="HangJS"></a>
 
 * [Alibaba Developer Conference]
 
