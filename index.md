@@ -39,6 +39,8 @@
 
 ## Articles
 
+* 2025
+  * [在绿联 NAS 上部署 AFFiNE Self-host](https://app.affine.pro/workspace/459565f1-f317-4156-8ffc-77fe75e9f810/zRMyBL7pwWpSEK-pcpvrX?mode=page)
 * [Blog/2017](blog/2017/index.html)
   * [子进程的优雅退出](blog/2017/graceful-process-exit.html)
 * [Blog/2016](blog/2016/index.html)

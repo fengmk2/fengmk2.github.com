@@ -1,0 +1,180 @@
+title: AFFiNE Server Modules {
+  shape: text
+  near: top-center
+  style: {
+    font-size: 20
+    italic: true
+  }
+}
+
+cloud {
+  label: AFFiNE Server
+  server {
+    label: Server / Worker
+    graphql
+    sync
+    renderer
+    doc
+    worker
+    script
+  }
+
+  plugins {
+    captcha
+    copilot
+    gcloud
+    license
+    oauth
+    payment
+    storage
+    worker
+  }
+
+  core {
+    auth
+    common
+    config
+    doc {
+      RpcDocReader
+      DatabaseDocReader
+    }
+    doc-renderer
+    doc-service
+    features
+    notification
+    permission
+    quota
+    runtime
+    selfhost
+    storage
+    sync
+    user
+    utils
+    workspaces
+  }
+  
+  models {
+    doc
+    feature
+    page
+    provider
+    runtime-config
+    session
+    user-doc
+    user-feature
+    user
+    verification-token
+    workspace-feature
+    workspace
+    notification
+  }
+
+  base {
+    cache
+    config
+    error
+    event
+    graphql
+    guard
+    helpers
+    logger
+    mailer
+    metrics
+    mutex
+    nestjs
+    prisma
+    redis
+    storage
+    throttler
+    utils
+    websocket
+    job
+  }
+
+  database {
+    label: PostgreSQL
+    shape: cylinder
+  }
+
+  cache {
+    label: Redis
+    shape: stored_data
+  }
+
+  queue {
+    label: BullMQ
+    shape: queue
+  }
+}
+
+cloud.server -> cloud.core: Dependency
+cloud.server -> cloud.plugins: Dependency
+
+# plugins
+
+cloud.plugins -> cloud.core: Dependency
+cloud.plugins -> cloud.models: Dependency
+cloud.plugins -> cloud.base: Dependency
+
+# core
+
+cloud.core -> cloud.base: Dependency
+cloud.core -> cloud.models: Dependency
+
+cloud.core.auth -> cloud.core.runtime
+cloud.core.config -> cloud.core.runtime
+cloud.core.doc -> cloud.core.runtime
+
+cloud.core.features -> cloud.core.runtime
+
+cloud.core.notification -> cloud.core.permission
+
+cloud.core.doc-service -> cloud.core.doc.DatabaseDocReader
+
+cloud.core.doc-renderer -> cloud.core.doc.RpcDocReader
+cloud.core.doc-renderer -> cloud.core.permission
+
+cloud.core.quota -> cloud.core.permission
+
+cloud.core.sync -> cloud.core.doc.RpcDocReader
+cloud.core.sync -> cloud.core.runtime
+cloud.core.sync -> cloud.core.permission
+
+cloud.core.workspaces -> cloud.core.doc.RpcDocReader
+
+cloud.core.doc.RpcDocReader -> cloud.rpc -> cloud.core.doc-service: RPC
+cloud.core.doc.RpcDocReader -> cloud.core.doc.DatabaseDocReader: Fallback
+
+cloud.core.auth -> cloud.core.features
+cloud.core.auth -> cloud.core.quota
+cloud.core.auth -> cloud.core.user
+
+cloud.core.selfhost -> cloud.core.runtime
+cloud.core.selfhost -> cloud.core.config
+cloud.core.selfhost -> cloud.core.auth
+cloud.core.selfhost -> cloud.core.user
+
+cloud.core.user -> cloud.core.permission
+cloud.core.user -> cloud.core.storage
+
+cloud.core.workspaces -> cloud.core.doc
+cloud.core.workspaces -> cloud.core.doc-renderer
+cloud.core.workspaces -> cloud.core.features
+cloud.core.workspaces -> cloud.core.permission
+cloud.core.workspaces -> cloud.core.quota
+cloud.core.workspaces -> cloud.core.storage
+cloud.core.workspaces -> cloud.core.user
+
+# models
+
+cloud.models -> cloud.database: Dependency
+cloud.models -> cloud.cache: Dependency
+
+cloud.base.cache -> cloud.cache: Dependency
+cloud.base.cache -> cloud.base.config
+
+cloud.base.job -> cloud.base.config
+cloud.base.job -> cloud.base.logger
+cloud.base.job -> cloud.queue: Dependency
+
+cloud.queue -> cloud.cache: Dependency

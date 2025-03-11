@@ -1,0 +1,51 @@
+title: Notification Pull Mode {
+  shape: text
+  near: top-center
+  style: {
+    font-size: 20
+    italic: true
+  }
+}
+
+client {
+  label: AFFiNE Client
+  user1 {
+    label: Jack
+    shape: person
+  }
+  user2 {
+    label: Alice
+    shape: person
+  }
+
+  ydoc {}
+  # shared_workers {
+  #   label: Shared Workers
+  # }
+}
+
+cloud {
+  label: AFFiNE Cloud
+  graphql {
+    # shape: graphql
+  }
+  models {
+    shape: package
+    Notification {
+    }
+  }
+  database {
+    shape: cylinder
+  }
+}
+
+# 1. send mention notification
+client.user1 -> client.ydoc: 1.1 mention @Alice at document
+client.ydoc -> cloud.graphql: 1.2 send mention notification
+cloud.graphql -> cloud.models.Notification -> cloud.database: 1.3 save
+
+# 2. pull notifications
+client.user2 -> cloud.graphql -> cloud.models.Notification -> cloud.database: 2.1 pull notifications
+# 3. read notification
+client.user2 -> cloud.graphql: 3.1 read notification
+cloud.graphql -> cloud.models.Notification -> cloud.database: 3.2 mark as read
