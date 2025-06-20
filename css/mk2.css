@@ -6,7 +6,7 @@ body {
 a{color:#09f;}
 code{color:#080;}
 pre{line-height: 1.4;}
-h1, #tagline{display:inline;}
+h1, #tagline{display:block;}
 #wrapper{padding:5% 8%;min-width:480px;}
 #tagline{font:0.8em serif;color:#888;display:inline-block;margin:0.1em 0 1.2em;}
 #fork{position:fixed;top:0;right:0;_position:absolute;}
