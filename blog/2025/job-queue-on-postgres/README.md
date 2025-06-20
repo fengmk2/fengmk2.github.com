@@ -82,3 +82,11 @@ docker run --name pg-container-job-queue-demo \
 ```bash
 node demo.ts
 ```
+
+## 完整代码
+
+请移步 https://github.com/fengmk2/fengmk2.github.com/tree/master/blog/2025/job-queue-on-postgres
+
+## 有爱
+
+希望本文对你有用 ^_^
