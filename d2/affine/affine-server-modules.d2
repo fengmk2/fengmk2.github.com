@@ -51,6 +51,7 @@ cloud {
     user
     utils
     workspaces
+    mail
   }
   
   models {
@@ -128,6 +129,12 @@ cloud.core.doc -> cloud.core.runtime
 cloud.core.features -> cloud.core.runtime
 
 cloud.core.notification -> cloud.core.permission
+cloud.core.notification -> cloud.core.mail
+cloud.core.notification -> cloud.core.doc
+cloud.core.notification -> cloud.core.storage
+
+cloud.core.mail -> cloud.core.doc
+cloud.core.mail -> cloud.core.storage
 
 cloud.core.doc-service -> cloud.core.doc.DatabaseDocReader
 
@@ -142,7 +149,7 @@ cloud.core.sync -> cloud.core.permission
 
 cloud.core.workspaces -> cloud.core.doc.RpcDocReader
 
-cloud.core.doc.RpcDocReader -> cloud.rpc -> cloud.core.doc-service: RPC
+cloud.core.doc.RpcDocReader -> cloud.core.doc-service: RPC
 cloud.core.doc.RpcDocReader -> cloud.core.doc.DatabaseDocReader: Fallback
 
 cloud.core.auth -> cloud.core.features
@@ -164,6 +171,8 @@ cloud.core.workspaces -> cloud.core.permission
 cloud.core.workspaces -> cloud.core.quota
 cloud.core.workspaces -> cloud.core.storage
 cloud.core.workspaces -> cloud.core.user
+cloud.core.workspaces -> cloud.core.mail
+cloud.core.workspaces -> cloud.core.notification: Job
 
 # models
 
