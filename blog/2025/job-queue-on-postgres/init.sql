@@ -1,0 +1,9 @@
+CREATE TABLE tasks (
+  "id" SERIAL PRIMARY KEY,
+  "type" TEXT NOT NULL,
+  "payload" JSONB,
+  "status" TEXT NOT NULL DEFAULT 'pending',
+  "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "processed_at" TIMESTAMPTZ(3)
+);
