@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>基于 Postgres 实现一个 Job Queue</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="基于-postgres-实现一个-job-queue">基于 Postgres 实现一个 Job Queue</h1>
+<p>今天看到一篇赞美 Postgres 的文章：<a href="https://dev.to/shayy/postgres-is-too-good-and-why-thats-actually-a-problem-4imc">Postgres is Too Good (And Why That&#39;s Actually a Problem)</a> ，显然是非常吸引眼球的，作者用 PG 实现了需要用到的所有微服务。</p>
+<p>做 AFFiNE 我们是用 Redis 的 pub/sub 实现的 Job Queue，所以想参考一下用 Postgres 实现对比看看。</p>
+<h2 id="直接问-chatgpt-怎样实现">直接问 ChatGPT 怎样实现</h2>
+<blockquote>
+<p>基于 Postgres 的 LISTEN/NOTIFY 实现任务队列服务</p>
+</blockquote>
+<p><a href="https://chatgpt.com/share/685527b8-724c-8010-9e5a-1aac521a7acc">https://chatgpt.com/share/685527b8-724c-8010-9e5a-1aac521a7acc</a></p>
+<h2 id="表结构">表结构</h2>
+<p><code>init.sql</code></p>
+<pre><code class="language-sql">CREATE TABLE tasks (
+  &quot;id&quot; SERIAL PRIMARY KEY,
+  &quot;type&quot; TEXT NOT NULL,
+  &quot;payload&quot; JSONB,
+  &quot;status&quot; TEXT NOT NULL DEFAULT &#39;pending&#39;,
+  &quot;created_at&quot; TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  &quot;updated_at&quot; TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  &quot;processed_at&quot; TIMESTAMPTZ(3)
+);
+</code></pre>
+<h2 id="job-queue-基本操作">Job Queue 基本操作</h2>
+<h3 id="添加任务并广播通知">添加任务并广播通知</h3>
+<pre><code class="language-sql">INSERT INTO tasks (type, payload) VALUES (&#39;send_email&#39;, &#39;{&quot;to&quot;: &quot;test@example.com&quot;}&#39;);
+
+NOTIFY task_queue, &#39;new_task&#39;;
+</code></pre>
+<h3 id="监听任务消息并拉取任务">监听任务消息并拉取任务</h3>
+<p>监听任务消息</p>
+<pre><code class="language-ts">await jobListener.query(&#39;LISTEN task_queue&#39;);
+
+jobListener.on(&#39;notification&#39;, async (msg) =&gt; {
+  if (msg.channel === &#39;task_queue&#39;) {
+    // 在这里拉取任务
+  }
+});
+</code></pre>
+<p>拉取任务 SQL</p>
+<pre><code class="language-sql">UPDATE tasks
+SET status = &#39;processing&#39;, processed_at = NOW(), updated_at = NOW()
+WHERE id = (
+  SELECT id FROM tasks WHERE status = &#39;pending&#39;
+  ORDER BY created_at ASC LIMIT 1
+  FOR UPDATE SKIP LOCKED
+)
+RETURNING *;
+</code></pre>
+<h2 id="可运行的代码">可运行的代码</h2>
+<p>先启动一个 Postgres 测试服务</p>
+<pre><code class="language-bash">docker run --name pg-container-job-queue-demo \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=test123123 \
+  -e POSTGRES_DB=mydb \
+  -v $(pwd)/init.sql:/docker-entrypoint-initdb.d/init.sql \
+  -p 5432:5432 \
+  -d postgres:16
+</code></pre>
+<p>启动 <code>demo.ts</code> 代码，每 5 秒触发一个任务，并打印结果</p>
+<pre><code class="language-bash">node demo.ts
+</code></pre>
+<h2 id="完整代码">完整代码</h2>
+<p>请移步 <a href="https://github.com/fengmk2/fengmk2.github.com/tree/master/blog/2025/job-queue-on-postgres">https://github.com/fengmk2/fengmk2.github.com/tree/master/blog/2025/job-queue-on-postgres</a></p>
+<h2 id="有爱">有爱</h2>
+<p>希望本文对你有用 ^_^</p>
+
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://fengmk2github.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+});
+</script>
+</body>
+</html>
