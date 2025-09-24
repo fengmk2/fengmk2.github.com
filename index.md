@@ -3,10 +3,10 @@
 ## Who is MK2
 
 * Github: [@fengmk2](https://github.com/fengmk2)
-* Weibo: [@Python发烧友](http://weibo.com/imk2)
-* Twitter: [@fengmk2](http://twitter.com/fengmk2)
-* npmmirror: [China npm mirror](https://npmmirror.com)
-* 语雀：[苏千](https://www.yuque.com/fengmk2)
+* Weibo: [@Python发烧友](https://weibo.com/imk2)
+* Twitter: [@fengmk2](https://x.com/fengmk2)
+* npmmirror: [npmmirror 镜像站](https://npmmirror.com)
+* 语雀：[苏千](https://yuque.com/fengmk2)
 * CNode: [@fengmk2](https://cnodejs.org/user/fengmk2)
 * cnblogs: [让生活Web个够](https://fengmk2.cnblogs.com/)
 
@@ -40,7 +40,7 @@
 ## Articles
 
 * 2025
-  * [基于 Postgres 实现一个 Job Queue](blog/2025/job-queue-on-postgres/README.html)
+  * [基于 Postgres 实现一个 Job Queue](blog/2025/job-queue-on-postgres/README)
   * [make Node.js debug log 700x faster](https://github.com/fengmk2/debuglog-perf?tab=readme-ov-file#debuglog-perf-issues)
   * [在绿联 NAS 上部署 AFFiNE Self-host](https://app.affine.pro/workspace/459565f1-f317-4156-8ffc-77fe75e9f810/zRMyBL7pwWpSEK-pcpvrX?mode=page)
 * [Blog/2017](blog/2017/index.html)
