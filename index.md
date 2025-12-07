@@ -21,8 +21,10 @@
 * [Nodejs 实践二三事](/ppt/those-things-using-nodejs/index.html)
 * [杭JS 二三事](/ppt/hangjs.html)
 
-## Nodejs
+## Node.js
 
+* [@cnpmjs/packument](https://github.com/cnpm/packument): A package metadata helper for Node.js. It provides a way to parse package metadata from buffer and diff versions between local and remote.
+* [@fengmk2/iconv](https://github.com/fengmk2/iconv): Fast and robust character encoding conversion library for Node.js using native Rust bindings via napi-rs.
 * [egg benchmark results](/egg/benchmark/index.html)
 * [Defense hash algorithm collision 防御hash算法冲突导致拒绝服务器](/blog/2011/defense-hash-algorithm-collision-dos.html)
 * [Hash algorithm collision in Nodejs](/blog/2011/hac-in-nodejs-results.html)
@@ -31,6 +33,8 @@
 
 ## Applications
 
+* [cnpmcore](https://github.com/cnpm/cnpmcore): Private NPM Registry for self-host. Example: npm registry Mirror on China https://registry.npmmirror.com and the web console https://npmmirror.com
+* [X-Profiler/all-in-one](https://github.com/X-Profiler/all-in-one): [Easy-Monitor](https://www.yuque.com/hyj1991/easy-monitor) all in one monitoring solution for Node.js applications.  
 * [Emoji](./emoji/index.html)
 * [Markdown Preview](./browser.html)
 * [NAE-CLI](https://cnodejs.org/topic/4f387648301a48d50e003d4c)
