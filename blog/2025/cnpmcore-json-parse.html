@@ -122,9 +122,11 @@ SonicJSONParse get property value (@primer/react.json) #5 time: 0ms
 <h3 id="ezm-监控数据对比看到整体性有提升">EZM 监控数据对比看到整体性有提升</h3>
 <p>cnpmcore v4.14.0 发布到 <a href="https://registry.npmmirror.com/">registry.npmmirror.com</a> 的 EZM 监控对比：</p>
 <p>Scavenge GC 明显减少了许多，代表临时生成的 JSON 反序列化对象确实变少了。</p>
-<p><img src="cnpmcore-parse-img-2.png" alt=""></p>
+<img src="cnpmcore-parse-img-2.png" alt="cnpmcore-parse-img-2" width="800">
+
 <p>CPU、GC、QPS 的对比，更高的 QPS 峰值 CPU 更低了</p>
-<p><img src="cnpmcore-parse-img-1.png" alt=""></p>
+<img src="cnpmcore-parse-img-1.png" alt="cnpmcore-parse-img-1" width="800">
+
 <h3 id="升级后的-cpu-profile-分析报告">升级后的 CPU Profile 分析报告</h3>
 <p>对比 <a href="https://github.com/cnpm/cnpmcore/blob/profiler-20251208-4.12.0/benchmark/profiler-4.12.0/REPORT.md#application-code-hotspots">v4.12.0</a> 和 <a href="https://github.com/cnpm/cnpmcore/blob/profiler-20251209-4.14.0/benchmark/profiler-4.14.0/ANALYSIS-REPORT.md#cnpmcore-application-code-analysis">v4.14.0</a> 的 cpuprofile 中关于应用层热点代码分析，可以看到 JSON 反序列化相关热点代码已经不见了，代表性能优化符合预期。</p>
 <blockquote>
