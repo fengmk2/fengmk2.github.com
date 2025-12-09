@@ -44,6 +44,7 @@
 ## Articles
 
 * 2025
+  * [cnpmcore 超大 JSON 反序列化性能优化](blog/2025/cnpmcore-json-parse)
   * [基于 Postgres 实现一个 Job Queue](blog/2025/job-queue-on-postgres/README)
   * [make Node.js debug log 700x faster](https://github.com/fengmk2/debuglog-perf?tab=readme-ov-file#debuglog-perf-issues)
   * [在绿联 NAS 上部署 AFFiNE Self-host](https://app.affine.pro/workspace/459565f1-f317-4156-8ffc-77fe75e9f810/zRMyBL7pwWpSEK-pcpvrX?mode=page)
