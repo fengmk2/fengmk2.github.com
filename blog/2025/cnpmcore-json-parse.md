@@ -123,11 +123,11 @@ cnpmcore v4.14.0 发布到 [registry.npmmirror.com](https://registry.npmmirror.c
 
 Scavenge GC 明显减少了许多，代表临时生成的 JSON 反序列化对象确实变少了。
 
-![](https://cdn.nlark.com/yuque/0/2025/png/84137/1765280648848-7507779d-0a09-4935-98fc-f62154ebdebc.png)
+![](cnpmcore-parse-img-2.png)
 
 CPU、GC、QPS 的对比，更高的 QPS 峰值 CPU 更低了
 
-![](https://cdn.nlark.com/yuque/0/2025/png/84137/1765280591329-ff8e3d2a-c711-4b65-8c79-6d931f7c994d.png)
+![](cnpmcore-parse-img-1.png)
 
 ### 升级后的 CPU Profile 分析报告
 对比 [v4.12.0](https://github.com/cnpm/cnpmcore/blob/profiler-20251208-4.12.0/benchmark/profiler-4.12.0/REPORT.md#application-code-hotspots) 和 [v4.14.0](https://github.com/cnpm/cnpmcore/blob/profiler-20251209-4.14.0/benchmark/profiler-4.14.0/ANALYSIS-REPORT.md#cnpmcore-application-code-analysis) 的 cpuprofile 中关于应用层热点代码分析，可以看到 JSON 反序列化相关热点代码已经不见了，代表性能优化符合预期。
