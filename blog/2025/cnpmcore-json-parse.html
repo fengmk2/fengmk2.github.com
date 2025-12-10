@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="/css/prettify.css">
   <link rel="stylesheet" href="/css/mk2.css">
-  <title>cnpmcore 超大 JSON 反序列化性能优化</title>
+  <title>cnpmcore 超大 JSON parse 性能优化</title>
 </head>
 <body>
 
@@ -20,10 +20,10 @@
 </div> <!-- #header -->
 
 <div id="content">
-<h1 id="cnpmcore-超大-json-反序列化性能优化">cnpmcore 超大 JSON 反序列化性能优化</h1>
+<h1 id="cnpmcore-超大-json-parse-性能优化">cnpmcore 超大 JSON parse 性能优化</h1>
 <h2 id="问题">问题</h2>
-<p>npmmirror registry 上偶尔会 CPU 狂飙一会，看日志发现这个时间段内有一个超多版本的 npm 包在同步，如 <a href="https://www.npmjs.com/package/@primer/react">@primer/react</a>。<br>最终发现这个 npm 包的 full manifests JSON 文件数据有 89MB，对它进行 JSON 反序列化后 Node.js 进程占用的内存高达 760MB。可见这个过程中创建了非常多的 JavaScript Objects，并且在 npmmirror 的同步场景中，这些 versions 数据绝大部分都是多余的，并不会被使用到。</p>
-<p>所以问题来了，怎样才能做到按需读取需要同步的 versions 数据，而又不需要提前反序列化整个 JSON 数据。</p>
+<p>npmmirror registry 上偶尔会 CPU 狂飙一会，看日志发现这个时间段内有一个超多版本的 npm 包在同步，如 <a href="https://www.npmjs.com/package/@primer/react">@primer/react</a>。<br>最终发现这个 npm 包的 full manifests JSON 文件数据有 89MB，对它进行 JSON parse 后 Node.js 进程占用的内存高达 760MB。可见这个过程中创建了非常多的 JavaScript Objects，并且在 npmmirror 的同步场景中，这些 versions 数据绝大部分都是多余的，并不会被使用到。</p>
+<p>所以问题来了，怎样才能做到按需读取需要同步的 versions 数据，而又不需要提前 parse 整个 JSON 数据。</p>
 <blockquote>
 <p>通过 JSON.parse 读取 22MB 和 89MB 数据后的 Node.js 进程的内存占用对比（<a href="https://github.com/cnpm/packument/blob/master/benchmark/get_property_value.ts">测试脚本</a>）</p>
 </blockquote>
@@ -32,7 +32,7 @@
   JSONParse get property value (89M): 796.2 MB (min: 766.1 MB, max: 871.4 MB)
 </code></pre>
 <h2 id="思路">思路</h2>
-<p>这个问题已经困扰 cnpmcore 好多年，第一次尝试是在 2023 年问题集中爆发的那段时间里，曾经想过使用 <a href="https://github.com/cnpm/cnpmcore/issues/564#issuecomment-1864694766">streamparser-json</a> 来重构，发现要变更使用方式导致代码改动量还是挺大的，时间成本和复杂度太高中途而废了。<br>第二次尝试是 2024 年初偶然看到 <a href="https://github.com/cnpm/cnpmcore/issues/655">simdjson_nodejs</a> 这个 C++ 扩展，尝试几天后发现跨平台编译很麻烦而我又不想折腾毕竟我们每年都还得升级 Node.js 版本，于是又中断了。<br>最后一次尝试是 2025 年 11 月自己学习 Rust + simd-json 过程中发现可以结合 napi-rs 实现一个按需解析 JSON 的巧妙方法。在<a href="https://github.com/Brooooooklyn">@Brooooooklyn</a> 的指导下学会了 zero-copy 的方式让 Node.js 与 Rust 之间交换数据，最终选择在 <a href="https://github.com/cloudwego/sonic-rs">sonic-rs</a> 上实现了一个 <a href="https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md#getpackage">npm full manifests</a> JSON 专业的解析库 <a href="https://github.com/cnpm/packument">@cnpmjs/packument</a> ，只需要传递 JSON Buffer 引用和当前版本号数组给 diff 函数，它就能按需计算出差异的版本信息以及该版本在 Buffer 数据中的偏移量位置，然后 cnpmcore 按需反序列化相对应的 versions 数据，这样最终的 JavaScript Objects 生成量会大大减少。</p>
+<p>这个问题已经困扰 cnpmcore 好多年，第一次尝试是在 2023 年问题集中爆发的那段时间里，曾经想过使用 <a href="https://github.com/cnpm/cnpmcore/issues/564#issuecomment-1864694766">streamparser-json</a> 来重构，发现要变更使用方式导致代码改动量还是挺大的，时间成本和复杂度太高中途而废了。<br>第二次尝试是 2024 年初偶然看到 <a href="https://github.com/cnpm/cnpmcore/issues/655">simdjson_nodejs</a> 这个 C++ 扩展，尝试几天后发现跨平台编译很麻烦而我又不想折腾毕竟我们每年都还得升级 Node.js 版本，于是又中断了。<br>最后一次尝试是 2025 年 11 月自己学习 Rust + simd-json 过程中发现可以结合 napi-rs 实现一个按需解析 JSON 的巧妙方法。在<a href="https://github.com/Brooooooklyn">@Brooooooklyn</a> 的指导下学会了 zero-copy 的方式让 Node.js 与 Rust 之间交换数据，最终选择在 <a href="https://github.com/cloudwego/sonic-rs">sonic-rs</a> 上实现了一个 <a href="https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md#getpackage">npm full manifests</a> JSON 专业的解析库 <a href="https://github.com/cnpm/packument">@cnpmjs/packument</a> ，只需要传递 JSON Buffer 引用和当前版本号数组给 diff 函数，它就能按需计算出差异的版本信息以及该版本在 Buffer 数据中的偏移量位置，然后 cnpmcore 按需 parse 相对应的 versions 数据，这样最终的 JavaScript Objects 生成量会大大减少。</p>
 <p>示意代码如下：</p>
 <pre><code class="language-typescript">import { Package } from &#39;@cnpmjs/packument&#39;
 import { readFileSync } from &#39;fs&#39;
@@ -61,7 +61,7 @@ console.log(diff.removedVersions) // Versions in local but not in remote
 //   ]
 // }
 </code></pre>
-<p>重新跑一下 JSON 反序列化内存占用的<a href="https://github.com/cnpm/packument/blob/master/benchmark/get_property_value.ts">测试脚本</a>，可以看到基于 snoic-rs 的内存占用远小于 JSON.parse，并打开 V8 GC 监控可以看到 scavenge 从 200ms 直接下降为 0ms，代表这个过程中没有生成无用的 JS 对象。</p>
+<p>重新跑一下 JSON parse 内存占用的<a href="https://github.com/cnpm/packument/blob/master/benchmark/get_property_value.ts">测试脚本</a>，可以看到基于 snoic-rs 的内存占用远小于 JSON.parse，并打开 V8 GC 监控可以看到 scavenge 从 200ms 直接下降为 0ms，代表这个过程中没有生成无用的 JS 对象。</p>
 <pre><code class="language-bash">Memory Usage:
   JSONParse get property value (22M): 490.4 MB (min: 490.0 MB, max: 490.9 MB)
   JSONParse get property value (89M): 796.2 MB (min: 766.1 MB, max: 871.4 MB)
@@ -121,14 +121,14 @@ SonicJSONParse get property value (@primer/react.json) #5 time: 0ms
 </blockquote>
 <h3 id="ezm-监控数据对比看到整体性有提升">EZM 监控数据对比看到整体性有提升</h3>
 <p>cnpmcore v4.14.0 发布到 <a href="https://registry.npmmirror.com/">registry.npmmirror.com</a> 的 EZM 监控对比：</p>
-<p>Scavenge GC 明显减少了许多，代表临时生成的 JSON 反序列化对象确实变少了。</p>
+<p>Scavenge GC 明显减少了许多，代表临时生成的 JSON parse 对象确实变少了。</p>
 <img src="cnpmcore-parse-img-2.png" alt="cnpmcore-parse-img-2" width="800">
 
 <p>CPU、GC、QPS 的对比，更高的 QPS 峰值 CPU 更低了</p>
 <img src="cnpmcore-parse-img-1.png" alt="cnpmcore-parse-img-1" width="800">
 
 <h3 id="升级后的-cpu-profile-分析报告">升级后的 CPU Profile 分析报告</h3>
-<p>对比 <a href="https://github.com/cnpm/cnpmcore/blob/profiler-20251208-4.12.0/benchmark/profiler-4.12.0/REPORT.md#application-code-hotspots">v4.12.0</a> 和 <a href="https://github.com/cnpm/cnpmcore/blob/profiler-20251209-4.14.0/benchmark/profiler-4.14.0/ANALYSIS-REPORT.md#cnpmcore-application-code-analysis">v4.14.0</a> 的 cpuprofile 中关于应用层热点代码分析，可以看到 JSON 反序列化相关热点代码已经不见了，代表性能优化符合预期。</p>
+<p>对比 <a href="https://github.com/cnpm/cnpmcore/blob/profiler-20251208-4.12.0/benchmark/profiler-4.12.0/REPORT.md#application-code-hotspots">v4.12.0</a> 和 <a href="https://github.com/cnpm/cnpmcore/blob/profiler-20251209-4.14.0/benchmark/profiler-4.14.0/ANALYSIS-REPORT.md#cnpmcore-application-code-analysis">v4.14.0</a> 的 cpuprofile 中关于应用层热点代码分析，可以看到 JSON parse 相关热点代码已经不见了，代表性能优化符合预期。</p>
 <blockquote>
 <p>后续 cnpmcore 每次发布后都会做一下 CPU Profile 分析报告，并放在 <a href="https://github.com/cnpm/cnpmcore/wiki#performance">https://github.com/cnpm/cnpmcore/wiki#performance</a> Wiki 下，欢迎参考使用。</p>
 </blockquote>

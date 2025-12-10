@@ -1,10 +1,10 @@
-# cnpmcore 超大 JSON 反序列化性能优化
+# cnpmcore 超大 JSON parse 性能优化
 
 ## 问题
 npmmirror registry 上偶尔会 CPU 狂飙一会，看日志发现这个时间段内有一个超多版本的 npm 包在同步，如 [@primer/react](https://www.npmjs.com/package/@primer/react)。  
-最终发现这个 npm 包的 full manifests JSON 文件数据有 89MB，对它进行 JSON 反序列化后 Node.js 进程占用的内存高达 760MB。可见这个过程中创建了非常多的 JavaScript Objects，并且在 npmmirror 的同步场景中，这些 versions 数据绝大部分都是多余的，并不会被使用到。
+最终发现这个 npm 包的 full manifests JSON 文件数据有 89MB，对它进行 JSON parse 后 Node.js 进程占用的内存高达 760MB。可见这个过程中创建了非常多的 JavaScript Objects，并且在 npmmirror 的同步场景中，这些 versions 数据绝大部分都是多余的，并不会被使用到。
 
-所以问题来了，怎样才能做到按需读取需要同步的 versions 数据，而又不需要提前反序列化整个 JSON 数据。
+所以问题来了，怎样才能做到按需读取需要同步的 versions 数据，而又不需要提前 parse 整个 JSON 数据。
 
 > 通过 JSON.parse 读取 22MB 和 89MB 数据后的 Node.js 进程的内存占用对比（[测试脚本](https://github.com/cnpm/packument/blob/master/benchmark/get_property_value.ts)）
 >
@@ -18,7 +18,7 @@ Memory Usage:
 ## 思路
 这个问题已经困扰 cnpmcore 好多年，第一次尝试是在 2023 年问题集中爆发的那段时间里，曾经想过使用 [streamparser-json](https://github.com/cnpm/cnpmcore/issues/564#issuecomment-1864694766) 来重构，发现要变更使用方式导致代码改动量还是挺大的，时间成本和复杂度太高中途而废了。  
 第二次尝试是 2024 年初偶然看到 [simdjson_nodejs](https://github.com/cnpm/cnpmcore/issues/655) 这个 C++ 扩展，尝试几天后发现跨平台编译很麻烦而我又不想折腾毕竟我们每年都还得升级 Node.js 版本，于是又中断了。  
-最后一次尝试是 2025 年 11 月自己学习 Rust + simd-json 过程中发现可以结合 napi-rs 实现一个按需解析 JSON 的巧妙方法。在[@Brooooooklyn](https://github.com/Brooooooklyn) 的指导下学会了 zero-copy 的方式让 Node.js 与 Rust 之间交换数据，最终选择在 [sonic-rs](https://github.com/cloudwego/sonic-rs) 上实现了一个 [npm full manifests](https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md#getpackage) JSON 专业的解析库 [@cnpmjs/packument](https://github.com/cnpm/packument) ，只需要传递 JSON Buffer 引用和当前版本号数组给 diff 函数，它就能按需计算出差异的版本信息以及该版本在 Buffer 数据中的偏移量位置，然后 cnpmcore 按需反序列化相对应的 versions 数据，这样最终的 JavaScript Objects 生成量会大大减少。
+最后一次尝试是 2025 年 11 月自己学习 Rust + simd-json 过程中发现可以结合 napi-rs 实现一个按需解析 JSON 的巧妙方法。在[@Brooooooklyn](https://github.com/Brooooooklyn) 的指导下学会了 zero-copy 的方式让 Node.js 与 Rust 之间交换数据，最终选择在 [sonic-rs](https://github.com/cloudwego/sonic-rs) 上实现了一个 [npm full manifests](https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md#getpackage) JSON 专业的解析库 [@cnpmjs/packument](https://github.com/cnpm/packument) ，只需要传递 JSON Buffer 引用和当前版本号数组给 diff 函数，它就能按需计算出差异的版本信息以及该版本在 Buffer 数据中的偏移量位置，然后 cnpmcore 按需 parse 相对应的 versions 数据，这样最终的 JavaScript Objects 生成量会大大减少。
 
 示意代码如下：
 
@@ -51,7 +51,7 @@ console.log(diff.removedVersions) // Versions in local but not in remote
 // }
 ```
 
-重新跑一下 JSON 反序列化内存占用的[测试脚本](https://github.com/cnpm/packument/blob/master/benchmark/get_property_value.ts)，可以看到基于 snoic-rs 的内存占用远小于 JSON.parse，并打开 V8 GC 监控可以看到 scavenge 从 200ms 直接下降为 0ms，代表这个过程中没有生成无用的 JS 对象。
+重新跑一下 JSON parse 内存占用的[测试脚本](https://github.com/cnpm/packument/blob/master/benchmark/get_property_value.ts)，可以看到基于 snoic-rs 的内存占用远小于 JSON.parse，并打开 V8 GC 监控可以看到 scavenge 从 200ms 直接下降为 0ms，代表这个过程中没有生成无用的 JS 对象。
 
 ```bash
 Memory Usage:
@@ -121,7 +121,7 @@ SonicJSONParse get property value (@primer/react.json) #5 time: 0ms
 ### EZM 监控数据对比看到整体性有提升
 cnpmcore v4.14.0 发布到 [registry.npmmirror.com](https://registry.npmmirror.com/) 的 EZM 监控对比：
 
-Scavenge GC 明显减少了许多，代表临时生成的 JSON 反序列化对象确实变少了。
+Scavenge GC 明显减少了许多，代表临时生成的 JSON parse 对象确实变少了。
 
 <img src="cnpmcore-parse-img-2.png" alt="cnpmcore-parse-img-2" width="800">
 
@@ -130,7 +130,7 @@ CPU、GC、QPS 的对比，更高的 QPS 峰值 CPU 更低了
 <img src="cnpmcore-parse-img-1.png" alt="cnpmcore-parse-img-1" width="800">
 
 ### 升级后的 CPU Profile 分析报告
-对比 [v4.12.0](https://github.com/cnpm/cnpmcore/blob/profiler-20251208-4.12.0/benchmark/profiler-4.12.0/REPORT.md#application-code-hotspots) 和 [v4.14.0](https://github.com/cnpm/cnpmcore/blob/profiler-20251209-4.14.0/benchmark/profiler-4.14.0/ANALYSIS-REPORT.md#cnpmcore-application-code-analysis) 的 cpuprofile 中关于应用层热点代码分析，可以看到 JSON 反序列化相关热点代码已经不见了，代表性能优化符合预期。
+对比 [v4.12.0](https://github.com/cnpm/cnpmcore/blob/profiler-20251208-4.12.0/benchmark/profiler-4.12.0/REPORT.md#application-code-hotspots) 和 [v4.14.0](https://github.com/cnpm/cnpmcore/blob/profiler-20251209-4.14.0/benchmark/profiler-4.14.0/ANALYSIS-REPORT.md#cnpmcore-application-code-analysis) 的 cpuprofile 中关于应用层热点代码分析，可以看到 JSON parse 相关热点代码已经不见了，代表性能优化符合预期。
 
 > 后续 cnpmcore 每次发布后都会做一下 CPU Profile 分析报告，并放在 [https://github.com/cnpm/cnpmcore/wiki#performance](https://github.com/cnpm/cnpmcore/wiki#performance) Wiki 下，欢迎参考使用。
 >
