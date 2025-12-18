@@ -10,6 +10,11 @@
 * CNode: [@fengmk2](https://cnodejs.org/user/fengmk2)
 * cnblogs: [让生活Web个够](https://fengmk2.cnblogs.com/)
 
+<audio controls autoplay>
+  <source src="https://download.alicdn.com/seller_2012/gracious-dream.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>  
+
 ## Slides
 
 * [Node HBase Client](https://github.com/alibaba/node-hbase-client): Asynchronous HBase client for Node.

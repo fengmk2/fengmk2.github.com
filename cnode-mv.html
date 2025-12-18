@@ -21,33 +21,14 @@
 
 <div id="content">
 <h1 id="cnode-迁移">cnode 迁移</h1>
-<p>$ scp <a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#x34;&#50;&#x2e;&#49;&#x32;&#49;&#46;&#x38;&#x36;&#x2e;&#49;&#x30;&#55;">&#114;&#x6f;&#111;&#116;&#x40;&#x34;&#50;&#x2e;&#49;&#x32;&#49;&#46;&#x38;&#x36;&#x2e;&#49;&#x30;&#55;</a>:/home/admin/cnae/club_dump.tar ./</p>
+<p>$ scp <a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#52;&#50;&#x2e;&#49;&#x32;&#x31;&#46;&#x38;&#54;&#46;&#x31;&#48;&#x37;">&#x72;&#x6f;&#111;&#x74;&#64;&#52;&#50;&#x2e;&#49;&#x32;&#x31;&#46;&#x38;&#54;&#46;&#x31;&#48;&#x37;</a>:/home/admin/cnae/club_dump.tar ./</p>
 <p>club_dump.tar                                                                                                               100%   22MB  87.7KB/s   04:20  </p>
 <p>$ tar xvf club_dump.tar</p>
 <p>$ mongorestore --dir club_dump</p>
 
 
-<h2>Comments</h2>
-<div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    /*
-    var disqus_config = function () {
-    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://fengmk2github.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
 
 </div> <!-- #content -->
 
@@ -68,7 +49,31 @@
 $(function() {
   $('pre code').parent().addClass('prettyprint');
   prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
 });
 </script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
 </body>
 </html>
