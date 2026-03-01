@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>让python的Cookie.py模块支持:冒号做key</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="让python的cookiepy模块支持冒号做key">让python的Cookie.py模块支持:冒号做key</h1>
+<p>虽然Cookie的标准是不允许:冒号出现在key里面的，但是我们的开发人员是很可爱的，常常会让我们意想不到。</p>
+<p>为了做好兼容性，只能选择兼容:冒号。</p>
+<p>很简单，修改一下Cookie.Morsel</p>
+<pre><code>#!/usr/bin/python
+# -*- coding: utf-8 -*-
+&quot;&quot;&quot;MorselHook
+fix Cookie.CookieError: Illegal key value: ys-tab:entrance:e
+&quot;&quot;&quot;
+
+import Cookie
+import string
+
+_Morsel = Cookie.Morsel
+
+class MorselHook(_Morsel):
+    &quot;&quot;&quot;
+    &gt;&gt;&gt; import inspect
+    &gt;&gt;&gt; (inspect.getargspec(MorselHook.set)[3])[0]
+    &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&amp;&#39;*+-.^_`|~:&quot;
+    &gt;&gt;&gt; cookie = Cookie.SimpleCookie()
+    &gt;&gt;&gt; cookie.load(&quot;ys-tab:entrance:e=abc; webpy_session_id=75eb60dcc83e2d902146af0bb7f47afe61fbd2b2&quot;)
+    &gt;&gt;&gt; print cookie
+    Set-Cookie: webpy_session_id=75eb60dcc83e2d902146af0bb7f47afe61fbd2b2;
+    Set-Cookie: ys-tab:entrance:e=abc;
+    &quot;&quot;&quot;
+    def set(self, key, val, coded_val, 
+            LegalChars=Cookie._LegalChars+&#39;:&#39;, 
+            idmap=string._idmap, 
+            translate=string.translate):
+        return super(MorselHook, self).set(key, val, 
+                coded_val, LegalChars, idmap, translate)
+    
+Cookie.Morsel = MorselHook
+
+# 在你需要使用到Cookie的地方先让上面的代码执行一遍
+
+
+if __name__ == &#39;__main__&#39;:
+    import doctest
+    doctest.testmod()
+    
+</code></pre>
+<h3 id="有爱">有爱</h3>
+<p>^_^ 希望本文对你有用。</p>
+
+
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
+});
+</script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</body>
+</html>

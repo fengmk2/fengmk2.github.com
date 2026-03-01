@@ -1,0 +1,6 @@
+{
+  "files": [
+    "routes.d.ts",
+    "db.d.ts"
+  ]
+}

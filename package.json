@@ -2,10 +2,11 @@
   "name": "fengmk2.github.com",
   "version": "0.0.1",
   "description": "mk2 personal blog",
-  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "build": "node build.js",
-    "start": "node server.js"
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -13,10 +14,12 @@
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    "connect": "2",
-    "mdit": "^1.0.1",
-    "ndir": "^0.1.5"
+  "devDependencies": {
+    "void": "file:/Users/fengmk2/git/github.com/voidzero-dev/void/packages/void",
+    "@void-x/vue": "file:/Users/fengmk2/git/github.com/voidzero-dev/void/packages/vue",
+    "@void-x/md": "file:/Users/fengmk2/git/github.com/voidzero-dev/void/packages/md",
+    "vue": "^3.5.0",
+    "vite": "beta"
   },
-  "readmeFilename": "README.html"
+  "packageManager": "npm@11.11.0"
 }

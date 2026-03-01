@@ -1,0 +1,7 @@
+{
+  "server": "foo.com",
+  "server_port": "121212",
+  "password": "ppp",
+  "local_port": "1080",
+  "method": "aes-256-cfb"
+}

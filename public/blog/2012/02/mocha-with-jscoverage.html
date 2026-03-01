@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>mocha + jscoverage</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="mocha--jscoverage">mocha + jscoverage</h1>
+<p>mocha在<a href="https://github.com/visionmedia/mocha/commit/6caeb30386e92b4a980074b535747319324dfe99">Release 0.13.0</a> 已经支持 <code>HTMLCov</code> 和 <code>JSONCov</code> 两种reporter, 那么显然可以非常简便地将 <a href="https://github.com/visionmedia/node-jscoverage">jscoverage</a> 整合到mocha中, 进行代码覆盖率测试了.</p>
+<h2 id="如何做">如何做?</h2>
+<p>参照 <a href="https://mochajs.org/">mocha</a> 的 <a href="https://mochajs.org/">Best practices</a>, 在 <code>Makefile</code> 中配置所有命令:</p>
+<ol>
+<li><p>使用 <code>jscoverage</code> 命令行程序转换源代码</p>
+<pre><code> lib-cov:
+   @rm -rf ./$@
+   @jscoverage lib $@
+</code></pre>
+</li>
+<li><p>代码中根据环境变量 <code>JSCOV</code> 判断载入的模块是经过转换的 <code>lib-cov</code> 模块, 如: <a href="https://github.com/fengmk2/ndir/blob/master/index.js">index.js</a></p>
+<pre><code> module.exports = process.env.JSCOV 
+   ? require(&#39;./lib-cov/ndir&#39;)
+   : require(&#39;./lib/ndir&#39;);
+</code></pre>
+</li>
+<li><p>增加 <code>test-cov</code> 命令, 设置reporter 为 <code>html-cov</code></p>
+<pre><code> test-cov: lib-cov
+   @JSCOV=1 $(MAKE) test REPORTER=html-cov &gt; coverage.html &amp;&amp; open coverage.html
+</code></pre>
+</li>
+<li><p>执行 <code>make test-cov</code> 命令享受测试报告吧, 92%的覆盖率, 还不错吧.</p>
+</li>
+</ol>
+<p><img src="mocha-with-jscoverage-1.jpg" alt="mocha-with-jscoverage-1.jpg"></p>
+<p><img src="mocha-with-jscoverage-2.jpg" alt="mocha-with-jscoverage-2.jpg"></p>
+<h2 id="完整makefile">完整Makefile</h2>
+<p>本文完整的<code>Makefile</code> 示例来自 <a href="https://github.com/fengmk2/ndir">ndir</a></p>
+<pre><code>SRC = $(shell find lib -type f -name &quot;*.js&quot;)
+TESTS = test/*.js
+TESTTIMEOUT = 5000
+REPORTER = spec
+
+test:
+  @NODE_ENV=test ./node_modules/.bin/mocha \
+    --reporter $(REPORTER) --timeout $(TESTTIMEOUT) $(TESTS)
+
+test-cov: lib-cov
+  @JSCOV=1 $(MAKE) test REPORTER=html-cov &gt; coverage.html &amp;&amp; open coverage.html
+
+lib-cov:
+  @rm -rf ./$@
+  @jscoverage lib $@
+
+clean:
+  rm -rf lib-cov
+  rm -f coverage.html
+
+.PHONY: test test-cov
+</code></pre>
+<h2 id="有爱">有爱</h2>
+<p>^_^ 希望本文对你有用</p>
+<p>原文链接: <a href="/blog/2012/02/mocha-with-jscoverage.html">/blog/2012/02/mocha-with-jscoverage.html</a></p>
+
+
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
+});
+</script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</body>
+</html>

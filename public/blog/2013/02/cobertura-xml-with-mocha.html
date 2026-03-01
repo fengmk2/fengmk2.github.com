@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>Generate cobertura-xml report with mocha</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="generate-cobertura-xml-report-with-mocha">Generate cobertura-xml report with mocha</h1>
+<p>Using <a href="https://github.com/sjonnet19/mocha-cobertura-reporter">mocha-cobertura-reporter</a> module.</p>
+<pre><code class="language-bash">$ npm install mocha-cobertura-reporter
+
+$ XXX_COV=1 ./node_modules/.bin/mocha --reporter mocha-cobertura-reporter &gt; cobertura.xml
+</code></pre>
+<p>covertura.xml contents</p>
+<pre><code class="language-xml">&lt;coverage branch-rate=&quot;0&quot; line-rate=&quot;1&quot; timestamp=&quot;1359942445859&quot; version=&quot;3.5.1&quot;&gt;
+  &lt;packages&gt;
+    &lt;package branch-rate=&quot;0&quot; complexity=&quot;0.0&quot; line-rate=&quot;1&quot; name=&quot;.&quot;&gt;
+      &lt;classes&gt;
+        &lt;class branch-rate=&quot;0&quot; complexity=&quot;0.0&quot; filename=&quot;utility.js&quot; line-rate=&quot;1&quot; name=&quot;utility&quot;&gt;
+          &lt;methods/&gt;
+          &lt;lines&gt;
+            &lt;line hits=&quot;&quot; number=&quot;1&quot;/&gt;
+            &lt;line hits=&quot;&quot; number=&quot;2&quot;/&gt;
+            &lt;line hits=&quot;&quot; number=&quot;3&quot;/&gt;
+            // ....
+            &lt;line hits=&quot;&quot; number=&quot;82&quot;/&gt;
+            &lt;line hits=&quot;&quot; number=&quot;83&quot;/&gt;
+            &lt;line hits=&quot;&quot; number=&quot;84&quot;/&gt;
+          &lt;/lines&gt;
+        &lt;/class&gt;
+      &lt;/classes&gt;
+    &lt;/package&gt;
+  &lt;/packages&gt;
+&lt;/coverage&gt;
+</code></pre>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://github.com/fengmk2/jscover/issues/4">cobertura-xml issue</a></li>
+<li><a href="https://github.com/visionmedia/mocha/pull/349">junit reporter issue</a></li>
+<li><a href="https://github.com/sjonnet19/mocha-cobertura-reporter">mocha cobertura reporter</a></li>
+</ul>
+
+
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
+});
+</script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</body>
+</html>

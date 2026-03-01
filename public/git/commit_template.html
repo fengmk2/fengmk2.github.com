@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>git commit 描述模板</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="git-commit-描述模板">git commit 描述模板</h1>
+<h2 id="标准模板">标准模板</h2>
+<pre><code class="language-txt">本次更新的简要描述（50 个字符以内）
+
+如果必要，此处展开详尽阐述。段落宽度限定在 72 个字符以内。
+某些情况下，第一行的简要描述将用作邮件标题，其余部分作为邮件正文。
+其间的空行是必要的，以区分两者（当然没有正文另当别论）。
+如果并在一起，rebase 这样的工具就可能会迷惑。
+
+(另起空行后，再进一步补充其他说明。 忽略这行说明)
+ - 可以使用这样的条目列举式。
+
+ - 一般以单个空格紧跟短划线(-)或者星号(*)作为每项条目的起始符。
+   每个条目间用一空行隔开。
+   不过这里按自己项目的约定，可以略作变化。
+</code></pre>
+<h2 id="举例">举例</h2>
+<pre><code class="language-txt">目录重构，符合团队约定规范
+
+url router 设置全部整合到/routes.js；
+注意区分controllers和common，common之前可以调用，controllers之前不能相互调用；
+
+* app.js app.get() and app.post() =&gt; routes.js
+
+* config.js =&gt; conf/index.js, conf/config_pre|daily|online.js
+</code></pre>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="http://git-scm.com/book/zh/%E5%88%86%E5%B8%83%E5%BC%8F-Git-%E4%B8%BA%E9%A1%B9%E7%9B%AE%E4%BD%9C%E8%B4%A1%E7%8C%AE">分布式-Git-为项目作贡献</a></li>
+</ul>
+
+
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
+});
+</script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</body>
+</html>
