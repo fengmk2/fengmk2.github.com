@@ -17,3 +17,4 @@ nohup.out
 package-lock.json
 dist/
 .wrangler/
+.void/
