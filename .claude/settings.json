@@ -2,10 +2,7 @@
   "mcpServers": {
     "void": {
       "command": "npx",
-      "args": [
-        "void",
-        "mcp"
-      ]
+      "args": ["void", "mcp"]
     }
   }
 }
