@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: voidzero-dev/setup-vp@42d342a4e04d7a57b70d0cdec88dc16a9d664315 # PR #54: respect project .npmrc
+      - uses: voidzero-dev/setup-vp@4f5aa3e38c781f1b01e78fb9255527cee8a6efa6 # merge of PR #54: respect project .npmrc
         with:
           cache: true
         env:
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: voidzero-dev/setup-vp@42d342a4e04d7a57b70d0cdec88dc16a9d664315 # PR #54: respect project .npmrc
+      - uses: voidzero-dev/setup-vp@4f5aa3e38c781f1b01e78fb9255527cee8a6efa6 # merge of PR #54: respect project .npmrc
         with:
           cache: true
         env:
