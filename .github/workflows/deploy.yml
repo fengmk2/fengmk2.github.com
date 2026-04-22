@@ -2,17 +2,23 @@ name: Deploy
 on:
   push:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          cache: npm
-      - run: npm ci
-      - run: npx void deploy
+          cache: pnpm
+          registry-url: https://npm.pkg.github.com
+          scope: "@void-sdk"
+      - run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+      - run: pnpm exec void deploy
         env:
           VOID_TOKEN: ${{ secrets.VOID_TOKEN }}
