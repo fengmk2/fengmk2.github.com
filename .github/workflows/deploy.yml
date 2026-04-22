@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: voidzero-dev/setup-vp@v1
+      - uses: voidzero-dev/setup-vp@21f6c6e946786aec9726d2fa36b9a53aeca07bbc # PR #52: surface vp install errors
         with:
           cache: true
           registry-url: https://npm.pkg.github.com
