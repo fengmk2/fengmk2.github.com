@@ -1,3 +1,7 @@
+---
+title: 'nodejs: mkdirs 递归创建目录'
+---
+
 # nodejs: mkdirs 递归创建目录
 
 nodejs里面的所有文件操作我们很显然地都会选择异步方式。

@@ -1,3 +1,7 @@
+---
+title: '`cluster` code coverage with istanbul'
+---
+
 # `cluster` code coverage with istanbul
 
 [istanbul] is already supported [Multiple Process Coverage](https://github.com/gotwarlost/istanbul/blob/master/README.md#multiple-process-usage).

@@ -1,3 +1,7 @@
+---
+title: '[nodejs]Buffer vs String'
+---
+
 # [nodejs]Buffer vs String
 ## 疑问
 按nodejs官方的文档说明，使用Buffer操作字节流通常会比转化成String要高效。

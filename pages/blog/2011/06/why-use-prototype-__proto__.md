@@ -1,3 +1,7 @@
+---
+title: '为什么要使用prototype.__proto__'
+---
+
 # 为什么要使用prototype.__proto__
 
 ## 问题

@@ -1,3 +1,7 @@
+---
+title: '给 connect 的 static 模块加上url路径前缀'
+---
+
 # 给 connect 的 static 模块加上url路径前缀
 
 估计我们使用 [connect](http://www.senchalabs.org/connect/) 都会很自然地按照官方的例子使用静态文件模块 [static](http://www.senchalabs.org/connect/static.html):

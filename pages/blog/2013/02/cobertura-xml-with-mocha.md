@@ -1,3 +1,7 @@
+---
+title: 'Generate cobertura-xml report with mocha'
+---
+
 # Generate cobertura-xml report with mocha
 
 Using [mocha-cobertura-reporter](https://github.com/sjonnet19/mocha-cobertura-reporter) module.

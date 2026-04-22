@@ -1,3 +1,7 @@
+---
+title: 'tenjin - 号称全球最快的模板引擎'
+---
+
 # tenjin - 号称全球最快的模板引擎
 
 Tenjin, "Tenjin is a very fast and full-featured template engine available in several script languages."

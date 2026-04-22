@@ -1,3 +1,7 @@
+---
+title: '编译安装M2Crypto-0.20.2'
+---
+
 # 编译安装M2Crypto-0.20.2
 
 最新需要用到RSA对称密钥加密，所以需要用到[M2Crypto](http://chandlerproject.org/Projects/MeTooCrypto#M2Crypto)，可怜的我发现编译这东西一点都不容易，以下是我的杯具经验总结。

@@ -1,3 +1,7 @@
+---
+title: 'Use Blanket.js instead of jscover'
+---
+
 # Use Blanket.js instead of jscover
 
 在遇到 [Blanket.js] 之前，我一直使用这 [jscover] 来做代码覆盖率测试。

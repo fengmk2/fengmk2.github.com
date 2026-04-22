@@ -1,3 +1,7 @@
+---
+title: 'Blog useing markdown format'
+---
+
 # Blog useing markdown format 
 以后使用github写blog了，格式统一为markdown，使用[s8hk markdown to html](http://s8.hk/md/)工具转化为HTML
 

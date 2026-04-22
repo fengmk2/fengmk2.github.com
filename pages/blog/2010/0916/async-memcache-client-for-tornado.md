@@ -1,3 +1,7 @@
+---
+title: 'async_memcache for tornado'
+---
+
 # async_memcache for tornado
 
 [tornado](http://www.tornadoweb.org) 是一个纯[python](http://python.org) 实现的非阻塞web服务器，自带了异步httpclient，可以异步请求http网络资源。

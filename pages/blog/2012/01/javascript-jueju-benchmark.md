@@ -1,3 +1,7 @@
+---
+title: 'Javascript绝句性能'
+---
+
 # Javascript绝句性能
 
 前几天在微博中看到一篇叫[Javascript绝句欣赏](http://site.douban.com/widget/notes/22456/note/142716442/) 的奇文。

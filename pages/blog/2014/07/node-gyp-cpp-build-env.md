@@ -1,3 +1,7 @@
+---
+title: '配置 Windows 下的 nodejs C++ 模块编译环境'
+---
+
 # 配置 Windows 下的 nodejs C++ 模块编译环境
 
 根据 [node-gyp](https://github.com/TooTallNate/node-gyp#installation) 指示的 Windows 编译环境说明,

@@ -1,3 +1,7 @@
+---
+title: 'Nodejs "Hello world" benchmark'
+---
+
 # Nodejs "Hello world" benchmark
 
 ## 新版本 nodejs 性能

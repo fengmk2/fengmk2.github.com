@@ -1,3 +1,7 @@
+---
+title: 'node.js 代码的 cpu 可视化分析方法'
+---
+
 # node.js 代码的 cpu 可视化分析方法
 
 ```js

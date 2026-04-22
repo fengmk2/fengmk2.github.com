@@ -1,3 +1,7 @@
+---
+title: '使用nodejs解决phonegap开发期间的跨域问题'
+---
+
 # 使用nodejs解决phonegap开发期间的跨域问题
 
 使用phonegap开发基于HTML5的iOS程序，应用程序需要访问额外的网络资源，就必然需要面对跨域访问的问题。

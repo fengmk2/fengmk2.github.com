@@ -1,3 +1,7 @@
+---
+title: 'Windows CLI Testing from macOS: Cross-Compilation + QEMU VM'
+---
+
 # Windows CLI Testing from macOS: Cross-Compilation + QEMU VM
 
 How I set up a local Windows development and testing workflow on macOS for [Vite+](https://viteplus.dev), using Rust cross-compilation and a QEMU-based Windows VM.

@@ -1,3 +1,7 @@
+---
+title: 'Use [koa-csrf] in high performance way'
+---
+
 # Use [koa-csrf] in high performance way
 
 If you're using [koa-csrf] in [default middleware way](https://github.com/koajs/csrf#middleware),

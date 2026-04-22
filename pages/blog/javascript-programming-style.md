@@ -1,3 +1,7 @@
+---
+title: 'Javascript Programming Style'
+---
+
 # Javascript Programming Style
 
 ## 为什么要有编程风格

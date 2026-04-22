@@ -1,3 +1,7 @@
+---
+title: 'Indexed Cache'
+---
+
 # Indexed Cache
 To store key value datas. Only two buffer: index and data
 

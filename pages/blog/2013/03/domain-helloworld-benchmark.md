@@ -1,3 +1,7 @@
+---
+title: 'nodejs domain module hello world and benchmark'
+---
+
 # nodejs domain module hello world and benchmark
 
 [domain](http://nodejs.org/docs/v0.8.21/api/domain.html#domain_domain): Domains provide a way to handle multiple different IO operations as a single group. 

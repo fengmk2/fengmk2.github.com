@@ -1,3 +1,7 @@
+---
+title: 'mocha + jscoverage'
+---
+
 # mocha + jscoverage
 
 mocha在[Release 0.13.0](https://github.com/visionmedia/mocha/commit/6caeb30386e92b4a980074b535747319324dfe99) 已经支持 `HTMLCov` 和 `JSONCov` 两种reporter, 那么显然可以非常简便地将 [jscoverage](https://github.com/visionmedia/node-jscoverage) 整合到mocha中, 进行代码覆盖率测试了.

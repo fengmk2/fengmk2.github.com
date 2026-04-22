@@ -1,3 +1,7 @@
+---
+title: 'Nodejs asynchronous programming bring "Accidental complexity" : Nodejs异步编程带来的意外复杂性'
+---
+
 # Nodejs asynchronous programming bring "Accidental complexity" : Nodejs异步编程带来的意外复杂性
 参考原文: [What's missing from NodeJS](http://mihai.bazon.net/blog/whats-missing-from-node)
 

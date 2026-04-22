@@ -1,3 +1,7 @@
+---
+title: 'fibonacci(40) benchmark'
+---
+
 # fibonacci(40) benchmark
 
 [Node.js is Cancer](http://teddziuba.com/2011/10/node-js-is-cancer.html) show a wrong way to use nodejs.

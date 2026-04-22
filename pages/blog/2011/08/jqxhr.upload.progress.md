@@ -1,3 +1,6 @@
+---
+title: '在jQuery 1.5+ 的jqXHR上监听文件上传进度(xhr.upload)'
+---
 
 # 在jQuery 1.5+ 的jqXHR上监听文件上传进度(xhr.upload)
 

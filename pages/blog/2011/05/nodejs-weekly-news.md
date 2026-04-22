@@ -1,3 +1,7 @@
+---
+title: 'nodejs一周动态(2011-05-05 - 05-15)'
+---
+
 # nodejs一周动态(2011-05-05 - 05-15)
 
 ## [Google Go boldly goes where no code has gone before](http://www.theregister.co.uk/2011/05/05/google_go/)

@@ -1,3 +1,7 @@
+---
+title: '[nodejs]Javascript模板引擎性能对比及几点优化'
+---
+
 # [nodejs]Javascript模板引擎性能对比及几点优化
 
 浏览器版可直接查看: [JavaScript template language shootoff](http://jsperf.com/dom-vs-innerhtml-based-templating/143)

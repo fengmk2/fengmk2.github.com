@@ -1,3 +1,7 @@
+---
+title: 'nodejs: 随想javascript并行调用带callback的异步函数'
+---
+
 # nodejs: 随想javascript并行调用带callback的异步函数
 
 先看看本文基于的一个应用场景

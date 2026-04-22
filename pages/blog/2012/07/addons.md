@@ -1,3 +1,7 @@
+---
+title: '编写nodejs的C++模块'
+---
+
 # 编写nodejs的C++模块
 
 nodejs提供了完善的插件机制（addons），让我们可以非常方便地调用C和C++库。

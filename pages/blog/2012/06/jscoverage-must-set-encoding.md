@@ -1,3 +1,7 @@
+---
+title: 'jscoverage 必须指定encoding参数'
+---
+
 # jscoverage 必须指定encoding参数
 
 由于代码越来越多，在进行代码覆盖测试的时候，经常出现jscoverage后的代码跑的测试不正确。

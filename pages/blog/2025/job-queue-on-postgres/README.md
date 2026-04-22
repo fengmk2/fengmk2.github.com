@@ -1,3 +1,7 @@
+---
+title: '基于 Postgres 实现一个 Job Queue'
+---
+
 # 基于 Postgres 实现一个 Job Queue
 
 今天看到一篇赞美 Postgres 的文章：[Postgres is Too Good (And Why That's Actually a Problem)](https://dev.to/shayy/postgres-is-too-good-and-why-thats-actually-a-problem-4imc) ，显然是非常吸引眼球的，作者用 PG 实现了需要用到的所有微服务。

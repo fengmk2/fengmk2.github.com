@@ -1,3 +1,7 @@
+---
+title: '如何在express使用doT模板引擎'
+---
+
 # 如何在express使用doT模板引擎
 
 本文假设你已经使用过doT和[express](http://expressjs.com)，并知道它的模板语法。

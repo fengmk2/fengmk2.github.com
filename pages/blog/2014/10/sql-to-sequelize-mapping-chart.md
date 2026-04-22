@@ -1,3 +1,7 @@
+---
+title: 'SQL to Sequelize Mapping Chart'
+---
+
 # SQL to Sequelize Mapping Chart
 
 I like [SQL to MongoDB Mapping Chart](http://docs.mongodb.org/manual/reference/sql-comparison/) post,

@@ -1,3 +1,7 @@
+---
+title: 'NodeBlog v0.1.0发布'
+---
+
 # NodeBlog v0.1.0发布
 [NodeBlog](https://github.com/fengmk2/nodeblog):http://nodeblog.org/ 是一个基于[node.js](nodejs.org)的开源博客程序。
 

@@ -1,3 +1,7 @@
+---
+title: 'nodejs: 修复express的res.download 下载被取消导致的 “Can''t remove headers after they are sent” 异常'
+---
+
 # nodejs: 修复express的res.download 下载被取消导致的 “Can't remove headers after they are sent” 异常
 
 ## 来自百度？

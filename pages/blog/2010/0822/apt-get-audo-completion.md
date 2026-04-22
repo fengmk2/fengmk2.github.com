@@ -1,3 +1,7 @@
+---
+title: '让apt-get的自动补全打开'
+---
+
 # 让apt-get的自动补全打开
 
     $ vi ~/.bashrc

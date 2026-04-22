@@ -1,3 +1,7 @@
+---
+title: 'Duff''s device 优化循环的性能测试'
+---
+
 # Duff's device 优化循环的性能测试
 
 上周日在北京回杭州的飞机上，看《高性能JavaScript》的循环优化章节，了解到“Duff's device”这种搓而又惊奇的展开循环体的优化方法。

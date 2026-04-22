@@ -1,3 +1,7 @@
+---
+title: '我是如何发布一个 npm 包的'
+---
+
 # 我是如何发布一个 npm 包的
 
 - 先安装 [git-extras](https://github.com/tj/git-extras)

@@ -1,3 +1,7 @@
+---
+title: 'vi Learn on the road'
+---
+
 # vi Learn on the road
 
 ## vim config file

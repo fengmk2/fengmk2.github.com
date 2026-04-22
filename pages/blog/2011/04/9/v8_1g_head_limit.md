@@ -1,3 +1,7 @@
+---
+title: 'nodejs 1G堆栈内存限制(by v8)'
+---
+
 # nodejs 1G堆栈内存限制(by v8)
 
 ## 误区: nodejs最多只能使用1G内存

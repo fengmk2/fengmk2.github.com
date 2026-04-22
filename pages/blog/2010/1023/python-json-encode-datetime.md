@@ -1,3 +1,7 @@
+---
+title: '让python json encode datetime类型'
+---
+
 # 让python json encode datetime类型
 
 python2.6+ 自带的json模块，不支持datetime的json encode，每次都需要手动转为字符串，很累人，我们可以自己封装一个简单的方法处理此问题.

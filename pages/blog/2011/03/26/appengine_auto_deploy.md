@@ -1,3 +1,7 @@
+---
+title: 'Google Appengine 的自动部署脚本'
+---
+
 # Google Appengine 的自动部署脚本
 
 你是否在appengine上注册了N个应用？每次代码更新都很痛苦？！

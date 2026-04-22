@@ -1,3 +1,7 @@
+---
+title: 'Google Fonts 加速代理'
+---
+
 # Google Fonts 加速代理
 
 - https://ajax.googleapis.com => https://ajax.googleapis.cnpmjs.org

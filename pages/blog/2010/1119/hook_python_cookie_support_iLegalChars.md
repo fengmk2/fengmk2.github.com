@@ -1,3 +1,7 @@
+---
+title: '让python的Cookie.py模块支持:冒号做key'
+---
+
 # 让python的Cookie.py模块支持:冒号做key
 
 虽然Cookie的标准是不允许:冒号出现在key里面的，但是我们的开发人员是很可爱的，常常会让我们意想不到。

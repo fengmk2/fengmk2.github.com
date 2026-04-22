@@ -1,3 +1,7 @@
+---
+title: 'weibo appkey'
+---
+
 # weibo appkey 
 come from http://bbs.ysrh.com/read.php?tid=241
 
