@@ -23,9 +23,7 @@ for await (const file of walk(join(PAGES_DIR, "blog"))) {
 
 urls.sort((a, b) => (a === "/" ? -1 : b === "/" ? 1 : a.localeCompare(b)));
 
-const body = urls
-  .map((u) => `  <url><loc>${ORIGIN}${u}</loc></url>`)
-  .join("\n");
+const body = urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc></url>`).join("\n");
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

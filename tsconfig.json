@@ -7,14 +7,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": [
-      "void/env"
-    ]
+    "types": ["void/env"]
   },
-  "include": [
-    "pages",
-    "middleware",
-    "crons",
-    "queues"
-  ]
+  "include": ["pages", "middleware", "crons", "queues"]
 }

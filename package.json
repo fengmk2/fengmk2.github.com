@@ -2,26 +2,28 @@
   "name": "fengmk2.github.com",
   "version": "0.0.1",
   "description": "mk2 personal blog",
-  "type": "module",
-  "scripts": {
-    "dev": "vite dev",
-    "prebuild": "node scripts/generate-sitemap.mjs",
-    "build": "vite build",
-    "preview": "vite preview",
-    "sitemap": "node scripts/generate-sitemap.mjs"
-  },
+  "license": "MIT",
+  "author": "",
   "repository": {
     "type": "git",
     "url": "git://github.com/fengmk2/fengmk2.github.com.git"
   },
-  "author": "",
-  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "prebuild": "node scripts/generate-sitemap.mjs",
+    "build": "vp build",
+    "preview": "vp preview",
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "prepare": "vp config"
+  },
   "devDependencies": {
-    "void": "npm:@void-sdk/void@^0.5.0",
-    "@void/vue": "npm:@void-sdk/vue@^0.4.0",
     "@void/md": "npm:@void-sdk/md@^0.5.0",
-    "vue": "^3.5.0",
-    "vite": "^8.0.9"
+    "@void/vue": "npm:@void-sdk/vue@^0.4.0",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "void": "npm:@void-sdk/void@^0.5.0",
+    "vue": "^3.5.0"
   },
   "packageManager": "pnpm@10.33.0"
 }
