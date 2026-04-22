@@ -9,10 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: voidzero-dev/setup-vp@697e70a066f035fd9d2895c1fd9e5deef9d9c493 # PR #52: surface vp install errors
+      - uses: voidzero-dev/setup-vp@af4ffd95e8c3d93e048fe8f03afeb2d4e3eba927 # PR #54: respect project .npmrc
         with:
           cache: true
-          registry-url: https://npm.pkg.github.com
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
       - run: vp run sitemap
