@@ -2,21 +2,28 @@
   "name": "fengmk2.github.com",
   "version": "0.0.1",
   "description": "mk2 personal blog",
-  "main": "server.js",
-  "scripts": {
-    "build": "node build.js",
-    "start": "node server.js"
-  },
+  "license": "MIT",
+  "author": "",
   "repository": {
     "type": "git",
     "url": "git://github.com/fengmk2/fengmk2.github.com.git"
   },
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "connect": "2",
-    "mdit": "^1.0.1",
-    "ndir": "^0.1.5"
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "prebuild": "node scripts/generate-sitemap.mjs",
+    "build": "vp build",
+    "preview": "vp preview",
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "prepare": "vp config"
   },
-  "readmeFilename": "README.html"
+  "devDependencies": {
+    "@void/md": "npm:@void-sdk/md@^0.5.0",
+    "@void/vue": "npm:@void-sdk/vue@^0.4.0",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "void": "npm:@void-sdk/void@^0.5.0",
+    "vue": "^3.5.0"
+  },
+  "packageManager": "pnpm@10.33.0"
 }

@@ -1,0 +1,16 @@
+{
+  "files": [
+    "routes.d.ts",
+    "md.d.ts"
+  ],
+  "compilerOptions": {
+    "paths": {
+      "void/routes": [
+        "./routes.d.ts"
+      ],
+      "@void/md/pages": [
+        "./md.d.ts"
+      ]
+    }
+  }
+}

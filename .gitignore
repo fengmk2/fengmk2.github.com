@@ -15,3 +15,11 @@ adc2013_chart.zip
 npm-debug.log
 nohup.out
 package-lock.json
+dist/
+.wrangler/
+.void/
+node_modules
+dist
+.void
+.wrangler
+*.tsbuildinfo

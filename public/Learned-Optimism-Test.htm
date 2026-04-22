@@ -1,0 +1,462 @@
+
+<!-- saved from url=(0067)http://www.stanford.edu/class/msande271/onlinetools/LearnedOpt.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   
+   <meta name="Author" content="Sanford Dickert and Munira Rahemtulla">
+   <meta name="GENERATOR" content="Mozilla/4.04 [en] (Win95; I) [Netscape]">
+   <title>Learned Optimism Test</title>
+<script language="Javascript">
+
+var PmB = new Array(-8, -8, -8, -8, -8, -8, -8, -8);
+var PmG = new Array(-8, -8, -8, -8, -8, -8, -8, -8);
+var PsB = new Array(-8, -8, -8, -8, -8, -8, -8, -8);
+var PsG = new Array(-8, -8, -8, -8, -8, -8, -8, -8);
+var PvB = new Array(-8, -8, -8, -8, -8, -8, -8, -8);
+var PvG = new Array(-8, -8, -8, -8, -8, -8, -8, -8);
+
+function CalcValues(lopt)
+{
+
+var tmpVal;
+
+   tmpVal = PmB[0] + PmB[1] + PmB[2] + PmB[3] + PmB[4] + PmB[5] + PmB[6] + PmB[7];
+   lopt.PmBs.value = tmpVal;
+   if (tmpVal < 0)
+      lopt.PmBt.value = "未完成";
+   else if (tmpVal < 2)
+      lopt.PmBt.value = "高度乐观";
+   else if (tmpVal < 4)
+      lopt.PmBt.value = "比较乐观";
+   else if (tmpVal == 4)
+      lopt.PmBt.value = "平均水平";
+   else if (tmpVal < 7)
+      lopt.PmBt.value = "比较悲观";
+   else 
+      lopt.PmBt.value = "高度悲观";
+
+   tmpVal = PmG[0] + PmG[1] + PmG[2] + PmG[3] + PmG[4] + PmG[5] + PmG[6] + PmG[7];
+   lopt.PmGs.value = tmpVal;
+   if (tmpVal < 0)
+      lopt.PmGt.value = "未完成";
+   else if (tmpVal < 3)
+      lopt.PmGt.value = "高度悲观";
+   else if (tmpVal == 3)
+      lopt.PmGt.value = "比较悲观";
+   else if (tmpVal < 6)
+      lopt.PmGt.value = "平均水平";
+   else if (tmpVal == 6)
+      lopt.PmGt.value = "比较乐观";
+   else 
+      lopt.PmGt.value = "高度乐观";
+
+   tmpVal = PvB[0] + PvB[1] + PvB[2] + PvB[3] + PvB[4] + PvB[5] + PvB[6] + PvB[7];
+   lopt.PvBs.value = tmpVal;
+   if (tmpVal < 0)
+      lopt.PvBt.value = "未完成";
+   else if (tmpVal < 2)
+      lopt.PvBt.value = "高度乐观";
+   else if (tmpVal < 4)
+      lopt.PvBt.value = "比较乐观";
+   else if (tmpVal == 4)
+      lopt.PvBt.value = "平均水平";
+   else if (tmpVal < 7)
+      lopt.PvBt.value = "比较悲观";
+   else 
+      lopt.PvBt.value = "高度悲观";
+
+   tmpVal = PvG[0] + PvG[1] + PvG[2] + PvG[3] + PvG[4] + PvG[5] + PvG[6] + PvG[7];
+   lopt.PvGs.value = tmpVal;
+   if (tmpVal < 0)
+      lopt.PvGt.value = "未完成";
+   else if (tmpVal < 3)
+      lopt.PvGt.value = "高度悲观";
+   else if (tmpVal == 3)
+      lopt.PvGt.value = "比较悲观";
+   else if (tmpVal < 6)
+      lopt.PvGt.value = "平均水平";
+   else if (tmpVal == 6)
+      lopt.PvGt.value = "比较乐观";
+   else 
+      lopt.PvGt.value = "高度乐观";
+
+   tmpVal = PsB[0] + PsB[1] + PsB[2] + PsB[3] + PsB[4] + PsB[5] + PsB[6] + PsB[7];
+   lopt.PsBs.value = tmpVal;
+   if (tmpVal < 0)
+      lopt.PsBt.value = "未完成";
+   else if (tmpVal < 2)
+      lopt.PsBt.value = "高度自信";
+   else if (tmpVal < 4)
+      lopt.PsBt.value = "比较自信";
+   else if (tmpVal == 4)
+      lopt.PsBt.value = "平均水平";
+   else if (tmpVal < 7)
+      lopt.PsBt.value = "比较不自信";
+   else 
+      lopt.PsBt.value = "高度不自信";
+
+   tmpVal = eval(lopt.PmBs.value) + eval(lopt.PvBs.value);
+   lopt.HoBs.value = tmpVal;
+   if (tmpVal < 0)
+      lopt.HoBt.value = "未完成";
+   else if (tmpVal < 3)
+      lopt.HoBt.value = "非常有希望";
+   else if (tmpVal < 7)
+      lopt.HoBt.value = "比较有希望";
+   else if (tmpVal < 9)
+      lopt.HoBt.value = "平均水平";
+   else if (tmpVal < 12)
+      lopt.HoBt.value = "比较没有希望";
+   else 
+      lopt.HoBt.value = "非常没有希望";
+
+   tmpVal = PsG[0] + PsG[1] + PsG[2] + PsG[3] + PsG[4] + PsG[5] + PsG[6] + PsG[7];
+   lopt.PsGs.value = tmpVal;
+   if (tmpVal < 0) 
+      lopt.PsGt.value = "未完成"; 
+   else if (tmpVal < 3)
+      lopt.PsGt.value = "高度悲观";
+   else if (tmpVal == 3)
+      lopt.PsGt.value = "比较悲观";
+   else if (tmpVal < 6)
+      lopt.PsGt.value = "平均水平";
+   else if (tmpVal == 6)
+      lopt.PsGt.value = "比较乐观";
+   else 
+      lopt.PsGt.value = "高度乐观";
+
+   tmpVal = eval(lopt.PsBs.value) + eval(lopt.HoBs.value);
+   lopt.TotBs.value = tmpVal;
+   if (tmpVal < 0) 
+      lopt.TotBt.value = "未完成"; 
+   else if (tmpVal < 7)
+      lopt.TotBt.value = "高度乐观";
+   else if (tmpVal < 10)
+      lopt.TotBt.value = "比较乐观";
+   else if (tmpVal < 12)
+      lopt.TotBt.value = "平均水平";
+   else if (tmpVal < 15)
+      lopt.TotBt.value = "比较悲观";
+   else 
+      lopt.TotBt.value = "对改变痛哭流涕";
+
+   tmpVal = eval(lopt.PsGs.value) + eval(lopt.PmGs.value) + eval(lopt.PvGs.value);
+   lopt.TotGs.value = tmpVal;
+   if (tmpVal < 0) 
+      lopt.TotGt.value = "未完成"; 
+   else if (tmpVal < 11)
+      lopt.TotGt.value = "高度悲观";
+   else if (tmpVal < 14)
+      lopt.TotGt.value = "想法比较悲观";
+   else if (tmpVal < 17)
+      lopt.TotGt.value = "平均水平";
+   else if (tmpVal < 20)
+      lopt.TotGt.value = "比较乐观";
+   else 
+      lopt.TotGt.value = "想法比较乐观";
+
+   tmpVal = eval(lopt.TotGs.value) - eval(lopt.TotBs.value);
+   lopt.GfrBs.value = tmpVal;
+   if (tmpVal < 1) 
+      lopt.GfrBt.value = "高度悲观"; 
+   else if (tmpVal < 3)
+      lopt.GfrBt.value = "比较悲观";
+    else if (tmpVal < 6)
+      lopt.GfrBt.value = "平均水平";
+   else if (tmpVal < 9)
+      lopt.GfrBt.value = "比较乐观";
+   else 
+      lopt.GfrBt.value = "高度乐观";
+
+}
+
+</script>
+</head>
+<body bgcolor="white">
+<b><font face="Arial,Helvetica" size="+2">习得的乐观测试</font></b><font face="Arial,Helvetica" size="+2">
+<br></font><font face="Arial,Helvetica" size="-1">(改编自 Dr. Martin Seligman 的书, <i>"习得的乐观"</i>)</font>
+<br><br><b><font face="Arial,Helvetica" size="+1">说明：</font></b>
+<font face="Arial,Helvetica">
+<br><br>
+在这个评估测试中有48道题目。回答这些问题没有任何时间限制，平均情况下你可能需要花费15分钟。这些问题没有所谓正确或错误的评判。在完成这些测试题目之前不要阅读<i>"习得的乐观"</i>书中的分析。
+<br><br>
+阅读每一道题目中所描述的情况，想象这种情况发生在你的身上，并选出你认为最可能的原因。也许有些情况从来没有在你身上发生过，但没有关系，想象就可以了。也许所有选项中没有任何一项完全适合你，只需对比并选出相对更适合你的回应方式即可。
+<br><br>
+也许有的回应方式听起来让你觉得不妥，但不要选择那些你认为应该说的话，或你觉得其他人会更认可的方式。你需要选择那些最可能发生在你身上的理解方式。
+<br><br><b><font size="+1">问题：</font></b>
+<br><form name="lopt" action="http://www-leland.stanford.edu/cgi-bin/mailmerge.cgi/~munira/OptResults.template" method="POST">
+<p>1.&nbsp; 你负责的项目取得了巨大的成功
+<br>&nbsp;<input type="radio" name="PsG1" onclick="PsG[0]=1"><i>我紧盯着每个人的工作</i>
+<br>&nbsp;<input type="radio" name="PsG1" onclick="PsG[0]=0"><i>项目中每个人都投入了大量的时间的精力</i>
+
+</p><p>2.&nbsp; 你和你的伴侣（男/女朋友）在吵架后和解了
+<br>&nbsp;<input type="radio" name="PmG1" onclick="PmG[0]=0"><i>我原谅了他/她</i>
+<br>&nbsp;<input type="radio" name="PmG1" onclick="PmG[0]=1"><i>我总是很宽容</i>
+
+</p><p>3.&nbsp; 你在开车去朋友家的路上迷路了
+<br>&nbsp;<input type="radio" name="PsB1" onclick="PsB[0]=1"><i>我错过了一个转弯</i>
+<br>&nbsp;<input type="radio" name="PsB1" onclick="PsB[0]=0"><i>我朋友指错路了</i>
+
+</p><p>4.&nbsp; 你的伴侣（男/女朋友）送了你一份惊喜的礼物
+<br>&nbsp;<input type="radio" name="PsG2" onclick="PsG[1]=0"><i>他/她刚刚获得了晋升</i>
+<br>&nbsp;<input type="radio" name="PsG2" onclick="PsG[1]=1"><i>昨晚我带他/她出去吃了一顿豪华的晚餐</i>
+
+</p><p>5.&nbsp; 你忘记了那你的伴侣（男/女朋友）的生日
+<br>&nbsp;<input type="radio" name="PmB1" onclick="PmB[0]=1"><i>我不擅长记住别人的生日</i>
+<br>&nbsp;<input type="radio" name="PmB1" onclick="PmB[0]=0"><i>我的注意力被其他事情牵住了</i>
+
+</p><p>6.&nbsp; 有神秘的爱慕者送花给你
+<br>&nbsp;<input type="radio" name="PvG1" onclick="PvG[0]=0"><i>我对他/她很有吸引力</i>
+<br>&nbsp;<input type="radio" name="PvG1" onclick="PvG[0]=1"><i>我是个很受欢迎的人</i>
+
+</p><p>7.&nbsp; 你竞选社区民意代表，并获得了胜利
+<br>&nbsp;<input type="radio" name="PvG2" onclick="PvG[1]=0"><i>我花了很多时间和精力去竞选</i>
+<br>&nbsp;<input type="radio" name="PvG2" onclick="PvG[1]=1"><i>我做任何事都全力以赴</i>
+
+</p><p>8.&nbsp; 你忘记了一个重要的约会
+<br>&nbsp;<input type="radio" name="PvB1" onclick="PvB[0]=1"><i>我的记忆力有时真是很糟糕</i>
+<br>&nbsp;<input type="radio" name="PvB1" onclick="PvB[0]=0"><i>有时我会忘记去检查记事本上的约会记录</i>
+
+</p><p>9.&nbsp; 你竞选社区民意代表，但失败了
+<br>&nbsp;<input type="radio" name="PsB2" onclick="PsB[1]=1"><i>我在竞选宣传方面努力不够</i>
+<br>&nbsp;<input type="radio" name="PsB2" onclick="PsB[1]=0"><i>我的对手认识的人比我多</i>
+
+</p><p>10.&nbsp; 你成功的举办了一次晚宴
+<br>&nbsp;<input type="radio" name="PmG2" onclick="PmG[1]=0"><i>那晚我真是魅力十足</i>
+<br>&nbsp;<input type="radio" name="PmG2" onclick="PmG[1]=1"><i>我是一个好主人</i>
+
+</p><p>11.&nbsp; 你及时报警阻止了一次犯罪
+<br>&nbsp;<input type="radio" name="PsG3" onclick="PsG[2]=0"><i>我听到了奇怪的声音，感觉不太对劲</i>
+<br>&nbsp;<input type="radio" name="PsG3" onclick="PsG[2]=1"><i>那天我很警觉</i>
+
+</p><p>12.&nbsp; 你一年都很健康
+<br>&nbsp;<input type="radio" name="PsG4" onclick="PsG[3]=0"><i>我周围的人几乎都不曾生病，所以我没有被传染</i>
+<br>&nbsp;<input type="radio" name="PsG4" onclick="PsG[3]=1"><i>我很注意自己的饮食和休息</i>
+
+</p><p>13.&nbsp; 因为借书逾期未还，你被图书馆罚了10块钱
+<br>&nbsp;<input type="radio" name="PmB2" onclick="PmB[1]=1"><i>当我全神贯注在阅读时，总是会忘记借阅的到期时间</i>
+<br>&nbsp;<input type="radio" name="PmB2" onclick="PmB[1]=0"><i>当时我正在集中精力写一份报告，忘记了还有一本书要还</i>
+
+</p><p>14.&nbsp; 你在股票投资上赚了一笔大钱
+<br>&nbsp;<input type="radio" name="PmG3" onclick="PmG[2]=0"><i>我的经纪人决定去尝试一个新的投资</i>
+<br>&nbsp;<input type="radio" name="PmG3" onclick="PmG[2]=1"><i>我的经纪人是最棒的</i>
+
+</p><p>15.&nbsp; 你在运动会上获胜了
+<br>&nbsp;<input type="radio" name="PmG4" onclick="PmG[3]=0"><i>比赛时我感觉自己不可战胜</i>
+<br>&nbsp;<input type="radio" name="PmG4" onclick="PmG[3]=1"><i>我训练的很努力</i>
+
+</p><p>16.&nbsp; 你在一次重要的考试中失败了
+<br>&nbsp;<input type="radio" name="PvB2" onclick="PvB[1]=1"><i>我不像参见考试的其他人那么聪明</i>
+<br>&nbsp;<input type="radio" name="PvB2" onclick="PvB[1]=0"><i>我没有充分做好考试的准备</i>
+
+</p><p>17.&nbsp; 你为你的朋友做了一道大餐，但他/她就只吃了一点点
+<br>&nbsp;<input type="radio" name="PvB3" onclick="PvB[2]=1"><i>我不是个好厨师</i>
+<br>&nbsp;<input type="radio" name="PvB3" onclick="PvB[2]=0"><i>我做的太匆忙了</i>
+
+</p><p>18.&nbsp; 你花了很长时间练习一项运动感，但在比赛时失败了
+<br>&nbsp;<input type="radio" name="PvB4" onclick="PvB[3]=1"><i>我不是个好的运动员</i>
+<br>&nbsp;<input type="radio" name="PvB4" onclick="PvB[3]=0"><i>我不擅长这项运动</i>
+
+</p><p>19.&nbsp; 你的汽车行驶在深夜的街道上，突然油表显示没汽油了
+<br>&nbsp;<input type="radio" name="PsB3" onclick="PsB[2]=1"><i>我出发前没油检查邮箱里还有多少油</i>
+<br>&nbsp;<input type="radio" name="PsB3" onclick="PsB[2]=0"><i>油表坏了</i>
+
+</p><p>20.&nbsp; 你对一个朋友大发雷霆
+<br>&nbsp;<input type="radio" name="PmB3" onclick="PmB[2]=1"><i>他/她总是烦我</i>
+<br>&nbsp;<input type="radio" name="PmB3" onclick="PmB[2]=0"><i>他/她今天脾气不好</i>
+
+</p><p>21.&nbsp; 你因为没油按时报税而被处罚
+<br>&nbsp;<input type="radio" name="PmB4" onclick="PmB[3]=1"><i>我总是拖延报税</i>
+<br>&nbsp;<input type="radio" name="PmB4" onclick="PmB[3]=0"><i>我今年懒得报税</i>
+
+</p><p>22.&nbsp; 你邀请一个人约会，但被拒绝了
+<br>&nbsp;<input type="radio" name="PvB5" onclick="PvB[4]=1"><i>我那天糟糕透了</i>
+<br>&nbsp;<input type="radio" name="PvB5" onclick="PvB[4]=0"><i>我在邀请他/她时紧张的结巴了</i>
+
+</p><p>23.&nbsp; 一个现场节目主持人从众多观众中，单独挑出你上台参加节目
+<br>&nbsp;<input type="radio" name="PsG5" onclick="PsG[4]=0"><i>我做的位置正好</i>
+<br>&nbsp;<input type="radio" name="PsG5" onclick="PsG[4]=1"><i>我看起来最活跃</i>
+
+</p><p>24.&nbsp; 在一个聚会上，有很多人过来邀请你跳舞
+<br>&nbsp;<input type="radio" name="PmG5" onclick="PmG[4]=1"><i>在舞会上我会非常活跃</i>
+<br>&nbsp;<input type="radio" name="PmG5" onclick="PmG[4]=0"><i>那晚我表现的很完美</i>
+
+</p><p>25.&nbsp; 你为你的伴侣（男/女朋友）买了一件礼物，但是他/她却不喜欢
+<br>&nbsp;<input type="radio" name="PsB4" onclick="PsB[3]=1"><i>在买礼物这样的事情上我不够用心</i>
+<br>&nbsp;<input type="radio" name="PsB4" onclick="PsB[3]=0"><i>他/她太挑剔了</i>
+
+</p><p>26.&nbsp; 你在一次工作面试中表现的特别优秀
+<br>&nbsp;<input type="radio" name="PmG6" onclick="PmG[5]=0"><i>在面试过程中我感觉非常自信</i>
+<br>&nbsp;<input type="radio" name="PmG6" onclick="PmG[5]=1"><i>我善于参加面试</i>
+
+</p><p>27.&nbsp; 你讲了一个笑话，引得大家哈哈大笑
+<br>&nbsp;<input type="radio" name="PsG6" onclick="PsG[5]=0"><i>这个笑话很好笑</i>
+<br>&nbsp;<input type="radio" name="PsG6" onclick="PsG[5]=1"><i>我讲笑话的节奏掌握的刚刚好</i>
+
+</p><p>28.&nbsp; 你的老板只给了你一点点时间去完成一项工作，但你依然顺利完成了
+<br>&nbsp;<input type="radio" name="PvG3" onclick="PvG[2]=0"><i>我对我的工作很在行</i>
+<br>&nbsp;<input type="radio" name="PvG3" onclick="PvG[2]=1"><i>我是个很有效率的人</i>
+
+</p><p>29.&nbsp; 你最近感到很疲惫
+<br>&nbsp;<input type="radio" name="PmB5" onclick="PmB[4]=1"><i>我总是没有机会休息一下</i>
+<br>&nbsp;<input type="radio" name="PmB5" onclick="PmB[4]=0"><i>这周我特别忙</i>
+
+</p><p>30.&nbsp; 你邀请一个人跳舞，但别拒绝了
+<br>&nbsp;<input type="radio" name="PsB5" onclick="PsB[4]=1"><i>我的舞跳得不够好</i>
+<br>&nbsp;<input type="radio" name="PsB5" onclick="PsB[4]=0"><i>他/她不喜欢跳舞</i>
+
+</p><p>31.&nbsp; 你救了一个快要噎死的人
+<br>&nbsp;<input type="radio" name="PvG4" onclick="PvG[3]=0"><i>我掌握对噎到的人进行急救的方法</i>
+<br>&nbsp;<input type="radio" name="PvG4" onclick="PvG[3]=1"><i>在紧急情况下我知道该如何应对</i>
+
+</p><p>32.&nbsp; 你的恋人想要彼此分开一段时间，冷静一下
+<br>&nbsp;<input type="radio" name="PvB6" onclick="PvB[5]=1"><i>我太以自己为中心了</i>
+<br>&nbsp;<input type="radio" name="PvB6" onclick="PvB[5]=0"><i>我没有花足够的时间陪伴他/她</i>
+
+</p><p>33.&nbsp; 一个朋友说了一些伤害你的话
+<br>&nbsp;<input type="radio" name="PmB6" onclick="PmB[5]=1"><i>她总是口不择言，不考虑别人的感受</i>
+<br>&nbsp;<input type="radio" name="PmB6" onclick="PmB[5]=0"><i>她心情不好，拿我发泄情绪</i>
+
+</p><p>34.&nbsp; 你的老板来请教你的建议
+<br>&nbsp;<input type="radio" name="PvG5" onclick="PvG[4]=0"><i>我在这个领域是专家</i>
+<br>&nbsp;<input type="radio" name="PvG5" onclick="PvG[4]=1"><i>我很擅长给人有价值的建议</i>
+
+</p><p>35.&nbsp; 一个朋友感谢你帮助他/她渡过一段困难的时期
+<br>&nbsp;<input type="radio" name="PvG6" onclick="PvG[5]=0"><i>我很愿意帮助他/她渡过困难期</i>
+<br>&nbsp;<input type="radio" name="PvG6" onclick="PvG[5]=1"><i>我关心朋友</i>
+
+</p><p>36.&nbsp; 你在一个聚会上玩得很开心
+<br>&nbsp;<input type="radio" name="PsG7" onclick="PsG[6]=0"><i>每个人都很友善</i>
+<br>&nbsp;<input type="radio" name="PsG7" onclick="PsG[6]=1"><i>我很友善</i>
+
+</p><p>37.&nbsp; 你的医生告诉你，你的身体状况非常好
+<br>&nbsp;<input type="radio" name="PvG7" onclick="PvG[6]=0"><i>我坚持经常锻炼</i>
+<br>&nbsp;<input type="radio" name="PvG7" onclick="PvG[6]=1"><i>我非常注意健康</i>
+
+</p><p>38.&nbsp; 你的伴侣（男/女朋友）带你去过一个浪漫的周末
+<br>&nbsp;<input type="radio" name="PmG7" onclick="PmG[6]=0"><i>他/她需要远离工作几天</i>
+<br>&nbsp;<input type="radio" name="PmG7" onclick="PmG[6]=1"><i>他/她喜欢探索未知的地方</i>
+
+</p><p>39.&nbsp; 你的医生告诉你，你吃甜食太多了
+<br>&nbsp;<input type="radio" name="PsB6" onclick="PsB[5]=1"><i>我不太注意自己的饮食</i>
+<br>&nbsp;<input type="radio" name="PsB6" onclick="PsB[5]=0"><i>糖分存在在所有食品里，让人无法避免</i>
+
+</p><p>40.&nbsp; 你被要求负责一个重要的项目
+<br>&nbsp;<input type="radio" name="PmG8" onclick="PmG[7]=0"><i>我刚刚成功的完成了一个类似的项目</i>
+<br>&nbsp;<input type="radio" name="PmG8" onclick="PmG[7]=1"><i>我是个优秀的项目管理者</i>
+
+</p><p>41.&nbsp; 你和你的伴侣（男/女朋友）最近总是吵架
+<br>&nbsp;<input type="radio" name="PsB7" onclick="PsB[6]=1"><i>我最近压力很大，心情不好</i>
+<br>&nbsp;<input type="radio" name="PsB7" onclick="PsB[6]=0"><i>他/她最近心情不好</i>
+
+</p><p>42.&nbsp; 你滑雪时总是摔跤
+<br>&nbsp;<input type="radio" name="PmB7" onclick="PmB[6]=1"><i>滑雪很困难</i>
+<br>&nbsp;<input type="radio" name="PmB7" onclick="PmB[6]=0"><i>滑雪道结冰了，很滑</i>
+
+</p><p>43.&nbsp; 你获得了一个知名的奖项
+<br>&nbsp;<input type="radio" name="PvG8" onclick="PvG[7]=0"><i>我解决了一个重要的问题</i>
+<br>&nbsp;<input type="radio" name="PvG8" onclick="PvG[7]=1"><i>我是最优秀的雇员</i>
+
+</p><p>44.&nbsp; 你的股票跌入谷底
+<br>&nbsp;<input type="radio" name="PvB7" onclick="PvB[6]=1"><i>买股票时我对整个商业环境了解太少</i>
+<br>&nbsp;<input type="radio" name="PvB7" onclick="PvB[6]=0"><i>买股票时我做了个错误的决定</i>
+
+</p><p>45.&nbsp; 你中了彩票
+<br>&nbsp;<input type="radio" name="PsG8" onclick="PsG[7]=0"><i>真是好运气</i>
+<br>&nbsp;<input type="radio" name="PsG8" onclick="PsG[7]=1"><i>我选对了号码</i>
+
+</p><p>46.&nbsp; 在假期里你的体重长了很多，现在瘦不下去了
+<br>&nbsp;<input type="radio" name="PmB8" onclick="PmB[7]=1"><i>从长期看节食没什么用</i>
+<br>&nbsp;<input type="radio" name="PmB8" onclick="PmB[7]=0"><i>我试的节食方法不奏效</i>
+
+</p><p>47.&nbsp; 你生病住院，但没什么朋友来探望你
+<br>&nbsp;<input type="radio" name="PsB8" onclick="PsB[7]=1"><i>生病时我脾气不好</i>
+<br>&nbsp;<input type="radio" name="PsB8" onclick="PsB[7]=0"><i>我的朋友们对这类事不太上心</i>
+
+</p><p>48.&nbsp; 商店拒收了你的信用卡
+<br>&nbsp;<input type="radio" name="PvB8" onclick="PvB[7]=1"><i>我有事会高估了自己的信用额度</i>
+<br>&nbsp;<input type="radio" name="PvB8" onclick="PvB[7]=0"><i>我有时会忘了付信用卡账单</i>
+<br><br><b><font size="+1">分析：</font></b>
+
+<table border="0" width="100%">
+<tbody><tr><td></td>
+<td colspan="2"><font face="Arial,Helvetica">下面的分析应用了 Martin E.P. Seligman 博士在<i>"习得的乐观"</i>一书中列出的规则。在每个类型的评分后附加了 Seligman 对相应评分的解释。
+<br><br>点击屏幕下方的"计算"按钮计算你的评分。如果显示"未完成"，表示你没有回答完所有题目。这种情况下你需要检查一下有哪些题目没有回答，然后补充回答这些题目即可。
+<br><br>
+如果点击"计算"按钮后没有任何反应，说明你可能是关闭了浏览器对 JavaScript 的支持。在浏览器的设置功能里打开 JavaScript 的支持，然后刷新页面即可。
+<br><br></font></td>
+</tr>
+
+<tr>
+<td colspan="3"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">坏事的持久性 得分</font></td>
+<td align="LEFT"><input name="PmBs" size="4">&nbsp;&nbsp;&nbsp;<input name="PmBt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">好事的持久性 得分</font></td>
+<td align="LEFT"><input name="PmGs" size="4">&nbsp;&nbsp;&nbsp;<input name="PmGt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">坏事的普遍性 得分</font></td>
+<td align="LEFT"><input name="PvBs" size="4">&nbsp;&nbsp;&nbsp;<input name="PvBt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">好事的普遍性 得分</font></td>
+<td align="LEFT"><input name="PvGs" size="4">&nbsp;&nbsp;&nbsp;<input name="PvGt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">未来的希望</font></td>
+<td align="LEFT"><input name="HoBs" size="4">&nbsp;&nbsp;&nbsp;<input name="HoBt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">坏事的个体性 得分</font></td>
+<td align="LEFT"><input name="PsBs" size="4">&nbsp;&nbsp;&nbsp;<input name="PsBt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">好事的个体性 得分</font></td>
+<td align="LEFT"><input name="PsGs" size="4">&nbsp;&nbsp;&nbsp;<input name="PsGt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">坏事的总 得分</font></td>
+<td align="LEFT"><input name="TotBs" size="4">&nbsp;&nbsp;&nbsp;<input name="TotBt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">好事的总 得分</font></td>
+<td align="LEFT"><input name="TotGs" size="4">&nbsp;&nbsp;&nbsp;<input name="TotGt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><font face="Arial,Helvetica">好事减坏事 得分</font></td>
+<td align="LEFT"><input name="GfrBs" size="4">&nbsp;&nbsp;&nbsp;<input name="GfrBt" size="30"></td>
+</tr>
+
+<tr>
+<td></td>
+<td colspan="2"><br>
+<center><input type="button" name="Calculate" value="计算" onclick="CalcValues(lopt)">
+</center>
+<br></td> 
+</tr>
+</tbody></table>
+</p></form>
+</font></body></html>

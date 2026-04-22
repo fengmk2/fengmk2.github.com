@@ -1,0 +1,65 @@
+import { defineConfig } from "vite-plus";
+import { voidPlugin } from "void";
+import { voidVue } from "@void/vue/plugin";
+import { voidMarkdown } from "@void/md/plugin";
+
+const legacyIgnorePatterns = [
+  "node_modules",
+  "dist",
+  ".wrangler",
+  ".void",
+  "public",
+  "blog",
+  "blog.bak",
+  "legacy.bak",
+  "MOVE",
+  "movement.js",
+  "max_new_space_size",
+  "libuv",
+  "*.html",
+  "*.htm",
+  "*.bak",
+  "*.swf",
+  "*.mp3",
+  "*.png",
+  "*.bash",
+  "atom-apps-list.md",
+  "build.js",
+  "cmd.md",
+  "cnode-mv.md",
+  "dat.json",
+  "encodeURIComponent_attack.js",
+  "gfw.md",
+  "github-proxy.md",
+  "index.md",
+  "love.md",
+  "mac.md",
+  "mx-2013.md",
+  "nae-cli.md",
+  "node-v8-flags.md",
+  "optimized-test.js",
+  "password.md",
+  "pipe.js",
+  "server.js",
+  "simplehttpserver.js",
+  "storyjs-embed.js",
+  "timeline.js",
+  "timeline.css",
+  "urlparse_0.6_0.8.js",
+  "visa.md",
+  "wedding-net4.md",
+  ".jshintrc",
+  "mvn-install.sh",
+];
+
+export default defineConfig({
+  staged: {
+    "*": "vp check --fix",
+  },
+  fmt: { ignorePatterns: legacyIgnorePatterns },
+  lint: {
+    options: { typeAware: true, typeCheck: true },
+    ignorePatterns: legacyIgnorePatterns,
+  },
+  plugins: [voidPlugin(), voidVue(), voidMarkdown()],
+});

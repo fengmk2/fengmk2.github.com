@@ -1,0 +1,10 @@
+[package]
+name = "hello-ref-cast"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+assert2 = "0.3.16"
+bincode = "2.0.1"
+ref-cast = "1.0.24"
+thiserror = "2.0.16"

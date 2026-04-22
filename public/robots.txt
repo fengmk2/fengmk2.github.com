@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fengmk2.com/sitemap.xml
