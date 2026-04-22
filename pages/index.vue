@@ -20,6 +20,11 @@
     Your browser does not support the audio element.
   </audio>
 
+  <h2>Tools</h2>
+  <ul>
+    <li><a href="https://viteplus.dev/">Vite+</a>: The Unified Toolchain for the Web. Manage your runtime, package manager, and frontend stack with one tool.</li>
+  </ul>
+
   <h2>Slides</h2>
   <ul>
     <li><a href="https://github.com/alibaba/node-hbase-client">Node HBase Client</a>: Asynchronous HBase client for Node.</li>
@@ -56,6 +61,11 @@
 
   <h2>Articles</h2>
   <ul>
+    <li>2026
+      <ul>
+        <li><a href="/blog/2026/blog-qwin-windows-testing-on-macos">Windows CLI Testing from macOS: Cross-Compilation + QEMU VM</a></li>
+      </ul>
+    </li>
     <li>2025
       <ul>
         <li><a href="/blog/2025/cnpmcore-json-parse">cnpmcore 超大 JSON 反序列化性能优化</a></li>

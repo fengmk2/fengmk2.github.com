@@ -1,0 +1,79 @@
+body{
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#000), to(#646577), color-stop(15%, #000), color-stop(45, #171530), color-stop(65%, #333449)) no-repeat;
+	font-family: 'Monaco', '黑体', '微软雅黑';
+	font-size: 18px;
+}
+footer, header{
+	color: #fff;
+	font-size: 36px;
+	text-align: center;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+footer {
+	font-size: 12px;
+	font-family: Arial;
+	font-weight: normal;
+	line-height: 20px;
+	height: 20px;
+	width: 960px;
+	margin: auto;
+	letter-spacing: 0;
+}
+section {
+	width: 960px;
+	height: 600px;
+	margin: auto;
+	padding: 0;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#aaa)) no-repeat;
+	border-radius: 30px 10px 10px 30px;
+}
+canvas {
+	border-radius: 10px 0 0 10px;
+	margin: 0;
+
+}
+.panel {
+	float: right;
+	text-align: center;
+	padding: 15px 0;
+	width:240px;
+	margin: 0;
+}
+input[type=number]{
+	width: 40px;
+}
+.result {
+	color: black;
+	text-align: center;
+	background-color: rgba(255,255,255,0.8);
+	width: 400px;
+	height: 300px;
+	border-radius: 10px;
+	line-height: 300px;
+	font-size: 200px;
+	letter-spacing: 5px;
+	font-family: Arial;
+	font-weight: bold;
+	position: relative;
+	top: -456px;
+	left: 150px;
+	opacity: 1;
+	box-shadow:0 0 4px 10px rgba(255,255,255,0.3);
+	display: none;
+}
+.info {
+	color: black;
+	font-size: 24px;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+}
+.log {
+	text-align: left;
+	font-size: 18px;
+	margin: 20px 10px 0 40px;
+	overflow-x:  hidden;
+	overflow-y: auto;
+	height: 470px;
+}

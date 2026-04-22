@@ -21,7 +21,7 @@
     "@void/vue": "npm:@void-sdk/vue@^0.4.0",
     "@void/md": "npm:@void-sdk/md@^0.5.0",
     "vue": "^3.5.0",
-    "vite": "beta"
+    "vite": "^8.0.9"
   },
   "packageManager": "pnpm@10.33.0"
 }

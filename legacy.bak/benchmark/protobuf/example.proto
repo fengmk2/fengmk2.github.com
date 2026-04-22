@@ -1,0 +1,5 @@
+package com.fengmk2.test;
+
+message Message {  
+  required string text = 1;  
+}

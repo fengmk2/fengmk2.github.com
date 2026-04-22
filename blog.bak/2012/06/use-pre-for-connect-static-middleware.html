@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>给 connect 的 static 模块加上url路径前缀</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="给-connect-的-static-模块加上url路径前缀">给 connect 的 static 模块加上url路径前缀</h1>
+<p>估计我们使用 <a href="http://www.senchalabs.org/connect/">connect</a> 都会很自然地按照官方的例子使用静态文件模块 <a href="http://www.senchalabs.org/connect/static.html">static</a>:</p>
+<pre><code class="language-js">var connect = require(&#39;connect&#39;);
+
+connect(
+  connect.static(__dirname),
+  function (req, res) {
+    res.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
+    res.end(&#39;Hello World\n&#39;);
+  }
+).listen(8124);
+
+console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+</code></pre>
+<h2 id="基准性能">基准性能</h2>
+<p>为了评测 <code>static</code> 的性能，我们需要又一个基准对比。</p>
+<h3 id="官方最纯洁的-helloworld">官方最纯洁的 helloworld</h3>
+<p>我们使用 nodejs 官方文档给出的 <a href="http://nodejs.org/docs/latest/api/synopsis.html">helloworld</a> 做最基础的参照：</p>
+<pre><code class="language-js">var http = require(&#39;http&#39;);
+
+http.createServer(function (request, response) {
+  response.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
+  response.end(&#39;Hello World\n&#39;);
+}).listen(8124);
+
+console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+</code></pre>
+<h3 id="最纯洁的-connect-helloworld">最纯洁的 connect helloworld</h3>
+<p>不使用任何中间件模块</p>
+<pre><code class="language-js">var connect = require(&#39;connect&#39;);
+
+connect(function (req, res) {
+  res.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
+  res.end(&#39;Hello World\n&#39;);
+}).listen(8124);
+
+console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+</code></pre>
+<h3 id="结合-domain-模块的-connect-helloworld">结合 <a href="http://nodejs.org/docs/latest/api/domain.html">domain</a> 模块的 connect helloworld</h3>
+<pre><code class="language-js">var connect = require(&#39;connect&#39;);
+var createDomain = require(&#39;domain&#39;).create;
+
+connect(
+  function (req, res, next) {
+    var domain = createDomain();
+    domain.on(&#39;error&#39;, function (err) {
+      console.log(&#39;errrrrr&#39;, err);
+      res.statusCode = 500;
+      res.end(err.message + &#39;\n&#39;);
+      domain.dispose();
+    });
+    domain.run(next);
+  },
+  function (req, res, next) {
+    if (req.url === &#39;/error&#39;) {
+      process.nextTick(function () {
+        res.end(&#39;params: &#39; + req.query.abc);
+      });
+      return;
+    }
+    res.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
+    res.end(&#39;Hello World\n&#39;);
+  }
+).listen(8124);
+
+console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+</code></pre>
+<h2 id="测试结果">测试结果</h2>
+<p>官方最纯洁的 helloworld: <code>7851.56 qps</code></p>
+<pre><code>$ siege -b -c10 -t10S http://127.0.0.1:8124/
+** SIEGE 2.72
+** Preparing 10 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:          78123 hits
+Availability:         100.00 %
+Elapsed time:           9.95 secs
+Data transferred:         0.89 MB
+Response time:            0.00 secs
+Transaction rate:      7851.56 trans/sec
+Throughput:           0.09 MB/sec
+Concurrency:            9.93
+Successful transactions:       78123
+Failed transactions:             0
+Longest transaction:          0.09
+Shortest transaction:         0.00
+</code></pre>
+<p>最纯洁的 connect helloworld: <code>6808.19 qps</code></p>
+<pre><code>$ siege -b -c10 -t10S http://127.0.0.1:8124/
+** SIEGE 2.72
+** Preparing 10 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:          65699 hits
+Availability:         100.00 %
+Elapsed time:           9.65 secs
+Data transferred:         0.75 MB
+Response time:            0.00 secs
+Transaction rate:      6808.19 trans/sec
+Throughput:           0.08 MB/sec
+Concurrency:            9.96
+Successful transactions:       65699
+Failed transactions:             0
+Longest transaction:          0.05
+Shortest transaction:         0.00
+</code></pre>
+<p>使用 <a href="http://nodejs.org/docs/latest/api/domain.html">domain</a> 模块的 connect helloworld: <code>5601.35 qps</code></p>
+<p><a href="https://speakerdeck.com/u/felixge/p/domains-in-node-08">domain demo for express</a></p>
+<pre><code>** SIEGE 2.72
+** Preparing 50 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:              53885 hits
+Availability:             100.00 %
+Elapsed time:               9.62 secs
+Data transferred:           0.62 MB
+Response time:              0.01 secs
+Transaction rate:        5601.35 trans/sec
+Throughput:             0.06 MB/sec
+Concurrency:               49.62
+Successful transactions:       53885
+Failed transactions:               0
+Longest transaction:            0.05
+Shortest transaction:           0.00
+</code></pre>
+<p>带 static 的 connect helloworld: <code>3636.98 qps</code></p>
+<pre><code>$ siege -b -c10 -t10S http://127.0.0.1:8124/
+** SIEGE 2.72
+** Preparing 10 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:          34915 hits
+Availability:         100.00 %
+Elapsed time:           9.60 secs
+Data transferred:         0.40 MB
+Response time:            0.00 secs
+Transaction rate:      3636.98 trans/sec
+Throughput:           0.04 MB/sec
+Concurrency:            9.97
+Successful transactions:       34915
+Failed transactions:             0
+Longest transaction:          0.06
+Shortest transaction:         0.00
+</code></pre>
+<h2 id="为什么性能降低了50">为什么性能降低了50%</h2>
+<p>晕，为什么加上了 <code>static</code> 模块，性能会降低了<code>50％</code>这么多？
+查看 <a href="http://www.senchalabs.org/connect/static.html#send">static.send()</a> 源代码:</p>
+<pre><code class="language-js">// &quot;hidden&quot; file
+if (!hidden &amp;&amp; &#39;.&#39; == basename(path)[0]) return next();
+
+fs.stat(path, function(err, stat){
+  // mime type
+  type = mime.lookup(path);
+
+  // ignore ENOENT
+  if (err) {
+    if (fn) return fn(err);
+    return (&#39;ENOENT&#39; == err.code || &#39;ENAMETOOLONG&#39; == err.code)
+      ? next()
+      : next(err);
+  // redirect directory in case index.html is present
+  } else if (stat.isDirectory()) {
+    if (!redirect) return next();
+    res.statusCode = 301;
+    res.setHeader(&#39;Location&#39;, url.pathname + &#39;/&#39;);
+    res.end(&#39;Redirecting to &#39; + url.pathname + &#39;/&#39;);
+    return;
+  }
+</code></pre>
+<p>static 模块每次都需要一次文件IO，判断文件是否存在，这是多么损耗性能啊。</p>
+<h2 id="增加静态文件url路径前缀">增加静态文件url路径前缀</h2>
+<p>既然找到性能问题所在，就可以解决此问题了。对症下药，无需让所有请求都经过 <code>static</code> 处理即可。
+给 <code>static</code> 增加一个url前缀判断，例如 <code>/public/images/logo.jpg</code> 只有前缀是 <code>/public</code> 的 url 请求才需要进入 <code>static</code> 模块处理。</p>
+<p>那么我们改进后的代码应该是这样的:</p>
+<pre><code class="language-js">var connect = require(&#39;connect&#39;);
+
+var app = connect();
+app.use(&#39;/public&#39;, connect.static(__dirname));
+
+app.use(function (req, res) {
+  res.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
+  res.end(&#39;Hello World\n&#39;);
+}).listen(8124);
+
+console.log(&#39;Server running at http://127.0.0.1:8124/&#39;);
+</code></pre>
+<p>性能如何？ wow <code>6749.03 qps</code>, 几乎和 connect hellowrold 一致。done!</p>
+<pre><code class="language-js">$ siege -b -c10 -t10S http://127.0.0.1:8124/
+** SIEGE 2.72
+** Preparing 10 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:          66073 hits
+Availability:         100.00 %
+Elapsed time:           9.79 secs
+Data transferred:         0.76 MB
+Response time:            0.00 secs
+Transaction rate:      6749.03 trans/sec
+Throughput:           0.08 MB/sec
+Concurrency:            9.97
+Successful transactions:       66073
+Failed transactions:             0
+Longest transaction:          0.03
+Shortest transaction:         0.00
+</code></pre>
+<p>重现一下之前的性能问题，访问 <code>/public/foo</code> 即可重现。</p>
+<pre><code class="language-js">$ siege -b -c10 -t10S http://127.0.0.1:8124/public/foo
+** SIEGE 2.72
+** Preparing 10 concurrent users for battle.
+The server is now under siege...
+Lifting the server siege...      done.
+
+Transactions:          37773 hits
+Availability:         100.00 %
+Elapsed time:           9.59 secs
+Data transferred:         0.43 MB
+Response time:            0.00 secs
+Transaction rate:      3938.79 trans/sec
+Throughput:           0.05 MB/sec
+Concurrency:            9.97
+Successful transactions:       37773
+Failed transactions:             0
+Longest transaction:          0.05
+Shortest transaction:         0.00
+</code></pre>
+<h2 id="有爱">有爱</h2>
+<p>记得给 <code>connect.static</code> 加上一个url路径前缀喔!</p>
+<p>^_^ 希望本文对你有用.</p>
+
+
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
+});
+</script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</body>
+</html>

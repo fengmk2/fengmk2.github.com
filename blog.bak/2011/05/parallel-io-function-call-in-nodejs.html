@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>Nodejs中的并行IO调用</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="nodejs中的并行io调用">Nodejs中的并行IO调用</h1>
+<h2 id="并行io调用">并行IO调用</h2>
+<p>我们编写nodejs程序的时候，常常会遇到可以平行调用IO。
+如果使用串行方式调用，会导致嵌套callback太多和抛弃了并行IO的优势。
+于是，我们都会选择并行调用。</p>
+<h2 id="应用场景设定-合并2个文本的内容，并输出">应用场景设定: 合并2个文本的内容，并输出</h2>
+<p>伪代码</p>
+<pre><code>print readFile(file1) + readFile(file2)
+</code></pre>
+<h2 id="计数器模式">计数器模式</h2>
+<p>最容易想到的方法就是使用计数器，记录是否全部IO都执行完了，然后一并获取结果。</p>
+<p>使用封装好的fork方法
+<code>fork</code> come from <a href="http://stackoverflow.com/questions/4631774/coordinating-parallel-execution-in-node-js">Coordinating parallel execution in node.js</a>:</p>
+<pre><code>function fork(async_calls, shared_callback) {
+  var counter = async_calls.length;
+  var all_results = [];
+  function makeCallback (index) {
+    return function () {
+      counter --;
+      var results = [];
+      // we use the arguments object here because some callbacks 
+      // in Node pass in multiple arguments as result.
+      for (var i=0;i&lt;arguments.length;i++) {
+        results.push(arguments[i]);
+      }
+      all_results[index] = results;
+      if (counter == 0) {
+        shared_callback(all_results);
+      }
+    }
+  }
+
+  for (var i=0;i&lt;async_calls.length;i++) {
+    async_calls[i](makeCallback(i));
+  }
+}
+</code></pre>
+<h2 id="currying-the-callback-函数柯里化">Currying the callback (<a href="http://dict.youdao.com/search?q=currying&amp;keyfrom=smartresult.dict#q%3Dcurrying%26keyfrom%3Dsmartresult.dict">函数柯里化?</a>)</h2>
+<h2 id="更多阅读">更多阅读</h2>
+<ul>
+<li><a href="http://bjouhier.wordpress.com/2011/04/04/currying-the-callback-or-the-essence-of-futures/">Currying the callback, or the essence of futures</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Currying">Currying</a></li>
+</ul>
+<h2 id="有爱">有爱</h2>
+<p>希望本文对你有用 ^_^</p>
+
+
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
+});
+</script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</body>
+</html>

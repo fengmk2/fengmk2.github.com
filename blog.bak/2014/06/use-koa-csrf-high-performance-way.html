@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>Use [koa-csrf] in high performance way</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="use-koa-csrf-in-high-performance-way">Use <a href="https://github.com/koajs/csrf">koa-csrf</a> in high performance way</h1>
+<p>If you&#39;re using <a href="https://github.com/koajs/csrf">koa-csrf</a> in <a href="https://github.com/koajs/csrf#middleware">default middleware way</a>,
+it will kill your app performance.</p>
+<p><code>app.js</code> like this:</p>
+<pre><code class="language-js">var koa = require(&#39;koa&#39;);
+var csrf = require(&#39;koa-csrf&#39;);
+var session = require(&#39;koa-session&#39;);
+
+var app = koa();
+app.keys = [&#39;session secret&#39;];
+app.use(session());
+app.use(csrf());
+
+app.use(function* () {
+  this.body = &#39;hello csrf&#39;;
+});
+
+app.listen(1984);
+</code></pre>
+<p>Use <a href="https://github.com/wg/wrk">wrk</a> benchmark it:</p>
+<pre><code class="language-bash">$ wrk -t2 -c20 http://127.0.0.1:1984/
+Running 10s test @ http://127.0.0.1:1984/
+  2 threads and 20 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     4.29ms    1.14ms  11.42ms   92.11%
+    Req/Sec     2.51k   505.52     3.55k    62.38%
+  48021 requests in 10.00s, 7.79MB read
+Requests/sec:   4802.27
+Transfer/sec:    797.25KB
+</code></pre>
+<h2 id="the-high-performance-way">The high performance way</h2>
+<p>Separate <code>csrf define(app)</code> and <code>csrf middleware</code>. Dont <code>define(ctx)</code> on every request context.</p>
+<p><code>app_high.js</code> like this:</p>
+<pre><code class="language-js">var koa = require(&#39;koa&#39;);
+var csrf = require(&#39;koa-csrf&#39;);
+var session = require(&#39;koa-session&#39;);
+
+var app = koa();
+app.keys = [&#39;session secret&#39;];
+app.use(session());
+csrf(app);
+app.use(csrf.middleware);
+
+app.use(function* () {
+  this.body = &#39;hello csrf&#39;;
+});
+
+app.listen(1985);
+</code></pre>
+<p>Use <a href="https://github.com/wg/wrk">wrk</a> benchmark it:</p>
+<pre><code class="language-bash">$ wrk -t2 -c20 http://127.0.0.1:1985/
+Running 10s test @ http://127.0.0.1:1985/
+  2 threads and 20 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     3.67ms    2.19ms  15.65ms   93.55%
+    Req/Sec     3.17k     0.87k    4.44k    75.50%
+  59757 requests in 10.00s, 9.69MB read
+Requests/sec:   5975.71
+Transfer/sec:      0.97MB
+</code></pre>
+<h2 id="love">Love</h2>
+<p>Hope this help for you.</p>
+
+
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
+});
+</script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</body>
+</html>

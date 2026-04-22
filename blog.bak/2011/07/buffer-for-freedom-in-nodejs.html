@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>关于Nodejs中Buffer释放的二三事</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="关于nodejs中buffer释放的二三事">关于Nodejs中Buffer释放的二三事</h1>
+<h2 id="buffer不会被gc？">Buffer不会被GC？</h2>
+<p>为了看看这个问题，我写了一段测试代码</p>
+<pre><code>var http = require(&#39;http&#39;)
+  , os = require(&#39;os&#39;);
+
+function create(size, res) {
+    var mb = 1024 * 1024;
+    res.write(&#39;free &#39; + os.freemem() / mb + &#39;MB\r\n&#39;);
+    res.write(&#39;------------- after new &#39; + size + &#39;MB buffer\r\n&#39;);
+    var buffer = new Buffer(size * mb);
+    for(var i = 0, len = buffer.length; i &lt; len; i++) {
+        buffer[i] = 0;
+    }
+    res.write(&#39;free &#39; + os.freemem() / mb + &#39;MB\r\n\r\n&#39;);
+}
+
+http.createServer(function(req, res) {
+    var size = 1;
+    for(var i = 0; i &lt; 100; i++) {
+        res.write(&#39;------------- new Buffer &#39; + i + &#39;\r\n&#39;);
+        create(size, res);
+    }
+    res.end(&#39;&#39;);
+}).listen(&#39;8080&#39;);
+</code></pre>
+<p>从<a href="http://localhost:8080/">http://localhost:8080/</a>可以看到，一次http请求调用后</p>
+<pre><code>------------- new Buffer 0
+free 139.82421875MB
+------------- after new 1MB buffer
+free 138.890625MB
+
+------------- new Buffer 1
+free 138.890625MB
+------------- after new 1MB buffer
+free 138.890625MB
+
+------------- new Buffer 2
+free 138.890625MB
+------------- after new 1MB buffer
+free 138.93359375MB
+
+------------- new Buffer 3
+free 138.93359375MB
+------------- after new 1MB buffer
+free 138.98046875MB
+
+------------- new Buffer 4
+free 138.98046875MB
+------------- after new 1MB buffer
+free 139.0703125MB
+
+------------- new Buffer 5
+free 139.0703125MB
+------------- after new 1MB buffer
+free 139.09375MB
+
+***** 此处省略 *******
+
+------------- new Buffer 96
+free 136.90234375MB
+------------- after new 1MB buffer
+free 136.15234375MB
+
+------------- new Buffer 97
+free 136.1796875MB
+------------- after new 1MB buffer
+free 134.49609375MB
+
+------------- new Buffer 98
+free 134.515625MB
+------------- after new 1MB buffer
+free 133.64453125MB
+
+------------- new Buffer 99
+free 133.64453125MB
+------------- after new 1MB buffer
+free 132.76171875MB
+</code></pre>
+<p>从结果看来，Buffer会被回收。</p>
+<h2 id="疑问">疑问?</h2>
+<p>Buffer的实现是内存复用？还是说每次都重新申请和GC时释放给操作系统呢？</p>
+<h2 id="有爱">有爱</h2>
+<p>^_^ 希望本文对你有用</p>
+
+
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
+});
+</script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</body>
+</html>

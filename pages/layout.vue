@@ -19,7 +19,7 @@ import { useShared } from "void/vue";
   </div>
 
   <div id="fork" class="void-ribbon">
-    <span>Deploy on V___</span>
+    <span><a href="https://void.cloud">Deploy on Void</a></span>
   </div>
 
   <component is="style">

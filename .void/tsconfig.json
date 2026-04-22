@@ -1,6 +1,12 @@
 {
   "files": [
-    "routes.d.ts",
-    "db.d.ts"
-  ]
+    "routes.d.ts"
+  ],
+  "compilerOptions": {
+    "paths": {
+      "void/routes": [
+        "./routes.d.ts"
+      ]
+    }
+  }
 }

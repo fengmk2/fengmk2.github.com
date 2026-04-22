@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MK2's blog，生命是一场幻觉，代码是一段人生。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/typo.css/1/files/typo.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://registry.npmmirror.com/bootstrap/3/files/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/css/prettify.css">
+  <link rel="stylesheet" href="/css/mk2.css">
+  <title>Node.js 处理 GBK 编码模板</title>
+</head>
+<body>
+
+<div id="wrapper" class="typo">
+
+<div id="header">
+<h3><a href="/">Home</a> | <a href="../index.html">Prev</a></h3>
+</div> <!-- #header -->
+
+<div id="content">
+<h1 id="nodejs-处理-gbk-编码模板">Node.js 处理 GBK 编码模板</h1>
+<h2 id="字符串基本原则">字符串基本原则</h2>
+<p>如果你需要对非 UTF8 编码的文本进行处理，如 GBK 编码的，那么我们只有遵循以下原则处理就ok：</p>
+<pre><code class="language-js">fs.readFile(filepath, cb)
+  =&gt; GBK encoding Buffer
+    =&gt; iconv decode gbk
+      =&gt; utf8 js String
+        =&gt; 处理String
+          =&gt; iconv encode gbk
+            =&gt; GBK encoding Buffer
+              =&gt; send to client
+</code></pre>
+<p>如果你只需要将 GBK 编码的文本直接输出，那么就不需要转换，直接将 GBK 编码的 Buffer 输出即可.</p>
+<pre><code>res.send(gbkBuffer);
+</code></pre>
+<h2 id="示例">示例</h2>
+<p>将 GBK 模板文件进行简单处理，能按 UTF8 和 GBK 两种编码选择输出.</p>
+<p>@see <a href="https://github.com/fengmk2/fengmk2.github.com/tree/master/blog/2014/iconv-lite/app.js">app.js</a></p>
+<pre><code class="language-js">var connect = require(&#39;connect&#39;);
+var fs = require(&#39;fs&#39;);
+var path = require(&#39;path&#39;);
+var iconv = require(&#39;iconv-lite&#39;);
+
+var app = connect();
+
+var filepath = path.join(__dirname, &#39;index.html&#39;);
+var content = fs.readFileSync(filepath);
+
+app.use(function (req, res) {
+  var s = iconv.decode(content, &#39;gbk&#39;);
+  if (req.url === &#39;/utf8&#39;) {
+    res.setHeader(&#39;Content-Type&#39;, &#39;text/html; charset=utf8&#39;);
+    s = s.replace(&#39;&lt;title&gt;淘宝网 - 淘！我喜欢&lt;/title&gt;&#39;, &#39;&lt;title&gt;淘宝网 - 淘！我喜欢 UTF8&lt;/title&gt;&#39;)
+      .replace(&#39;&lt;meta charset=&quot;gbk&quot;&gt;&#39;, &#39;&lt;meta charset=&quot;utf8&quot;&gt;&#39;)
+      .replace(&#39;你好啊&#39;, &#39;你好啊 UTF8&#39;);
+    // show utf8 page
+    return res.end(s);
+  }
+
+  // show gbk page
+  res.setHeader(&#39;Content-Type&#39;, &#39;text/html; charset=gbk&#39;);
+  s = s.replace(&#39;&lt;title&gt;淘宝网 - 淘！我喜欢&lt;/title&gt;&#39;, &#39;&lt;title&gt;淘宝网 - 淘！我喜欢 GBK&lt;/title&gt;&#39;)
+      .replace(&#39;你好啊&#39;, &#39;你好啊 GBK&#39;);
+  res.end(iconv.encode(s, &#39;gbk&#39;));
+});
+
+app.listen(1984);
+</code></pre>
+<h2 id="有爱">有爱</h2>
+<p>希望本文对你有用.</p>
+<p><a href="http://fengmk2.github.io/blog/2014/iconv-lite/iconv-lite.html">http://fengmk2.github.io/blog/2014/iconv-lite/iconv-lite.html</a></p>
+
+
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+
+</div> <!-- #content -->
+
+<div id="footer">
+</div> <!-- #footer -->
+
+</div> <!-- #wrapper -->
+
+<a href="https://github.com/fengmk2" id="fork">
+  <img alt="Fork me on GitHub" src="/images/forkme_right_green.png">
+</a>
+
+<!-- Specific to this page -->
+<script src="https://registry.npmmirror.com/jquery/2/files/dist/jquery.min.js"></script>
+<script src="https://registry.npmmirror.com/bootstrap/3/files/dist/js/bootstrap.min.js"></script>
+<script src="/js/prettify.js"></script>
+<script>
+$(function() {
+  $('pre code').parent().addClass('prettyprint');
+  prettyPrint();
+  setTimeout(() => {
+    prettyPrint();
+  }, 100);
+});
+</script>
+
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://fengmk2github.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//fengmk2github.disqus.com/count.js" async></script>
+
+</body>
+</html>

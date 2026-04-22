@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>watermark.js demo</title>
+    <script src="jquery.min.js"></script>
+    <script src="watermark.js"></script>
+    <style type="text/css">
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    table td, table th {
+      line-height: 30px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      <h2>Content Watermark <button id="watermark-div-btn">Mark It</button></h2>
+      <div class="watermark-div">
+        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+        </p>
+        <p>水印，水印，水印。水印，水印，水印。水印，水印，水印。</p>
+        <p>水印，水印，水印。</p>
+        <p>水印，水印，水印。</p>
+        <p>水印，水印，水印。水印，水印，水印。水印，水印，水印。水印，水印，水印。水印，水印，水印。水印，水印，水印。</p>
+        <p>水印，水印，水印。</p>
+        <p>水印，水印，水印。水印，水印，水印。</p>
+        <p>水印，水印，水印。</p>
+      </div>
+      <hr>
+      <h2>Table Watermark <button id="watermark-table-btn">Mark It</button></h2>
+      <div class="watermark-table">
+        <table>
+          <thead>
+            <tr>
+              <td>name</td>
+              <td>price</td>
+              <td>number</td>
+              <td>number2</td>
+              <td>number3</td>
+              <td>desc</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apple</td>
+              <td>$4500</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>苹果手机怎么样？怎么样？怎么样？怎么样？怎么样？怎么样？怎么样？</td>
+            </tr>
+            <tr>
+              <td>Apple</td>
+              <td>$4500</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>苹果手机怎么样？</td>
+            </tr>
+            <tr>
+              <td>Apple</td>
+              <td>$4500</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>苹果手机怎么样？</td>
+            </tr>
+            <tr>
+              <td>Apple</td>
+              <td>$4500</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>苹果手机怎么样？</td>
+            </tr>
+            <tr>
+              <td>Apple</td>
+              <td>$4500</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>苹果手机怎么样？</td>
+            </tr>
+            <tr>
+              <td>Apple</td>
+              <td>$4500</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>苹果手机怎么样？</td>
+            </tr>
+            <tr>
+              <td>Apple</td>
+              <td>$4500</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>10,000</td>
+              <td>苹果手机怎么样？</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h2>TODO:</h2>
+        <ul>
+          <li>水印文本方向</li>
+          <li>图片水印</li>
+          <li>不依赖jQuery</li>
+        </ul>
+      </div>
+    </div> <!-- /container -->
+
+    <script>
+    $(function () {
+      $('#watermark-div-btn').click(function () {
+        $('.watermark-div').watermark({
+          text: '苏千印'
+        });
+      });
+
+      $('#watermark-table-btn').click(function () {
+        $('.watermark-table').watermark({
+          backgroundColor: '#D9EDF7'
+        });
+      });
+    });
+    </script>
+  </body>
+</html>
