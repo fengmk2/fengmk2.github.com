@@ -1,15 +1,3 @@
-User-agent: meta-externalagent
-Disallow: /
-
-User-agent: Meta-ExternalAgent
-Disallow: /
-
-User-agent: meta-externalfetcher
-Disallow: /
-
-User-agent: Meta-ExternalFetcher
-Disallow: /
-
 User-agent: *
 Allow: /
 
