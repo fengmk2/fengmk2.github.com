@@ -17,8 +17,6 @@ jobs:
       - uses: voidzero-dev/setup-vp@v1
         with:
           cache: true
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
       - run: vp check
       - run: vp run build
 
@@ -31,8 +29,6 @@ jobs:
       - uses: voidzero-dev/setup-vp@v1
         with:
           cache: true
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
       - run: vp run sitemap
       - run: vpx void deploy
         env:
