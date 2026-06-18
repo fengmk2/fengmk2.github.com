@@ -1,5 +1,6 @@
-import { defineHead } from "void";
+import allPosts from "void-blog/posts";
+import { createHomeLoader, type BlogHomeLoaderProps } from "void-blog/server";
 
-export const head = defineHead(() => ({
-  title: "A simple blog of fengmk2",
-}));
+export type Props = BlogHomeLoaderProps;
+export const prerender = true;
+export const loader = createHomeLoader({ posts: allPosts });

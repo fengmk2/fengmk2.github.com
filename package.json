@@ -11,19 +11,29 @@
   "type": "module",
   "scripts": {
     "dev": "vp dev",
-    "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "vp build",
     "preview": "vp preview",
-    "sitemap": "node scripts/generate-sitemap.mjs",
     "prepare": "vp config"
   },
+  "dependencies": {
+    "@nkzw/stack": "^2.3.2",
+    "@void/react": "^0.9.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-error-boundary": "^6.1.2",
+    "void": "^0.9.3",
+    "void-blog": "^0.1.0"
+  },
   "devDependencies": {
-    "@void/md": "^0.7.1",
-    "@void/vue": "^0.7.1",
+    "@mdx-js/rollup": "^3.1.1",
+    "@tailwindcss/vite": "^4.3.1",
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "subset-font": "^2.5.0",
+    "tailwindcss": "^4.3.1",
     "vite": "catalog:",
-    "vite-plus": "catalog:",
-    "void": "^0.7.1",
-    "vue": "^3.5.0"
+    "vite-plus": "catalog:"
   },
   "packageManager": "pnpm@10.33.0"
 }

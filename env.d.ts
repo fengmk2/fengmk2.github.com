@@ -1,5 +1,8 @@
-declare module "*.vue" {
-  import type { DefineComponent } from "vue";
-  const component: DefineComponent<{}, {}, unknown>;
-  export default component;
+/// <reference types="vite/client" />
+
+declare module "*.mdx" {
+  import type { ComponentType } from "react";
+  const MDXComponent: ComponentType<Record<string, unknown>>;
+  export default MDXComponent;
+  export const tableOfContents: unknown;
 }

@@ -7,7 +7,10 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
     "types": ["void/env"]
   },
-  "include": ["pages", "middleware", "crons", "queues"]
+  "include": ["pages", "middleware", "crons", "queues", "src", "blog.config.ts", "env.d.ts"]
 }
