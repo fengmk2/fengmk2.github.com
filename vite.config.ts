@@ -83,7 +83,7 @@ export default defineConfig({
     include: optimizedDeps,
   },
   plugins: [
-    voidBlog(blogConfig),
+    voidBlog(blogConfig, { routes: { post: "src/blog/PostRoute.tsx" } }),
     ...voidPlugin(),
     mdx(mdxOptions),
     ...tailwindcss(),
