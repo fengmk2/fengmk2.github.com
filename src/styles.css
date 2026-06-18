@@ -1,0 +1,72 @@
+@import "void-blog/styles.css";
+
+@source '../pages';
+@source '../src';
+
+/* Widen the post column (void-blog default is 740px, which feels narrow on wide
+   screens for this code- and CJK-heavy blog). */
+.void-blog-post-article {
+  max-width: 900px;
+}
+
+/* Anchored headings should not sit flush against the viewport top when jumped to. */
+.void-blog-post-article :is(h1, h2, h3, h4) {
+  scroll-margin-top: 24px;
+}
+
+/* Table-of-contents sidebar: fills the right gutter beside the 900px article on
+   wide screens; hidden where there is not enough room. */
+.void-toc {
+  position: fixed;
+  top: 120px;
+  left: calc(50% + 480px);
+  width: 220px;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.void-toc-title {
+  margin-bottom: 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-color-light);
+}
+
+.void-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.void-toc li {
+  margin: 4px 0;
+}
+
+.void-toc a {
+  display: block;
+  padding-left: 10px;
+  border-left: 2px solid transparent;
+  color: var(--text-color-light);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.void-toc a:hover {
+  color: var(--link-color);
+}
+
+.void-toc a.is-active {
+  border-left-color: var(--link-color);
+  color: var(--link-color);
+  font-weight: 600;
+}
+
+@media (max-width: 1440px) {
+  .void-toc {
+    display: none;
+  }
+}
