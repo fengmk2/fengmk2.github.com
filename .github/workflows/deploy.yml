@@ -12,7 +12,6 @@ jobs:
       - uses: voidzero-dev/setup-vp@v1
         with:
           cache: true
-      - run: vp run sitemap
       - run: vpx void deploy
         env:
           VOID_TOKEN: ${{ secrets.VOID_TOKEN }}
