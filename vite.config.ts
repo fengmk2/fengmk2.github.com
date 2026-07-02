@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process";
 import mdx from "@mdx-js/rollup";
 import tailwindcss from "@tailwindcss/vite";
 import { voidReact } from "@void/react/plugin";
@@ -69,7 +70,28 @@ const legacyIgnorePatterns = [
   "mvn-install.sh",
 ];
 
+function buildCommit() {
+  try {
+    return execSync("git rev-parse --short HEAD", { encoding: "utf8" }).trim();
+  } catch {
+    return process.env.GITHUB_SHA?.slice(0, 7) ?? "dev";
+  }
+}
+
+function buildTime() {
+  const formatted = new Intl.DateTimeFormat("sv-SE", {
+    dateStyle: "short",
+    timeStyle: "short",
+    timeZone: "Asia/Shanghai",
+  }).format(new Date());
+  return `${formatted} (UTC+8)`;
+}
+
 export default defineConfig({
+  define: {
+    __BUILD_COMMIT__: JSON.stringify(buildCommit()),
+    __BUILD_TIME__: JSON.stringify(buildTime()),
+  },
   staged: {
     "*": "vp check --fix",
   },

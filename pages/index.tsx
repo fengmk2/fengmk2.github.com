@@ -4,6 +4,14 @@ const ribbonCss = `
 .void-ribbon:hover span { background: #333; }
 `;
 
+// Deploy info is invisible by default (transparent text) and only shows up
+// when the text is selected, e.g. via cmd+a or a mouse drag over the page.
+const deployInfoCss = `
+#footer .deploy-info { color: transparent; text-align: center; font-size: 12px; margin: 24px 0; }
+#footer .deploy-info a, #footer .deploy-info a:hover { color: transparent; }
+#footer .deploy-info::selection, #footer .deploy-info a::selection { color: #555; background: #b3d4fc; }
+`;
+
 export default function HomePage() {
   return (
     <>
@@ -432,7 +440,14 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div id="footer"></div>
+        <div id="footer">
+          <p className="deploy-info">
+            Deployed {__BUILD_TIME__} ·{" "}
+            <a href={`https://github.com/fengmk2/fengmk2.github.com/commit/${__BUILD_COMMIT__}`}>
+              {__BUILD_COMMIT__}
+            </a>
+          </p>
+        </div>
       </div>
 
       <div id="fork" className="void-ribbon">
@@ -441,7 +456,7 @@ export default function HomePage() {
         </span>
       </div>
 
-      <style>{ribbonCss}</style>
+      <style>{ribbonCss + deployInfoCss}</style>
     </>
   );
 }
