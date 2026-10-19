@@ -63,7 +63,8 @@ export default function CiReport() {
       run.branch === "main" &&
       run.event === "push",
   );
-  const buckets = timeStats(runs, from, currentTime, granularity);
+  // Prerendered HTML can outlive today's date; add date rows only after hydration.
+  const buckets = data ? timeStats(runs, from, currentTime, granularity) : [];
   const periodTitle = granularity === "hour" ? "Hourly" : "Daily";
   const values = runs.map((run) => run.durationSeconds);
   const recent = [...runs].reverse();
