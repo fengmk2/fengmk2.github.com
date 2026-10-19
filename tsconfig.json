@@ -12,5 +12,14 @@
     "jsx": "react-jsx",
     "types": ["void/env"]
   },
-  "include": ["pages", "middleware", "crons", "queues", "src", "blog.config.ts", "env.d.ts"]
+  "include": [
+    "pages",
+    "middleware",
+    "crons",
+    "queues",
+    "src",
+    "scripts",
+    "blog.config.ts",
+    "env.d.ts"
+  ]
 }

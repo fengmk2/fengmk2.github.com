@@ -115,6 +115,7 @@ export default defineConfig({
           "pnpm-lock.yaml",
           "pnpm-workspace.yaml",
           "posts/**",
+          "scripts/**",
           "src/**",
           "!src/redirects.generated.ts",
           "tsconfig.json",

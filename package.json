@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "vp dev",
     "preview": "vp preview",
+    "update:ci-metrics": "node scripts/update-vite-plus-ci.ts",
     "prepare": "vp config"
   },
   "dependencies": {

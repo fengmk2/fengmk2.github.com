@@ -68,6 +68,10 @@ export default function HomePage() {
           <h2>Tools</h2>
           <ul>
             <li>
+              <a href="/vite-plus-ci">Vite+ CI duration trends</a>: Daily metrics for successful CI
+              runs on main.
+            </li>
+            <li>
               <a href="https://viteplus.dev/">Vite+</a>: The Unified Toolchain for the Web. Manage
               your runtime, package manager, and frontend stack with one tool.
             </li>

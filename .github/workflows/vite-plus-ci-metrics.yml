@@ -1,0 +1,55 @@
+name: Update Vite+ CI metrics
+
+on:
+  schedule:
+    # 09:17 in Singapore / China (UTC+8). Avoid the busy start of the hour.
+    - cron: "17 1 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: vite-plus-ci-metrics
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .node-version
+      # The collector uses only Node built-ins; no dependency install is needed.
+      - name: Restore archived metrics
+        shell: bash
+        run: |
+          git ls-remote --heads origin ci-metrics > "$RUNNER_TEMP/metrics-ref"
+          if [ -s "$RUNNER_TEMP/metrics-ref" ]; then
+            git fetch origin refs/heads/ci-metrics:refs/remotes/origin/ci-metrics
+            git show origin/ci-metrics:vite-plus-ci.json > public/data/vite-plus-ci.json
+          fi
+      - name: Collect successful CI attempts
+        run: node scripts/update-vite-plus-ci.ts
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Publish data without rebuilding the site
+        shell: bash
+        run: |
+          archive="$RUNNER_TEMP/ci-metrics"
+          if [ -s "$RUNNER_TEMP/metrics-ref" ]; then
+            git worktree add --detach "$archive" refs/remotes/origin/ci-metrics
+          else
+            git worktree add --detach "$archive" HEAD
+            git -C "$archive" switch --orphan ci-metrics
+          fi
+          cp public/data/vite-plus-ci.json "$archive/vite-plus-ci.json"
+          git -C "$archive" add vite-plus-ci.json
+          if git -C "$archive" diff --cached --quiet; then
+            exit 0
+          fi
+          git -C "$archive" -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'chore: update Vite+ CI metrics'
+          # Push from the source checkout, where checkout@v6 configures credentials.
+          git push origin "$(git -C "$archive" rev-parse HEAD):refs/heads/ci-metrics"

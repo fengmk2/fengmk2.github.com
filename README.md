@@ -40,3 +40,27 @@ Notes:
 - Each deployed page hides a build stamp in the homepage footer: select the page (Cmd+A) to reveal the deployed commit and build time
 - Inspect deployments with `void project status fengmk2` or `void project status fengmk2-staging`, runtime logs with `void project logs`
 - The CI test job caches vite-task results (`node_modules/.vite/task-cache`) for the `build` and `check` tasks via GitHub Actions cache, so commits that do not touch their inputs replay in under a second; deploys build fresh through `void deploy` and never use this cache
+
+## Vite+ CI duration report
+
+`/vite-plus-ci` charts successful CI attempts for pushes to `main` in [`voidzero-dev/vite-plus`, `ci.yml`](https://github.com/voidzero-dev/vite-plus/actions/workflows/ci.yml). The collector filters by `branch=main`, `event=push`, and `status=success`. The report shows hourly or daily median and P90 durations, individual runs, and CSV export. The default view groups the last seven days by day and selects first attempts; hourly grouping and reruns can be selected separately. Move over the chart or use the arrow keys while it has focus to inspect each period’s time, percentiles, and run count. Grouping uses the first job start time in UTC; empty periods remain gaps. Data collection still runs daily.
+
+Duration is the span from the first executed job starting to the last executed job completing in the same attempt. It includes gaps between jobs, excludes the initial queue and skipped jobs, and does not sum parallel job durations. Percentiles use linear interpolation. Dates are UTC.
+
+`.github/workflows/vite-plus-ci-metrics.yml` runs daily at **01:17 UTC / 09:17 UTC+8** and supports manual runs with `workflow_dispatch`. The workflow becomes active when it reaches the default branch (`dev`). GitHub can delay scheduled runs and disables schedules in public repositories after 60 days without repository activity.
+
+The workflow reads the bundled `public/data/vite-plus-ci.json` on its first run, then maintains `vite-plus-ci.json` on the dedicated `ci-metrics` branch. The report reads that public JSON directly, so daily updates do not need a site deployment. It falls back to the bundled snapshot if the feed is unavailable and warns when the data is over 48 hours old. The workflow uses `GITHUB_TOKEN` with `contents: write` to publish this branch; no additional secret is required for the public source repository.
+
+The collector rescans the last 30 days of run creation dates for late completions and reruns, fetches jobs only for unseen successful attempts, and retains archived observations. After an outage, it extends the scan to cover the missed interval. Runs are keyed by run ID and attempt; previous attempts superseded before collection and reruns of runs created outside the scan window are not backfilled. API failures leave the previous snapshot intact. Initial data covers the available successful attempts from the preceding 30 days.
+
+To refresh the local snapshot, use a GitHub token or an authenticated GitHub CLI session:
+
+```bash
+GH_TOKEN="$(gh auth token)" vp run update:ci-metrics
+# Optional longer scan; GitHub must still retain the source runs/jobs.
+GH_TOKEN="$(gh auth token)" vp run update:ci-metrics --days 90
+```
+
+The collector requires Node 24 and uses only built-in modules. GitHub's API permits at most 1,000 results per filtered query; the collector splits date windows and paginates both runs and jobs. Large backfills can exceed the Actions token's hourly API allowance; use a local token and commit the resulting snapshot before enabling the schedule.
+
+Interrupted local backfills retain measured attempts in the ignored `.ci-metrics-cache/` directory. A retry rescans run headers and reuses those measurements; the published JSON changes only after the complete collection succeeds. The local cache is removed after success.
