@@ -69,8 +69,11 @@ jobs:
       - uses: voidzero-dev/setup-vp@v1
         with:
           cache: true
-      - run: vpx void deploy
+      - run: |
+          vpx void connect "$VOID_API_URL" --no-login
+          vpx void deploy --platform void
         env:
+          VOID_API_URL: https://api.void.cloud
           VOID_PROJECT: fengmk2-staging
 
   # Staging deploy is live, so promote the exact same commit to production:

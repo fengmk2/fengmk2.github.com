@@ -29,7 +29,7 @@ Two Void projects are connected to this repo via the Void GitHub App (`void gith
 Every push to `dev` flows through `.github/workflows/ci.yml`:
 
 1. `test`: `vp check` + build
-2. `staging-deploy`: `vpx void deploy` to `fengmk2-staging`. Auth uses GitHub OIDC (no stored token); the token exchange is bound to this workflow file via `void github update fengmk2-staging --workflow .github/workflows/ci.yml`
+2. `staging-deploy`: connect to `https://api.void.cloud` with `void connect --no-login`, then run `void deploy --platform void` to `fengmk2-staging`. Auth uses GitHub OIDC (no stored token); the token exchange is bound to this workflow file via `void github update fengmk2-staging --workflow .github/workflows/ci.yml`
 3. `promote`: once the staging deploy is live, fast-forward `master` to the same commit (`--ff-only`, so a diverged master fails loudly instead of merging)
 
 The master push then triggers the Void GitHub App, which builds in Void's container and deploys production. Pushes made by the promote job use `GITHUB_TOKEN`, which never triggers other workflows but does reach App webhooks, which is why production stays on the container executor.
