@@ -169,9 +169,15 @@ export default function TrendChart({
             <dt>P90</dt>
             <dd>{duration(active.p90)}</dd>
             <dt>Successful attempts</dt>
-            <dd>{active.count}</dd>
+            <dd>{active.status === "pending" ? "—" : active.count}</dd>
           </dl>
-          {active.count === 0 && <p>No successful attempts in this {granularity}.</p>}
+          {active.status === "pending" ? (
+            <p>Awaiting the next collection.</p>
+          ) : active.status === "partial" ? (
+            <p>This {granularity} is only partly collected. More attempts may appear.</p>
+          ) : active.count === 0 ? (
+            <p>No successful attempts collected for this {granularity}.</p>
+          ) : null}
         </div>
       )}
     </div>

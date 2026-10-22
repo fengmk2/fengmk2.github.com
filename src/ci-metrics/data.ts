@@ -77,6 +77,7 @@ export type Granularity = "hour" | "day";
 
 export interface TimeBucket {
   startedAt: string;
+  status: "collected" | "partial" | "pending";
   count: number;
   median: number | null;
   p90: number | null;
@@ -91,6 +92,7 @@ export function timeStats(
   start: string,
   end: string,
   granularity: Granularity,
+  collectedAt = end,
 ): TimeBucket[] {
   const interval = granularity === "hour" ? 3_600_000 : 86_400_000;
   const bucketStart = (timestamp: string) =>
@@ -107,6 +109,12 @@ export function timeStats(
     const values = groups.get(time) ?? [];
     buckets.push({
       startedAt: new Date(time).toISOString(),
+      status:
+        time >= Date.parse(collectedAt)
+          ? "pending"
+          : time + interval > Date.parse(collectedAt)
+            ? "partial"
+            : "collected",
       count: values.length,
       median: percentile(values, 0.5),
       p90: percentile(values, 0.9),

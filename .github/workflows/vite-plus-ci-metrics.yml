@@ -2,8 +2,8 @@ name: Update Vite+ CI metrics
 
 on:
   schedule:
-    # 09:17 in Singapore / China (UTC+8). Avoid the busy start of the hour.
-    - cron: "17 1 * * *"
+    # Every hour at :17. Avoid the busy start of the hour.
+    - cron: "17 * * * *"
   workflow_dispatch:
 
 concurrency:

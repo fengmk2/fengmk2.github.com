@@ -4,50 +4,29 @@ import {
   timeStats,
   dataUrl,
   duration,
-  parseDataset,
   percentile,
   runsCsv,
   runUrl,
   workflowUrl,
 } from "../src/ci-metrics/data.ts";
-import type { Dataset, Granularity } from "../src/ci-metrics/data.ts";
+import type { Granularity } from "../src/ci-metrics/data.ts";
+import { watchFeed } from "../src/ci-metrics/feed.ts";
+import type { FeedState } from "../src/ci-metrics/feed.ts";
 import TrendChart from "../src/ci-metrics/TrendChart.tsx";
 import "../src/ci-metrics/report.css";
 
 export default function CiReport() {
-  const [data, setData] = useState<Dataset | null>(null);
-  const [source, setSource] = useState<"live" | "snapshot" | "loading">("loading");
-  const [error, setError] = useState(false);
+  const [{ data, source, error }, setFeed] = useState<FeedState>({
+    data: null,
+    source: "loading",
+    error: false,
+  });
   const [range, setRange] = useState("7");
   const [granularity, setGranularity] = useState<Granularity>("day");
   const [reruns, setReruns] = useState(false);
   const [limit, setLimit] = useState(25);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const load = async (url: string) => {
-      const response = await fetch(url, {
-        signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15_000)]),
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return parseDataset(await response.json());
-    };
-    void (async () => {
-      try {
-        setData(await load(dataUrl));
-        setSource("live");
-      } catch {
-        if (controller.signal.aborted) return;
-        try {
-          setData(await load("/data/vite-plus-ci.json"));
-          setSource("snapshot");
-        } catch {
-          if (!controller.signal.aborted) setError(true);
-        }
-      }
-    })();
-    return () => controller.abort();
-  }, []);
+  useEffect(() => watchFeed(setFeed), []);
 
   const currentTime = new Date().toISOString();
   const today = currentTime.slice(0, 10);
@@ -64,11 +43,11 @@ export default function CiReport() {
       run.event === "push",
   );
   // Prerendered HTML can outlive today's date; add date rows only after hydration.
-  const buckets = data ? timeStats(runs, from, currentTime, granularity) : [];
+  const buckets = data ? timeStats(runs, from, currentTime, granularity, data.updatedAt) : [];
   const periodTitle = granularity === "hour" ? "Hourly" : "Daily";
   const values = runs.map((run) => run.durationSeconds);
   const recent = [...runs].reverse();
-  const stale = data && Date.now() - Date.parse(data.updatedAt) > 48 * 3_600_000;
+  const stale = data && Date.now() - Date.parse(data.updatedAt) > 3 * 3_600_000;
   const csv = () => {
     const url = URL.createObjectURL(
       new Blob([runsCsv(recent)], { type: "text/csv;charset=utf-8" }),
@@ -102,7 +81,7 @@ export default function CiReport() {
           {data ? (
             <>
               Updated {new Date(data.updatedAt).toISOString().replace("T", " ").slice(0, 16)} UTC ·
-              Daily at 09:17 UTC+8
+              Collected hourly at :17 · Page refreshes every 5 minutes
             </>
           ) : error ? (
             "Data could not be loaded."
@@ -114,21 +93,23 @@ export default function CiReport() {
 
       {source === "snapshot" && (
         <p className="ci-notice" role="status">
-          The daily feed is unavailable. Showing the bundled snapshot from{" "}
-          {data?.updatedAt.slice(0, 10)}.
+          The live feed is unavailable. Showing the bundled snapshot from{" "}
+          {data?.updatedAt.slice(0, 10)}. Retrying automatically.
         </p>
       )}
       {stale && (
         <p className="ci-notice" role="status">
-          The last update is more than 48 hours old.{" "}
+          The last collection is more than 3 hours old.{" "}
           <a href="https://github.com/fengmk2/fengmk2.com/actions/workflows/vite-plus-ci-metrics.yml">
             Check the data update workflow ↗
           </a>
         </p>
       )}
-      {error && (
+      {error && source !== "snapshot" && (
         <p className="ci-notice" role="alert">
-          Unable to load the daily feed or the bundled snapshot. Reload the page to try again.
+          {data
+            ? "The feed could not be refreshed. Keeping the last loaded data and retrying automatically."
+            : "Unable to load the live feed or the bundled snapshot. Retrying automatically."}
         </p>
       )}
 
@@ -227,8 +208,8 @@ export default function CiReport() {
         )}
         <div className="ci-chart-note">
           Move over the plot to see values, or focus it and use the arrow keys. Empty{" "}
-          {granularity === "hour" ? "hours" : "days"} are gaps, not zeroes. The current{" "}
-          {granularity} may be incomplete.
+          {granularity === "hour" ? "hours" : "days"} are gaps, not zeroes. Periods after the last
+          collection await an update; the period containing it is incomplete.
         </div>
         <details className="ci-values">
           <summary>View {granularity === "hour" ? "hourly" : "daily"} values</summary>
@@ -240,15 +221,23 @@ export default function CiReport() {
                   <th>Attempts</th>
                   <th>Median</th>
                   <th>P90</th>
+                  <th>Collection status</th>
                 </tr>
               </thead>
               <tbody>
                 {[...buckets].reverse().map((bucket) => (
                   <tr key={bucket.startedAt}>
                     <td>{bucketLabel(bucket.startedAt, granularity)}</td>
-                    <td>{bucket.count}</td>
+                    <td>{bucket.status === "pending" ? "—" : bucket.count}</td>
                     <td>{duration(bucket.median)}</td>
                     <td>{duration(bucket.p90)}</td>
+                    <td>
+                      {bucket.status === "pending"
+                        ? "Awaiting collection"
+                        : bucket.status === "partial"
+                          ? "Partial"
+                          : "Collected"}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -326,11 +315,13 @@ export default function CiReport() {
           groups attempts by their first job's start time in UTC.
         </p>
         <p>
-          Each daily collection rescans runs created in the last 30 days and keeps previously saved
+          Each hourly collection rescans runs created in the last 30 days and keeps previously saved
           observations. Older reruns outside that window and successful attempts superseded before
           collection are not backfilled.{" "}
           {data && <>Collection coverage starts {data.coverageStart.slice(0, 10)}. </>}Scheduled
-          updates can be delayed by GitHub.
+          updates can be delayed by GitHub. The feed can take up to five minutes to reach its public
+          cache. This page checks for updates every five minutes while visible and when you return
+          to the tab.
         </p>
         <p>
           <a href={workflowUrl}>Source workflow ↗</a>

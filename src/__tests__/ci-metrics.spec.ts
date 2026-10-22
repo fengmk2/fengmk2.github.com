@@ -231,6 +231,20 @@ describe("GitHub history collection", () => {
 });
 
 describe("report statistics and exports", () => {
+  it("distinguishes empty days from partially collected and uncollected days", () => {
+    const days = timeStats([], "2026-10-20", "2026-10-22T08:00:00Z", "day", "2026-10-21T01:36:00Z");
+    expect(days.map((day) => day.status)).toEqual(["collected", "partial", "pending"]);
+    expect(days.map((day) => day.median)).toEqual([null, null, null]);
+    const hours = timeStats(
+      [],
+      "2026-10-21T00:00:00Z",
+      "2026-10-21T02:00:00Z",
+      "hour",
+      "2026-10-21T01:00:00Z",
+    );
+    expect(hours.map((hour) => hour.status)).toEqual(["collected", "pending", "pending"]);
+  });
+
   it("groups runs into UTC hours across midnight without filling empty hours with zeroes", () => {
     const buckets = timeStats(
       [
